@@ -13,7 +13,7 @@ class AppRichText extends StatelessWidget {
       valueListenable: isExpandNotifier,
       builder: (context, isExpanded, state) {
         return Stack(
-          alignment:isLong ? Alignment.bottomRight : Alignment.bottomLeft,
+          alignment: isLong ? Alignment.bottomRight : Alignment.bottomLeft,
           children: [
             AppText(
                 isLong
@@ -22,7 +22,7 @@ class AppRichText extends StatelessWidget {
                         : richText.substring(0, 200) + ' ...'
                     : richText,
                 family: FontFamily.workSans,
-                size: 16,
+                size: 16.w,
                 color: AppColors.onSecondary2),
             isLong
                 ? isExpanded
@@ -31,22 +31,22 @@ class AppRichText extends StatelessWidget {
                         onTap: () =>
                             isExpandNotifier.value = !isExpandNotifier.value,
                         child: Container(
-                          width: 70,
-                          height: 20,
+                          width: 70.dw,
+                          height: 20.dh,
                           alignment: Alignment.center,
                           color: Colors.white,
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(top: 10.dh),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               AppText(
                                 isExpanded ? 'Less' : 'More',
-                                size: 16,
+                                size: 16.w,
                                 color: AppColors.secondary,
                                 family: FontFamily.workSans,
                               ),
-                              const SizedBox(width: 5),
+                              SizedBox(width: 5.dw),
                               Icon(
                                   isExpanded
                                       ? Icons.expand_less

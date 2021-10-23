@@ -150,8 +150,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               margin: EdgeInsets.only(bottom: 30.dh)),
           AppImage(
             image: image,
-            height: 300.h,
-            width: 350.h,
+            height: 300.w,
+            width: 350.w,
             withBorders: true,
           ),
         ],
@@ -213,7 +213,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                           child: AppText(
                               isLoading ? 'buffering ... ' : 'couldn\'t play',
                               color: AppColors.onPrimary2,
-                              size: 14)),
+                              size: 14.w)),
                     ],
                   )
                 : Container(),
@@ -308,9 +308,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                             height: 50.dw,
                             width: 50.dw,
                             alignment: Alignment.center,
-                            child: const Icon(
+                            child: Icon(
                               Icons.podcasts,
-                              size: 25,
+                              size: 25.dw,
                               color: AppColors.onSecondary2,
                             ))
                         : AppImage(

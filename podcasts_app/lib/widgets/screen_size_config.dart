@@ -9,16 +9,16 @@ class ScreenSizeConfig {
     _screenSize = screenSize;
   }
 
-  static final screenWidth = _screenSize.width;
-  static final designWidth = _designSize.width;
-  static final screenHeight = _screenSize.height;
-  static final designHeight = _designSize.height;
+  //s for screen
+  //d for design
+  static final sWidth = _screenSize.width;
+  static final dWidth = _designSize.width;
+  static final sHeight = _screenSize.height;
+  static final dHeight = _designSize.height;
 
-  static int getIntWidth(num width) => ((width * screenWidth) ~/ designWidth);
-  static int getIntHeight(num height) =>
-      ((height * screenHeight) ~/ designHeight);
+  static int getIntWidth(num width) => ((width * sWidth) ~/ dWidth);
+  static int getIntHeight(num height) => ((height * sHeight) ~/ dHeight);
 
-  static double getDoubleWidth(num width) => ((width * screenWidth) / designWidth);
-  static double getDoubleHeight(num height) =>
-      ((height * screenHeight) / designHeight);
+  static double getDoubleWidth(num width) => ((width * sWidth) / dWidth);
+  static double getDoubleHeight(num height) => ((height * sHeight) / dHeight);
 }

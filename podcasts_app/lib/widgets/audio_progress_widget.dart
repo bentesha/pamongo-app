@@ -8,23 +8,12 @@ class AudioProgressWidget extends StatefulWidget {
 }
 
 class _AudioProgressWidgetState extends State<AudioProgressWidget> {
-  ValueNotifier<double> notifier = ValueNotifier(100);
+  static double startValue = 0;
+  static double endValue = 0;
+  static double initialHeight = 796.3.dh;
+  static double maxTopGlobalOffset = 255.dh;
+  ValueNotifier<double> notifier = ValueNotifier(initialHeight);
   ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);
-  Size size = const Size.fromHeight(0);
-
-  double startValue = 0;
-  double endValue = 0;
-  double initialHeight = 796.3;
-  double maxTopGlobalOffset = 255;
-
-  @override
-  void didChangeDependencies() {
-    size = MediaQuery.of(context).size;
-    initialHeight = 796.3.dh;
-    maxTopGlobalOffset = 255.dh;
-    notifier = ValueNotifier(initialHeight);
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +75,7 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
     if (endValue < initialHeight) {
       isShowInitialWidgetNotifier.value = false;
     }
-    notifier.value =
-        details.globalPosition.dy - 80.dh;
+    notifier.value = details.globalPosition.dy - 80.dh;
   }
 
   void _onVerticalDragStart(DragStartDetails details) {

@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenSizeInit(
-        designSize: const Size(414, 866),
+        designSize: const Size(411.4, 866.3),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(scaffoldBackgroundColor: AppColors.background),

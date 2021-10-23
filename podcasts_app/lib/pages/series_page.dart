@@ -69,7 +69,7 @@ class _SeriesPageState extends State<SeriesPage> {
         ListView(children: [
           _buildTitle(),
           _buildBodyContent(envelopeList, supplements),
-          shouldLeaveSpace ? const SizedBox(height: 70) : Container()
+          shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
         ]),
       ],
     );
@@ -77,17 +77,17 @@ class _SeriesPageState extends State<SeriesPage> {
 
   _buildAppBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
+      preferredSize: Size.fromHeight(50.dh),
       child: AppTopBars.seriesPage(context),
     );
   }
 
   _buildTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 10, 15, 10),
+      padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 10.dh),
       child: Column(children: [
         SizedBox(
-          height: 100,
+          height: 100.dh,
           child: Row(children: [
             Expanded(
               child: Column(
@@ -95,7 +95,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 children: [
                   AppText(series.name,
                       family: FontFamily.workSans, weight: 600),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.dh),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
                         channelName: series.channel),
@@ -117,14 +117,14 @@ class _SeriesPageState extends State<SeriesPage> {
                 ],
               ),
             ),
-            const SizedBox(width: 10),
-            AppImage(image: series.image, height: 96, width: 96),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.dw),
+            AppImage(image: series.image, height: 96.h, width: 96.h),
+            SizedBox(width: 10.dw),
           ]),
         ),
-        const SizedBox(height: 15),
+        SizedBox(height: 15.dh),
         Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: EdgeInsets.only(right: 10.dw),
           child: AppRichText(series.description),
         )
       ]),
@@ -142,14 +142,14 @@ class _SeriesPageState extends State<SeriesPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 10),
+        SizedBox(height: 10.dh),
         Container(
           height: 1,
           color: AppColors.separator,
-          margin: const EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 10.dh),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 0, 10, 0),
+          padding: EdgeInsets.fromLTRB(24.dw, 0, 10.dw, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -157,7 +157,7 @@ class _SeriesPageState extends State<SeriesPage> {
               AppText(series.episodeList.length.toString() + '  Episodes',
                   family: FontFamily.casual,
                   weight: 400,
-                  size: 18,
+                  size: 18.w,
                   color: AppColors.header),
               _buildSortButton(sortStyle)
             ],
@@ -173,7 +173,7 @@ class _SeriesPageState extends State<SeriesPage> {
             return _buildEpisodes(index, envelope, supplements);
           },
         ),
-        const SizedBox(height: 80)
+        SizedBox(height: 80.dh)
       ],
     );
   }
@@ -201,19 +201,19 @@ class _SeriesPageState extends State<SeriesPage> {
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24),
+      padding: EdgeInsets.only(left: 24.dw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          index == 0 ? const SizedBox(height: 1) : const SizedBox(height: 10),
+          index == 0 ? const SizedBox(height: 1) : SizedBox(height: 10.dh),
           AppText(episode.date,
               family: FontFamily.louis,
-              size: 14,
+              size: 14.w,
               color: AppColors.onSecondary2),
-          const SizedBox(height: 5),
+          SizedBox(height: 5.dh),
           AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
               weight: 600,
-              size: 16,
+              size: 16.w,
               color: AppColors.onSecondary,
               family: FontFamily.louis),
           EpisodeActionButtons(
@@ -222,7 +222,7 @@ class _SeriesPageState extends State<SeriesPage> {
             status: status,
             duration:
                 Utils.convertFrom(episode.duration, includeSeconds: false),
-            actionPadding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+            actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 5.dh),
           )
         ],
       ),
@@ -234,7 +234,7 @@ class _SeriesPageState extends State<SeriesPage> {
     final isLastToFirst = sortStyle == SortStyles.lastToFirst;
 
     return PopupMenuButton<int>(
-        icon: const Icon(AppIcons.sort, size: 20),
+        icon: Icon(AppIcons.sort, size: 20.dw),
         onSelected: bloc.sort,
         padding: EdgeInsets.zero,
         itemBuilder: (context) => [
@@ -259,7 +259,7 @@ class _SeriesPageState extends State<SeriesPage> {
 
   _buildPopupMenuItem(bool isSelected, String text, String imagePath) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 5.dh),
       decoration: BoxDecoration(
           border: Border.all(
               width: isSelected ? 2 : 0,
@@ -270,11 +270,11 @@ class _SeriesPageState extends State<SeriesPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(imagePath,
-              height: 25, fit: BoxFit.contain, color: AppColors.onSecondary),
-          const SizedBox(width: 10),
+              height: 25.dh, fit: BoxFit.contain, color: AppColors.onSecondary),
+          SizedBox(width: 10.dw),
           AppText(text,
               weight: 400,
-              size: 14,
+              size: 14.w,
               family: FontFamily.casual,
               color: AppColors.onSecondary),
         ],

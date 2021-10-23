@@ -11,7 +11,7 @@ import 'package:podcasts/themes/app_colors.dart';
 import '../source.dart';
 import 'series_page.dart';
 
-class EpisodePage extends StatefulWidget {  
+class EpisodePage extends StatefulWidget {
   const EpisodePage({required this.episode, key}) : super(key: key);
 
   final Episode episode;
@@ -85,14 +85,15 @@ class _EpisodePageState extends State<EpisodePage> {
         ListView(
           children: [
             Padding(
-                padding: const EdgeInsets.fromLTRB(24, 10, 15, 20),
+                padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 20.dh),
                 child: EpisodeTile(Pages.episodePage,
                     status: status,
                     episode: episode,
                     duration: Utils.convertFrom(episode.duration,
                         includeSeconds: false),
                     playCallback: isInactive ? () {} : bloc.play,
-                    actionPadding: const EdgeInsets.fromLTRB(0, 10, 10, 10))),
+                    actionPadding:
+                        EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh))),
             _buildButton(episode)
           ],
         ),

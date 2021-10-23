@@ -52,9 +52,9 @@ class EpisodeActionButtons extends StatelessWidget {
                                 fit: BoxFit.contain, height: 10.dh)
                             : isPaused
                                 ? Icon(AppIcons.play,
-                                    color: AppColors.onPrimary2, size: 18.dw)
+                                    color: AppColors.onPrimary2, size: 22.dw)
                                 : Icon(AppIcons.playCircled,
-                                    color: AppColors.secondary, size: 18.dw),
+                                    color: AppColors.secondary, size: 22.dw),
                     AppText(
                         isOnHomepage
                             ? '  ' + status
@@ -78,14 +78,14 @@ class EpisodeActionButtons extends StatelessWidget {
         IconButton(
             onPressed: () {},
             constraints: const BoxConstraints(),
-            padding: const EdgeInsets.all(0),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             icon: Icon(AppIcons.addToPlayList,
-                color: AppColors.secondary, size: 18.dw)),
+                color: AppColors.secondary, size: 22.dw)),
         IconButton(
             onPressed: () {},
             constraints: const BoxConstraints(),
             icon: Icon(AppIcons.download,
-                color: AppColors.secondary, size: 18.dw))
+                color: AppColors.secondary, size: 22.dw))
       ]),
     );
   }

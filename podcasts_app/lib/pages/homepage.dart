@@ -103,8 +103,9 @@ class _HomepageState extends State<Homepage> {
         ),
         SizedBox(height: 10.dh),
         SizedBox(
-            height: 190.dh,
+            height: 180.dh,
             child: ListView.builder(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: seriesList.length,
               itemBuilder: (context, index) {
@@ -160,7 +161,7 @@ class _HomepageState extends State<Homepage> {
                     duration: Utils.convertFrom(episode.duration,
                         includeSeconds: false),
                     episode: episode,
-                    actionPadding: EdgeInsets.fromLTRB(0, 0, 0, 5.dh)))),
+                    actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 5.dh)))),
       ],
     );
   }

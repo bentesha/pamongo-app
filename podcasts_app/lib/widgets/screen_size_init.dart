@@ -12,8 +12,9 @@ class ScreenSizeInit extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth > 0) {
-        ScreenSizeConfig.init(
-            designSize, Size(constraints.maxWidth, constraints.maxHeight));
+        final screenWidth = constraints.maxWidth;
+        final screenHeight = constraints.maxHeight;
+        ScreenSizeConfig.init(designSize, Size(screenWidth, screenHeight));
         return child;
       }
       return Container();

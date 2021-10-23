@@ -34,13 +34,13 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 10, 15, 10),
+      padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 10.dh),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
           height: 150,
           child: Row(children: [
-            AppImage(image: channel.channelImage, height: 150, width: 150),
-            const SizedBox(width: 10),
+            AppImage(image: channel.channelImage, height: 150.w, width: 150.w),
+            SizedBox(width: 10.dw),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -51,17 +51,17 @@ class _ChannelPageState extends State<ChannelPage> {
                       family: FontFamily.workSans,
                       weight: 600,
                       size: 25),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.dh),
                   AppText(channel.channelOwner, size: 14),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.dh),
                 ],
               ),
             ),
           ]),
         ),
-        const SizedBox(height: 15),
+        SizedBox(height: 15.dh),
         Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: EdgeInsets.only(right: 10.dw),
           child: AppRichText(channel.channelDescription),
         )
       ]),
@@ -70,17 +70,17 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildSeriesList() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 10.dw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(height: 1, color: AppColors.separator),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(24, 10, 10, 0),
-            child: AppText('My Series',
+          Padding(
+            padding: EdgeInsets.fromLTRB(24.dh, 10.dw, 10.dh, 0),
+            child: const AppText('My Series',
                 size: 18, weight: 400, family: FontFamily.casual),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.dh),
           ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -100,18 +100,18 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.separator),
       Padding(
-          padding: const EdgeInsets.fromLTRB(24, 10, 15, 5),
+          padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 5.dh),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               children: [
-                AppImage(image: series.image, width: 50, height: 50),
-                const SizedBox(width: 10),
+                AppImage(image: series.image, width: 50.w, height: 50.w),
+                SizedBox(width: 10.dw),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(series.name, family: FontFamily.louis, weight: 600),
-                    const SizedBox(height: 3),
+                    SizedBox(height: 3.dh),
                     const AppText('Episodes : 24',
                         family: FontFamily.louis,
                         weight: 400,
@@ -120,7 +120,7 @@ class _ChannelPageState extends State<ChannelPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.dh),
             AppText(series.description,
                 size: 15,
                 family: FontFamily.workSans,
@@ -134,7 +134,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return TextButton(
         onPressed: () => SeriesPage.navigateTo(context, series),
         style: TextButton.styleFrom(
-          maximumSize: const Size.fromWidth(140),
+          maximumSize: Size.fromWidth(140.dw),
           shape: const RoundedRectangleBorder(
               side: BorderSide(color: AppColors.inactive, width: 1),
               borderRadius: BorderRadius.all(Radius.circular(10))),
