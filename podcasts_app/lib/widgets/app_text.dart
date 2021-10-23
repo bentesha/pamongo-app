@@ -58,7 +58,7 @@ class _AppTextState extends State<AppText> {
         textAlign: widget.alignment,
         style: TextStyle(
           fontWeight: fontWeight,
-          fontSize: widget.size.toDouble(),
+          fontSize: widget.size.dw,
           color: widget.color,
           fontFamily: fontFamily,
           //overflow: TextOverflow.ellipsis

@@ -19,18 +19,18 @@ class EpisodeTitle extends StatelessWidget {
         AppImage(
             borderRadius: const BorderRadius.all(Radius.circular(7)),
             image: image,
-            height: 36,
-            width: 36),
+            height: 36.w,
+            width: 36.w),
         const SizedBox(width: 10),
         SizedBox(
-          height: 45,
+          height: 45.dh,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppText(seriesName,
                     weight: 400,
-                    size: 14,
+                    size: 14.w,
                     family: FontFamily.louis,
                     color: AppColors.onSecondary2),
                 AppText(
@@ -38,19 +38,19 @@ class EpisodeTitle extends StatelessWidget {
                   weight: 400,
                   color: AppColors.onSecondary2,
                   family: FontFamily.louis,
-                  size: 14,
+                  size: 14.w,
                 )
               ]),
         )
       ]),
-      const SizedBox(height: 10),
+      SizedBox(height: 10.dh),
       AppText(
         title,
         weight: 600,
-        size: 16,
+        size: 16.w,
         family: FontFamily.louis,
       ),
-      const SizedBox(height: 5),
+      SizedBox(height: 5.dh),
     ]);
   }
 }

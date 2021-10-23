@@ -206,7 +206,8 @@ const firstSeriesEpisodeDesc3 =
     'In this episaode, we explore how the New Testament came together; why some books were in, some were out, and who chose whcih was which';
 const firstSeriesEpisodeDesc4 =
     'Does the concept of salvation have any use if we don\'t see it as a ticket to some other worldly existence after we die? There are a few of the questions we tackle in this raw and powerful conversation with Mason Smith.';
-const channelDesc = 'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
+const channelDesc =
+    'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
 
 var channel = Channel(
     channelDescription: channelDesc,
@@ -215,5 +216,3 @@ var channel = Channel(
     channelName: 'The Pearson Podcast',
     channelOwner: 'Betty Pearson',
     channelSeriesList: seriesList);
-
-

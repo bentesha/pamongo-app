@@ -45,7 +45,7 @@ class _HomepageState extends State<Homepage> {
 
   _buildAppBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
+      preferredSize: Size.fromHeight(50.dh),
       child: AppTopBars.homepage(context),
     );
   }
@@ -78,7 +78,7 @@ class _HomepageState extends State<Homepage> {
           children: [
             _buildSeries(),
             _buildRecent(episodeList, supplements),
-            shouldLeaveSpace ? const SizedBox(height: 70) : Container()
+            shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
           ],
         ),
       ],
@@ -93,17 +93,17 @@ class _HomepageState extends State<Homepage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 24, top: 8),
+        Padding(
+          padding: EdgeInsets.only(left: 24.dw, top: 8.dh),
           child: AppText('Series',
               family: FontFamily.casual,
               weight: 400,
-              size: 18,
+              size: 18.w,
               color: AppColors.header),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.dh),
         SizedBox(
-            height: 175,
+            height: 190.dh,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: seriesList.length,
@@ -114,15 +114,15 @@ class _HomepageState extends State<Homepage> {
 
                 return Container(
                   margin: EdgeInsets.only(
-                      left: isFirst ? 24 : 10, right: isLast ? 12 : 0),
+                      left: isFirst ? 24.dw : 10.dw, right: isLast ? 12.dw : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
-                    child: SizedBox(width: 96, child: SeriesWidget(series)),
+                    child: SizedBox(width: 96.dw, child: SeriesWidget(series)),
                   ),
                 );
               },
             )),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.dh),
       ],
     );
   }
@@ -151,7 +151,7 @@ class _HomepageState extends State<Homepage> {
       children: [
         Container(height: 1, color: AppColors.separator),
         Padding(
-            padding: const EdgeInsets.only(left: 24, right: 20),
+            padding: EdgeInsets.only(left: 24.dw, right: 20.dw),
             child: GestureDetector(
                 onTap: () => EpisodePage.navigateTo(context, episode),
                 child: EpisodeTile(Pages.homepage,
@@ -160,7 +160,7 @@ class _HomepageState extends State<Homepage> {
                     duration: Utils.convertFrom(episode.duration,
                         includeSeconds: false),
                     episode: episode,
-                    actionPadding: const EdgeInsets.fromLTRB(0, 0, 0, 10)))),
+                    actionPadding: EdgeInsets.fromLTRB(0, 0, 0, 5.dh)))),
       ],
     );
   }

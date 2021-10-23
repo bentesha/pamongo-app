@@ -1,4 +1,13 @@
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/widgets/screen_size_config.dart';
+
+extension SizeExtension on num {
+  // ignore: unused_element
+  int get w => ScreenSizeConfig.getIntWidth(this);
+  int get h => ScreenSizeConfig.getIntHeight(this);
+  double get dw => ScreenSizeConfig.getDoubleWidth(this);
+  double get dh => ScreenSizeConfig.getDoubleHeight(this);
+}
 
 class Utils {
   static String getStatus(

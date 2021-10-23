@@ -16,14 +16,12 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
   double endValue = 0;
   double initialHeight = 796.3;
   double maxTopGlobalOffset = 255;
-  final referenceHeight = 866.3;
-  final referenceWidth = 411.4;
 
   @override
   void didChangeDependencies() {
     size = MediaQuery.of(context).size;
-    initialHeight = 796.3 * size.height / referenceHeight;
-    maxTopGlobalOffset = 255 * size.height / referenceHeight;
+    initialHeight = 796.3.dh;
+    maxTopGlobalOffset = 255.dh;
     notifier = ValueNotifier(initialHeight);
     super.didChangeDependencies();
   }
@@ -89,7 +87,7 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
       isShowInitialWidgetNotifier.value = false;
     }
     notifier.value =
-        details.globalPosition.dy - (80 * size.height / referenceHeight);
+        details.globalPosition.dy - 80.dh;
   }
 
   void _onVerticalDragStart(DragStartDetails details) {

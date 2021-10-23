@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/foreground_player.dart';
+import 'package:podcasts/widgets/screen_size_init.dart';
 import 'pages/homepage.dart';
 
 class MyApp extends StatefulWidget {
@@ -33,9 +34,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: AppColors.background),
-        home: const Homepage());
+    return ScreenSizeInit(
+        designSize: const Size(414, 866),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(scaffoldBackgroundColor: AppColors.background),
+            home: const Homepage()));
   }
 }

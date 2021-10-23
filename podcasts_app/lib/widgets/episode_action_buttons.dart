@@ -30,9 +30,9 @@ class EpisodeActionButtons extends StatelessWidget {
         GestureDetector(
           onTap: playCallback,
           child: Container(
-              height: 32,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              height: 32.dh,
+              padding: EdgeInsets.fromLTRB(10.dw, 0, 10.dw, 0),
+              margin: EdgeInsets.fromLTRB(0, 0, 10.dw, 0),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: isPaused || isPlaying
@@ -46,15 +46,15 @@ class EpisodeActionButtons extends StatelessWidget {
                   children: [
                     isPlaying
                         ? Lottie.asset('assets/icons/playing.json',
-                            fit: BoxFit.contain, height: 30)
+                            fit: BoxFit.contain, height: 30.dh)
                         : isLoading
                             ? Lottie.asset('assets/icons/loading.json',
-                                fit: BoxFit.contain, height: 10)
+                                fit: BoxFit.contain, height: 10.dh)
                             : isPaused
-                                ? const Icon(AppIcons.play,
-                                    color: AppColors.onPrimary2, size: 18)
-                                : const Icon(AppIcons.playCircled,
-                                    color: AppColors.secondary),
+                                ? Icon(AppIcons.play,
+                                    color: AppColors.onPrimary2, size: 18.dw)
+                                : Icon(AppIcons.playCircled,
+                                    color: AppColors.secondary, size: 18.dw),
                     AppText(
                         isOnHomepage
                             ? '  ' + status
@@ -72,16 +72,20 @@ class EpisodeActionButtons extends StatelessWidget {
                         color: isPaused || isPlaying
                             ? AppColors.onPrimary
                             : AppColors.onSecondary,
-                        size: 14),
+                        size: 14.w),
                   ])),
         ),
         IconButton(
             onPressed: () {},
-            icon:
-                const Icon(AppIcons.addToPlayList, color: AppColors.secondary)),
+            constraints: const BoxConstraints(),
+            padding: const EdgeInsets.all(0),
+            icon: Icon(AppIcons.addToPlayList,
+                color: AppColors.secondary, size: 18.dw)),
         IconButton(
             onPressed: () {},
-            icon: const Icon(AppIcons.download, color: AppColors.secondary))
+            constraints: const BoxConstraints(),
+            icon: Icon(AppIcons.download,
+                color: AppColors.secondary, size: 18.dw))
       ]),
     );
   }

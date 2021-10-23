@@ -108,7 +108,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     return Column(children: [
       _buildSeriesImage(episode.image),
       Padding(
-          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          padding: EdgeInsets.fromLTRB(30.dw, 20.dh, 30.dw, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -118,17 +118,17 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                 children: [
                   AppText(episode.title,
                       color: AppColors.onPrimary,
-                      size: 20,
+                      size: 20.w,
                       weight: 600,
                       family: FontFamily.louis),
-                  const Icon(EvaIcons.heartOutline,
-                      size: 25, color: AppColors.onPrimary2)
+                  Icon(EvaIcons.heartOutline,
+                      size: 25.dw, color: AppColors.onPrimary2)
                 ],
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5.dh),
               AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
                   color: AppColors.onPrimary2,
-                  size: 16,
+                  size: 16.w,
                   family: FontFamily.louis),
             ],
           )),
@@ -138,20 +138,20 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   _buildSeriesImage(String image) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: EdgeInsets.only(top: 10.dh, bottom: 10.dh),
       child: Column(
         children: [
           Container(
-              height: 4,
-              width: 25,
+              height: 4.dh,
+              width: 25.dw,
               decoration: const BoxDecoration(
                   color: AppColors.separator,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: const EdgeInsets.only(bottom: 30)),
+              margin: EdgeInsets.only(bottom: 30.dh)),
           AppImage(
             image: image,
-            height: 300,
-            width: 350,
+            height: 300.h,
+            width: 350.h,
             withBorders: true,
           ),
         ],
@@ -166,7 +166,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isCurrentBigger = currentPosition >= duration;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+      padding: EdgeInsets.fromLTRB(10.dw, 10.dh, 10.dw, 30.dh),
       child: Column(
         children: [
           SliderTheme(
@@ -196,20 +196,20 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final hasFailedToBuffer = content.playerState == errorState;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: EdgeInsets.symmetric(horizontal: 25.dw),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppText(currentPosition,
-                size: 14, weight: 400, color: AppColors.onPrimary2),
+                size: 14.w, weight: 400, color: AppColors.onPrimary2),
             isLoading || hasFailedToBuffer
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          padding: EdgeInsets.fromLTRB(20.dw, 0, 0, 0),
                           child: AppText(
                               isLoading ? 'buffering ... ' : 'couldn\'t play',
                               color: AppColors.onPrimary2,
@@ -218,7 +218,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   )
                 : Container(),
             AppText(duration,
-                size: 14, weight: 400, color: AppColors.onPrimary2)
+                size: 14.w, weight: 400, color: AppColors.onPrimary2)
           ]),
     );
   }
@@ -295,18 +295,18 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
       children: [
         Container(
           color: AppColors.primary,
-          height: 70,
+          height: 70.dh,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.dw),
                     child: episode.image == ''
                         ? Container(
-                            height: 50,
-                            width: 50,
+                            height: 50.dw,
+                            width: 50.dw,
                             alignment: Alignment.center,
                             child: const Icon(
                               Icons.podcasts,
@@ -315,8 +315,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                             ))
                         : AppImage(
                             image: episode.image,
-                            height: 50,
-                            width: 50,
+                            height: 50.w,
+                            width: 50.w,
                             withBorders: true),
                   ),
                   Column(
@@ -326,29 +326,29 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                       AppText(
                         episode.title,
                         color: AppColors.onPrimary,
-                        size: 16,
+                        size: 16.w,
                         weight: 600,
                         family: FontFamily.louis,
                       ),
                       AppText('Ep. ${episode.episodeNumber}',
                           family: FontFamily.louis,
                           color: AppColors.onPrimary2,
-                          size: 16),
+                          size: 16.w),
                     ],
                   ),
                 ],
               ),
               isLoading
                   ? Padding(
-                      padding: const EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(right: 20.dw),
                       child: Lottie.asset('assets/icons/loading.json',
-                          fit: BoxFit.contain, height: 25),
+                          fit: BoxFit.contain, height: 25.dh),
                     )
                   : IconButton(
                       onPressed: bloc.togglePlayerStatus,
                       icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
                           color: AppColors.onPrimary2),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 20.dw),
                     ),
             ],
           ),
