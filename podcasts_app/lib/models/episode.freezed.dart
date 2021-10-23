@@ -1,0 +1,374 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+
+part of 'episode.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+/// @nodoc
+class _$EpisodeTearOff {
+  const _$EpisodeTearOff();
+
+  _Episode call(
+      {String image = '',
+      String seriesName = '',
+      String channel = '',
+      String date = '',
+      int duration = 0,
+      int id = -1,
+      int episodeNumber = 0,
+      String title = '',
+      String audioUrl = '',
+      String description = ''}) {
+    return _Episode(
+      image: image,
+      seriesName: seriesName,
+      channel: channel,
+      date: date,
+      duration: duration,
+      id: id,
+      episodeNumber: episodeNumber,
+      title: title,
+      audioUrl: audioUrl,
+      description: description,
+    );
+  }
+}
+
+/// @nodoc
+const $Episode = _$EpisodeTearOff();
+
+/// @nodoc
+mixin _$Episode {
+  String get image => throw _privateConstructorUsedError;
+  String get seriesName => throw _privateConstructorUsedError;
+  String get channel => throw _privateConstructorUsedError;
+  String get date => throw _privateConstructorUsedError;
+  int get duration => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  int get episodeNumber => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get audioUrl => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $EpisodeCopyWith<Episode> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EpisodeCopyWith<$Res> {
+  factory $EpisodeCopyWith(Episode value, $Res Function(Episode) then) =
+      _$EpisodeCopyWithImpl<$Res>;
+  $Res call(
+      {String image,
+      String seriesName,
+      String channel,
+      String date,
+      int duration,
+      int id,
+      int episodeNumber,
+      String title,
+      String audioUrl,
+      String description});
+}
+
+/// @nodoc
+class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
+  _$EpisodeCopyWithImpl(this._value, this._then);
+
+  final Episode _value;
+  // ignore: unused_field
+  final $Res Function(Episode) _then;
+
+  @override
+  $Res call({
+    Object? image = freezed,
+    Object? seriesName = freezed,
+    Object? channel = freezed,
+    Object? date = freezed,
+    Object? duration = freezed,
+    Object? id = freezed,
+    Object? episodeNumber = freezed,
+    Object? title = freezed,
+    Object? audioUrl = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_value.copyWith(
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      seriesName: seriesName == freezed
+          ? _value.seriesName
+          : seriesName // ignore: cast_nullable_to_non_nullable
+              as String,
+      channel: channel == freezed
+          ? _value.channel
+          : channel // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
+      duration: duration == freezed
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      episodeNumber: episodeNumber == freezed
+          ? _value.episodeNumber
+          : episodeNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      audioUrl: audioUrl == freezed
+          ? _value.audioUrl
+          : audioUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$EpisodeCopyWith<$Res> implements $EpisodeCopyWith<$Res> {
+  factory _$EpisodeCopyWith(_Episode value, $Res Function(_Episode) then) =
+      __$EpisodeCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String image,
+      String seriesName,
+      String channel,
+      String date,
+      int duration,
+      int id,
+      int episodeNumber,
+      String title,
+      String audioUrl,
+      String description});
+}
+
+/// @nodoc
+class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
+    implements _$EpisodeCopyWith<$Res> {
+  __$EpisodeCopyWithImpl(_Episode _value, $Res Function(_Episode) _then)
+      : super(_value, (v) => _then(v as _Episode));
+
+  @override
+  _Episode get _value => super._value as _Episode;
+
+  @override
+  $Res call({
+    Object? image = freezed,
+    Object? seriesName = freezed,
+    Object? channel = freezed,
+    Object? date = freezed,
+    Object? duration = freezed,
+    Object? id = freezed,
+    Object? episodeNumber = freezed,
+    Object? title = freezed,
+    Object? audioUrl = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_Episode(
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      seriesName: seriesName == freezed
+          ? _value.seriesName
+          : seriesName // ignore: cast_nullable_to_non_nullable
+              as String,
+      channel: channel == freezed
+          ? _value.channel
+          : channel // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
+      duration: duration == freezed
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      episodeNumber: episodeNumber == freezed
+          ? _value.episodeNumber
+          : episodeNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      audioUrl: audioUrl == freezed
+          ? _value.audioUrl
+          : audioUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Episode implements _Episode {
+  const _$_Episode(
+      {this.image = '',
+      this.seriesName = '',
+      this.channel = '',
+      this.date = '',
+      this.duration = 0,
+      this.id = -1,
+      this.episodeNumber = 0,
+      this.title = '',
+      this.audioUrl = '',
+      this.description = ''});
+
+  @JsonKey(defaultValue: '')
+  @override
+  final String image;
+  @JsonKey(defaultValue: '')
+  @override
+  final String seriesName;
+  @JsonKey(defaultValue: '')
+  @override
+  final String channel;
+  @JsonKey(defaultValue: '')
+  @override
+  final String date;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int duration;
+  @JsonKey(defaultValue: -1)
+  @override
+  final int id;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int episodeNumber;
+  @JsonKey(defaultValue: '')
+  @override
+  final String title;
+  @JsonKey(defaultValue: '')
+  @override
+  final String audioUrl;
+  @JsonKey(defaultValue: '')
+  @override
+  final String description;
+
+  @override
+  String toString() {
+    return 'Episode(image: $image, seriesName: $seriesName, channel: $channel, date: $date, duration: $duration, id: $id, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _Episode &&
+            (identical(other.image, image) ||
+                const DeepCollectionEquality().equals(other.image, image)) &&
+            (identical(other.seriesName, seriesName) ||
+                const DeepCollectionEquality()
+                    .equals(other.seriesName, seriesName)) &&
+            (identical(other.channel, channel) ||
+                const DeepCollectionEquality()
+                    .equals(other.channel, channel)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
+            (identical(other.duration, duration) ||
+                const DeepCollectionEquality()
+                    .equals(other.duration, duration)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.episodeNumber, episodeNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.episodeNumber, episodeNumber)) &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.audioUrl, audioUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.audioUrl, audioUrl)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(image) ^
+      const DeepCollectionEquality().hash(seriesName) ^
+      const DeepCollectionEquality().hash(channel) ^
+      const DeepCollectionEquality().hash(date) ^
+      const DeepCollectionEquality().hash(duration) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(episodeNumber) ^
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(audioUrl) ^
+      const DeepCollectionEquality().hash(description);
+
+  @JsonKey(ignore: true)
+  @override
+  _$EpisodeCopyWith<_Episode> get copyWith =>
+      __$EpisodeCopyWithImpl<_Episode>(this, _$identity);
+}
+
+abstract class _Episode implements Episode {
+  const factory _Episode(
+      {String image,
+      String seriesName,
+      String channel,
+      String date,
+      int duration,
+      int id,
+      int episodeNumber,
+      String title,
+      String audioUrl,
+      String description}) = _$_Episode;
+
+  @override
+  String get image => throw _privateConstructorUsedError;
+  @override
+  String get seriesName => throw _privateConstructorUsedError;
+  @override
+  String get channel => throw _privateConstructorUsedError;
+  @override
+  String get date => throw _privateConstructorUsedError;
+  @override
+  int get duration => throw _privateConstructorUsedError;
+  @override
+  int get id => throw _privateConstructorUsedError;
+  @override
+  int get episodeNumber => throw _privateConstructorUsedError;
+  @override
+  String get title => throw _privateConstructorUsedError;
+  @override
+  String get audioUrl => throw _privateConstructorUsedError;
+  @override
+  String get description => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$EpisodeCopyWith<_Episode> get copyWith =>
+      throw _privateConstructorUsedError;
+}
