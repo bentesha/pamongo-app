@@ -31,29 +31,15 @@ class AppRichText extends StatelessWidget {
                         onTap: () =>
                             isExpandNotifier.value = !isExpandNotifier.value,
                         child: Container(
-                          width: 70.dw,
+                          width: 80.dw,
                           height: 20.dh,
                           alignment: Alignment.center,
-                          color: Colors.white,
                           margin: EdgeInsets.only(top: 10.dh),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              AppText(
-                                isExpanded ? 'Less' : 'More',
-                                size: 16.w,
-                                color: AppColors.secondary,
-                                family: FontFamily.workSans,
-                              ),
-                              SizedBox(width: 5.dw),
-                              Icon(
-                                  isExpanded
-                                      ? Icons.expand_less
-                                      : Icons.expand_more,
-                                  color: AppColors.secondary)
-                            ],
-                          ),
+                          child: AppText('see more',
+                              size: 14.w,
+                              color: AppColors.secondary,
+                              family: FontFamily.casual,
+                              weight: 600),
                         ),
                       )
                 : Container()

@@ -97,7 +97,7 @@ class _ChannelPageState extends State<ChannelPage> {
                       weight: 600,
                       size: 25.w),
                   SizedBox(height: 5.dh),
-                  AppText(channel.channelOwner, size: 14.w),
+                  AppText(channel.channelOwner, size: 16.w),
                   SizedBox(height: 5.dh),
                 ],
               ),
@@ -179,7 +179,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return TextButton(
         onPressed: () => SeriesPage.navigateTo(context, series),
         style: TextButton.styleFrom(
-          maximumSize: Size.fromWidth(140.dw),
+          maximumSize: Size.fromWidth(130.dw),
           shape: const RoundedRectangleBorder(
               side: BorderSide(color: AppColors.inactive, width: 1),
               borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -187,9 +187,9 @@ class _ChannelPageState extends State<ChannelPage> {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            Icon(Icons.podcasts, color: AppColors.secondary, size: 20),
-            AppText('Visit Series', size: 14),
+          children: [
+            Icon(Icons.podcasts, color: AppColors.secondary, size: 20.dw),
+            AppText('Visit Series', size: 15.w),
           ],
         ));
   }

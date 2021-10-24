@@ -78,7 +78,7 @@ class EpisodeActionButtons extends StatelessWidget {
         IconButton(
             onPressed: () {},
             constraints: const BoxConstraints(),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10.dw),
             icon: Icon(AppIcons.addToPlayList,
                 color: AppColors.secondary, size: 22.dw)),
         IconButton(

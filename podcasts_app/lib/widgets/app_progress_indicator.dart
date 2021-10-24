@@ -275,7 +275,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
       IconData icon = Icons.home,
       int iconSize = 35}) {
     return TextButton(
-        child: Icon(icon, color: iconColor, size: iconSize.toDouble()),
+        child: Icon(icon, color: iconColor, size: iconSize.dw),
         onPressed: callback,
         style: TextButton.styleFrom(
             shape: const CircleBorder(),

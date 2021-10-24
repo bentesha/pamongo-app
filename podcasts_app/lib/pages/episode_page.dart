@@ -78,25 +78,19 @@ class _EpisodePageState extends State<EpisodePage> {
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
-    return Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.bottomCenter,
+    return ListView(
       children: [
-        ListView(
-          children: [
-            Padding(
-                padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 20.dh),
-                child: EpisodeTile(Pages.episodePage,
-                    status: status,
-                    episode: episode,
-                    duration: Utils.convertFrom(episode.duration,
-                        includeSeconds: false),
-                    playCallback: isInactive ? () {} : bloc.play,
-                    actionPadding:
-                        EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh))),
-            _buildButton(episode)
-          ],
-        ),
+        Padding(
+            padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 20.dh),
+            child: EpisodeTile(Pages.episodePage,
+                status: status,
+                episode: episode,
+                duration: Utils.convertFrom(episode.duration,
+                    includeSeconds: false),
+                playCallback: isInactive ? () {} : bloc.play,
+                actionPadding:
+                    EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh))),
+        _buildButton(episode)
       ],
     );
   }
