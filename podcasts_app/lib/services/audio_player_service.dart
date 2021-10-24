@@ -117,6 +117,7 @@ class AudioPlayerService {
   void markAsFailedToBuffer() {
     final position = _player.position.inMilliseconds;
     _updateContentWith(currentPosition: position, playerState: errorState);
+    _player.pause();
   }
 
   Future<void> _handleSeekCallback(int newPosition, int index) async {

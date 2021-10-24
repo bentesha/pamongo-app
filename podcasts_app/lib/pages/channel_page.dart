@@ -189,7 +189,7 @@ class _ChannelPageState extends State<ChannelPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: const [
             Icon(Icons.podcasts, color: AppColors.secondary, size: 20),
-            AppText('Visit Series', size: 14),
+            AppText('Visit Series', size: 15),
           ],
         ));
   }

@@ -69,19 +69,18 @@ class _HomepageState extends State<Homepage> {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
-    return Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.bottomCenter,
-      children: [
-        ListView(
-          padding: const EdgeInsets.only(top: 10),
-          children: [
-            _buildSeries(),
-            _buildRecent(episodeList, supplements),
-            shouldLeaveSpace ? const SizedBox(height: 70) : Container()
-          ],
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: bloc.refresh,
+      backgroundColor: Colors.white,
+      color: AppColors.secondary,
+      child: ListView(
+        padding: const EdgeInsets.only(top: 10),
+        children: [
+          _buildSeries(),
+          _buildRecent(episodeList, supplements),
+          shouldLeaveSpace ? const SizedBox(height: 70) : Container()
+        ],
+      ),
     );
   }
 

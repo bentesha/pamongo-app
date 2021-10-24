@@ -62,17 +62,11 @@ class _SeriesPageState extends State<SeriesPage> {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
-    return Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.bottomCenter,
-      children: [
-        ListView(children: [
-          _buildTitle(),
-          _buildBodyContent(envelopeList, supplements),
-          shouldLeaveSpace ? const SizedBox(height: 70) : Container()
-        ]),
-      ],
-    );
+    return ListView(children: [
+      _buildTitle(),
+      _buildBodyContent(envelopeList, supplements),
+      shouldLeaveSpace ? const SizedBox(height: 70) : Container()
+    ]);
   }
 
   _buildAppBar() {

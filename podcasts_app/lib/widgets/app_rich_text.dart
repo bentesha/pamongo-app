@@ -13,7 +13,7 @@ class AppRichText extends StatelessWidget {
       valueListenable: isExpandNotifier,
       builder: (context, isExpanded, state) {
         return Stack(
-          alignment:isLong ? Alignment.bottomRight : Alignment.bottomLeft,
+          alignment: isLong ? Alignment.bottomRight : Alignment.bottomLeft,
           children: [
             AppText(
                 isLong
@@ -31,29 +31,15 @@ class AppRichText extends StatelessWidget {
                         onTap: () =>
                             isExpandNotifier.value = !isExpandNotifier.value,
                         child: Container(
-                          width: 70,
+                          width: 80,
                           height: 20,
                           alignment: Alignment.center,
-                          color: Colors.white,
                           margin: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              AppText(
-                                isExpanded ? 'Less' : 'More',
-                                size: 16,
-                                color: AppColors.secondary,
-                                family: FontFamily.workSans,
-                              ),
-                              const SizedBox(width: 5),
-                              Icon(
-                                  isExpanded
-                                      ? Icons.expand_less
-                                      : Icons.expand_more,
-                                  color: AppColors.secondary)
-                            ],
-                          ),
+                          child: const AppText('see more',
+                              size: 14,
+                              color: AppColors.secondary,
+                              family: FontFamily.casual,
+                              weight: 600),
                         ),
                       )
                 : Container()
