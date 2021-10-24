@@ -209,7 +209,7 @@ const firstSeriesEpisodeDesc4 =
 const channelDesc =
     'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
 
-var channel = Channel(
+var defaultChannel = Channel(
     channelDescription: channelDesc,
     channelImage:
         'https://images.pexels.com/photos/3435323/pexels-photo-3435323.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',

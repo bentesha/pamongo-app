@@ -6,9 +6,9 @@ part 'channel.freezed.dart';
 @freezed
 class Channel with _$Channel {
   const factory Channel(
-      {required String channelName,
-      required String channelImage,
-      required String channelDescription,
-      required List<Series> channelSeriesList,
-      required String channelOwner}) = _Channel;
+      {@Default('') String channelName,
+      @Default('') String channelImage,
+      @Default('') String channelDescription,
+      @Default([]) List<Series> channelSeriesList,
+      @Default('') String channelOwner}) = _Channel;
 }

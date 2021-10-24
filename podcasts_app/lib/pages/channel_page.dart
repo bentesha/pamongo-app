@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:podcasts/blocs/channel_page_bloc.dart';
+import 'package:podcasts/models/channel.dart';
+import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
+import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/pages/series_page.dart';
+import 'package:podcasts/services/audio_player_service.dart';
+import 'package:podcasts/states/channel_page_state.dart';
 import '../source.dart';
 
 class ChannelPage extends StatefulWidget {
@@ -18,11 +25,49 @@ class ChannelPage extends StatefulWidget {
 }
 
 class _ChannelPageState extends State<ChannelPage> {
+  late final ChannelPageBloc bloc;
+  late final AudioPlayerService service;
+
+  @override
+  void initState() {
+    service = Provider.of(context, listen: false);
+    bloc = ChannelPageBloc(service);
+    bloc.init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _buildAppBar(),
-        body: ListView(children: [_buildTitle(), _buildSeriesList()]));
+    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+  }
+
+  _buildBody() {
+    return BlocBuilder<ChannelPageBloc, ChannelPageState>(
+        bloc: bloc,
+        builder: (context, state) {
+          return state.when(
+              loading: _buildLoading,
+              content: _buildContent,
+              failed: _buildFailed);
+        });
+  }
+
+  Widget _buildLoading(Channel channel, Supplements supplements) {
+    return const AppLoadingIndicator();
+  }
+
+  Widget _buildContent(Channel channel, Supplements supplements) {
+    final shouldLeaveSpace = supplements.playerState != inactiveState;
+    log(shouldLeaveSpace.toString());
+    return ListView(children: [
+      _buildTitle(channel),
+      _buildSeriesList(channel),
+      shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
+    ]);
+  }
+
+  Widget _buildFailed(Channel channel, Supplements supplements) {
+    return _buildContent(channel, supplements);
   }
 
   _buildAppBar() {
@@ -32,7 +77,7 @@ class _ChannelPageState extends State<ChannelPage> {
     );
   }
 
-  _buildTitle() {
+  _buildTitle(Channel channel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 10.dh),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -50,9 +95,9 @@ class _ChannelPageState extends State<ChannelPage> {
                       alignment: TextAlign.start,
                       family: FontFamily.workSans,
                       weight: 600,
-                      size: 25),
+                      size: 25.w),
                   SizedBox(height: 5.dh),
-                  AppText(channel.channelOwner, size: 14),
+                  AppText(channel.channelOwner, size: 14.w),
                   SizedBox(height: 5.dh),
                 ],
               ),
@@ -68,7 +113,7 @@ class _ChannelPageState extends State<ChannelPage> {
     );
   }
 
-  _buildSeriesList() {
+  _buildSeriesList(Channel channel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 10.dw),
       child: Column(

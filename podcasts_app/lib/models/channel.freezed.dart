@@ -18,11 +18,11 @@ class _$ChannelTearOff {
   const _$ChannelTearOff();
 
   _Channel call(
-      {required String channelName,
-      required String channelImage,
-      required String channelDescription,
-      required List<Series> channelSeriesList,
-      required String channelOwner}) {
+      {String channelName = '',
+      String channelImage = '',
+      String channelDescription = '',
+      List<Series> channelSeriesList = const [],
+      String channelOwner = ''}) {
     return _Channel(
       channelName: channelName,
       channelImage: channelImage,
@@ -160,20 +160,25 @@ class __$ChannelCopyWithImpl<$Res> extends _$ChannelCopyWithImpl<$Res>
 
 class _$_Channel implements _Channel {
   const _$_Channel(
-      {required this.channelName,
-      required this.channelImage,
-      required this.channelDescription,
-      required this.channelSeriesList,
-      required this.channelOwner});
+      {this.channelName = '',
+      this.channelImage = '',
+      this.channelDescription = '',
+      this.channelSeriesList = const [],
+      this.channelOwner = ''});
 
+  @JsonKey(defaultValue: '')
   @override
   final String channelName;
+  @JsonKey(defaultValue: '')
   @override
   final String channelImage;
+  @JsonKey(defaultValue: '')
   @override
   final String channelDescription;
+  @JsonKey(defaultValue: const [])
   @override
   final List<Series> channelSeriesList;
+  @JsonKey(defaultValue: '')
   @override
   final String channelOwner;
 
@@ -220,11 +225,11 @@ class _$_Channel implements _Channel {
 
 abstract class _Channel implements Channel {
   const factory _Channel(
-      {required String channelName,
-      required String channelImage,
-      required String channelDescription,
-      required List<Series> channelSeriesList,
-      required String channelOwner}) = _$_Channel;
+      {String channelName,
+      String channelImage,
+      String channelDescription,
+      List<Series> channelSeriesList,
+      String channelOwner}) = _$_Channel;
 
   @override
   String get channelName => throw _privateConstructorUsedError;
