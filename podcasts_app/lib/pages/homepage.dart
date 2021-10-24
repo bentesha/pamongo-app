@@ -74,7 +74,7 @@ class _HomepageState extends State<Homepage> {
       backgroundColor: Colors.white,
       color: AppColors.secondary,
       child: ListView(
-        padding: const EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 10.dh),
         children: [
           _buildSeries(),
           _buildRecent(episodeList, supplements),
@@ -122,7 +122,7 @@ class _HomepageState extends State<Homepage> {
                 );
               },
             )),
-        SizedBox(height: 8.dh),
+        SizedBox(height: 5.dh),
       ],
     );
   }

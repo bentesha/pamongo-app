@@ -31,11 +31,10 @@ class EpisodeTile extends StatelessWidget {
           image: episode.image,
         ),
         isDescriptionFirst ? Container() : _buildActions(playCallback),
-        AppText(
-          episode.description,
-          family: FontFamily.workSans,
-          color: AppColors.onSecondary2,
-        ),
+        AppText(episode.description,
+            family: FontFamily.workSans,
+            color: AppColors.onSecondary2,
+            size: 15.w),
         isDescriptionFirst ? _buildActions(playCallback) : Container(),
       ],
     );

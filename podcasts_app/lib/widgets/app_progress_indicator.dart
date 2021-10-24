@@ -100,7 +100,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     return Column(children: [
       _buildTitle(episode),
       _buildSlider(content),
-      _buildActions(content)
+      _buildActions(content),
     ]);
   }
 
