@@ -1,5 +1,5 @@
+import 'package:lottie/lottie.dart';
 import '../source.dart';
-
 class AppLoadingIndicator extends StatelessWidget {
   final String? message;
   final Color backgroundColor;
@@ -19,17 +19,15 @@ class AppLoadingIndicator extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircularProgressIndicator(
-                      color: Colors.white,
-                      valueColor: AlwaysStoppedAnimation(AppColors.secondary)),
+                  Lottie.asset('assets/icons/loading_content.json',
+                      height: 40.dw, width: 40.dw),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: AppText(message!),
                   )
                 ],
               )
-            : CircularProgressIndicator(
-                color: backgroundColor,
-                valueColor: const AlwaysStoppedAnimation(AppColors.secondary)));
+            : Lottie.asset('assets/icons/loading_content.json',
+                height: 40.dw, width: 40.dw));
   }
 }
