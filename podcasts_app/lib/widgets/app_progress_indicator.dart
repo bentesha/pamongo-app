@@ -93,47 +93,47 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   _buildContent(ProgressIndicatorContent content) {
     final episode = content.episodeList[content.currentIndex];
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(30.dw, 10.dh, 30.dw, 0),
-      child: Column(children: [
-        _buildTitle(episode),
-        _buildSlider(content),
-        _buildActions(content),
-      ]),
-    );
+    return Column(children: [
+      _buildTitle(episode),
+      _buildSlider(content),
+      _buildActions(content),
+    ]);
   }
 
   _buildTitle(Episode episode) {
-    return Column(children: [
-      _buildSeriesImage(episode.image),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 10.dh),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 20.dh,
-                child: AppText(episode.title,
-                    color: AppColors.onPrimary,
-                    size: 18.w,
-                    weight: 600,
-                    family: FontFamily.louis),
-              ),
-              Icon(EvaIcons.heartOutline,
-                  size: 25.dw, color: AppColors.onPrimary2)
-            ],
-          ),
-          SizedBox(height: 5.dh),
-          AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
-              color: AppColors.onPrimary2,
-              size: 16.w,
-              family: FontFamily.louis),
-        ],
-      ),
-    ]);
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30.dw, 10.dh, 30.dw, 0),
+      child: Column(children: [
+        _buildSeriesImage(episode.image),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10.dh),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  height: 20.dh,
+                  child: AppText(episode.title,
+                      color: AppColors.onPrimary,
+                      size: 18.w,
+                      weight: 600,
+                      family: FontFamily.louis),
+                ),
+                Icon(EvaIcons.heartOutline,
+                    size: 25.dw, color: AppColors.onPrimary2)
+              ],
+            ),
+            SizedBox(height: 5.dh),
+            AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
+                color: AppColors.onPrimary2,
+                size: 16.w,
+                family: FontFamily.louis),
+          ],
+        ),
+      ]),
+    );
   }
 
   _buildSeriesImage(String image) {
@@ -167,29 +167,31 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final duration = episode.duration.toDouble();
     final isCurrentBigger = currentPosition >= duration;
 
-    return Column(
-      children: [
-        Container(
-          height: 30.dh,
-          margin: EdgeInsets.fromLTRB(0, 20.dh, 0, 10.dh),
-          child: SliderTheme(
-            data: SliderThemeData(
-                trackHeight: 3.dh,
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.dw),
-                overlayShape: SliderComponentShape.noThumb),
-            child: Slider(
-                activeColor: AppColors.secondary,
-                inactiveColor: AppColors.onPrimary2,
-                value: isCurrentBigger ? duration : currentPosition,
-                min: 0.0,
-                max: content.episodeList[content.currentIndex].duration
-                    .toDouble(),
-                onChanged: bloc.changePosition),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(26.dw, 5.dh, 26.dw, 15.dh),
+      child: Column(
+        children: [
+          Container(
+            height: 30.dh,
+            margin: EdgeInsets.fromLTRB(0, 20.dh, 0, 10.dh),
+            child: SliderTheme(
+              data: SliderThemeData(
+                  trackHeight: 3.dh,
+                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.dw),
+                  overlayShape: SliderComponentShape.noThumb),
+              child: Slider(
+                  activeColor: AppColors.secondary,
+                  inactiveColor: AppColors.onPrimary2,
+                  value: isCurrentBigger ? duration : currentPosition,
+                  min: 0.0,
+                  max: content.episodeList[content.currentIndex].duration
+                      .toDouble(),
+                  onChanged: bloc.changePosition),
+            ),
           ),
-        ),
-        _buildLabels(content),
-        SizedBox(height: 15.dh)
-      ],
+          _buildLabels(content),
+        ],
+      ),
     );
   }
 
@@ -236,45 +238,51 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isInactive = isLoading || isComplete;
     final isPlayingSeries = content.episodeList.length > 1;
 
-    return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          isPlayingSeries
-              ? _buildIconButton(
-                  iconSize: 35.dw,
-                  iconColor:
-                      isLoading ? AppColors.inactive : AppColors.onPrimary2,
-                  icon: EvaIcons.skipBackOutline,
-                  callback: bloc.skipToPrev)
-              : Container(),
-          _buildIconButton(
-              iconSize: 35.dw,
-              iconColor: isLoading ? AppColors.inactive : AppColors.onPrimary2,
-              icon: Icons.replay_10_outlined,
-              callback: () => bloc.changePosition(10000,
-                  positionRequiresUpdate: true, isForwarding: false)),
-          _buildIconButton(
-              icon: isPlaying ? Icons.pause : Ionicons.play,
-              backgroundColor: AppColors.secondary,
-              iconColor: isLoading ? AppColors.inactive : AppColors.onSecondary,
-              callback: isLoading ? () {} : bloc.togglePlayerStatus,
-              iconSize: 25.dw),
-          _buildIconButton(
-              iconSize: 35.dw,
-              icon: Icons.forward_30_outlined,
-              iconColor: isInactive ? AppColors.inactive : AppColors.onPrimary2,
-              callback: () =>
-                  bloc.changePosition(30000, positionRequiresUpdate: true)),
-          isPlayingSeries
-              ? _buildIconButton(
-                  iconSize: 35.dw,
-                  iconColor:
-                      isLoading ? AppColors.inactive : AppColors.onPrimary2,
-                  icon: EvaIcons.skipForwardOutline,
-                  callback: bloc.skipToNext)
-              : Container()
-        ]);
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.dw, 0.dh, 16.dw, 0),
+      child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            isPlayingSeries
+                ? _buildIconButton(
+                    iconSize: 35.dw,
+                    iconColor:
+                        isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                    icon: EvaIcons.skipBackOutline,
+                    callback: bloc.skipToPrev)
+                : Container(),
+            _buildIconButton(
+                iconSize: 35.dw,
+                iconColor:
+                    isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                icon: Icons.replay_10_outlined,
+                callback: () => bloc.changePosition(10000,
+                    positionRequiresUpdate: true, isForwarding: false)),
+            _buildIconButton(
+                icon: isPlaying ? Icons.pause : Ionicons.play,
+                backgroundColor: AppColors.secondary,
+                iconColor:
+                    isLoading ? AppColors.inactive : AppColors.onSecondary,
+                callback: isLoading ? () {} : bloc.togglePlayerStatus,
+                iconSize: 25.dw),
+            _buildIconButton(
+                iconSize: 35.dw,
+                icon: Icons.forward_30_outlined,
+                iconColor:
+                    isInactive ? AppColors.inactive : AppColors.onPrimary2,
+                callback: () =>
+                    bloc.changePosition(30000, positionRequiresUpdate: true)),
+            isPlayingSeries
+                ? _buildIconButton(
+                    iconSize: 35.dw,
+                    iconColor:
+                        isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                    icon: EvaIcons.skipForwardOutline,
+                    callback: bloc.skipToNext)
+                : Container()
+          ]),
+    );
   }
 
   _buildIconButton(
