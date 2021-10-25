@@ -38,31 +38,27 @@ class AppTopBar extends StatelessWidget {
             backgroundColor: AppColors.background,
             automaticallyImplyLeading: false,
             iconTheme: const IconThemeData(color: AppColors.onSecondary2),
-            title: const AppText('Podcasts', size: 20, weight: 600),
+            title: AppText('Podcasts', size: 20.w, weight: 600),
           )
         : AppBar(
-            centerTitle: true,
+            automaticallyImplyLeading: false,
             title: AppText(
               isEpisodePage
                   ? 'Episode'
                   : isChannelPage
                       ? 'Channel'
                       : 'Series',
-              size: 20,
+              size: 20.w,
               weight: 400,
               family: FontFamily.workSans,
             ),
             iconTheme: const IconThemeData(color: AppColors.onSecondary),
             leading: IconButton(
-                padding: const EdgeInsets.only(left: 14),
-                icon: const Icon(EvaIcons.arrowBackOutline),
+                padding: EdgeInsets.zero,
+                icon: Icon(EvaIcons.arrowBackOutline, size: 25.dw),
                 onPressed: () => Navigator.pop(context)),
             backgroundColor: AppColors.background,
             elevation: 0,
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
-              const SizedBox(width: 8)
-            ],
           );
   }
 }

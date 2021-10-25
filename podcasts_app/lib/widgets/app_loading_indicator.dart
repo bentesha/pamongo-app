@@ -24,7 +24,7 @@ class AppLoadingIndicator extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation(AppColors.secondary)),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: AppText(message!),
+                    child: AppText(message!, size: 16.w),
                   )
                 ],
               )

@@ -16,11 +16,7 @@ class EpisodeTitle extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 10),
       Row(children: [
-        AppImage(
-            borderRadius: const BorderRadius.all(Radius.circular(7)),
-            image: image,
-            height: 36.w,
-            width: 36.w),
+        AppImage(image: image, height: 36.w, width: 36.w, radius: 7.dw),
         const SizedBox(width: 10),
         SizedBox(
           height: 45.dh,

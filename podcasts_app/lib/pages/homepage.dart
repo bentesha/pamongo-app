@@ -78,7 +78,7 @@ class _HomepageState extends State<Homepage> {
         children: [
           _buildSeries(),
           _buildRecent(episodeList, supplements),
-          shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
+          shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 15.dh)
         ],
       ),
     );
@@ -93,7 +93,7 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 24.dw, top: 8.dh),
+          padding: EdgeInsets.only(left: 18.dw, top: 8.dh),
           child: AppText('Series',
               family: FontFamily.casual,
               weight: 400,
@@ -101,28 +101,25 @@ class _HomepageState extends State<Homepage> {
               color: AppColors.header),
         ),
         SizedBox(height: 10.dh),
-        SizedBox(
-            height: 180.dh,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: seriesList.length,
-              itemBuilder: (context, index) {
-                final series = seriesList[index];
-                final isFirst = index == 0;
-                final isLast = index == 4;
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: seriesList.map((series) {
+              final index = seriesList.indexOf(series);
+              final isFirst = index == 0;
+              final isLast = index == 4;
 
-                return Container(
+              return Container(
                   margin: EdgeInsets.only(
-                      left: isFirst ? 24.dw : 10.dw, right: isLast ? 12.dw : 0),
+                      left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
                     child: SizedBox(width: 96.dw, child: SeriesWidget(series)),
-                  ),
-                );
-              },
-            )),
-        SizedBox(height: 5.dh),
+                  ));
+            }).toList(),
+          ),
+        ),
+        SizedBox(height: 15.dh),
       ],
     );
   }
@@ -151,7 +148,7 @@ class _HomepageState extends State<Homepage> {
       children: [
         Container(height: 1, color: AppColors.separator),
         Padding(
-            padding: EdgeInsets.only(left: 24.dw, right: 20.dw),
+            padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
             child: GestureDetector(
                 onTap: () => EpisodePage.navigateTo(context, episode),
                 child: EpisodeTile(Pages.homepage,
@@ -160,7 +157,7 @@ class _HomepageState extends State<Homepage> {
                     duration: Utils.convertFrom(episode.duration,
                         includeSeconds: false),
                     episode: episode,
-                    actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 5.dh)))),
+                    actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 8.dh)))),
       ],
     );
   }

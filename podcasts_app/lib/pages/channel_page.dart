@@ -58,11 +58,10 @@ class _ChannelPageState extends State<ChannelPage> {
 
   Widget _buildContent(Channel channel, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
-    log(shouldLeaveSpace.toString());
-    return ListView(children: [
+    return ListView(padding: EdgeInsets.zero, children: [
       _buildTitle(channel),
       _buildSeriesList(channel),
-      shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
+      shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 10.dh)
     ]);
   }
 
@@ -72,19 +71,23 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildAppBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
+      preferredSize: Size.fromHeight(50.dh),
       child: AppTopBars.channelPage(context),
     );
   }
 
   _buildTitle(Channel channel) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 10.dh),
+      padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 10.dh),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
-          height: 150,
+          height: 150.dh,
           child: Row(children: [
-            AppImage(image: channel.channelImage, height: 150.w, width: 150.w),
+            AppImage(
+                image: channel.channelImage,
+                height: 150.w,
+                width: 150.w,
+                radius: 10),
             SizedBox(width: 10.dw),
             Expanded(
               child: Column(
@@ -97,7 +100,7 @@ class _ChannelPageState extends State<ChannelPage> {
                       weight: 600,
                       size: 25.w),
                   SizedBox(height: 5.dh),
-                  AppText(channel.channelOwner, size: 16.w),
+                  AppText('by ' + channel.channelOwner, size: 15.w),
                   SizedBox(height: 5.dh),
                 ],
               ),
@@ -121,9 +124,9 @@ class _ChannelPageState extends State<ChannelPage> {
         children: [
           Container(height: 1, color: AppColors.separator),
           Padding(
-            padding: EdgeInsets.fromLTRB(24.dh, 10.dw, 10.dh, 0),
-            child: const AppText('My Series',
-                size: 18, weight: 400, family: FontFamily.casual),
+            padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
+            child: AppText('My Series',
+                size: 18.w, weight: 400, family: FontFamily.casual),
           ),
           SizedBox(height: 10.dh),
           ListView(
@@ -145,19 +148,22 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.separator),
       Padding(
-          padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 5.dh),
+          padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 5.dh),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               children: [
-                AppImage(image: series.image, width: 50.w, height: 50.w),
+                AppImage(
+                    image: series.image, width: 50.w, height: 50.w, radius: 10),
                 SizedBox(width: 10.dw),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppText(series.name, family: FontFamily.louis, weight: 600),
+                    AppText(series.name,
+                        size: 16.w, family: FontFamily.louis, weight: 600),
                     SizedBox(height: 3.dh),
-                    const AppText('Episodes : 24',
+                    AppText('Episodes : 24',
+                        size: 16.w,
                         family: FontFamily.louis,
                         weight: 400,
                         color: AppColors.onSecondary)
@@ -167,7 +173,7 @@ class _ChannelPageState extends State<ChannelPage> {
             ),
             SizedBox(height: 10.dh),
             AppText(series.description,
-                size: 15,
+                size: 15.w,
                 family: FontFamily.workSans,
                 color: AppColors.onSecondary2),
             _buildGoToSeriesButton(series)
@@ -176,21 +182,26 @@ class _ChannelPageState extends State<ChannelPage> {
   }
 
   _buildGoToSeriesButton(Series series) {
-    return TextButton(
-        onPressed: () => SeriesPage.navigateTo(context, series),
-        style: TextButton.styleFrom(
-          maximumSize: Size.fromWidth(130.dw),
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(color: AppColors.inactive, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(Icons.podcasts, color: AppColors.secondary, size: 20.dw),
-            AppText('Visit Series', size: 15.w),
-          ],
-        ));
+    return Container(
+      height: 35.dh,
+      margin: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
+      child: TextButton(
+          onPressed: () => SeriesPage.navigateTo(context, series),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 5.dw),
+            maximumSize: Size.fromWidth(120.dw),
+            shape: RoundedRectangleBorder(
+                side: const BorderSide(color: AppColors.inactive, width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(10.dw))),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(Icons.podcasts, color: AppColors.secondary, size: 20.dw),
+              AppText('Visit Series', size: 15.w),
+            ],
+          )),
+    );
   }
 }

@@ -8,17 +8,14 @@ class SeriesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
-        child: AppImage(image: series.image, height: 96.w, width: 96.w),
-      ),
+      AppImage(image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
       SizedBox(height: 9.dh),
       AppText(series.name,
           family: FontFamily.workSans,
           alignment: TextAlign.start,
           size: 14.w,
           weight: 400),
-      const SizedBox(height: 5),
+      SizedBox(height: 5.dh),
       AppText(series.channel,
           size: 12.w,
           family: FontFamily.workSans,

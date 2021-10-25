@@ -46,7 +46,7 @@ class _EpisodePageState extends State<EpisodePage> {
 
   _buildAppBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
+      preferredSize: Size.fromHeight(50.dh),
       child: AppTopBars.episodePage(context),
     );
   }
@@ -79,17 +79,17 @@ class _EpisodePageState extends State<EpisodePage> {
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
     return ListView(
+      padding: EdgeInsets.zero,
       children: [
         Padding(
-            padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 20.dh),
+            padding: EdgeInsets.fromLTRB(18.dw, 0, 15.dw, 20.dh),
             child: EpisodeTile(Pages.episodePage,
                 status: status,
                 episode: episode,
-                duration: Utils.convertFrom(episode.duration,
-                    includeSeconds: false),
+                duration:
+                    Utils.convertFrom(episode.duration, includeSeconds: false),
                 playCallback: isInactive ? () {} : bloc.play,
-                actionPadding:
-                    EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh))),
+                actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh))),
         _buildButton(episode)
       ],
     );
@@ -110,10 +110,11 @@ class _EpisodePageState extends State<EpisodePage> {
                 description: episode.description,
                 channel: episode.channel,
                 episodeList: seriesEpisodeList)),
-        child: const AppText(
+        child: AppText(
           'View All Episodes',
           color: AppColors.header,
           family: FontFamily.louis,
+          size: 16.w,
           weight: 600,
         ),
       ),

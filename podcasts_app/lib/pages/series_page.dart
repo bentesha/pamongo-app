@@ -65,7 +65,7 @@ class _SeriesPageState extends State<SeriesPage> {
     return ListView(children: [
       _buildTitle(),
       _buildBodyContent(envelopeList, supplements),
-      shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
+      shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
     ]);
   }
 
@@ -78,7 +78,7 @@ class _SeriesPageState extends State<SeriesPage> {
 
   _buildTitle() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(24.dw, 10.dh, 15.dw, 10.dh),
+      padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 10.dh),
       child: Column(children: [
         SizedBox(
           height: 100.dh,
@@ -88,16 +88,17 @@ class _SeriesPageState extends State<SeriesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(series.name,
-                      family: FontFamily.workSans, weight: 600),
+                      size: 16.w, family: FontFamily.workSans, weight: 600),
                   SizedBox(height: 8.dh),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
                         channelName: series.channel),
                     child: Text(
                       series.channel,
-                      style: const TextStyle(
+                      style: TextStyle(
+                        fontSize: 16.dw,
                         fontFamily: 'WorkSans',
-                        shadows: [
+                        shadows: const [
                           Shadow(color: Colors.black, offset: Offset(0, -5))
                         ],
                         color: Colors.transparent,
@@ -112,7 +113,8 @@ class _SeriesPageState extends State<SeriesPage> {
               ),
             ),
             SizedBox(width: 10.dw),
-            AppImage(image: series.image, height: 96.h, width: 96.h),
+            AppImage(
+                image: series.image, height: 96.h, width: 96.h, radius: 10.dw),
             SizedBox(width: 10.dw),
           ]),
         ),
@@ -143,7 +145,7 @@ class _SeriesPageState extends State<SeriesPage> {
           margin: EdgeInsets.only(top: 10.dh),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(24.dw, 0, 10.dw, 0),
+          padding: EdgeInsets.fromLTRB(18.dw, 0, 10.dw, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -195,7 +197,7 @@ class _SeriesPageState extends State<SeriesPage> {
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
     return Padding(
-      padding: EdgeInsets.only(left: 24.dw),
+      padding: EdgeInsets.only(left: 18.dw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -216,7 +218,7 @@ class _SeriesPageState extends State<SeriesPage> {
             status: status,
             duration:
                 Utils.convertFrom(episode.duration, includeSeconds: false),
-            actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 5.dh),
+            actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
           )
         ],
       ),
@@ -232,47 +234,41 @@ class _SeriesPageState extends State<SeriesPage> {
         onSelected: bloc.sort,
         padding: EdgeInsets.zero,
         itemBuilder: (context) => [
-              const PopupMenuItem(
+              PopupMenuItem(
+                height: 35.dh,
                 enabled: false,
-                child:
-                    AppText("Sort by", weight: 400, family: FontFamily.casual),
+                child: AppText("Sort by",
+                    weight: 400, size: 16.w, family: FontFamily.casual),
                 value: 0,
               ),
               PopupMenuItem(
-                child: _buildPopupMenuItem(
-                    isLastToFirst, 'latest', 'assets/images/sortUp.svg'),
+                height: 35.dh,
+                child: _buildPopupMenuItem(isLastToFirst, 'latest'),
                 value: 1,
               ),
               PopupMenuItem(
-                child: _buildPopupMenuItem(
-                    isFirstToLast, 'oldest', 'assets/images/sortDown.svg'),
+                height: 35.dh,
+                child: _buildPopupMenuItem(isFirstToLast, 'oldest'),
                 value: 2,
               ),
             ]);
   }
 
-  _buildPopupMenuItem(bool isSelected, String text, String imagePath) {
+  _buildPopupMenuItem(bool isSelected, String text) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.dh),
+      padding: EdgeInsets.only(left: 10.dw),
       decoration: BoxDecoration(
-          border: Border.all(
-              width: isSelected ? 2 : 0,
-              color: isSelected ? AppColors.header : Colors.transparent),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(imagePath,
-              height: 25.dh, fit: BoxFit.contain, color: AppColors.onSecondary),
-          SizedBox(width: 10.dw),
-          AppText(text,
-              weight: 400,
-              size: 14.w,
-              family: FontFamily.casual,
-              color: AppColors.onSecondary),
-        ],
-      ),
+          border: Border(
+        left: BorderSide(
+            width: isSelected ? 4.dw : 0,
+            color: isSelected ? AppColors.secondary : Colors.transparent),
+      )),
+      alignment: Alignment.centerLeft,
+      child: AppText(text,
+          weight: 400,
+          size: 14.w,
+          family: FontFamily.casual,
+          color: AppColors.onSecondary),
     );
   }
 }

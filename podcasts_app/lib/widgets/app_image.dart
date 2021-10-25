@@ -1,14 +1,14 @@
 import 'package:podcasts/source.dart';
 
 class AppImage extends StatelessWidget {
-  final BorderRadiusGeometry borderRadius;
   final String image;
   final int width, height;
+  final double radius;
   final bool fullWidth, leaveHeight, withBorders;
   const AppImage(
       {Key? key,
-      this.borderRadius = const BorderRadius.all(Radius.circular(10)),
       required this.image,
+      required this.radius,
       this.height = 180,
       this.fullWidth = false,
       this.leaveHeight = false,
@@ -18,6 +18,7 @@ class AppImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final borderRadius = BorderRadius.all(Radius.circular(radius));
     return leaveHeight
         ? Container(
             width: fullWidth ? double.maxFinite : width.toDouble(),
@@ -28,9 +29,9 @@ class AppImage extends StatelessWidget {
                 Container(
                     constraints: const BoxConstraints.expand(),
                     alignment: Alignment.center,
-                    child: const Icon(
+                    child: Icon(
                       Icons.podcasts,
-                      size: 25,
+                      size: 25.dw,
                       color: AppColors.onSecondary2,
                     )),
                 Container(
@@ -60,9 +61,9 @@ class AppImage extends StatelessWidget {
                 Container(
                     constraints: const BoxConstraints.expand(),
                     alignment: Alignment.center,
-                    child: const Icon(
+                    child: Icon(
                       Icons.podcasts,
-                      size: 25,
+                      size: 25.dw,
                       color: AppColors.onSecondary2,
                     )),
                 Container(

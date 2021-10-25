@@ -5,7 +5,7 @@ enum FontFamily { workSans, casual, redhat, louis }
 class AppText extends StatefulWidget {
   const AppText(this.data,
       {this.weight = 400,
-      this.size = 16,
+      required this.size,
       this.family = FontFamily.redhat,
       this.color = AppColors.onSecondary,
       this.alignment = TextAlign.justify,

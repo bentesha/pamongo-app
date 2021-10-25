@@ -52,17 +52,13 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     return Container(
       color: AppColors.primary,
       width: MediaQuery.of(context).size.width,
-      child: Stack(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          ListView(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              _buildInitial(content),
-              _buildContent(content),
-            ],
-          ),
+          _buildInitial(content),
+          _buildContent(content),
         ],
       ),
     );
@@ -97,61 +93,67 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   _buildContent(ProgressIndicatorContent content) {
     final episode = content.episodeList[content.currentIndex];
 
-    return Column(children: [
-      _buildTitle(episode),
-      _buildSlider(content),
-      _buildActions(content),
-    ]);
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30.dw, 10.dh, 30.dw, 0),
+      child: Column(children: [
+        _buildTitle(episode),
+        _buildSlider(content),
+        _buildActions(content),
+      ]),
+    );
   }
 
   _buildTitle(Episode episode) {
     return Column(children: [
       _buildSeriesImage(episode.image),
-      Padding(
-          padding: EdgeInsets.fromLTRB(30.dw, 20.dh, 30.dw, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10.dh),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(episode.title,
-                      color: AppColors.onPrimary,
-                      size: 20.w,
-                      weight: 600,
-                      family: FontFamily.louis),
-                  Icon(EvaIcons.heartOutline,
-                      size: 25.dw, color: AppColors.onPrimary2)
-                ],
+              SizedBox(
+                height: 20.dh,
+                child: AppText(episode.title,
+                    color: AppColors.onPrimary,
+                    size: 18.w,
+                    weight: 600,
+                    family: FontFamily.louis),
               ),
-              SizedBox(height: 5.dh),
-              AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
-                  color: AppColors.onPrimary2,
-                  size: 16.w,
-                  family: FontFamily.louis),
+              Icon(EvaIcons.heartOutline,
+                  size: 25.dw, color: AppColors.onPrimary2)
             ],
-          )),
+          ),
+          SizedBox(height: 5.dh),
+          AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
+              color: AppColors.onPrimary2,
+              size: 16.w,
+              family: FontFamily.louis),
+        ],
+      ),
     ]);
   }
 
   _buildSeriesImage(String image) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 10.dh, bottom: 10.dh),
+      padding: EdgeInsets.only(top: 5.dh, bottom: 5.dh),
       child: Column(
         children: [
           Container(
               height: 4.dh,
               width: 25.dw,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   color: AppColors.separator,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: EdgeInsets.only(bottom: 30.dh)),
+                  borderRadius: BorderRadius.all(Radius.circular(10.dw))),
+              margin: EdgeInsets.only(bottom: 20.dh)),
           AppImage(
+            radius: 10.dw,
             image: image,
-            height: 300.w,
-            width: 350.w,
+            height: 285.h,
+            fullWidth: true,
             withBorders: true,
           ),
         ],
@@ -165,14 +167,16 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final duration = episode.duration.toDouble();
     final isCurrentBigger = currentPosition >= duration;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10.dw, 10.dh, 10.dw, 30.dh),
-      child: Column(
-        children: [
-          SliderTheme(
-            data: const SliderThemeData(
-                trackHeight: 3,
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6)),
+    return Column(
+      children: [
+        Container(
+          height: 30.dh,
+          margin: EdgeInsets.fromLTRB(0, 20.dh, 0, 10.dh),
+          child: SliderTheme(
+            data: SliderThemeData(
+                trackHeight: 3.dh,
+                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.dw),
+                overlayShape: SliderComponentShape.noThumb),
             child: Slider(
                 activeColor: AppColors.secondary,
                 inactiveColor: AppColors.onPrimary2,
@@ -182,9 +186,10 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     .toDouble(),
                 onChanged: bloc.changePosition),
           ),
-          _buildLabels(content)
-        ],
-      ),
+        ),
+        _buildLabels(content),
+        SizedBox(height: 15.dh)
+      ],
     );
   }
 
@@ -196,7 +201,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final hasFailedToBuffer = content.playerState == errorState;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.dw),
+      padding: EdgeInsets.only(left: 6.dw, right: 4.dw, bottom: 10.dh),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +214,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                          padding: EdgeInsets.fromLTRB(20.dw, 0, 0, 0),
+                          padding: EdgeInsets.fromLTRB(15.dw, 0, 0, 0),
                           child: AppText(
                               isLoading ? 'buffering ... ' : 'couldn\'t play',
                               color: AppColors.onPrimary2,
@@ -237,12 +242,14 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
         children: [
           isPlayingSeries
               ? _buildIconButton(
+                  iconSize: 35.dw,
                   iconColor:
                       isLoading ? AppColors.inactive : AppColors.onPrimary2,
                   icon: EvaIcons.skipBackOutline,
                   callback: bloc.skipToPrev)
               : Container(),
           _buildIconButton(
+              iconSize: 35.dw,
               iconColor: isLoading ? AppColors.inactive : AppColors.onPrimary2,
               icon: Icons.replay_10_outlined,
               callback: () => bloc.changePosition(10000,
@@ -252,14 +259,16 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               backgroundColor: AppColors.secondary,
               iconColor: isLoading ? AppColors.inactive : AppColors.onSecondary,
               callback: isLoading ? () {} : bloc.togglePlayerStatus,
-              iconSize: 25),
+              iconSize: 25.dw),
           _buildIconButton(
+              iconSize: 35.dw,
               icon: Icons.forward_30_outlined,
               iconColor: isInactive ? AppColors.inactive : AppColors.onPrimary2,
               callback: () =>
                   bloc.changePosition(30000, positionRequiresUpdate: true)),
           isPlayingSeries
               ? _buildIconButton(
+                  iconSize: 35.dw,
                   iconColor:
                       isLoading ? AppColors.inactive : AppColors.onPrimary2,
                   icon: EvaIcons.skipForwardOutline,
@@ -273,14 +282,14 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
       IconData icon = Icons.home,
-      int iconSize = 35}) {
+      required double iconSize}) {
     return TextButton(
-        child: Icon(icon, color: iconColor, size: iconSize.dw),
+        child: Icon(icon, color: iconColor, size: iconSize),
         onPressed: callback,
         style: TextButton.styleFrom(
             shape: const CircleBorder(),
             backgroundColor: backgroundColor,
-            minimumSize: const Size.fromRadius(30)));
+            minimumSize: Size.fromRadius(25.dw)));
   }
 
   Widget _initialWidget(ProgressIndicatorContent content) {
@@ -305,8 +314,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     padding: EdgeInsets.symmetric(horizontal: 10.dw),
                     child: episode.image == ''
                         ? Container(
-                            height: 50.dw,
-                            width: 50.dw,
+                            height: 50.dh,
+                            width: 50.dh,
                             alignment: Alignment.center,
                             child: Icon(
                               Icons.podcasts,
@@ -315,8 +324,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                             ))
                         : AppImage(
                             image: episode.image,
-                            height: 50.w,
-                            width: 50.w,
+                            radius: 7.dw,
+                            height: 50.h,
+                            width: 50.h,
                             withBorders: true),
                   ),
                   Column(
@@ -326,14 +336,15 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                       AppText(
                         episode.title,
                         color: AppColors.onPrimary,
-                        size: 16.w,
+                        size: 15.w,
                         weight: 600,
                         family: FontFamily.louis,
                       ),
+                      SizedBox(height: 3.dh),
                       AppText('Ep. ${episode.episodeNumber}',
                           family: FontFamily.louis,
                           color: AppColors.onPrimary2,
-                          size: 16.w),
+                          size: 15.w),
                     ],
                   ),
                 ],
@@ -347,14 +358,14 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   : IconButton(
                       onPressed: bloc.togglePlayerStatus,
                       icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                          color: AppColors.onPrimary2),
+                          color: AppColors.onPrimary2, size: 25.dw),
                       padding: EdgeInsets.symmetric(horizontal: 20.dw),
                     ),
             ],
           ),
         ),
         Container(
-            height: 4,
+            height: 4.dh,
             color: AppColors.secondary,
             width: content.currentPosition == 0 ? 0 : loadingWidth)
       ],

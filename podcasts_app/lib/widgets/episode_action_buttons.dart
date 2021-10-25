@@ -30,11 +30,11 @@ class EpisodeActionButtons extends StatelessWidget {
         GestureDetector(
           onTap: playCallback,
           child: Container(
-              height: 32.dh,
-              padding: EdgeInsets.fromLTRB(10.dw, 0, 10.dw, 0),
+              height: 35.dh,
+              padding: EdgeInsets.fromLTRB(8.dw, 0, 8.dw, 0),
               margin: EdgeInsets.fromLTRB(0, 0, 10.dw, 0),
               decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10.dw)),
                   color: isPaused || isPlaying
                       ? AppColors.primary
                       : Colors.transparent,
@@ -52,9 +52,9 @@ class EpisodeActionButtons extends StatelessWidget {
                                 fit: BoxFit.contain, height: 10.dh)
                             : isPaused
                                 ? Icon(AppIcons.play,
-                                    color: AppColors.onPrimary2, size: 22.dw)
+                                    color: AppColors.onPrimary2, size: 20.dw)
                                 : Icon(AppIcons.playCircled,
-                                    color: AppColors.secondary, size: 22.dw),
+                                    color: AppColors.secondary, size: 20.dw),
                     AppText(
                         isOnHomepage
                             ? '  ' + status
@@ -84,6 +84,7 @@ class EpisodeActionButtons extends StatelessWidget {
         IconButton(
             onPressed: () {},
             constraints: const BoxConstraints(),
+            padding: const EdgeInsets.all(0),
             icon: Icon(AppIcons.download,
                 color: AppColors.secondary, size: 22.dw))
       ]),

@@ -10,9 +10,9 @@ class AudioProgressWidget extends StatefulWidget {
 class _AudioProgressWidgetState extends State<AudioProgressWidget> {
   static double startValue = 0;
   static double endValue = 0;
-  static double initialHeight = 796.3.dh;
-  static double maxTopGlobalOffset = 255.dh;
-  ValueNotifier<double> notifier = ValueNotifier(initialHeight);
+  static double initialOffset = 796.3.dh;
+  static double maxTopGlobalOffset = 275.dh;
+  ValueNotifier<double> notifier = ValueNotifier(initialOffset);
   ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);
 
   @override
@@ -54,7 +54,7 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
       isShowInitialWidgetNotifier.value = false;
       return;
     }
-    notifier.value = initialHeight;
+    notifier.value = initialOffset;
     await showInitial();
   }
 
@@ -62,8 +62,8 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
     endValue = details.globalPosition.dy;
     final isDraggingDownwards = endValue > startValue;
 
-    if (isDraggingDownwards && endValue > initialHeight) {
-      notifier.value = initialHeight;
+    if (isDraggingDownwards && endValue > initialOffset) {
+      notifier.value = initialOffset;
       await showInitial();
       return;
     }
@@ -72,7 +72,7 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
       notifier.value = maxTopGlobalOffset;
       return;
     }
-    if (endValue < initialHeight) {
+    if (endValue < initialOffset) {
       isShowInitialWidgetNotifier.value = false;
     }
     notifier.value = details.globalPosition.dy - 80.dh;
@@ -90,7 +90,7 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
       notifier.value = maxTopGlobalOffset;
       return;
     }
-    notifier.value = initialHeight;
+    notifier.value = initialOffset;
     await showInitial();
   }
 
