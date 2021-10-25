@@ -1,5 +1,6 @@
 import 'package:lottie/lottie.dart';
 import '../source.dart';
+
 class AppLoadingIndicator extends StatelessWidget {
   final String? message;
   final Color backgroundColor;
