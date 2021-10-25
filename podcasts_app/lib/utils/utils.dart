@@ -43,7 +43,7 @@ class Utils {
     final minutesRemainder = hoursRemainder.remainder(60000);
     final seconds = (minutesRemainder / 1000).round();
 
-    String hoursString = hours == 0 ? '' : hours.toString();
+    String hoursString = hours.toString();
     String minutesString = minutes.toString();
     String secondsString = seconds.toString();
 
@@ -66,8 +66,12 @@ class Utils {
     }
 
     return includeSeconds
-        ? hoursString + minutesString + ' : ' + secondsString
-        : hoursString + minutesString;
+        ? hours == 0
+            ? minutesString + ' : ' + secondsString
+            : hoursString + ' : ' + minutesString + ' : ' + secondsString
+        : hours == 0
+            ? minutesString
+            : hoursString + minutesString;
   }
 
   static String _getLabelFrom(int duration, bool withLabels, String label) {
