@@ -41,7 +41,7 @@ class AppTopBar extends StatelessWidget {
             title: const AppText('Podcasts', size: 20, weight: 600),
           )
         : AppBar(
-            centerTitle: true,
+            centerTitle: false,
             title: AppText(
               isEpisodePage
                   ? 'Episode'
@@ -52,17 +52,6 @@ class AppTopBar extends StatelessWidget {
               weight: 400,
               family: FontFamily.workSans,
             ),
-            iconTheme: const IconThemeData(color: AppColors.onSecondary),
-            leading: IconButton(
-                padding: const EdgeInsets.only(left: 14),
-                icon: const Icon(EvaIcons.arrowBackOutline),
-                onPressed: () => Navigator.pop(context)),
-            backgroundColor: AppColors.background,
-            elevation: 0,
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
-              const SizedBox(width: 8)
-            ],
           );
   }
 }

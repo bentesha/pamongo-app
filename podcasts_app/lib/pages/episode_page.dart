@@ -81,7 +81,7 @@ class _EpisodePageState extends State<EpisodePage> {
     return ListView(
       children: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(24, 10, 15, 20),
+            padding: const EdgeInsets.fromLTRB(18, 10, 15, 20),
             child: EpisodeTile(Pages.episodePage,
                 status: status,
                 episode: episode,

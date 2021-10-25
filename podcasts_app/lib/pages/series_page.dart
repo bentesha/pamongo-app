@@ -78,7 +78,7 @@ class _SeriesPageState extends State<SeriesPage> {
 
   _buildTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 10, 15, 10),
+      padding: const EdgeInsets.fromLTRB(18, 10, 15, 10),
       child: Column(children: [
         SizedBox(
           height: 100,
@@ -143,7 +143,7 @@ class _SeriesPageState extends State<SeriesPage> {
           margin: const EdgeInsets.only(top: 10),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24, 0, 10, 0),
+          padding: const EdgeInsets.fromLTRB(18, 0, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -195,7 +195,7 @@ class _SeriesPageState extends State<SeriesPage> {
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 24),
+      padding: const EdgeInsets.only(left: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

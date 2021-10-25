@@ -93,7 +93,7 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 24, top: 8),
+          padding: EdgeInsets.only(left: 18, top: 8),
           child: AppText('Series',
               family: FontFamily.casual,
               weight: 400,
@@ -113,7 +113,7 @@ class _HomepageState extends State<Homepage> {
 
                 return Container(
                   margin: EdgeInsets.only(
-                      left: isFirst ? 24 : 10, right: isLast ? 12 : 0),
+                      left: isFirst ? 18 : 10, right: isLast ? 12 : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
                     child: SizedBox(width: 96, child: SeriesWidget(series)),
@@ -150,7 +150,7 @@ class _HomepageState extends State<Homepage> {
       children: [
         Container(height: 1, color: AppColors.separator),
         Padding(
-            padding: const EdgeInsets.only(left: 24, right: 20),
+            padding: const EdgeInsets.only(left: 18, right: 20),
             child: GestureDetector(
                 onTap: () => EpisodePage.navigateTo(context, episode),
                 child: EpisodeTile(Pages.homepage,

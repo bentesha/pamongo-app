@@ -79,7 +79,7 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildTitle(Channel channel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 10, 15, 10),
+      padding: const EdgeInsets.fromLTRB(18, 10, 15, 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
           height: 150,
@@ -121,7 +121,7 @@ class _ChannelPageState extends State<ChannelPage> {
         children: [
           Container(height: 1, color: AppColors.separator),
           const Padding(
-            padding: EdgeInsets.fromLTRB(24, 10, 10, 0),
+            padding: EdgeInsets.fromLTRB(18, 10, 10, 0),
             child: AppText('My Series',
                 size: 18, weight: 400, family: FontFamily.casual),
           ),
@@ -145,7 +145,7 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.separator),
       Padding(
-          padding: const EdgeInsets.fromLTRB(24, 10, 15, 5),
+          padding: const EdgeInsets.fromLTRB(18, 10, 15, 5),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
