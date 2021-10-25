@@ -233,7 +233,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
 
     return Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           isPlayingSeries
               ? _buildIconButton(
