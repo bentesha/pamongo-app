@@ -25,6 +25,10 @@ class AudioPlayerService {
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
 
+  //TODO
+  //on popping to prev page, if the audio player widget was expanded, it then should
+  //be lowered after then it can be popped to that prev. page.
+
   Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     _updateContentWith(
         episodeList: episodeList,

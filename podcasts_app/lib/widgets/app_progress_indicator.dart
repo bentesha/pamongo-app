@@ -149,12 +149,14 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   color: AppColors.separator,
                   borderRadius: BorderRadius.all(Radius.circular(10.dw))),
               margin: EdgeInsets.only(bottom: 20.dh)),
-          AppImage(
-            radius: 10.dw,
-            image: image,
-            height: 285.h,
-            fullWidth: true,
-            withBorders: true,
+          SizedBox(
+            child: AppImage(
+              radius: 10.dw,
+              image: image,
+              height: 285.h,
+              fullWidth: true,
+              withBorders: true,
+            ),
           ),
         ],
       ),
