@@ -5,9 +5,9 @@ import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/channel_page_state.dart';
+import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
 
 class ChannelPage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return ListView(padding: EdgeInsets.zero, children: [
       _buildTitle(channel),
       _buildSeriesList(channel),
-      shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 10.dh)
+      shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
     ]);
   }
 
@@ -95,12 +95,10 @@ class _ChannelPageState extends State<ChannelPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(widget.channelName,
-                      alignment: TextAlign.start,
-                      family: FontFamily.workSans,
-                      weight: 600,
-                      size: 25.w),
+                      alignment: TextAlign.start, weight: 700, size: 25.w),
                   SizedBox(height: 5.dh),
-                  AppText('by ' + channel.channelOwner, size: 15.w),
+                  AppText('by ' + channel.channelOwner,
+                      size: 14.w, weight: 600, color: AppColors.onSecondary2),
                   SizedBox(height: 5.dh),
                 ],
               ),
@@ -118,7 +116,7 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildSeriesList(Channel channel) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 10.dw),
+      padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -149,59 +147,7 @@ class _ChannelPageState extends State<ChannelPage> {
           : Container(height: 1, color: AppColors.separator),
       Padding(
           padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 5.dh),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: [
-                AppImage(
-                    image: series.image, width: 50.w, height: 50.w, radius: 10),
-                SizedBox(width: 10.dw),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(series.name,
-                        size: 16.w, family: FontFamily.louis, weight: 600),
-                    SizedBox(height: 3.dh),
-                    AppText('Episodes : 24',
-                        size: 16.w,
-                        family: FontFamily.louis,
-                        weight: 400,
-                        color: AppColors.onSecondary)
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 10.dh),
-            AppText(series.description,
-                size: 15.w,
-                family: FontFamily.workSans,
-                color: AppColors.onSecondary2),
-            _buildGoToSeriesButton(series)
-          ])),
+          child: SeriesWidget(series)),
     ]);
-  }
-
-  _buildGoToSeriesButton(Series series) {
-    return Container(
-      height: 35.dh,
-      margin: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
-      child: TextButton(
-          onPressed: () => SeriesPage.navigateTo(context, series),
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 5.dw),
-            maximumSize: Size.fromWidth(120.dw),
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.inactive, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10.dw))),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.podcasts, color: AppColors.secondary, size: 20.dw),
-              AppText('Visit Series', size: 15.w),
-            ],
-          )),
-    );
   }
 }

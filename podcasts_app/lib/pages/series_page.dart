@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:podcasts/blocs/series_page_bloc.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
@@ -88,7 +87,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(series.name,
-                      size: 16.w, family: FontFamily.workSans, weight: 600),
+                      size: 16.w, family: FontFamily.louis, weight: 600),
                   SizedBox(height: 8.dh),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
@@ -96,14 +95,15 @@ class _SeriesPageState extends State<SeriesPage> {
                     child: Text(
                       series.channel,
                       style: TextStyle(
-                        fontSize: 16.dw,
-                        fontFamily: 'WorkSans',
+                        fontSize: 14.dw,
+                        fontFamily: 'Louis',
+                        fontWeight: FontWeight.w500,
                         shadows: const [
-                          Shadow(color: Colors.black, offset: Offset(0, -5))
+                          Shadow(color: AppColors.header, offset: Offset(0, -5))
                         ],
                         color: Colors.transparent,
                         decoration: TextDecoration.underline,
-                        decorationColor: AppColors.primary,
+                        decorationColor: AppColors.header,
                         decorationThickness: 2,
                         decorationStyle: TextDecorationStyle.dashed,
                       ),
@@ -238,7 +238,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 height: 35.dh,
                 enabled: false,
                 child: AppText("Sort by",
-                    weight: 400, size: 16.w, family: FontFamily.casual),
+                    weight: 600, size: 16.w, family: FontFamily.casual),
                 value: 0,
               ),
               PopupMenuItem(

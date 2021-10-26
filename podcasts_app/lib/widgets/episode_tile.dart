@@ -32,7 +32,7 @@ class EpisodeTile extends StatelessWidget {
         ),
         isDescriptionFirst ? Container() : _buildActions(playCallback),
         AppText(episode.description,
-            family: FontFamily.workSans,
+            family: FontFamily.louis,
             color: AppColors.onSecondary2,
             size: 15.w),
         isDescriptionFirst ? _buildActions(playCallback) : Container(),

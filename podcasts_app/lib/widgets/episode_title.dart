@@ -39,7 +39,7 @@ class EpisodeTitle extends StatelessWidget {
               ]),
         )
       ]),
-      SizedBox(height: 10.dh),
+      SizedBox(height: 5.dh),
       AppText(
         title,
         weight: 600,

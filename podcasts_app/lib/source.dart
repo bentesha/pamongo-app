@@ -38,7 +38,7 @@ final defaultEpisodeList = [
   const Episode(
       id: 3,
       image: thirdImg,
-      duration: 243000,
+      duration: 247000,
       seriesName: 'Business Wars',
       channel: 'Wondery',
       title: 'Introducing Who, When, WOW!',
@@ -139,12 +139,12 @@ final seriesEpisodeList = [
   const Episode(
       id: 8,
       image: firstSeriesImage,
-      duration: 283000,
+      duration: 247000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'Salvation',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/casting_crowns_broken_together_official_music_video_mp3_23726.mp3?alt=media&token=c8856c1b-a3b4-4556-8ba8-87f5bdf4608e',
+          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Gravity%20by%20John%20Mayer.mp3?alt=media&token=5b631f0d-3fae-4208-bebf-d80d4c18d974',
       description: firstSeriesEpisodeDesc4,
       episodeNumber: 4,
       date: 'Feb 12 2020')
@@ -155,7 +155,7 @@ const firstUrl =
 const secondUrl =
     'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20You%20Will%20Be%20Found%20from%20the%20DEAR%20EVAN%20HANSEN%20Original%20Broadway%20Cast%20Recording.mp3?alt=media&token=b473e344-4370-4a98-94cb-e810727344eb';
 const thirdUrl =
-    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Alicia%20Keys%20%20Perfect%20Way%20To%20Die%20Official%20Video.mp3?alt=media&token=9a8fdc59-e261-4505-938e-69d005bc7c96';
+    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Gravity%20by%20John%20Mayer.mp3?alt=media&token=5b631f0d-3fae-4208-bebf-d80d4c18d974';
 const fourthUrl =
     'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Adele%20Hello%20lyrics.mp3?alt=media&token=44b0cdfe-ee8f-4fee-88ef-50e80d46fe83';
 

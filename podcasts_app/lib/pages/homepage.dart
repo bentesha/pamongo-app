@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
@@ -104,6 +105,7 @@ class _HomepageState extends State<Homepage> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
               final isFirst = index == 0;
@@ -114,7 +116,7 @@ class _HomepageState extends State<Homepage> {
                       left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
-                    child: SizedBox(width: 96.dw, child: SeriesWidget(series)),
+                    child: SizedBox(width: 96.dw, child: _series(series)),
                   ));
             }).toList(),
           ),
@@ -122,6 +124,25 @@ class _HomepageState extends State<Homepage> {
         SizedBox(height: 15.dh),
       ],
     );
+  }
+
+  _series(Series series) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      AppImage(image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
+      SizedBox(height: 9.dh),
+      AppText(series.name,
+          family: FontFamily.louis,
+          alignment: TextAlign.start,
+          size: 14.w,
+          weight: 400),
+      SizedBox(height: 5.dh),
+      AppText(series.channel,
+          size: 12.w,
+          family: FontFamily.louis,
+          alignment: TextAlign.start,
+          weight: 400,
+          color: AppColors.onSecondary2)
+    ]);
   }
 
   _buildRecent(List<Episode> episodeList, Supplements supplements) {

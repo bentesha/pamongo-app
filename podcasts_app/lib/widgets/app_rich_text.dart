@@ -21,7 +21,6 @@ class AppRichText extends StatelessWidget {
                         ? richText
                         : richText.substring(0, 200) + ' ...'
                     : richText,
-                family: FontFamily.workSans,
                 size: 16.w,
                 color: AppColors.onSecondary2),
             isLong
