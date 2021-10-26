@@ -4,6 +4,7 @@ import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/foreground_player.dart';
 import 'package:podcasts/widgets/screen_size_init.dart';
 import 'pages/homepage.dart';
+import 'package:audio_session/audio_session.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({key}) : super(key: key);
@@ -23,6 +24,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   initForegroundPlayer(AudioPlayerService service) async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.speech());
     await AudioService.init(
       builder: () => ForegroundPlayer(service),
       config: const AudioServiceConfig(

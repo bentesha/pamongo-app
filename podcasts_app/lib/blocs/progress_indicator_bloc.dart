@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
+import 'package:audio_session/audio_session.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
@@ -17,6 +20,32 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
     service.onIndicatorContentStateChanged.listen((content) {
       _handleContentStream(content);
+    });
+
+    service.onInterruption.listen((event) {
+      log('INTERRUPTION!!!!!!!!!!!!!!');
+      if (event.begin) {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+            // Another app started playing audio and we should duck.
+            break;
+          case AudioInterruptionType.pause:
+          case AudioInterruptionType.unknown:
+            // Another app started playing audio and we should pause.
+            break;
+        }
+      } else {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+            // The interruption ended and we should unduck.
+            break;
+          case AudioInterruptionType.pause:
+          // The interruption ended and we should resume.
+          case AudioInterruptionType.unknown:
+            // The interruption ended but we should not resume.
+            break;
+        }
+      }
     });
   }
 

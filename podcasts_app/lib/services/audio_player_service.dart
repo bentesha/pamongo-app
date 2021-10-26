@@ -7,11 +7,15 @@ import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
+import 'package:audio_session/audio_session.dart';
 
 typedef ContentStream = Stream<ProgressIndicatorContent>;
 typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
+typedef InterruptionStream = Stream<AudioInterruptionEvent>;
 
 class AudioPlayerService {
+  AudioPlayerService({this.session});
+  final AudioSession? session;
   final _player = AudioPlayer();
 
   ProgressIndicatorContent _content = const ProgressIndicatorContent();
@@ -21,6 +25,8 @@ class AudioPlayerService {
   ProgressIndicatorContent get getCurrentContent => _content;
   Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
   int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
+  Stream get onHeadsetOff => session!.becomingNoisyEventStream;
+  InterruptionStream get onInterruption => session!.interruptionEventStream;
 
   Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     _updateContentWith(
