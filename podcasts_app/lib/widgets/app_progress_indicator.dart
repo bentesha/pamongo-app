@@ -149,11 +149,11 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               margin: const EdgeInsets.only(bottom: 30)),
           AppImage(
-            image: image,
-            height: 300,
-            width: 350,
-            withBorders: true,
-          ),
+              image: image,
+              height: 300,
+              width: 350,
+              withBorders: true,
+              radius: 10),
         ],
       ),
     );
@@ -315,6 +315,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                             ))
                         : AppImage(
                             image: episode.image,
+                            radius: 10,
                             height: 50,
                             width: 50,
                             withBorders: true),

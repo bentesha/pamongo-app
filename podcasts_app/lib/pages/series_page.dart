@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:podcasts/blocs/series_page_bloc.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
@@ -88,7 +87,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(series.name,
-                      family: FontFamily.workSans, weight: 600),
+                      size: 16, family: FontFamily.louis, weight: 600),
                   const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
@@ -96,13 +95,15 @@ class _SeriesPageState extends State<SeriesPage> {
                     child: Text(
                       series.channel,
                       style: const TextStyle(
-                        fontFamily: 'WorkSans',
+                        fontSize: 14,
+                        fontFamily: 'Louis',
+                        fontWeight: FontWeight.w500,
                         shadows: [
-                          Shadow(color: Colors.black, offset: Offset(0, -5))
+                          Shadow(color: AppColors.header, offset: Offset(0, -5))
                         ],
                         color: Colors.transparent,
                         decoration: TextDecoration.underline,
-                        decorationColor: AppColors.primary,
+                        decorationColor: AppColors.header,
                         decorationThickness: 2,
                         decorationStyle: TextDecorationStyle.dashed,
                       ),
@@ -112,7 +113,7 @@ class _SeriesPageState extends State<SeriesPage> {
               ),
             ),
             const SizedBox(width: 10),
-            AppImage(image: series.image, height: 96, width: 96),
+            AppImage(image: series.image, height: 96, width: 96, radius: 10),
             const SizedBox(width: 10),
           ]),
         ),
@@ -234,8 +235,8 @@ class _SeriesPageState extends State<SeriesPage> {
         itemBuilder: (context) => [
               const PopupMenuItem(
                 enabled: false,
-                child:
-                    AppText("Sort by", weight: 400, family: FontFamily.casual),
+                child: AppText("Sort by",
+                    weight: 600, size: 16, family: FontFamily.casual),
                 value: 0,
               ),
               PopupMenuItem(
@@ -260,19 +261,11 @@ class _SeriesPageState extends State<SeriesPage> {
               color: isSelected ? AppColors.header : Colors.transparent),
           borderRadius: const BorderRadius.all(Radius.circular(10))),
       alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(imagePath,
-              height: 25, fit: BoxFit.contain, color: AppColors.onSecondary),
-          const SizedBox(width: 10),
-          AppText(text,
-              weight: 400,
-              size: 14,
-              family: FontFamily.casual,
-              color: AppColors.onSecondary),
-        ],
-      ),
+      child: AppText(text,
+          weight: 400,
+          size: 14,
+          family: FontFamily.casual,
+          color: AppColors.onSecondary),
     );
   }
 }

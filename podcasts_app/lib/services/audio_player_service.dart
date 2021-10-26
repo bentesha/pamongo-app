@@ -22,6 +22,9 @@ class AudioPlayerService {
   Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
   int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
 
+  bool _isExpanded = false;
+  bool get isExpanded => _isExpanded;
+
   Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     _updateContentWith(
         episodeList: episodeList,

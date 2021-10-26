@@ -30,11 +30,11 @@ class EpisodeActionButtons extends StatelessWidget {
         GestureDetector(
           onTap: playCallback,
           child: Container(
-              height: 32,
+              height: 30,
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
               decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
                   color: isPaused || isPlaying
                       ? AppColors.primary
                       : Colors.transparent,
@@ -68,7 +68,6 @@ class EpisodeActionButtons extends StatelessWidget {
                                     ? '  ' + status
                                     : '  $duration',
                         weight: 400,
-                        family: FontFamily.workSans,
                         color: isPaused || isPlaying
                             ? AppColors.onPrimary
                             : AppColors.onSecondary,

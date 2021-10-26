@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
@@ -101,29 +102,47 @@ class _HomepageState extends State<Homepage> {
               color: AppColors.header),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-            height: 175,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: seriesList.length,
-              itemBuilder: (context, index) {
-                final series = seriesList[index];
-                final isFirst = index == 0;
-                final isLast = index == 4;
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: seriesList.map((series) {
+              final index = seriesList.indexOf(series);
+              final isFirst = index == 0;
+              final isLast = index == 4;
 
-                return Container(
+              return Container(
                   margin: EdgeInsets.only(
                       left: isFirst ? 18 : 10, right: isLast ? 12 : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
-                    child: SizedBox(width: 96, child: SeriesWidget(series)),
-                  ),
-                );
-              },
-            )),
-        const SizedBox(height: 8),
+                    child: SizedBox(width: 96, child: _series(series)),
+                  ));
+            }).toList(),
+          ),
+        ),
+        const SizedBox(height: 15),
       ],
     );
+  }
+
+  _series(Series series) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      AppImage(image: series.image, height: 96, width: 96, radius: 10),
+      const SizedBox(height: 9),
+      AppText(series.name,
+          family: FontFamily.louis,
+          alignment: TextAlign.start,
+          size: 14,
+          weight: 400),
+      const SizedBox(height: 5),
+      AppText(series.channel,
+          size: 12,
+          family: FontFamily.louis,
+          alignment: TextAlign.start,
+          weight: 400,
+          color: AppColors.onSecondary2)
+    ]);
   }
 
   _buildRecent(List<Episode> episodeList, Supplements supplements) {

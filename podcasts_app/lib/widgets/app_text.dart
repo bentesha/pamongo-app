@@ -24,7 +24,7 @@ class AppText extends StatefulWidget {
 
 class _AppTextState extends State<AppText> {
   late final FontWeight fontWeight;
-  String fontFamily = 'Redhat';
+  String fontFamily = 'Louis';
 
   @override
   void initState() {

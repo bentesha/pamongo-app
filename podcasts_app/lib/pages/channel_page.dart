@@ -5,9 +5,9 @@ import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/channel_page_state.dart';
+import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
 
 class ChannelPage extends StatefulWidget {
@@ -62,7 +62,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return ListView(children: [
       _buildTitle(channel),
       _buildSeriesList(channel),
-      shouldLeaveSpace ? const SizedBox(height: 70) : Container()
+      shouldLeaveSpace ? const SizedBox(height: 80) : Container()
     ]);
   }
 
@@ -84,7 +84,11 @@ class _ChannelPageState extends State<ChannelPage> {
         SizedBox(
           height: 150,
           child: Row(children: [
-            AppImage(image: channel.channelImage, height: 150, width: 150),
+            AppImage(
+                image: channel.channelImage,
+                height: 150,
+                width: 150,
+                radius: 10),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -92,12 +96,10 @@ class _ChannelPageState extends State<ChannelPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(widget.channelName,
-                      alignment: TextAlign.start,
-                      family: FontFamily.workSans,
-                      weight: 600,
-                      size: 25),
+                      alignment: TextAlign.start, weight: 700, size: 25),
                   const SizedBox(height: 5),
-                  AppText(channel.channelOwner, size: 14),
+                  AppText('by ' + channel.channelOwner,
+                      size: 14, weight: 600, color: AppColors.onSecondary2),
                   const SizedBox(height: 5),
                 ],
               ),
@@ -146,51 +148,7 @@ class _ChannelPageState extends State<ChannelPage> {
           : Container(height: 1, color: AppColors.separator),
       Padding(
           padding: const EdgeInsets.fromLTRB(18, 10, 15, 5),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: [
-                AppImage(image: series.image, width: 50, height: 50),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(series.name, family: FontFamily.louis, weight: 600),
-                    const SizedBox(height: 3),
-                    const AppText('Episodes : 24',
-                        family: FontFamily.louis,
-                        weight: 400,
-                        color: AppColors.onSecondary)
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            AppText(series.description,
-                size: 15,
-                family: FontFamily.workSans,
-                color: AppColors.onSecondary2),
-            _buildGoToSeriesButton(series)
-          ])),
+          child: SeriesWidget(series)),
     ]);
-  }
-
-  _buildGoToSeriesButton(Series series) {
-    return TextButton(
-        onPressed: () => SeriesPage.navigateTo(context, series),
-        style: TextButton.styleFrom(
-          maximumSize: const Size.fromWidth(140),
-          shape: const RoundedRectangleBorder(
-              side: BorderSide(color: AppColors.inactive, width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            Icon(Icons.podcasts, color: AppColors.secondary, size: 20),
-            AppText('Visit Series', size: 15),
-          ],
-        ));
   }
 }
