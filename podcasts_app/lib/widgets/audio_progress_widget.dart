@@ -1,3 +1,4 @@
+import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 
 class AudioProgressWidget extends StatefulWidget {
@@ -8,30 +9,39 @@ class AudioProgressWidget extends StatefulWidget {
 }
 
 class _AudioProgressWidgetState extends State<AudioProgressWidget> {
-  ValueNotifier<double> notifier = ValueNotifier(100);
-  ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);
-  Size size = const Size.fromHeight(0);
-
   double startValue = 0;
   double endValue = 0;
-  double initialHeight = 796.3;
   double maxTopGlobalOffset = 255;
+  static double initialOffset = 796.3;
   final referenceHeight = 866.3;
   final referenceWidth = 411.4;
+  ValueNotifier<double> positionValueNotifier = ValueNotifier(initialOffset);
+  ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);
 
   @override
   void didChangeDependencies() {
-    size = MediaQuery.of(context).size;
-    initialHeight = 796.3 * size.height / referenceHeight;
+    final size = MediaQuery.of(context).size;
+    initialOffset = 796.3 * size.height / referenceHeight;
     maxTopGlobalOffset = 255 * size.height / referenceHeight;
-    notifier = ValueNotifier(initialHeight);
+    positionValueNotifier = ValueNotifier(initialOffset);
     super.didChangeDependencies();
+  }
+
+  late final AudioPlayerService service;
+
+  @override
+  void initState() {
+    service = Provider.of<AudioPlayerService>(context, listen: false);
+    service.isIndicatorExpandedStream.listen((isExpanded) {
+      _handleExpandedStatusChanges(isExpanded);
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
-        valueListenable: notifier,
+        valueListenable: positionValueNotifier,
         builder: (context, value, snapshot) {
           return Stack(
             children: [
@@ -63,33 +73,32 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
 
   void _onTap() async {
     if (isShowInitialWidgetNotifier.value) {
-      notifier.value = maxTopGlobalOffset;
-      isShowInitialWidgetNotifier.value = false;
+      service.changeIndicatorExpandedStatusTo(true);
       return;
     }
-    notifier.value = initialHeight;
-    await showInitial();
+
+    service.changeIndicatorExpandedStatusTo(false);
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) async {
     endValue = details.globalPosition.dy;
     final isDraggingDownwards = endValue > startValue;
 
-    if (isDraggingDownwards && endValue > initialHeight) {
-      notifier.value = initialHeight;
-      await showInitial();
+    if (isDraggingDownwards && endValue > initialOffset) {
+      service.changeIndicatorExpandedStatusTo(false);
+
       return;
     }
 
     if (endValue < maxTopGlobalOffset) {
-      notifier.value = maxTopGlobalOffset;
+      positionValueNotifier.value = maxTopGlobalOffset;
       return;
     }
-    if (endValue < initialHeight) {
+    if (endValue < initialOffset) {
       isShowInitialWidgetNotifier.value = false;
     }
-    notifier.value =
-        details.globalPosition.dy - (80 * size.height / referenceHeight);
+
+    positionValueNotifier.value = details.globalPosition.dy - 80;
   }
 
   void _onVerticalDragStart(DragStartDetails details) {
@@ -101,15 +110,21 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
     final isDraggingUpwards = endValue < startValue;
 
     if (isDraggingUpwards) {
-      notifier.value = maxTopGlobalOffset;
+      service.changeIndicatorExpandedStatusTo(true);
       return;
     }
-    notifier.value = initialHeight;
-    await showInitial();
+
+    service.changeIndicatorExpandedStatusTo(false);
   }
 
-  Future<void> showInitial() async {
+  Future<void> _handleExpandedStatusChanges(bool isExpanded) async {
+    if (isExpanded) {
+      positionValueNotifier.value = maxTopGlobalOffset;
+      isShowInitialWidgetNotifier.value = false;
+      return;
+    }
+    positionValueNotifier.value = initialOffset;
     await Future.delayed(const Duration(milliseconds: 400))
-        .then((_) => isShowInitialWidgetNotifier.value = true);
+        .then((value) => isShowInitialWidgetNotifier.value = true);
   }
 }

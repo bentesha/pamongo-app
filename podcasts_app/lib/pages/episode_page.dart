@@ -38,9 +38,12 @@ class _EpisodePageState extends State<EpisodePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
+    return WillPopScope(
+      onWillPop: _handleWillPop,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildBody(),
+      ),
     );
   }
 
@@ -117,5 +120,11 @@ class _EpisodePageState extends State<EpisodePage> {
         ),
       ),
     );
+  }
+
+  Future<bool> _handleWillPop() async {
+    final shouldPop = bloc.shouldPop();
+    if (shouldPop) return true;
+    return false;
   }
 }

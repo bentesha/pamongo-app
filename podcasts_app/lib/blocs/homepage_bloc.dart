@@ -18,6 +18,12 @@ class HomepageBloc extends Cubit<HomepageState> {
       emit(HomepageState.content(defaultEpisodeList, state.supplements));
 
   void play(Episode episode) async => await service.play([episode]);
+  
+  bool shouldPop() {
+    final isExpanded = service.isIndicatorExpanded;
+    service.changeIndicatorExpandedStatusTo(false);
+    return !isExpanded;
+  }
 
   Future<void> refresh() async =>
       await Future.delayed(const Duration(seconds: 3)).then((_) => init());
