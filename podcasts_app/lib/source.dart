@@ -103,12 +103,12 @@ final seriesEpisodeList = [
   const Episode(
       id: 5,
       image: firstSeriesImage,
-      duration: 1770000,
+      duration: 2331000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The origins of Christianity',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ComedyOfTheWeek-20211004-JessicaFostekewPowerhouse.mp3?alt=media&token=9983e7f2-f178-47d6-a1a3-5154876fe27f',
+          'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/TheSportsDesk-20210813-MessiPSGAndFootballsPowerShift.mp3?alt=media&token=61e58913-b02c-429a-82d2-3071bcf854b4',
       description: firstSeriesEpisodeDesc,
       episodeNumber: 1,
       date: 'Jan 22 2020'),
