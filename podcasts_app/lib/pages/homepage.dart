@@ -100,7 +100,7 @@ class _HomepageState extends State<Homepage> {
               family: FontFamily.casual,
               weight: 400,
               size: 18,
-              color: AppColors.header),
+              color: AppColors.active),
         ),
         const SizedBox(height: 10),
         SingleChildScrollView(

@@ -101,11 +101,11 @@ class _SeriesPageState extends State<SeriesPage> {
                         fontFamily: 'Louis',
                         fontWeight: FontWeight.w500,
                         shadows: [
-                          Shadow(color: AppColors.header, offset: Offset(0, -5))
+                          Shadow(color: AppColors.active, offset: Offset(0, -5))
                         ],
                         color: Colors.transparent,
                         decoration: TextDecoration.underline,
-                        decorationColor: AppColors.header,
+                        decorationColor: AppColors.active,
                         decorationThickness: 2,
                         decorationStyle: TextDecorationStyle.dashed,
                       ),
@@ -155,7 +155,7 @@ class _SeriesPageState extends State<SeriesPage> {
                   family: FontFamily.casual,
                   weight: 400,
                   size: 18,
-                  color: AppColors.header),
+                  color: AppColors.active),
               _buildSortButton(sortStyle)
             ],
           ),
@@ -242,33 +242,22 @@ class _SeriesPageState extends State<SeriesPage> {
                 value: 0,
               ),
               PopupMenuItem(
-                child: _buildPopupMenuItem(
-                    isLastToFirst, 'latest', 'assets/images/sortUp.svg'),
+                child: _buildPopupMenuItem(isLastToFirst, 'latest'),
                 value: 1,
               ),
               PopupMenuItem(
-                child: _buildPopupMenuItem(
-                    isFirstToLast, 'oldest', 'assets/images/sortDown.svg'),
+                child: _buildPopupMenuItem(isFirstToLast, 'oldest'),
                 value: 2,
               ),
             ]);
   }
 
-  _buildPopupMenuItem(bool isSelected, String text, String imagePath) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: isSelected ? 2 : 0,
-              color: isSelected ? AppColors.header : Colors.transparent),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
-      alignment: Alignment.center,
-      child: AppText(text,
-          weight: 400,
-          size: 14,
-          family: FontFamily.casual,
-          color: AppColors.onSecondary),
-    );
+  _buildPopupMenuItem(bool isSelected, String text) {
+    return AppText(text,
+        weight: 400,
+        size: 14,
+        family: FontFamily.casual,
+        color: AppColors.onSecondary);
   }
 
   Future<bool> _handleWillPop() async {

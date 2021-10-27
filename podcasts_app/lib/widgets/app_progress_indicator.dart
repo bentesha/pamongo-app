@@ -147,13 +147,16 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               decoration: const BoxDecoration(
                   color: AppColors.separator,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: const EdgeInsets.only(bottom: 30)),
-          AppImage(
-              image: image,
-              height: 300,
-              width: 350,
-              withBorders: true,
-              radius: 10),
+              margin: const EdgeInsets.only(bottom: 20)),
+          SizedBox(
+              height: 285,
+              child: AppImage(
+                radius: 10,
+                image: image,
+                height: 300,
+                width: 350,
+                withBorders: true,
+              )),
         ],
       ),
     );
