@@ -1,3 +1,4 @@
+import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 
 class AudioProgressWidget extends StatefulWidget {
@@ -8,17 +9,28 @@ class AudioProgressWidget extends StatefulWidget {
 }
 
 class _AudioProgressWidgetState extends State<AudioProgressWidget> {
-  static double startValue = 0;
-  static double endValue = 0;
+  double startValue = 0;
+  double endValue = 0;
+  double maxTopGlobalOffset = 275.dh;
   static double initialOffset = 796.3.dh;
-  static double maxTopGlobalOffset = 275.dh;
-  ValueNotifier<double> notifier = ValueNotifier(initialOffset);
+  ValueNotifier<double> positionValueNotifier = ValueNotifier(initialOffset);
   ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);
+
+  late final AudioPlayerService service;
+
+  @override
+  void initState() {
+    service = Provider.of<AudioPlayerService>(context, listen: false);
+    service.isIndicatorExpandedStream.listen((isExpanded) {
+      _handleExpandedStatusChanges(isExpanded);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
-        valueListenable: notifier,
+        valueListenable: positionValueNotifier,
         builder: (context, value, snapshot) {
           return Stack(
             children: [
@@ -50,12 +62,10 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
 
   void _onTap() async {
     if (isShowInitialWidgetNotifier.value) {
-      notifier.value = maxTopGlobalOffset;
-      isShowInitialWidgetNotifier.value = false;
+      service.changeIndicatorExpandedStatusTo(true);
       return;
     }
-    notifier.value = initialOffset;
-    await showInitial();
+    service.changeIndicatorExpandedStatusTo(false);
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) async {
@@ -63,19 +73,19 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
     final isDraggingDownwards = endValue > startValue;
 
     if (isDraggingDownwards && endValue > initialOffset) {
-      notifier.value = initialOffset;
-      await showInitial();
+      service.changeIndicatorExpandedStatusTo(false);
+
       return;
     }
 
     if (endValue < maxTopGlobalOffset) {
-      notifier.value = maxTopGlobalOffset;
+      positionValueNotifier.value = maxTopGlobalOffset;
       return;
     }
     if (endValue < initialOffset) {
       isShowInitialWidgetNotifier.value = false;
     }
-    notifier.value = details.globalPosition.dy - 80.dh;
+    positionValueNotifier.value = details.globalPosition.dy - 80.dh;
   }
 
   void _onVerticalDragStart(DragStartDetails details) {
@@ -87,15 +97,20 @@ class _AudioProgressWidgetState extends State<AudioProgressWidget> {
     final isDraggingUpwards = endValue < startValue;
 
     if (isDraggingUpwards) {
-      notifier.value = maxTopGlobalOffset;
+      service.changeIndicatorExpandedStatusTo(true);
       return;
     }
-    notifier.value = initialOffset;
-    await showInitial();
+    service.changeIndicatorExpandedStatusTo(false);
   }
 
-  Future<void> showInitial() async {
+  Future<void> _handleExpandedStatusChanges(bool isExpanded) async {
+    if (isExpanded) {
+      positionValueNotifier.value = maxTopGlobalOffset;
+      isShowInitialWidgetNotifier.value = false;
+      return;
+    }
+    positionValueNotifier.value = initialOffset;
     await Future.delayed(const Duration(milliseconds: 400))
-        .then((_) => isShowInitialWidgetNotifier.value = true);
+        .then((value) => isShowInitialWidgetNotifier.value = true);
   }
 }

@@ -6,7 +6,6 @@ import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
-import 'package:podcasts/widgets/series_widget.dart';
 import 'package:podcasts/widgets/audio_progress_widget.dart';
 import '../source.dart';
 import 'series_page.dart';
@@ -28,11 +27,11 @@ class _HomepageState extends State<Homepage> {
     service = Provider.of<AudioPlayerService>(context, listen: false);
     bloc = HomepageBloc(service);
     bloc.init();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _showOverlay());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _insertOverlay());
     super.initState();
   }
 
-  _showOverlay() {
+  _insertOverlay() {
     final overlay = Overlay.of(context)!;
     final entry =
         OverlayEntry(builder: (context) => const AudioProgressWidget());
@@ -41,7 +40,9 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+    return WillPopScope(
+        onWillPop: _handleWillPop,
+        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
   }
 
   _buildAppBar() {
@@ -181,5 +182,11 @@ class _HomepageState extends State<Homepage> {
                     actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 8.dh)))),
       ],
     );
+  }
+
+  Future<bool> _handleWillPop() async {
+    final shouldPop = bloc.shouldPop();
+    if (shouldPop) return true;
+    return false;
   }
 }

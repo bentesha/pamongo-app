@@ -38,7 +38,9 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+    return WillPopScope(
+        onWillPop: _handleWillPop,
+        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
   }
 
   _buildBody() {
@@ -149,5 +151,11 @@ class _ChannelPageState extends State<ChannelPage> {
           padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 5.dh),
           child: SeriesWidget(series)),
     ]);
+  }
+
+  Future<bool> _handleWillPop() async {
+    final shouldPop = bloc.shouldPop();
+    if (shouldPop) return true;
+    return false;
   }
 }

@@ -54,6 +54,12 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     emit(SeriesPageState.content(episodeList, supplements));
   }
 
+  bool shouldPop() {
+    final isExpanded = service.isIndicatorExpanded;
+    service.changeIndicatorExpandedStatusTo(false);
+    return !isExpanded;
+  }
+
   _handleContentStream(ProgressIndicatorContent content) {
     final id = content.episodeList[content.currentIndex].id;
     final supplements = state.supplements

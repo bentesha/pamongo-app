@@ -16,18 +16,17 @@ class AudioPlayerService {
 
   ProgressIndicatorContent _content = const ProgressIndicatorContent();
   final _contentController = ContentStreamController.broadcast();
+  final _indicatorController = StreamController<bool>.broadcast();
 
   ContentStream get onIndicatorContentStateChanged => _contentController.stream;
   ProgressIndicatorContent get getCurrentContent => _content;
   Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
   int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
 
-  bool _isExpanded = false;
-  bool get isExpanded => _isExpanded;
-
-  //TODO
-  //on popping to prev page, if the audio player widget was expanded, it then should
-  //be lowered after then it can be popped to that prev. page.
+  //determines whether the bottom audio-progress-indicator is expanded or not
+  bool _isIndicatorExpanded = false;
+  bool get isIndicatorExpanded => _isIndicatorExpanded;
+  Stream<bool> get isIndicatorExpandedStream => _indicatorController.stream;
 
   Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     _updateContentWith(
@@ -150,6 +149,11 @@ class AudioPlayerService {
       _updateContentWith(playerState: errorState);
       if (_player.playing) _player.pause();
     }
+  }
+
+  void changeIndicatorExpandedStatusTo(bool isExpanded) {
+    _isIndicatorExpanded = isExpanded;
+    _indicatorController.add(isExpanded);
   }
 
   Future<void> checkConnectivity() async {

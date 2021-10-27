@@ -38,7 +38,9 @@ class _SeriesPageState extends State<SeriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+    return WillPopScope(
+        onWillPop: _handleWillPop,
+        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
   }
 
   _buildBody() {
@@ -270,5 +272,11 @@ class _SeriesPageState extends State<SeriesPage> {
           family: FontFamily.casual,
           color: AppColors.onSecondary),
     );
+  }
+
+  Future<bool> _handleWillPop() async {
+    final shouldPop = bloc.shouldPop();
+    if (shouldPop) return true;
+    return false;
   }
 }

@@ -18,6 +18,12 @@ class ChannelPageBloc extends Cubit<ChannelPageState> {
     emit(ChannelPageState.content(defaultChannel, supplements));
   }
 
+  bool shouldPop() {
+    final isExpanded = service.isIndicatorExpanded;
+    service.changeIndicatorExpandedStatusTo(false);
+    return !isExpanded;
+  }
+
   _handleContentStream(ProgressIndicatorContent content) {
     final supplements =
         state.supplements.copyWith(playerState: content.playerState);
