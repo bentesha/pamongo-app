@@ -115,7 +115,7 @@ class _EpisodePageState extends State<EpisodePage> {
                 episodeList: seriesEpisodeList)),
         child: AppText(
           'View All Episodes',
-          color: AppColors.header,
+          color: AppColors.active,
           family: FontFamily.louis,
           size: 16.w,
           weight: 600,

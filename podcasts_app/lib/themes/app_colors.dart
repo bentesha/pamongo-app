@@ -10,7 +10,7 @@ class AppColors {
   static const separator = Color(0xffDBDDD0);
   static const background = Color(0xffFEFEFE);
   static const error = Color(0xffBC3A38);
-  static const header = Color(0xff050A30);
+  static const active = Color(0xff050A30);
   static const button = Color(0xFFEAEAEA);
   static const inactive = Color(0xff868B8E);
 }

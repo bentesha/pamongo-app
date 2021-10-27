@@ -101,11 +101,11 @@ class _SeriesPageState extends State<SeriesPage> {
                         fontFamily: 'Louis',
                         fontWeight: FontWeight.w500,
                         shadows: const [
-                          Shadow(color: AppColors.header, offset: Offset(0, -5))
+                          Shadow(color: AppColors.active, offset: Offset(0, -5))
                         ],
                         color: Colors.transparent,
                         decoration: TextDecoration.underline,
-                        decorationColor: AppColors.header,
+                        decorationColor: AppColors.active,
                         decorationThickness: 2,
                         decorationStyle: TextDecorationStyle.dashed,
                       ),
@@ -156,7 +156,7 @@ class _SeriesPageState extends State<SeriesPage> {
                   family: FontFamily.casual,
                   weight: 400,
                   size: 18.w,
-                  color: AppColors.header),
+                  color: AppColors.active),
               _buildSortButton(sortStyle)
             ],
           ),
@@ -257,21 +257,11 @@ class _SeriesPageState extends State<SeriesPage> {
   }
 
   _buildPopupMenuItem(bool isSelected, String text) {
-    return Container(
-      padding: EdgeInsets.only(left: 10.dw),
-      decoration: BoxDecoration(
-          border: Border(
-        left: BorderSide(
-            width: isSelected ? 4.dw : 0,
-            color: isSelected ? AppColors.secondary : Colors.transparent),
-      )),
-      alignment: Alignment.centerLeft,
-      child: AppText(text,
-          weight: 400,
-          size: 14.w,
-          family: FontFamily.casual,
-          color: AppColors.onSecondary),
-    );
+    return AppText(text,
+        weight: 400,
+        size: 14.w,
+        family: FontFamily.casual,
+        color: AppColors.onSecondary);
   }
 
   Future<bool> _handleWillPop() async {

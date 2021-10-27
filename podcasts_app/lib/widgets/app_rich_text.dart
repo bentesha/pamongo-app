@@ -12,8 +12,8 @@ class AppRichText extends StatelessWidget {
     return ValueListenableBuilder<bool>(
       valueListenable: isExpandNotifier,
       builder: (context, isExpanded, state) {
-        return Stack(
-          alignment: isLong ? Alignment.bottomRight : Alignment.bottomLeft,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             AppText(
                 isLong
@@ -24,23 +24,15 @@ class AppRichText extends StatelessWidget {
                 size: 16.w,
                 color: AppColors.onSecondary2),
             isLong
-                ? isExpanded
-                    ? Container()
-                    : GestureDetector(
-                        onTap: () =>
-                            isExpandNotifier.value = !isExpandNotifier.value,
-                        child: Container(
-                          width: 80.dw,
-                          height: 20.dh,
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(top: 10.dh),
-                          child: AppText('see more',
-                              size: 14.w,
-                              color: AppColors.secondary,
-                              family: FontFamily.casual,
-                              weight: 600),
-                        ),
-                      )
+                ? GestureDetector(
+                    onTap: () =>
+                        isExpandNotifier.value = !isExpandNotifier.value,
+                    child: AppText(isExpanded ? 'see less' : 'see more',
+                        size: 14.w,
+                        color: AppColors.secondary,
+                        family: FontFamily.casual,
+                        weight: 600),
+                  )
                 : Container()
           ],
         );

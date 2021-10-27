@@ -16,7 +16,7 @@ final defaultEpisodeList = [
   const Episode(
       id: 1,
       image: firstImg,
-      duration: 3641000,
+      duration: 3650000,
       seriesName: 'Something Was Wrong',
       channel: 'Julia Cesar',
       title: 'There Were No Red Flags',
@@ -27,7 +27,7 @@ final defaultEpisodeList = [
   const Episode(
       id: 2,
       image: secondImg,
-      duration: 361000,
+      duration: 2965000,
       seriesName: 'Stolen: Search for Jermain',
       channel: 'Gimlet',
       title: 'The Dark Horse',
@@ -38,7 +38,7 @@ final defaultEpisodeList = [
   const Episode(
       id: 3,
       image: thirdImg,
-      duration: 247000,
+      duration: 1732000,
       seriesName: 'Business Wars',
       channel: 'Wondery',
       title: 'Introducing Who, When, WOW!',
@@ -49,7 +49,7 @@ final defaultEpisodeList = [
   const Episode(
       id: 4,
       image: fourthImg,
-      duration: 295000,
+      duration: 732000,
       seriesName: 'Conspiracy Theories',
       channel: 'Parcast Network',
       title: 'Stolen Body Hypothesis',
@@ -103,61 +103,61 @@ final seriesEpisodeList = [
   const Episode(
       id: 5,
       image: firstSeriesImage,
-      duration: 181000,
+      duration: 1770000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The origins of Christianity',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20The%20Lumineers%20%20BIG%20SHOT.mp3?alt=media&token=c1320aeb-99d9-427c-81c9-a96a53f56ea0',
+          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ComedyOfTheWeek-20211004-JessicaFostekewPowerhouse.mp3?alt=media&token=9983e7f2-f178-47d6-a1a3-5154876fe27f',
       description: firstSeriesEpisodeDesc,
       episodeNumber: 1,
       date: 'Jan 22 2020'),
   const Episode(
       id: 6,
       image: firstSeriesImage,
-      duration: 168000,
+      duration: 543000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The New Testament',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/Loyal%20Brave%20True.mp3?alt=media&token=a76baf09-6b16-4e73-8183-b92dbe7400ae',
+          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/RobertABelle_2021S_VO_Intro.mp3?alt=media&token=5e2aa36a-de4c-43c1-8179-76d3ae2c1af3',
       description: firstSeriesEpisodeDesc2,
       episodeNumber: 2,
       date: 'Feb 01 2020'),
   const Episode(
       id: 7,
       image: firstSeriesImage,
-      duration: 241000,
+      duration: 968000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The New Testament Part 2',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/Adam%20Baldwin%20-%20Anytime.mp3?alt=media&token=8266fe85-a514-45d8-891c-cab170a5f52e',
+          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ValorieKondosField_2019W_VO_Intro.mp3?alt=media&token=44f858fa-228b-4fba-970b-859eb7e2d973',
       description: firstSeriesEpisodeDesc3,
       episodeNumber: 3,
       date: 'Feb 05 2020'),
   const Episode(
       id: 8,
       image: firstSeriesImage,
-      duration: 247000,
+      duration: 798000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'Salvation',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Gravity%20by%20John%20Mayer.mp3?alt=media&token=5b631f0d-3fae-4208-bebf-d80d4c18d974',
+          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/NomavaZanazo_2021S_VO_Intro.mp3?alt=media&token=c22c9773-46f5-4946-8ad7-495f9a7b3253',
       description: firstSeriesEpisodeDesc4,
       episodeNumber: 4,
       date: 'Feb 12 2020')
 ];
 
 const firstUrl =
-    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20For%20Work%20%20Productive%20Chill%20Music%20Mix.mp3?alt=media&token=bae6b989-519e-4724-88e7-98359b22291f';
+    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/13MinutesToTheMoon-20200610-S2Ep07Resurrection.mp3?alt=media&token=142554c0-ef21-4099-a397-3d85675d5138';
 const secondUrl =
-    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20You%20Will%20Be%20Found%20from%20the%20DEAR%20EVAN%20HANSEN%20Original%20Broadway%20Cast%20Recording.mp3?alt=media&token=b473e344-4370-4a98-94cb-e810727344eb';
+    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/HookedTheUnexpectedAddicts-20201007-CelebratingVisibleRecovery.mp3?alt=media&token=86e90cb5-88f0-4077-8324-46e4d40aa2c3';
 const thirdUrl =
-    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Gravity%20by%20John%20Mayer.mp3?alt=media&token=5b631f0d-3fae-4208-bebf-d80d4c18d974';
+    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ComedyOfTheWeek-20211018-DalisoChapondaCitizenOfNowhere.mp3?alt=media&token=775c7e00-7a29-43c2-b5b7-fbb13dbcf568';
 const fourthUrl =
-    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/y2mate.com%20-%20Adele%20Hello%20lyrics.mp3?alt=media&token=44b0cdfe-ee8f-4fee-88ef-50e80d46fe83';
+    'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/StevenJohnson_2021_VO_Intro.mp3?alt=media&token=612c49f3-81bc-49a1-8732-0eaa6e0a592c';
 
 const firstDesc =
     'A widow begins to uncover her recently deceased husband\'s disturbing secrets.';
