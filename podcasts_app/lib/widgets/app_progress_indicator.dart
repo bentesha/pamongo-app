@@ -113,12 +113,12 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  height: 20.dh,
+                Expanded(
                   child: AppText(episode.title,
                       color: AppColors.onPrimary,
                       size: 18.w,
                       weight: 600,
+                      alignment: TextAlign.start,
                       family: FontFamily.louis),
                 ),
                 Icon(EvaIcons.heartOutline,
@@ -345,7 +345,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        episode.title,
+                        episode.title.length > 38
+                            ? episode.title.substring(0, 38) + ' ...'
+                            : episode.title,
                         color: AppColors.onPrimary,
                         size: 15.w,
                         weight: 600,

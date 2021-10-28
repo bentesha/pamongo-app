@@ -21,6 +21,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   late final HomepageBloc bloc;
   late final AudioPlayerService service;
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -77,6 +78,7 @@ class _HomepageState extends State<Homepage> {
       color: AppColors.secondary,
       child: ListView(
         padding: EdgeInsets.only(top: 10.dh),
+        controller: scrollController,
         children: [
           _buildSeries(),
           _buildRecent(episodeList, supplements),

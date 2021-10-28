@@ -27,6 +27,7 @@ class EpisodePage extends StatefulWidget {
 class _EpisodePageState extends State<EpisodePage> {
   late final EpisodePageBloc bloc;
   late final AudioPlayerService service;
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -83,6 +84,7 @@ class _EpisodePageState extends State<EpisodePage> {
 
     return ListView(
       padding: EdgeInsets.zero,
+      controller: scrollController,
       children: [
         Padding(
             padding: EdgeInsets.fromLTRB(18.dw, 0, 15.dw, 20.dh),
@@ -115,9 +117,8 @@ class _EpisodePageState extends State<EpisodePage> {
                 episodeList: seriesEpisodeList)),
         child: AppText(
           'View All Episodes',
-          color: AppColors.active,
-          family: FontFamily.louis,
-          size: 16.w,
+          color: AppColors.secondary,
+          size: 15.w,
           weight: 600,
         ),
       ),
