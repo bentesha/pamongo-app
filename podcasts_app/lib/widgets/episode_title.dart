@@ -25,16 +25,12 @@ class EpisodeTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppText(seriesName,
-                    weight: 400,
-                    size: 14,
-                    family: FontFamily.louis,
-                    color: AppColors.onSecondary2),
+                    weight: 400, size: 13, color: AppColors.onSecondary2),
                 AppText(
                   date,
                   weight: 400,
                   color: AppColors.onSecondary2,
-                  family: FontFamily.louis,
-                  size: 14,
+                  size: 13,
                 )
               ]),
         )
