@@ -105,34 +105,36 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   }
 
   _buildTitle(Episode episode) {
-    return Column(children: [
-      _buildSeriesImage(episode.image),
-      Padding(
-          padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-          child: Column(
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+        child: Column(children: [
+          _buildSeriesImage(episode.image),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
               Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(episode.title,
-                      color: AppColors.onPrimary,
-                      size: 20,
-                      weight: 600,
-                      family: FontFamily.louis),
-                  const Icon(EvaIcons.heartOutline,
-                      size: 25, color: AppColors.onPrimary2)
-                ],
-              ),
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: AppText(episode.title,
+                            color: AppColors.onPrimary,
+                            size: 20,
+                            weight: 600,
+                            alignment: TextAlign.start,
+                            family: FontFamily.louis)),
+                    const Icon(EvaIcons.heartOutline,
+                        size: 25, color: AppColors.onPrimary2)
+                  ]),
               const SizedBox(height: 5),
               AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
                   color: AppColors.onPrimary2,
                   size: 16,
                   family: FontFamily.louis),
             ],
-          )),
-    ]);
+          )
+        ]));
   }
 
   _buildSeriesImage(String image) {
@@ -328,7 +330,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        episode.title,
+                        episode.title.length > 38
+                            ? episode.title.substring(0, 38) + ' ...'
+                            : episode.title,
                         color: AppColors.onPrimary,
                         size: 16,
                         weight: 600,

@@ -27,6 +27,7 @@ class _SeriesPageState extends State<SeriesPage> {
   late final SeriesPageBloc bloc;
   late final AudioPlayerService service;
   late final Series series;
+  final topScrolledPixelsNotifier = ValueNotifier<double>(0);
 
   @override
   void initState() {
@@ -39,12 +40,10 @@ class _SeriesPageState extends State<SeriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _handleWillPop,
-        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
+    return WillPopScope(onWillPop: _handleWillPop, child: _buildScaffold());
   }
 
-  _buildBody() {
+  _buildScaffold() {
     return BlocBuilder<SeriesPageBloc, SeriesPageState>(
       bloc: bloc,
       builder: (_, state) {
@@ -56,25 +55,39 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  Widget _buildError(List<Episode> envelopeList, Supplements supplements) {
-    return _buildContent(envelopeList, supplements);
+  Widget _buildError(List<Episode> episodeList, Supplements supplements) {
+    return _buildContent(episodeList, supplements);
   }
 
-  Widget _buildContent(List<Episode> envelopeList, Supplements supplements) {
+  Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
-    return ListView(children: [
-      _buildTitle(),
-      _buildBodyContent(envelopeList, supplements),
-      shouldLeaveSpace ? const SizedBox(height: 70) : Container()
-    ]);
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        topScrolledPixelsNotifier.value = notification.metrics.pixels;
+        return true;
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(widget.series.name),
+        body: ListView(children: [
+          _buildTitle(),
+          _buildBodyContent(episodeList, supplements),
+          shouldLeaveSpace ? const SizedBox(height: 80) : Container()
+        ]),
+      ),
+    );
   }
 
-  _buildAppBar() {
+  _buildAppBar(String appBarTitle) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
-      child: AppTopBars.seriesPage(context),
+      child: ValueListenableBuilder<double>(
+          valueListenable: topScrolledPixelsNotifier,
+          builder: (context, value, child) {
+            return AppTopBars.seriesPage(context,
+                topScrolledPixels: value, value: appBarTitle);
+          }),
     );
   }
 
@@ -129,12 +142,11 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  Widget _buildLoading(List<Episode> envelopeList, Supplements supplements) {
+  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
     return const AppLoadingIndicator();
   }
 
-  Widget _buildBodyContent(
-      List<Episode> envelopeList, Supplements supplements) {
+  Widget _buildBodyContent(List<Episode> episodeList, Supplements supplements) {
     final sortStyle = supplements.sortStyle;
 
     return Column(
@@ -161,12 +173,12 @@ class _SeriesPageState extends State<SeriesPage> {
           ),
         ),
         ListView.builder(
-          itemCount: envelopeList.length,
+          itemCount: episodeList.length,
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final envelope = envelopeList[index];
+            final envelope = episodeList[index];
             return _buildEpisodes(index, envelope, supplements);
           },
         ),

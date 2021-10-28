@@ -27,6 +27,7 @@ class ChannelPage extends StatefulWidget {
 class _ChannelPageState extends State<ChannelPage> {
   late final ChannelPageBloc bloc;
   late final AudioPlayerService service;
+  final topScrolledPixelsNotifier = ValueNotifier<double>(0);
 
   @override
   void initState() {
@@ -38,12 +39,10 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _handleWillPop,
-        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
+    return WillPopScope(onWillPop: _handleWillPop, child: _buildScaffold());
   }
 
-  _buildBody() {
+  _buildScaffold() {
     return BlocBuilder<ChannelPageBloc, ChannelPageState>(
         bloc: bloc,
         builder: (context, state) {
@@ -60,22 +59,36 @@ class _ChannelPageState extends State<ChannelPage> {
 
   Widget _buildContent(Channel channel, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
-    log(shouldLeaveSpace.toString());
-    return ListView(children: [
-      _buildTitle(channel),
-      _buildSeriesList(channel),
-      shouldLeaveSpace ? const SizedBox(height: 80) : Container()
-    ]);
+
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        topScrolledPixelsNotifier.value = notification.metrics.pixels;
+        return true;
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(channel.channelName),
+        body: ListView(padding: EdgeInsets.zero, children: [
+          _buildTitle(channel),
+          _buildSeriesList(channel),
+          shouldLeaveSpace ? const SizedBox(height: 80) : Container()
+        ]),
+      ),
+    );
   }
 
   Widget _buildFailed(Channel channel, Supplements supplements) {
     return _buildContent(channel, supplements);
   }
 
-  _buildAppBar() {
+  _buildAppBar(String appBarTitle) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
-      child: AppTopBars.channelPage(context),
+      child: ValueListenableBuilder<double>(
+          valueListenable: topScrolledPixelsNotifier,
+          builder: (context, value, child) {
+            return AppTopBars.channelPage(context,
+                topScrolledPixels: value, value: appBarTitle);
+          }),
     );
   }
 

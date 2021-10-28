@@ -11,25 +11,41 @@ class AppTopBars {
     return const AppTopBar(Pages.homepage);
   }
 
-  static AppTopBar channelPage(BuildContext context) {
-    return const AppTopBar(Pages.channelPage);
+  static AppTopBar channelPage(BuildContext context,
+      {required double topScrolledPixels, required String value}) {
+    return AppTopBar(Pages.channelPage,
+        topScrolledPixels: topScrolledPixels, value: value);
   }
 
-  static AppTopBar seriesPage(BuildContext context) {
-    return const AppTopBar(Pages.seriesPage);
+  static AppTopBar seriesPage(BuildContext context,
+      {required double topScrolledPixels, required String value}) {
+    return AppTopBar(Pages.seriesPage,
+        topScrolledPixels: topScrolledPixels, value: value);
   }
 }
 
 class AppTopBar extends StatelessWidget {
-  const AppTopBar(this.page, {key}) : super(key: key);
+  const AppTopBar(this.page,
+      {this.topScrolledPixels = 0, this.value = 'hellow', key})
+      : super(key: key);
 
   final Pages page;
+  final double topScrolledPixels;
+  final String value;
 
   @override
   AppBar build(BuildContext context) {
     final isEpisodePage = page == Pages.episodePage;
     final isHomepage = page == Pages.homepage;
     final isChannelPage = page == Pages.channelPage;
+    final isSeriesPage = page == Pages.seriesPage;
+
+    final shouldChangeSeriesPageTitle = topScrolledPixels > 53;
+    final shouldChangeChannelPageTitle = topScrolledPixels > 130;
+    final hasSeriesPageTitleChange =
+        isSeriesPage ? shouldChangeSeriesPageTitle : false;
+    final hasChannelPageTitleChange =
+        isChannelPage ? shouldChangeChannelPageTitle : false;
 
     return isHomepage
         ? AppBar(
@@ -41,17 +57,38 @@ class AppTopBar extends StatelessWidget {
             title: const AppText('Podcasts', size: 20, weight: 600),
           )
         : AppBar(
-            centerTitle: false,
-            title: AppText(
-              isEpisodePage
-                  ? 'Episode'
-                  : isChannelPage
-                      ? 'Channel'
-                      : 'Series',
-              size: 20,
-              weight: 400,
-              family: FontFamily.workSans,
+            automaticallyImplyLeading: false,
+            title: AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.bounceIn,
+              child: hasSeriesPageTitleChange || hasChannelPageTitleChange
+                  ? Text(
+                      value,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.active,
+                          fontFamily: 'Louis'),
+                    )
+                  : AppText(
+                      isEpisodePage
+                          ? 'Episode'
+                          : isChannelPage
+                              ? 'Channel'
+                              : 'Series',
+                      size: 20,
+                      weight: 400,
+                      family: FontFamily.workSans,
+                    ),
             ),
+            iconTheme: const IconThemeData(color: AppColors.onSecondary),
+            leading: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(EvaIcons.arrowBackOutline, size: 25),
+                onPressed: () => Navigator.pop(context)),
+            backgroundColor: AppColors.background,
+            elevation:
+                hasSeriesPageTitleChange || hasChannelPageTitleChange ? 2 : 0,
           );
   }
 }
