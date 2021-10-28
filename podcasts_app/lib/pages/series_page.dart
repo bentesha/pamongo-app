@@ -7,6 +7,7 @@ import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/series_page_state.dart';
+import 'package:podcasts/widgets/series_action_buttons.dart';
 import '../source.dart';
 import 'channel_page.dart';
 
@@ -121,10 +122,10 @@ class _SeriesPageState extends State<SeriesPage> {
           ]),
         ),
         SizedBox(height: 15.dh),
+        SeriesActionButtons(visitSeriesCallback: () {}, isOnSeriesPage: true),
         Padding(
-          padding: EdgeInsets.only(right: 10.dw),
-          child: AppRichText(series.description),
-        )
+            padding: EdgeInsets.only(right: 10.dw, top: 10.dh),
+            child: AppRichText(series.description))
       ]),
     );
   }
@@ -140,7 +141,6 @@ class _SeriesPageState extends State<SeriesPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 10.dh),
         Container(
           height: 1,
           color: AppColors.separator,
@@ -171,7 +171,7 @@ class _SeriesPageState extends State<SeriesPage> {
             return _buildEpisodes(index, envelope, supplements);
           },
         ),
-        SizedBox(height: 80.dh)
+        SizedBox(height: 10.dh)
       ],
     );
   }
@@ -239,8 +239,7 @@ class _SeriesPageState extends State<SeriesPage> {
               PopupMenuItem(
                 height: 35.dh,
                 enabled: false,
-                child: AppText("Sort by",
-                    weight: 600, size: 16.w, family: FontFamily.casual),
+                child: AppText("Sort by", weight: 600, size: 16.w),
                 value: 0,
               ),
               PopupMenuItem(
@@ -257,11 +256,18 @@ class _SeriesPageState extends State<SeriesPage> {
   }
 
   _buildPopupMenuItem(bool isSelected, String text) {
-    return AppText(text,
-        weight: 400,
-        size: 14.w,
-        family: FontFamily.casual,
-        color: AppColors.onSecondary);
+    return Row(
+      children: [
+        Container(
+            width: 5,
+            height: 5,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? AppColors.secondary : Colors.transparent)),
+        SizedBox(width: 10.dw),
+        AppText(text, weight: 400, size: 15.w, color: AppColors.onSecondary),
+      ],
+    );
   }
 
   Future<bool> _handleWillPop() async {

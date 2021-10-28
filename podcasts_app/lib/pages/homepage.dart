@@ -179,7 +179,7 @@ class _HomepageState extends State<Homepage> {
                     duration: Utils.convertFrom(episode.duration,
                         includeSeconds: false),
                     episode: episode,
-                    actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 8.dh)))),
+                    actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh)))),
       ],
     );
   }
