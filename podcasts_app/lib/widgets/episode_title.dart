@@ -26,15 +26,13 @@ class EpisodeTitle extends StatelessWidget {
               children: [
                 AppText(seriesName,
                     weight: 400,
-                    size: 14.w,
-                    family: FontFamily.louis,
+                    size: 13.w,
                     color: AppColors.onSecondary2),
                 AppText(
                   date,
                   weight: 400,
                   color: AppColors.onSecondary2,
-                  family: FontFamily.louis,
-                  size: 14.w,
+                  size: 13.w,
                 )
               ]),
         )

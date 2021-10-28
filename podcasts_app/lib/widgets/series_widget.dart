@@ -1,6 +1,7 @@
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/source.dart';
+import 'package:podcasts/widgets/series_action_buttons.dart';
 
 class SeriesWidget extends StatefulWidget {
   final Series series;
@@ -38,33 +39,18 @@ class _SeriesWidgetState extends State<SeriesWidget> {
         ],
       ),
       SizedBox(height: 10.dh),
-      AppText(widget.series.description,
-          size: 15.w, color: AppColors.onSecondary2),
-      _buildVisitSeriesButton(widget.series)
+      _buildSeriesDescription(),
+      SeriesActionButtons(
+        visitSeriesCallback: () =>
+            SeriesPage.navigateTo(context, widget.series),
+      )
     ]);
   }
 
-  _buildVisitSeriesButton(Series series) {
-    return Container(
-      height: 30.dh,
-      margin: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
-      child: TextButton(
-          onPressed: () => SeriesPage.navigateTo(context, series),
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 8.dw),
-            maximumSize: Size.fromWidth(120.dw),
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.inactive, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(15.dw))),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.podcasts, color: AppColors.secondary, size: 18.dw),
-              AppText('Visit Series', size: 15.w),
-            ],
-          )),
-    );
+  _buildSeriesDescription() {
+    String description = widget.series.description;
+    final length = description.length;
+    if (length > 160) description = description.substring(0, 160) + ' ...';
+    return AppText(description, size: 15.w, color: AppColors.onSecondary2);
   }
 }
