@@ -103,12 +103,12 @@ final seriesEpisodeList = [
   const Episode(
       id: 5,
       image: firstSeriesImage,
-      duration: 1770000,
+      duration: 2331000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The origins of Christianity',
       audioUrl:
-          'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ComedyOfTheWeek-20211004-JessicaFostekewPowerhouse.mp3?alt=media&token=9983e7f2-f178-47d6-a1a3-5154876fe27f',
+          'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/TheSportsDesk-20210813-MessiPSGAndFootballsPowerShift.mp3?alt=media&token=61e58913-b02c-429a-82d2-3071bcf854b4',
       description: firstSeriesEpisodeDesc,
       episodeNumber: 1,
       date: 'Jan 22 2020'),
@@ -147,7 +147,55 @@ final seriesEpisodeList = [
           'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/NomavaZanazo_2021S_VO_Intro.mp3?alt=media&token=c22c9773-46f5-4946-8ad7-495f9a7b3253',
       description: firstSeriesEpisodeDesc4,
       episodeNumber: 4,
-      date: 'Feb 12 2020')
+      date: 'Feb 12 2020'),
+  const Episode(
+      id: 9,
+      image: firstSeriesImage,
+      duration: 2469000,
+      seriesName: 'The History of Christianity',
+      channel: 'Bertie Pearson',
+      title: 'A Theology of Atheism',
+      audioUrl:
+          'https://dcs.megaphone.fm/GLT5262457131.mp3?key=1365baa0ce5e90b0e8fe51b3dc57a1b2',
+      description: firstSeriesEpisodeDesc,
+      episodeNumber: 5,
+      date: 'Feb 24 2020'),
+  const Episode(
+      id: 10,
+      image: firstSeriesImage,
+      duration: 2221000,
+      seriesName: 'The History of Christianity',
+      channel: 'Bertie Pearson',
+      title: 'Epistle to Diogentus',
+      audioUrl:
+          'https://stitcher-injected.simplecastaudio.com/2768da3d-358e-4261-bb27-d13709cba3f2/episodes/d232f425-8d29-417c-b060-c3a1eb336d3c/audio/128/default.mp3/default.mp3_18940eb4d07e7952c9bc8044064b7418_35544316.mp3',
+      description: firstSeriesEpisodeDesc2,
+      episodeNumber: 6,
+      date: 'Mar 02 2020'),
+  const Episode(
+      id: 11,
+      image: firstSeriesImage,
+      duration: 3707000,
+      seriesName: 'The History of Christianity',
+      channel: 'Bertie Pearson',
+      title: 'Gospel of Thomas',
+      audioUrl:
+          'https://stitcher-injected.simplecastaudio.com/2768da3d-358e-4261-bb27-d13709cba3f2/episodes/80d3c063-483b-4a23-a183-832677af0f67/audio/128/default.mp3/default.mp3_5e8438f0f29f93d9108d688c5c455e85_59343903.mp3',
+      description: firstSeriesEpisodeDesc3,
+      episodeNumber: 7,
+      date: 'Mar 30 2020'),
+  const Episode(
+      id: 12,
+      image: firstSeriesImage,
+      duration: 4873000,
+      seriesName: 'The History of Christianity',
+      channel: 'Bertie Pearson',
+      title: 'The American West: Is It A Sin to be Wealthy ?',
+      audioUrl:
+          'https://stitcher-injected.simplecastaudio.com/f464ff75-ee15-4529-89d9-d54107397afd/episodes/7185d82f-ca9a-45b1-8d79-db12c3253e42/audio/128/default.mp3/default.mp3_ee1ec22741ef36af45ba742059ef4fe9_78003707.mp3',
+      description: firstSeriesEpisodeDesc4,
+      episodeNumber: 8,
+      date: 'Apr 02 2020')
 ];
 
 const firstUrl =
@@ -206,7 +254,8 @@ const firstSeriesEpisodeDesc3 =
     'In this episaode, we explore how the New Testament came together; why some books were in, some were out, and who chose whcih was which';
 const firstSeriesEpisodeDesc4 =
     'Does the concept of salvation have any use if we don\'t see it as a ticket to some other worldly existence after we die? There are a few of the questions we tackle in this raw and powerful conversation with Mason Smith.';
-const channelDesc = 'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
+const channelDesc =
+    'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
 
 var defaultChannel = Channel(
     channelDescription: channelDesc,
@@ -215,5 +264,3 @@ var defaultChannel = Channel(
     channelName: 'The Pearson Podcast',
     channelOwner: 'Betty Pearson',
     channelSeriesList: seriesList);
-
-
