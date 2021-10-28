@@ -32,9 +32,8 @@ class AppRichText extends StatelessWidget {
                         onTap: () =>
                             isExpandNotifier.value = !isExpandNotifier.value,
                         child: AppText(isExpanded ? 'see less' : 'see more',
-                            size: 14,
+                            size: 16,
                             color: AppColors.secondary,
-                            family: FontFamily.casual,
                             weight: 600),
                       ),
                     ],
