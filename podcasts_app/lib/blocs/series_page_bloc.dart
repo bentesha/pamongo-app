@@ -14,7 +14,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     });
   }
 
-   init(Series series) {
+  init(Series series) {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final supplements = state.supplements
@@ -27,12 +27,12 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     await service.play(episodeList, index: index);
   }
 
-  void sort(int sortValue) async {
+  void sort(int sortIndex) async {
     final episodeList = state.episodeList;
     var supplements = state.supplements;
     emit(SeriesPageState.loading(episodeList, supplements));
 
-    final isByFirstToLast = sortValue == 2;
+    final isByFirstToLast = sortIndex == 2;
     final sortStyle = supplements.sortStyle;
 
     if (isByFirstToLast) {
