@@ -40,10 +40,10 @@ class _SeriesPageState extends State<SeriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: _handleWillPop, child: _buildScaffold());
+    return WillPopScope(onWillPop: _handleWillPop, child: _buildBody());
   }
 
-  _buildScaffold() {
+  _buildBody() {
     return BlocBuilder<SeriesPageBloc, SeriesPageState>(
       bloc: bloc,
       builder: (_, state) {
@@ -72,7 +72,8 @@ class _SeriesPageState extends State<SeriesPage> {
         appBar: _buildAppBar(widget.series.name),
         body: ListView(children: [
           _buildTitle(),
-          _buildBodyContent(episodeList, supplements),
+          _buildEpisodeIntro(episodeList[0], supplements),
+          _buildEpisodeList(episodeList, supplements),
           shouldLeaveSpace ? const SizedBox(height: 80) : Container()
         ]),
       ),
@@ -86,15 +87,37 @@ class _SeriesPageState extends State<SeriesPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.seriesPage(context,
-                topScrolledPixels: value, value: appBarTitle);
+                topScrolledPixels: value, title: appBarTitle);
           }),
     );
   }
 
+  _buildEpisodeIntro(Episode introEpisode, Supplements supplements) {
+    final playerState = supplements.playerState;
+    final activeId = supplements.activeId;
+
+    final status = Utils.getStatus(introEpisode.id, activeId, playerState);
+    final duration = Utils.convertFrom(introEpisode.duration);
+
+    return Container(
+        margin: const EdgeInsets.only(left: 18, right: 24, bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        color: const Color(0xffF8EA8C),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const AppText('INTRO', size: 14, weight: FontWeight.w600),
+          AppText('Introducing ${widget.series.name}', size: 15),
+          EpisodeActionButtons(Pages.seriesPage,
+              playCallback: () => bloc.play(0),
+              actionPadding: const EdgeInsets.only(top: 8),
+              status: status,
+              duration: duration)
+        ]));
+  }
+
   _buildTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 10, 15, 10),
-      child: Column(children: [
+      padding: const EdgeInsets.fromLTRB(18, 10, 15, 15),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SizedBox(
           height: 100,
           child: Row(children: [
@@ -102,8 +125,7 @@ class _SeriesPageState extends State<SeriesPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(series.name,
-                      size: 16, family: FontFamily.louis, weight: 600),
+                  AppText(series.name, size: 16, weight: FontWeight.w600),
                   const SizedBox(height: 8),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
@@ -133,11 +155,15 @@ class _SeriesPageState extends State<SeriesPage> {
             const SizedBox(width: 10),
           ]),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 10),
         SeriesActionButtons(visitSeriesCallback: () {}, isOnSeriesPage: true),
         Padding(
-            padding: const EdgeInsets.only(right: 10, top: 10),
-            child: AppRichText(series.description))
+            padding: const EdgeInsets.only(right: 10),
+            child: AppRichText(
+              text: AppText(series.description,
+                  size: 16, color: AppColors.onSecondary2, maxLines: 4),
+              useToggleExpansionButtons: true,
+            ))
       ]),
     );
   }
@@ -146,7 +172,7 @@ class _SeriesPageState extends State<SeriesPage> {
     return const AppLoadingIndicator();
   }
 
-  Widget _buildBodyContent(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildEpisodeList(List<Episode> episodeList, Supplements supplements) {
     final sortStyle = supplements.sortStyle;
 
     return Column(
@@ -164,10 +190,7 @@ class _SeriesPageState extends State<SeriesPage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               AppText(series.episodeList.length.toString() + '  Episodes',
-                  family: FontFamily.casual,
-                  weight: 400,
-                  size: 18,
-                  color: AppColors.active),
+                  family: 'Casual', size: 18, color: AppColors.active),
               _buildSortButton(sortStyle)
             ],
           ),
@@ -178,8 +201,11 @@ class _SeriesPageState extends State<SeriesPage> {
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final envelope = episodeList[index];
-            return _buildEpisodes(index, envelope, supplements);
+            final episode = episodeList[index];
+            final isIntroEpisode = index == 0;
+            return isIntroEpisode
+                ? Container()
+                : _buildEpisode(index, episode, supplements);
           },
         ),
         const SizedBox(height: 10)
@@ -187,16 +213,16 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  _buildEpisodes(int index, Episode envelope, Supplements supplements) {
+  _buildEpisode(int index, Episode episode, Supplements supplements) {
     return Column(children: [
-      index == 0
+      index == 1
           ? Container()
           : Container(height: 1, color: AppColors.separator),
-      _buildEpisode(index, envelope, supplements)
+      _episode(index, episode, supplements)
     ]);
   }
 
-  _buildEpisode(int index, Episode episode, Supplements supplements) {
+  _episode(int index, Episode episode, Supplements supplements) {
     final playerState = supplements.playerState;
     final activeId = supplements.activeId;
 
@@ -214,17 +240,14 @@ class _SeriesPageState extends State<SeriesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          index == 0 ? const SizedBox(height: 1) : const SizedBox(height: 10),
-          AppText(episode.date,
-              family: FontFamily.louis,
-              size: 14,
-              color: AppColors.onSecondary2),
+          index == 1 ? const SizedBox(height: 1) : const SizedBox(height: 10),
+          AppText(episode.date, size: 14, color: AppColors.onSecondary2),
           const SizedBox(height: 5),
-          AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
-              weight: 600,
-              size: 16,
-              color: AppColors.onSecondary,
-              family: FontFamily.louis),
+          AppText(
+            'Ep. ${episode.episodeNumber} : ${episode.title}',
+            weight: FontWeight.w600,
+            size: 16,
+          ),
           EpisodeActionButtons(
             Pages.seriesPage,
             playCallback: isInactive ? () {} : () => bloc.play(index),
@@ -249,7 +272,7 @@ class _SeriesPageState extends State<SeriesPage> {
         itemBuilder: (context) => [
               const PopupMenuItem(
                 enabled: false,
-                child: AppText("Sort by", weight: 600, size: 16),
+                child: AppText("Sort by", weight: FontWeight.w600, size: 16),
                 value: 0,
               ),
               PopupMenuItem(
@@ -273,7 +296,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 shape: BoxShape.circle,
                 color: isSelected ? AppColors.secondary : Colors.transparent)),
         const SizedBox(width: 10),
-        AppText(text, weight: 400, size: 15, color: AppColors.onSecondary),
+        AppText(text, size: 15),
       ],
     );
   }

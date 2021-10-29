@@ -27,7 +27,6 @@ class EpisodePage extends StatefulWidget {
 class _EpisodePageState extends State<EpisodePage> {
   late final EpisodePageBloc bloc;
   late final AudioPlayerService service;
-  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -61,8 +60,8 @@ class _EpisodePageState extends State<EpisodePage> {
         builder: (context, state) {
           return state.when(
               loading: _buildLoading,
-              content: _buildContent,
-              failed: _buildError);
+              failed: _buildError,
+              content: _buildContent);
         });
   }
 
@@ -70,9 +69,23 @@ class _EpisodePageState extends State<EpisodePage> {
     return const AppLoadingIndicator();
   }
 
+  Widget _buildError(Episode episode, Supplements supplements) {
+    return _buildContent(episode, supplements);
+  }
+
   Widget _buildContent(Episode episode, Supplements supplements) {
-    final playerState = supplements.playerState;
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        _buildEpisodeTile(episode, supplements),
+        _buildViewAllButton(episode)
+      ],
+    );
+  }
+
+  _buildEpisodeTile(Episode episode, Supplements supplements) {
     final activeId = supplements.activeId;
+    final playerState = supplements.playerState;
 
     final isPlaying = playerState == playingState;
     final isPaused = playerState == pausedState;
@@ -82,29 +95,21 @@ class _EpisodePageState extends State<EpisodePage> {
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
 
-    return ListView(
-      padding: EdgeInsets.zero,
-      controller: scrollController,
-      children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(18, 10, 15, 20),
-            child: EpisodeTile(Pages.episodePage,
-                status: status,
-                episode: episode,
-                duration:
-                    Utils.convertFrom(episode.duration, includeSeconds: false),
-                playCallback: isInactive ? () {} : bloc.play,
-                actionPadding: const EdgeInsets.fromLTRB(0, 10, 10, 10))),
-        _buildButton(episode)
-      ],
-    );
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(18, 0, 15, 20),
+        child: EpisodeTile(
+          page: Pages.episodePage,
+          descriptionMaxLines: 10,
+          useToggleExpansionButtons: true,
+          status: status,
+          episode: episode,
+          playCallback: isInactive ? () {} : bloc.play,
+          actionPadding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+          duration: Utils.convertFrom(episode.duration, includeSeconds: false),
+        ));
   }
 
-  Widget _buildError(Episode episode, Supplements supplements) {
-    return _buildContent(episode, supplements);
-  }
-
-  _buildButton(Episode episode) {
+  _buildViewAllButton(Episode episode) {
     return Center(
       child: TextButton(
         onPressed: () => SeriesPage.navigateTo(
@@ -115,12 +120,8 @@ class _EpisodePageState extends State<EpisodePage> {
                 description: episode.description,
                 channel: episode.channel,
                 episodeList: seriesEpisodeList)),
-        child: const AppText(
-          'View All Episodes',
-          color: AppColors.secondary,
-          size: 15,
-          weight: 600,
-        ),
+        child: const AppText('View All Episodes',
+            size: 15, weight: FontWeight.w600, color: AppColors.active),
       ),
     );
   }

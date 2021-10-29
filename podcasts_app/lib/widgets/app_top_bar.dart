@@ -12,26 +12,26 @@ class AppTopBars {
   }
 
   static AppTopBar channelPage(BuildContext context,
-      {required double topScrolledPixels, required String value}) {
+      {required double topScrolledPixels, required String title}) {
     return AppTopBar(Pages.channelPage,
-        topScrolledPixels: topScrolledPixels, value: value);
+        topScrolledPixels: topScrolledPixels, title: title);
   }
 
   static AppTopBar seriesPage(BuildContext context,
-      {required double topScrolledPixels, required String value}) {
+      {required double topScrolledPixels, required String title}) {
     return AppTopBar(Pages.seriesPage,
-        topScrolledPixels: topScrolledPixels, value: value);
+        topScrolledPixels: topScrolledPixels, title: title);
   }
 }
 
 class AppTopBar extends StatelessWidget {
   const AppTopBar(this.page,
-      {this.topScrolledPixels = 0, this.value = 'hellow', key})
+      {this.topScrolledPixels = 0, this.title = 'hellow', key})
       : super(key: key);
 
   final Pages page;
   final double topScrolledPixels;
-  final String value;
+  final String title;
 
   @override
   AppBar build(BuildContext context) {
@@ -40,55 +40,45 @@ class AppTopBar extends StatelessWidget {
     final isChannelPage = page == Pages.channelPage;
     final isSeriesPage = page == Pages.seriesPage;
 
-    final shouldChangeSeriesPageTitle = topScrolledPixels > 53;
-    final shouldChangeChannelPageTitle = topScrolledPixels > 130;
-    final hasSeriesPageTitleChange =
-        isSeriesPage ? shouldChangeSeriesPageTitle : false;
-    final hasChannelPageTitleChange =
-        isChannelPage ? shouldChangeChannelPageTitle : false;
+    final shouldChangeSeriesPageTitle = topScrolledPixels > 53 && isSeriesPage;
+    final shouldChangeChannelPageTitle =
+        topScrolledPixels > 130 && isChannelPage;
+    final isTitleChanged =
+        shouldChangeSeriesPageTitle || shouldChangeChannelPageTitle;
 
-    return isHomepage
+    return isHomepage || isEpisodePage
         ? AppBar(
-            centerTitle: true,
-            elevation: 1,
+            centerTitle: isHomepage,
+            elevation: isHomepage ? 1 : 0,
             backgroundColor: AppColors.background,
             automaticallyImplyLeading: false,
-            iconTheme: const IconThemeData(color: AppColors.onSecondary2),
-            title: const AppText('Podcasts', size: 20, weight: 600),
-          )
+            iconTheme: const IconThemeData(color: AppColors.onSecondary),
+            title: isHomepage
+                ? const AppText('Podcasts', size: 20, weight: FontWeight.w600)
+                : Container(),
+            leading: isEpisodePage ? _buildBackArrow() : Container())
         : AppBar(
             automaticallyImplyLeading: false,
-            title: AnimatedContainer(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.bounceIn,
-              child: hasSeriesPageTitleChange || hasChannelPageTitleChange
-                  ? Text(
-                      value,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.active,
-                          fontFamily: 'Louis'),
-                    )
-                  : AppText(
-                      isEpisodePage
-                          ? 'Episode'
-                          : isChannelPage
-                              ? 'Channel'
-                              : 'Series',
-                      size: 20,
-                      weight: 400,
-                      family: FontFamily.workSans,
-                    ),
-            ),
+            title: isTitleChanged
+                ? AppText(title,
+                    size: 18,
+                    weight: FontWeight.w600,
+                    color: AppColors.active,
+                    family: 'Louis')
+                : Container(),
             iconTheme: const IconThemeData(color: AppColors.onSecondary),
-            leading: IconButton(
-                padding: EdgeInsets.zero,
-                icon: const Icon(EvaIcons.arrowBackOutline, size: 25),
-                onPressed: () => Navigator.pop(context)),
+            leading: _buildBackArrow(),
             backgroundColor: AppColors.background,
-            elevation:
-                hasSeriesPageTitleChange || hasChannelPageTitleChange ? 2 : 0,
+            elevation: isTitleChanged ? 2 : 0,
           );
+  }
+
+  _buildBackArrow() {
+    return Builder(builder: (context) {
+      return IconButton(
+          padding: EdgeInsets.zero,
+          icon: const Icon(EvaIcons.arrowBackOutline, size: 25),
+          onPressed: () => Navigator.pop(context));
+    });
   }
 }
