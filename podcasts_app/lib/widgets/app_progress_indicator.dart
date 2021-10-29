@@ -117,19 +117,19 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   child: AppText(episode.title,
                       color: AppColors.onPrimary,
                       size: 18.w,
-                      weight: 600,
-                      alignment: TextAlign.start,
-                      family: FontFamily.louis),
+                      weight: FontWeight.w600,
+                      alignment: TextAlign.start),
                 ),
                 Icon(EvaIcons.heartOutline,
                     size: 25.dw, color: AppColors.onPrimary2)
               ],
             ),
             SizedBox(height: 5.dh),
-            AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
-                color: AppColors.onPrimary2,
-                size: 16.w,
-                family: FontFamily.louis),
+            AppText(
+              'Ep. ${episode.episodeNumber}: ' + episode.seriesName,
+              color: AppColors.onPrimary2,
+              size: 16.w,
+            ),
           ],
         ),
       ]),
@@ -212,7 +212,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppText(currentPosition,
-                size: 14.w, weight: 400, color: AppColors.onPrimary2),
+                size: 14.w,
+                weight: FontWeight.w400,
+                color: AppColors.onPrimary2),
             isLoading || hasFailedToBuffer
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -228,7 +230,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                   )
                 : Container(),
             AppText(duration,
-                size: 14.w, weight: 400, color: AppColors.onPrimary2)
+                size: 14.w,
+                weight: FontWeight.w400,
+                color: AppColors.onPrimary2)
           ]),
     );
   }
@@ -350,14 +354,11 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                             : episode.title,
                         color: AppColors.onPrimary,
                         size: 15.w,
-                        weight: 600,
-                        family: FontFamily.louis,
+                        weight: FontWeight.w600,
                       ),
                       SizedBox(height: 3.dh),
                       AppText('Ep. ${episode.episodeNumber}',
-                          family: FontFamily.louis,
-                          color: AppColors.onPrimary2,
-                          size: 15.w),
+                          color: AppColors.onPrimary2, size: 15.w),
                     ],
                   ),
                 ],

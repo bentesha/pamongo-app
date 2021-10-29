@@ -21,7 +21,6 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   late final HomepageBloc bloc;
   late final AudioPlayerService service;
-  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,13 +29,6 @@ class _HomepageState extends State<Homepage> {
     bloc.init();
     WidgetsBinding.instance!.addPostFrameCallback((_) => _insertOverlay());
     super.initState();
-  }
-
-  _insertOverlay() {
-    final overlay = Overlay.of(context)!;
-    final entry =
-        OverlayEntry(builder: (context) => const AudioProgressWidget());
-    overlay.insert(entry);
   }
 
   @override
@@ -64,6 +56,10 @@ class _HomepageState extends State<Homepage> {
         });
   }
 
+  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
+    return const AppLoadingIndicator();
+  }
+
   Widget _buildError(List<Episode> episodeList, Supplements supplements) {
     return _buildContent(episodeList, supplements);
   }
@@ -78,7 +74,6 @@ class _HomepageState extends State<Homepage> {
       color: AppColors.secondary,
       child: ListView(
         padding: EdgeInsets.only(top: 10.dh),
-        controller: scrollController,
         children: [
           _buildSeries(),
           _buildRecent(episodeList, supplements),
@@ -88,10 +83,6 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
   _buildSeries() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,10 +90,7 @@ class _HomepageState extends State<Homepage> {
         Padding(
           padding: EdgeInsets.only(left: 18.dw, top: 8.dh),
           child: AppText('Series',
-              family: FontFamily.casual,
-              weight: 400,
-              size: 18.w,
-              color: AppColors.active),
+              family: 'Casual', size: 18.w, color: AppColors.active),
         ),
         SizedBox(height: 10.dh),
         SingleChildScrollView(
@@ -119,7 +107,8 @@ class _HomepageState extends State<Homepage> {
                       left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
                   child: GestureDetector(
                     onTap: () => SeriesPage.navigateTo(context, series),
-                    child: SizedBox(width: 96.dw, child: _series(series)),
+                    child: SizedBox(
+                        width: 96.dw, child: _buildSeriesEntry(series)),
                   ));
             }).toList(),
           ),
@@ -129,22 +118,17 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  _series(Series series) {
+  _buildSeriesEntry(Series series) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       AppImage(image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
       SizedBox(height: 9.dh),
-      AppText(series.name,
-          family: FontFamily.louis,
-          alignment: TextAlign.start,
-          size: 14.w,
-          weight: 400),
+      AppText(series.name, alignment: TextAlign.start, size: 14.w, maxLines: 3),
       SizedBox(height: 5.dh),
       AppText(series.channel,
           size: 12.w,
-          family: FontFamily.louis,
           alignment: TextAlign.start,
-          weight: 400,
-          color: AppColors.onSecondary2)
+          color: AppColors.onSecondary2,
+          maxLines: 3)
     ]);
   }
 
@@ -175,15 +159,25 @@ class _HomepageState extends State<Homepage> {
             padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
             child: GestureDetector(
                 onTap: () => EpisodePage.navigateTo(context, episode),
-                child: EpisodeTile(Pages.homepage,
-                    playCallback: isInactive ? () {} : () => bloc.play(episode),
-                    status: status,
-                    duration: Utils.convertFrom(episode.duration,
-                        includeSeconds: false),
-                    episode: episode,
-                    actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh)))),
+                child: EpisodeTile(
+                  page: Pages.homepage,
+                  episode: episode,
+                  status: status,
+                  descriptionMaxLines: 3,
+                  actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
+                  playCallback: isInactive ? () {} : () => bloc.play(episode),
+                  duration: Utils.convertFrom(episode.duration,
+                      includeSeconds: false),
+                ))),
       ],
     );
+  }
+
+  void _insertOverlay() {
+    final overlay = Overlay.of(context)!;
+    final entry =
+        OverlayEntry(builder: (context) => const AudioProgressWidget());
+    overlay.insert(entry);
   }
 
   Future<bool> _handleWillPop() async {

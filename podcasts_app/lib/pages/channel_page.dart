@@ -7,6 +7,7 @@ import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/channel_page_state.dart';
+import 'package:podcasts/widgets/channel_action_buttons.dart';
 import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
 
@@ -39,10 +40,10 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: _handleWillPop, child: _buildScaffold());
+    return WillPopScope(onWillPop: _handleWillPop, child: _buildBody());
   }
 
-  _buildScaffold() {
+  _buildBody() {
     return BlocBuilder<ChannelPageBloc, ChannelPageState>(
         bloc: bloc,
         builder: (context, state) {
@@ -66,7 +67,7 @@ class _ChannelPageState extends State<ChannelPage> {
         return true;
       },
       child: Scaffold(
-        appBar: _buildAppBar(channel.channelName),
+        appBar: _buildAppBar(widget.channelName),
         body: ListView(padding: EdgeInsets.zero, children: [
           _buildTitle(channel),
           _buildSeriesList(channel),
@@ -87,7 +88,7 @@ class _ChannelPageState extends State<ChannelPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.channelPage(context,
-                topScrolledPixels: value, value: appBarTitle);
+                topScrolledPixels: value, title: appBarTitle);
           }),
     );
   }
@@ -111,20 +112,29 @@ class _ChannelPageState extends State<ChannelPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(widget.channelName,
-                      alignment: TextAlign.start, weight: 700, size: 25.w),
+                      alignment: TextAlign.start,
+                      weight: FontWeight.w700,
+                      maxLines: 4,
+                      size: 25.w),
                   SizedBox(height: 5.dh),
                   AppText('by ' + channel.channelOwner,
-                      size: 14.w, weight: 600, color: AppColors.onSecondary2),
+                      size: 14.w,
+                      weight: FontWeight.w600,
+                      color: AppColors.onSecondary2),
                   SizedBox(height: 5.dh),
                 ],
               ),
             ),
           ]),
         ),
-        SizedBox(height: 15.dh),
+        SizedBox(height: 10.dh),
+        const ChannelActionButtons(),
         Padding(
           padding: EdgeInsets.only(right: 10.dw),
-          child: AppRichText(channel.channelDescription),
+          child: AppRichText(
+              text: AppText(channel.channelDescription,
+                  size: 16.w, color: AppColors.onSecondary2, maxLines: 4),
+              useToggleExpansionButtons: true),
         )
       ]),
     );
@@ -139,8 +149,7 @@ class _ChannelPageState extends State<ChannelPage> {
           Container(height: 1, color: AppColors.separator),
           Padding(
             padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
-            child: AppText('My Series',
-                size: 18.w, weight: 400, family: FontFamily.casual),
+            child: AppText('My Series', size: 18.w, family: 'Casual'),
           ),
           SizedBox(height: 10.dh),
           ListView(
@@ -162,7 +171,7 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.separator),
       Padding(
-          padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 5.dh),
+          padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 0),
           child: SeriesWidget(series)),
     ]);
   }

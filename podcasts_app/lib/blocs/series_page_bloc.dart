@@ -14,7 +14,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     });
   }
 
-  void init(Series series) {
+   init(Series series) {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final supplements = state.supplements

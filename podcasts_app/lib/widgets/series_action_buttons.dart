@@ -1,4 +1,5 @@
 import 'package:podcasts/source.dart';
+import 'package:podcasts/widgets/app_text_button.dart';
 
 class SeriesActionButtons extends StatelessWidget {
   const SeriesActionButtons(
@@ -19,53 +20,24 @@ class SeriesActionButtons extends StatelessWidget {
 
   _buildFollowButton() {
     return isOnSeriesPage
-        ? _roundedButton('Follow', withIcon: true)
-        : _iconButton(AppIcons.follow,
-            padding: EdgeInsets.symmetric(horizontal: 15.dw));
+        ? AppTextButton(callback: () {}, text: 'Follow', radius: 5.dw)
+        : _iconButton(AppIcons.follow);
   }
 
   _buildShareButton() {
-    return _iconButton(AppIcons.share,
-        padding: isOnSeriesPage
-            ? EdgeInsets.fromLTRB(15.dw, 5.dh, 0, 0)
-            : EdgeInsets.zero);
+    return _iconButton(AppIcons.share);
   }
 
   _buildVisitSeriesButton() {
-    return _roundedButton('Visit Series');
+    final radius = isOnSeriesPage ? 5.dw : 15.dw;
+    return AppTextButton(
+        callback: visitSeriesCallback, text: 'Visit Series', radius: radius);
   }
 
-  _roundedButton(String text,
-      {bool withIcon = false, IconData icon = AppIcons.follow}) {
-    return Container(
-      height: 30.dh,
-      margin: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
-      child: TextButton(
-          onPressed: visitSeriesCallback,
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 15.dw),
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.inactive, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(15.dw))),
-          ),
-          child: Row(
-            children: [
-              withIcon
-                  ? Padding(
-                      padding: EdgeInsets.only(right: 10.dw),
-                      child:
-                          Icon(icon, color: AppColors.secondary, size: 22.dw))
-                  : Container(),
-              AppText(text, size: 14.w),
-            ],
-          )),
-    );
-  }
-
-  _iconButton(IconData icon, {EdgeInsetsGeometry padding = EdgeInsets.zero}) {
+  _iconButton(IconData icon) {
     return IconButton(
         onPressed: () {},
-        padding: padding,
+        padding: EdgeInsets.only(right: 15.dw),
         constraints: const BoxConstraints(),
         icon: Icon(icon, color: AppColors.secondary, size: 22.dw));
   }

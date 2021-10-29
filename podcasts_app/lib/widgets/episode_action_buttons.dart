@@ -83,7 +83,7 @@ class EpisodeActionButtons extends StatelessWidget {
                         : isPlaying || isLoading || isPaused
                             ? '  ' + status
                             : '  $duration',
-                weight: 400,
+                weight: FontWeight.w400,
                 color: isPaused || isPlaying
                     ? AppColors.onPrimary
                     : AppColors.onSecondary,

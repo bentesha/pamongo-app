@@ -103,6 +103,18 @@ final seriesEpisodeList = [
   const Episode(
       id: 5,
       image: firstSeriesImage,
+      duration: 185000,
+      seriesName: 'The History of Christianity',
+      channel: 'Bertie Pearson',
+      title: 'Introducing The History of Christianity',
+      audioUrl:
+          'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/BadPeople-20200723-WelcomeToBadPeople.mp3?alt=media&token=cb4c6bec-915e-4408-8f6b-924e8717d262',
+      description: firstSeriesEpisodeDesc,
+      episodeNumber: 0,
+      date: 'Jan 22 2020'),
+  const Episode(
+      id: 6,
+      image: firstSeriesImage,
       duration: 2331000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
@@ -113,7 +125,7 @@ final seriesEpisodeList = [
       episodeNumber: 1,
       date: 'Jan 22 2020'),
   const Episode(
-      id: 6,
+      id: 7,
       image: firstSeriesImage,
       duration: 543000,
       seriesName: 'The History of Christianity',
@@ -125,7 +137,7 @@ final seriesEpisodeList = [
       episodeNumber: 2,
       date: 'Feb 01 2020'),
   const Episode(
-      id: 7,
+      id: 8,
       image: firstSeriesImage,
       duration: 968000,
       seriesName: 'The History of Christianity',
@@ -137,7 +149,7 @@ final seriesEpisodeList = [
       episodeNumber: 3,
       date: 'Feb 05 2020'),
   const Episode(
-      id: 8,
+      id: 9,
       image: firstSeriesImage,
       duration: 798000,
       seriesName: 'The History of Christianity',
@@ -149,7 +161,7 @@ final seriesEpisodeList = [
       episodeNumber: 4,
       date: 'Feb 12 2020'),
   const Episode(
-      id: 9,
+      id: 10,
       image: firstSeriesImage,
       duration: 2469000,
       seriesName: 'The History of Christianity',
@@ -161,7 +173,7 @@ final seriesEpisodeList = [
       episodeNumber: 5,
       date: 'Feb 24 2020'),
   const Episode(
-      id: 10,
+      id: 11,
       image: firstSeriesImage,
       duration: 2221000,
       seriesName: 'The History of Christianity',
@@ -173,7 +185,7 @@ final seriesEpisodeList = [
       episodeNumber: 6,
       date: 'Mar 02 2020'),
   const Episode(
-      id: 11,
+      id: 12,
       image: firstSeriesImage,
       duration: 3707000,
       seriesName: 'The History of Christianity',
@@ -185,14 +197,14 @@ final seriesEpisodeList = [
       episodeNumber: 7,
       date: 'Mar 30 2020'),
   const Episode(
-      id: 12,
+      id: 13,
       image: firstSeriesImage,
       duration: 4873000,
       seriesName: 'The History of Christianity',
       channel: 'Bertie Pearson',
       title: 'The American West: Is It A Sin to be Wealthy ?',
       audioUrl:
-          'https://stitcher-injected.simplecastaudio.com/f464ff75-ee15-4529-89d9-d54107397afd/episodes/7185d82f-ca9a-45b1-8d79-db12c3253e42/audio/128/default.mp3/default.mp3_ee1ec22741ef36af45ba742059ef4fe9_78003707.mp3',
+          'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/default.mp3_ee1ec22741ef36af45ba742059ef4fe9_78003707.mp3?alt=media&token=a8599bb7-2afe-4b0a-958a-531d75426936',
       description: firstSeriesEpisodeDesc4,
       episodeNumber: 8,
       date: 'Apr 02 2020')
