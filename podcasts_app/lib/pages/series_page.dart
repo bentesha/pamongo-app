@@ -8,6 +8,7 @@ import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/series_page_state.dart';
 import 'package:podcasts/widgets/series_action_buttons.dart';
+import 'package:podcasts/widgets/sort_button.dart';
 import '../source.dart';
 import 'channel_page.dart';
 
@@ -28,6 +29,7 @@ class _SeriesPageState extends State<SeriesPage> {
   late final AudioPlayerService service;
   late final Series series;
   final topScrolledPixelsNotifier = ValueNotifier<double>(0);
+  final scrollController = ScrollController();
 
   @override
   void initState() {
@@ -62,6 +64,8 @@ class _SeriesPageState extends State<SeriesPage> {
   Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
+    final isSortingFromFirstToLast =
+        supplements.sortStyle == SortStyles.firstToLast;
 
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
@@ -72,7 +76,11 @@ class _SeriesPageState extends State<SeriesPage> {
         appBar: _buildAppBar(widget.series.name),
         body: ListView(children: [
           _buildTitle(),
-          _buildEpisodeIntro(episodeList[0], supplements),
+          _buildEpisodeIntro(
+              isSortingFromFirstToLast
+                  ? episodeList[0]
+                  : episodeList[episodeList.length - 1],
+              supplements),
           _buildEpisodeList(episodeList, supplements),
           shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
         ]),
@@ -101,14 +109,21 @@ class _SeriesPageState extends State<SeriesPage> {
 
     return Container(
         margin: EdgeInsets.only(left: 18.dw, right: 24.dw, bottom: 10.dh),
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 10.dh),
-        color: const Color(0xffF8EA8C),
+        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),
+        color: const Color(0xffEEEDE7),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          AppText('INTRO', size: 14.w, weight: FontWeight.w600),
+          Container(
+              padding: EdgeInsets.all(2.dw),
+              margin: EdgeInsets.only(bottom: 3.dh),
+              color: AppColors.onSecondary2,
+              child: AppText('INTRO',
+                  size: 12.w,
+                  weight: FontWeight.w600,
+                  color: AppColors.onPrimary2)),
           AppText('Introducing ${widget.series.name}', size: 15.w),
           EpisodeActionButtons(Pages.seriesPage,
               playCallback: () => bloc.play(0),
-              actionPadding: EdgeInsets.only(top: 8.dh),
+              actionPadding: EdgeInsets.only(top: 5.dh),
               status: status,
               duration: duration)
         ]));
@@ -179,31 +194,27 @@ class _SeriesPageState extends State<SeriesPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 1,
-          color: AppColors.separator,
-          margin: EdgeInsets.only(top: 10.dh),
-        ),
         Padding(
           padding: EdgeInsets.fromLTRB(18.dw, 0, 10.dw, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AppText(series.episodeList.length.toString() + '  Episodes',
+              AppText((series.episodeList.length - 1).toString() + '  Episodes',
                   family: 'Casual', size: 18.w, color: AppColors.active),
-              _buildSortButton(sortStyle)
+              SortButton(sortStyle: sortStyle, onSelectedCallback: bloc.sort)
             ],
           ),
         ),
         ListView.builder(
+          controller: scrollController,
           itemCount: episodeList.length,
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final episode = episodeList[index];
-            final isIntroEpisode = index == 0;
+            final isIntroEpisode = episode.episodeNumber == 0;
             return isIntroEpisode
                 ? Container()
                 : _buildEpisode(index, episode, supplements);
@@ -259,49 +270,6 @@ class _SeriesPageState extends State<SeriesPage> {
           )
         ],
       ),
-    );
-  }
-
-  _buildSortButton(SortStyles sortStyle) {
-    final isFirstToLast = sortStyle == SortStyles.firstToLast;
-    final isLastToFirst = sortStyle == SortStyles.lastToFirst;
-
-    return PopupMenuButton<int>(
-        icon: Icon(AppIcons.sort, size: 20.dw),
-        onSelected: bloc.sort,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                height: 35.dh,
-                enabled: false,
-                child: AppText("Sort by", weight: FontWeight.w600, size: 16.w),
-                value: 0,
-              ),
-              PopupMenuItem(
-                height: 35.dh,
-                child: _buildPopupMenuItem(isLastToFirst, 'latest'),
-                value: 1,
-              ),
-              PopupMenuItem(
-                height: 35.dh,
-                child: _buildPopupMenuItem(isFirstToLast, 'oldest'),
-                value: 2,
-              ),
-            ]);
-  }
-
-  _buildPopupMenuItem(bool isSelected, String text) {
-    return Row(
-      children: [
-        Container(
-            width: 5,
-            height: 5,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSelected ? AppColors.secondary : Colors.transparent)),
-        SizedBox(width: 10.dw),
-        AppText(text, size: 15.w),
-      ],
     );
   }
 
