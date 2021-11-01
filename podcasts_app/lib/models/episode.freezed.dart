@@ -21,8 +21,8 @@ class _$EpisodeTearOff {
       {String image = '',
       String seriesName = '',
       String channel = '',
-      String date = '',
       int duration = 0,
+      String date = '',
       int id = -1,
       int episodeNumber = 0,
       String title = '',
@@ -32,8 +32,8 @@ class _$EpisodeTearOff {
       image: image,
       seriesName: seriesName,
       channel: channel,
-      date: date,
       duration: duration,
+      date: date,
       id: id,
       episodeNumber: episodeNumber,
       title: title,
@@ -51,8 +51,8 @@ mixin _$Episode {
   String get image => throw _privateConstructorUsedError;
   String get seriesName => throw _privateConstructorUsedError;
   String get channel => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
+  String get date => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
   int get episodeNumber => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -71,8 +71,8 @@ abstract class $EpisodeCopyWith<$Res> {
       {String image,
       String seriesName,
       String channel,
-      String date,
       int duration,
+      String date,
       int id,
       int episodeNumber,
       String title,
@@ -93,8 +93,8 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
     Object? image = freezed,
     Object? seriesName = freezed,
     Object? channel = freezed,
-    Object? date = freezed,
     Object? duration = freezed,
+    Object? date = freezed,
     Object? id = freezed,
     Object? episodeNumber = freezed,
     Object? title = freezed,
@@ -114,14 +114,14 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
           ? _value.channel
           : channel // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -155,8 +155,8 @@ abstract class _$EpisodeCopyWith<$Res> implements $EpisodeCopyWith<$Res> {
       {String image,
       String seriesName,
       String channel,
-      String date,
       int duration,
+      String date,
       int id,
       int episodeNumber,
       String title,
@@ -178,8 +178,8 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
     Object? image = freezed,
     Object? seriesName = freezed,
     Object? channel = freezed,
-    Object? date = freezed,
     Object? duration = freezed,
+    Object? date = freezed,
     Object? id = freezed,
     Object? episodeNumber = freezed,
     Object? title = freezed,
@@ -199,14 +199,14 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
           ? _value.channel
           : channel // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String,
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -238,8 +238,8 @@ class _$_Episode implements _Episode {
       {this.image = '',
       this.seriesName = '',
       this.channel = '',
-      this.date = '',
       this.duration = 0,
+      this.date = '',
       this.id = -1,
       this.episodeNumber = 0,
       this.title = '',
@@ -255,12 +255,12 @@ class _$_Episode implements _Episode {
   @JsonKey(defaultValue: '')
   @override
   final String channel;
-  @JsonKey(defaultValue: '')
-  @override
-  final String date;
   @JsonKey(defaultValue: 0)
   @override
   final int duration;
+  @JsonKey(defaultValue: '')
+  @override
+  final String date;
   @JsonKey(defaultValue: -1)
   @override
   final int id;
@@ -279,7 +279,7 @@ class _$_Episode implements _Episode {
 
   @override
   String toString() {
-    return 'Episode(image: $image, seriesName: $seriesName, channel: $channel, date: $date, duration: $duration, id: $id, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
+    return 'Episode(image: $image, seriesName: $seriesName, channel: $channel, duration: $duration, date: $date, id: $id, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
   }
 
   @override
@@ -294,11 +294,11 @@ class _$_Episode implements _Episode {
             (identical(other.channel, channel) ||
                 const DeepCollectionEquality()
                     .equals(other.channel, channel)) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.episodeNumber, episodeNumber) ||
@@ -320,8 +320,8 @@ class _$_Episode implements _Episode {
       const DeepCollectionEquality().hash(image) ^
       const DeepCollectionEquality().hash(seriesName) ^
       const DeepCollectionEquality().hash(channel) ^
-      const DeepCollectionEquality().hash(date) ^
       const DeepCollectionEquality().hash(duration) ^
+      const DeepCollectionEquality().hash(date) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(episodeNumber) ^
       const DeepCollectionEquality().hash(title) ^
@@ -339,8 +339,8 @@ abstract class _Episode implements Episode {
       {String image,
       String seriesName,
       String channel,
-      String date,
       int duration,
+      String date,
       int id,
       int episodeNumber,
       String title,
@@ -354,9 +354,9 @@ abstract class _Episode implements Episode {
   @override
   String get channel => throw _privateConstructorUsedError;
   @override
-  String get date => throw _privateConstructorUsedError;
-  @override
   int get duration => throw _privateConstructorUsedError;
+  @override
+  String get date => throw _privateConstructorUsedError;
   @override
   int get id => throw _privateConstructorUsedError;
   @override

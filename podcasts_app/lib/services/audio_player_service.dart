@@ -38,9 +38,13 @@ class AudioPlayerService {
     final episode = episodeList[index];
 
     try {
-      await _player.setUrl(episode.audioUrl);
-      _updateContentWith(playerState: playingState);
-      await _player.play();
+      final duration = await _player.setUrl(episode.audioUrl);
+      if (duration != null) {
+        episode.copyWith(duration: duration.inMilliseconds);
+        episodeList[index] = episode;
+        _updateContentWith(playerState: playingState, episodeList: episodeList);
+        await _player.play();
+      }
     } catch (e) {
       log(e.toString());
       _updateContentWith(playerState: errorState);
