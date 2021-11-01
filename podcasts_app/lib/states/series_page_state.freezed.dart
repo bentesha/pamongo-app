@@ -17,23 +17,23 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SeriesPageStateTearOff {
   const _$SeriesPageStateTearOff();
 
-  _Loading loading(List<Episode> episodeList, Supplements supplements) {
+  _Loading loading(Series series, Supplements supplements) {
     return _Loading(
-      episodeList,
+      series,
       supplements,
     );
   }
 
-  _Content content(List<Episode> episodeList, Supplements supplements) {
+  _Content content(Series series, Supplements supplements) {
     return _Content(
-      episodeList,
+      series,
       supplements,
     );
   }
 
-  _Failed failed(List<Episode> episodeList, Supplements supplements) {
+  _Failed failed(Series series, Supplements supplements) {
     return _Failed(
-      episodeList,
+      series,
       supplements,
     );
   }
@@ -44,40 +44,28 @@ const $SeriesPageState = _$SeriesPageStateTearOff();
 
 /// @nodoc
 mixin _$SeriesPageState {
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  Series get series => throw _privateConstructorUsedError;
   Supplements get supplements => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        loading,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        content,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        failed,
+    required TResult Function(Series series, Supplements supplements) loading,
+    required TResult Function(Series series, Supplements supplements) content,
+    required TResult Function(Series series, Supplements supplements) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,8 +102,9 @@ abstract class $SeriesPageStateCopyWith<$Res> {
   factory $SeriesPageStateCopyWith(
           SeriesPageState value, $Res Function(SeriesPageState) then) =
       _$SeriesPageStateCopyWithImpl<$Res>;
-  $Res call({List<Episode> episodeList, Supplements supplements});
+  $Res call({Series series, Supplements supplements});
 
+  $SeriesCopyWith<$Res> get series;
   $SupplementsCopyWith<$Res> get supplements;
 }
 
@@ -130,19 +119,26 @@ class _$SeriesPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? episodeList = freezed,
+    Object? series = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_value.copyWith(
-      episodeList: episodeList == freezed
-          ? _value.episodeList
-          : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+      series: series == freezed
+          ? _value.series
+          : series // ignore: cast_nullable_to_non_nullable
+              as Series,
       supplements: supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as Supplements,
     ));
+  }
+
+  @override
+  $SeriesCopyWith<$Res> get series {
+    return $SeriesCopyWith<$Res>(_value.series, (value) {
+      return _then(_value.copyWith(series: value));
+    });
   }
 
   @override
@@ -159,8 +155,10 @@ abstract class _$LoadingCopyWith<$Res>
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({List<Episode> episodeList, Supplements supplements});
+  $Res call({Series series, Supplements supplements});
 
+  @override
+  $SeriesCopyWith<$Res> get series;
   @override
   $SupplementsCopyWith<$Res> get supplements;
 }
@@ -176,14 +174,14 @@ class __$LoadingCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? episodeList = freezed,
+    Object? series = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Loading(
-      episodeList == freezed
-          ? _value.episodeList
-          : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+      series == freezed
+          ? _value.series
+          : series // ignore: cast_nullable_to_non_nullable
+              as Series,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -195,25 +193,24 @@ class __$LoadingCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loading implements _Loading {
-  const _$_Loading(this.episodeList, this.supplements);
+  const _$_Loading(this.series, this.supplements);
 
   @override
-  final List<Episode> episodeList;
+  final Series series;
   @override
   final Supplements supplements;
 
   @override
   String toString() {
-    return 'SeriesPageState.loading(episodeList: $episodeList, supplements: $supplements)';
+    return 'SeriesPageState.loading(series: $series, supplements: $supplements)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Loading &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
+            (identical(other.series, series) ||
+                const DeepCollectionEquality().equals(other.series, series)) &&
             (identical(other.supplements, supplements) ||
                 const DeepCollectionEquality()
                     .equals(other.supplements, supplements)));
@@ -222,7 +219,7 @@ class _$_Loading implements _Loading {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
+      const DeepCollectionEquality().hash(series) ^
       const DeepCollectionEquality().hash(supplements);
 
   @JsonKey(ignore: true)
@@ -233,45 +230,33 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        loading,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        content,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        failed,
+    required TResult Function(Series series, Supplements supplements) loading,
+    required TResult Function(Series series, Supplements supplements) content,
+    required TResult Function(Series series, Supplements supplements) failed,
   }) {
-    return loading(episodeList, supplements);
+    return loading(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
   }) {
-    return loading?.call(episodeList, supplements);
+    return loading?.call(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(episodeList, supplements);
+      return loading(series, supplements);
     }
     return orElse();
   }
@@ -312,11 +297,10 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements SeriesPageState {
-  const factory _Loading(List<Episode> episodeList, Supplements supplements) =
-      _$_Loading;
+  const factory _Loading(Series series, Supplements supplements) = _$_Loading;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  Series get series => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override
@@ -331,8 +315,10 @@ abstract class _$ContentCopyWith<$Res>
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
-  $Res call({List<Episode> episodeList, Supplements supplements});
+  $Res call({Series series, Supplements supplements});
 
+  @override
+  $SeriesCopyWith<$Res> get series;
   @override
   $SupplementsCopyWith<$Res> get supplements;
 }
@@ -348,14 +334,14 @@ class __$ContentCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? episodeList = freezed,
+    Object? series = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Content(
-      episodeList == freezed
-          ? _value.episodeList
-          : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+      series == freezed
+          ? _value.series
+          : series // ignore: cast_nullable_to_non_nullable
+              as Series,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -367,25 +353,24 @@ class __$ContentCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(this.episodeList, this.supplements);
+  const _$_Content(this.series, this.supplements);
 
   @override
-  final List<Episode> episodeList;
+  final Series series;
   @override
   final Supplements supplements;
 
   @override
   String toString() {
-    return 'SeriesPageState.content(episodeList: $episodeList, supplements: $supplements)';
+    return 'SeriesPageState.content(series: $series, supplements: $supplements)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Content &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
+            (identical(other.series, series) ||
+                const DeepCollectionEquality().equals(other.series, series)) &&
             (identical(other.supplements, supplements) ||
                 const DeepCollectionEquality()
                     .equals(other.supplements, supplements)));
@@ -394,7 +379,7 @@ class _$_Content implements _Content {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
+      const DeepCollectionEquality().hash(series) ^
       const DeepCollectionEquality().hash(supplements);
 
   @JsonKey(ignore: true)
@@ -405,45 +390,33 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        loading,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        content,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        failed,
+    required TResult Function(Series series, Supplements supplements) loading,
+    required TResult Function(Series series, Supplements supplements) content,
+    required TResult Function(Series series, Supplements supplements) failed,
   }) {
-    return content(episodeList, supplements);
+    return content(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
   }) {
-    return content?.call(episodeList, supplements);
+    return content?.call(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(episodeList, supplements);
+      return content(series, supplements);
     }
     return orElse();
   }
@@ -484,11 +457,10 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements SeriesPageState {
-  const factory _Content(List<Episode> episodeList, Supplements supplements) =
-      _$_Content;
+  const factory _Content(Series series, Supplements supplements) = _$_Content;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  Series get series => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override
@@ -503,8 +475,10 @@ abstract class _$FailedCopyWith<$Res>
   factory _$FailedCopyWith(_Failed value, $Res Function(_Failed) then) =
       __$FailedCopyWithImpl<$Res>;
   @override
-  $Res call({List<Episode> episodeList, Supplements supplements});
+  $Res call({Series series, Supplements supplements});
 
+  @override
+  $SeriesCopyWith<$Res> get series;
   @override
   $SupplementsCopyWith<$Res> get supplements;
 }
@@ -520,14 +494,14 @@ class __$FailedCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? episodeList = freezed,
+    Object? series = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Failed(
-      episodeList == freezed
-          ? _value.episodeList
-          : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+      series == freezed
+          ? _value.series
+          : series // ignore: cast_nullable_to_non_nullable
+              as Series,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -539,25 +513,24 @@ class __$FailedCopyWithImpl<$Res> extends _$SeriesPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Failed implements _Failed {
-  const _$_Failed(this.episodeList, this.supplements);
+  const _$_Failed(this.series, this.supplements);
 
   @override
-  final List<Episode> episodeList;
+  final Series series;
   @override
   final Supplements supplements;
 
   @override
   String toString() {
-    return 'SeriesPageState.failed(episodeList: $episodeList, supplements: $supplements)';
+    return 'SeriesPageState.failed(series: $series, supplements: $supplements)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Failed &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
+            (identical(other.series, series) ||
+                const DeepCollectionEquality().equals(other.series, series)) &&
             (identical(other.supplements, supplements) ||
                 const DeepCollectionEquality()
                     .equals(other.supplements, supplements)));
@@ -566,7 +539,7 @@ class _$_Failed implements _Failed {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
+      const DeepCollectionEquality().hash(series) ^
       const DeepCollectionEquality().hash(supplements);
 
   @JsonKey(ignore: true)
@@ -577,45 +550,33 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        loading,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        content,
-    required TResult Function(
-            List<Episode> episodeList, Supplements supplements)
-        failed,
+    required TResult Function(Series series, Supplements supplements) loading,
+    required TResult Function(Series series, Supplements supplements) content,
+    required TResult Function(Series series, Supplements supplements) failed,
   }) {
-    return failed(episodeList, supplements);
+    return failed(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
   }) {
-    return failed?.call(episodeList, supplements);
+    return failed?.call(series, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        loading,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        content,
-    TResult Function(List<Episode> episodeList, Supplements supplements)?
-        failed,
+    TResult Function(Series series, Supplements supplements)? loading,
+    TResult Function(Series series, Supplements supplements)? content,
+    TResult Function(Series series, Supplements supplements)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
-      return failed(episodeList, supplements);
+      return failed(series, supplements);
     }
     return orElse();
   }
@@ -656,11 +617,10 @@ class _$_Failed implements _Failed {
 }
 
 abstract class _Failed implements SeriesPageState {
-  const factory _Failed(List<Episode> episodeList, Supplements supplements) =
-      _$_Failed;
+  const factory _Failed(Series series, Supplements supplements) = _$_Failed;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  Series get series => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override

@@ -112,14 +112,7 @@ class _EpisodePageState extends State<EpisodePage> {
   _buildViewAllButton(Episode episode) {
     return Center(
       child: TextButton(
-        onPressed: () => SeriesPage.navigateTo(
-            context,
-            Series(
-                image: episode.image,
-                name: episode.seriesName,
-                description: episode.description,
-                channel: episode.channel,
-                episodeList: seriesEpisodeList)),
+        onPressed: () => SeriesPage.navigateTo(context, episode.seriesId),
         child: const AppText('View All Episodes',
             size: 15, weight: FontWeight.w600, color: AppColors.active),
       ),

@@ -18,14 +18,16 @@ class _$SupplementsTearOff {
   const _$SupplementsTearOff();
 
   _Supplements call(
-      {int activeId = -1,
+      {String activeId = '',
       SortStyles sortStyle = SortStyles.firstToLast,
-      AudioError? error,
+      AudioError? audioError,
+      ApiError? apiError,
       dynamic playerState = inactiveState}) {
     return _Supplements(
       activeId: activeId,
       sortStyle: sortStyle,
-      error: error,
+      audioError: audioError,
+      apiError: apiError,
       playerState: playerState,
     );
   }
@@ -36,9 +38,10 @@ const $Supplements = _$SupplementsTearOff();
 
 /// @nodoc
 mixin _$Supplements {
-  int get activeId => throw _privateConstructorUsedError;
+  String get activeId => throw _privateConstructorUsedError;
   SortStyles get sortStyle => throw _privateConstructorUsedError;
-  AudioError? get error => throw _privateConstructorUsedError;
+  AudioError? get audioError => throw _privateConstructorUsedError;
+  ApiError? get apiError => throw _privateConstructorUsedError;
   dynamic get playerState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -52,9 +55,10 @@ abstract class $SupplementsCopyWith<$Res> {
           Supplements value, $Res Function(Supplements) then) =
       _$SupplementsCopyWithImpl<$Res>;
   $Res call(
-      {int activeId,
+      {String activeId,
       SortStyles sortStyle,
-      AudioError? error,
+      AudioError? audioError,
+      ApiError? apiError,
       dynamic playerState});
 }
 
@@ -70,22 +74,27 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
   $Res call({
     Object? activeId = freezed,
     Object? sortStyle = freezed,
-    Object? error = freezed,
+    Object? audioError = freezed,
+    Object? apiError = freezed,
     Object? playerState = freezed,
   }) {
     return _then(_value.copyWith(
       activeId: activeId == freezed
           ? _value.activeId
           : activeId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
               as SortStyles,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
+      audioError: audioError == freezed
+          ? _value.audioError
+          : audioError // ignore: cast_nullable_to_non_nullable
               as AudioError?,
+      apiError: apiError == freezed
+          ? _value.apiError
+          : apiError // ignore: cast_nullable_to_non_nullable
+              as ApiError?,
       playerState: playerState == freezed
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
@@ -102,9 +111,10 @@ abstract class _$SupplementsCopyWith<$Res>
       __$SupplementsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int activeId,
+      {String activeId,
       SortStyles sortStyle,
-      AudioError? error,
+      AudioError? audioError,
+      ApiError? apiError,
       dynamic playerState});
 }
 
@@ -122,22 +132,27 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
   $Res call({
     Object? activeId = freezed,
     Object? sortStyle = freezed,
-    Object? error = freezed,
+    Object? audioError = freezed,
+    Object? apiError = freezed,
     Object? playerState = freezed,
   }) {
     return _then(_Supplements(
       activeId: activeId == freezed
           ? _value.activeId
           : activeId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
               as SortStyles,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
+      audioError: audioError == freezed
+          ? _value.audioError
+          : audioError // ignore: cast_nullable_to_non_nullable
               as AudioError?,
+      apiError: apiError == freezed
+          ? _value.apiError
+          : apiError // ignore: cast_nullable_to_non_nullable
+              as ApiError?,
       playerState: playerState == freezed ? _value.playerState : playerState,
     ));
   }
@@ -147,26 +162,29 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
 
 class _$_Supplements implements _Supplements {
   const _$_Supplements(
-      {this.activeId = -1,
+      {this.activeId = '',
       this.sortStyle = SortStyles.firstToLast,
-      this.error,
+      this.audioError,
+      this.apiError,
       this.playerState = inactiveState});
 
-  @JsonKey(defaultValue: -1)
+  @JsonKey(defaultValue: '')
   @override
-  final int activeId;
+  final String activeId;
   @JsonKey(defaultValue: SortStyles.firstToLast)
   @override
   final SortStyles sortStyle;
   @override
-  final AudioError? error;
+  final AudioError? audioError;
+  @override
+  final ApiError? apiError;
   @JsonKey(defaultValue: inactiveState)
   @override
   final dynamic playerState;
 
   @override
   String toString() {
-    return 'Supplements(activeId: $activeId, sortStyle: $sortStyle, error: $error, playerState: $playerState)';
+    return 'Supplements(activeId: $activeId, sortStyle: $sortStyle, audioError: $audioError, apiError: $apiError, playerState: $playerState)';
   }
 
   @override
@@ -179,8 +197,12 @@ class _$_Supplements implements _Supplements {
             (identical(other.sortStyle, sortStyle) ||
                 const DeepCollectionEquality()
                     .equals(other.sortStyle, sortStyle)) &&
-            (identical(other.error, error) ||
-                const DeepCollectionEquality().equals(other.error, error)) &&
+            (identical(other.audioError, audioError) ||
+                const DeepCollectionEquality()
+                    .equals(other.audioError, audioError)) &&
+            (identical(other.apiError, apiError) ||
+                const DeepCollectionEquality()
+                    .equals(other.apiError, apiError)) &&
             (identical(other.playerState, playerState) ||
                 const DeepCollectionEquality()
                     .equals(other.playerState, playerState)));
@@ -191,7 +213,8 @@ class _$_Supplements implements _Supplements {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(activeId) ^
       const DeepCollectionEquality().hash(sortStyle) ^
-      const DeepCollectionEquality().hash(error) ^
+      const DeepCollectionEquality().hash(audioError) ^
+      const DeepCollectionEquality().hash(apiError) ^
       const DeepCollectionEquality().hash(playerState);
 
   @JsonKey(ignore: true)
@@ -202,17 +225,20 @@ class _$_Supplements implements _Supplements {
 
 abstract class _Supplements implements Supplements {
   const factory _Supplements(
-      {int activeId,
+      {String activeId,
       SortStyles sortStyle,
-      AudioError? error,
+      AudioError? audioError,
+      ApiError? apiError,
       dynamic playerState}) = _$_Supplements;
 
   @override
-  int get activeId => throw _privateConstructorUsedError;
+  String get activeId => throw _privateConstructorUsedError;
   @override
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   @override
-  AudioError? get error => throw _privateConstructorUsedError;
+  AudioError? get audioError => throw _privateConstructorUsedError;
+  @override
+  ApiError? get apiError => throw _privateConstructorUsedError;
   @override
   dynamic get playerState => throw _privateConstructorUsedError;
   @override

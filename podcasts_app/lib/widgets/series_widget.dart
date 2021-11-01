@@ -35,7 +35,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
           size: 15, color: AppColors.onSecondary2, maxLines: 3),
       SeriesActionButtons(
         visitSeriesCallback: () =>
-            SeriesPage.navigateTo(context, widget.series),
+            SeriesPage.navigateTo(context, widget.series.id),
       )
     ]);
   }

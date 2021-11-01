@@ -1,9 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
+import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
+import 'package:podcasts/repositories/podcasts_api.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
 import 'package:podcasts/widgets/audio_progress_widget.dart';
@@ -46,8 +49,14 @@ class _HomepageState extends State<Homepage> {
   }
 
   _buildBody() {
-    return BlocBuilder<HomepageBloc, HomepageState>(
+    return BlocConsumer<HomepageBloc, HomepageState>(
         bloc: bloc,
+        listener: (_, state) {
+          final error = state.maybeWhen(
+              failed: (_, __, s) => s.apiError, orElse: () => null);
+
+          if (error != null) _showError(error);
+        },
         builder: (_, state) {
           return state.when(
               loading: _buildLoading,
@@ -56,15 +65,28 @@ class _HomepageState extends State<Homepage> {
         });
   }
 
-  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
+  _showError(ApiError error) async {
+    Fluttertoast.showToast(
+        msg: error.message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: AppColors.error,
+        textColor: AppColors.onPrimary);
+  }
+
+  Widget _buildLoading(
+      List episodeList, List seriesList, Supplements supplements) {
     return const AppLoadingIndicator();
   }
 
-  Widget _buildError(List<Episode> episodeList, Supplements supplements) {
-    return _buildContent(episodeList, supplements);
+  Widget _buildError(
+      List episodeList, List seriesList, Supplements supplements) {
+    return _buildContent(episodeList, seriesList, supplements);
   }
 
-  Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildContent(
+      List episodeList, List seriesList, Supplements supplements) {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
@@ -75,7 +97,7 @@ class _HomepageState extends State<Homepage> {
       child: ListView(
         padding: const EdgeInsets.only(top: 10),
         children: [
-          _buildSeries(),
+          _buildSeries(seriesList),
           _buildRecent(episodeList, supplements),
           shouldLeaveSpace ? const SizedBox(height: 70) : Container()
         ],
@@ -83,7 +105,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  _buildSeries() {
+  _buildSeries(List seriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -100,13 +122,14 @@ class _HomepageState extends State<Homepage> {
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
               final isFirst = index == 0;
-              final isLast = index == 4;
+              final isLast = index == seriesList.length - 1;
 
               return Container(
                   margin: EdgeInsets.only(
                       left: isFirst ? 18 : 10, right: isLast ? 12 : 0),
                   child: GestureDetector(
-                    onTap: () => SeriesPage.navigateTo(context, series),
+                    onTap: () async =>
+                        SeriesPage.navigateTo(context, series.id),
                     child:
                         SizedBox(width: 96, child: _buildSeriesEntry(series)),
                   ));
@@ -124,7 +147,7 @@ class _HomepageState extends State<Homepage> {
       const SizedBox(height: 9),
       AppText(series.name, alignment: TextAlign.start, size: 14, maxLines: 3),
       const SizedBox(height: 5),
-      AppText(series.channel,
+      AppText(series.channelName,
           size: 12,
           alignment: TextAlign.start,
           color: AppColors.onSecondary2,
@@ -132,7 +155,7 @@ class _HomepageState extends State<Homepage> {
     ]);
   }
 
-  _buildRecent(List<Episode> episodeList, Supplements supplements) {
+  _buildRecent(List episodeList, Supplements supplements) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
