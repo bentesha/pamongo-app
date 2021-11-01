@@ -151,6 +151,7 @@ class _HomepageState extends State<Homepage> {
         (isLoading || isPlaying || isPaused) && activeId == episode.id;
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
+    final duration = Utils.convertFrom(episode.duration, includeSeconds: false);
 
     return Column(
       children: [
@@ -166,8 +167,7 @@ class _HomepageState extends State<Homepage> {
                   descriptionMaxLines: 3,
                   actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
                   playCallback: isInactive ? () {} : () => bloc.play(episode),
-                  duration: Utils.convertFrom(episode.duration,
-                      includeSeconds: false),
+                  duration: duration,
                 ))),
       ],
     );

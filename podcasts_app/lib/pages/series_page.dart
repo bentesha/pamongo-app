@@ -122,10 +122,10 @@ class _SeriesPageState extends State<SeriesPage> {
                   color: AppColors.onPrimary2)),
           AppText('Introducing ${widget.series.name}', size: 15.w),
           EpisodeActionButtons(Pages.seriesPage,
-              playCallback: () => bloc.play(0),
-              actionPadding: EdgeInsets.only(top: 5.dh),
               status: status,
-              duration: duration)
+              duration: duration,
+              playCallback: bloc.playIntro,
+              actionPadding: EdgeInsets.only(top: 5.dh))
         ]));
   }
 
@@ -246,6 +246,7 @@ class _SeriesPageState extends State<SeriesPage> {
         (isPlaying || isLoading || isPaused) && activeId == episode.id;
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
+    final duration = Utils.convertFrom(episode.duration, includeSeconds: false);
 
     return Padding(
       padding: EdgeInsets.only(left: 18.dw),
@@ -262,11 +263,10 @@ class _SeriesPageState extends State<SeriesPage> {
           ),
           EpisodeActionButtons(
             Pages.seriesPage,
-            playCallback: isInactive ? () {} : () => bloc.play(index),
             status: status,
-            duration:
-                Utils.convertFrom(episode.duration, includeSeconds: false),
+            duration: duration,
             actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
+            playCallback: isInactive ? () {} : () => bloc.play(index),
           )
         ],
       ),

@@ -94,19 +94,19 @@ class _EpisodePageState extends State<EpisodePage> {
         (isPlaying || isLoading || isPaused) && activeId == episode.id;
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
+    final duration = Utils.convertFrom(episode.duration, includeSeconds: false);
 
     return Padding(
         padding: EdgeInsets.fromLTRB(18.dw, 0, 15.dw, 20.dh),
         child: EpisodeTile(
-          page: Pages.episodePage,
-          descriptionMaxLines: 10,
-          useToggleExpansionButtons: true,
-          status: status,
-          episode: episode,
-          playCallback: isInactive ? () {} : bloc.play,
-          actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh),
-          duration: Utils.convertFrom(episode.duration, includeSeconds: false),
-        ));
+            page: Pages.episodePage,
+            descriptionMaxLines: 10,
+            useToggleExpansionButtons: true,
+            status: status,
+            episode: episode,
+            duration: duration,
+            playCallback: isInactive ? () {} : bloc.play,
+            actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh)));
   }
 
   _buildViewAllButton(Episode episode) {
