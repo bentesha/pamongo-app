@@ -45,6 +45,10 @@ class AudioPlayerService {
         _updateContentWith(playerState: playingState, episodeList: episodeList);
         await _player.play();
       }
+      //use this if the duration from api issue is fixed
+      /* await _player.setUrl(episode.audioUrl);
+      _updateContentWith(playerState: playingState);
+      await _player.play(); */
     } catch (e) {
       log(e.toString());
       _updateContentWith(playerState: errorState);
