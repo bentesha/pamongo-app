@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/source.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {

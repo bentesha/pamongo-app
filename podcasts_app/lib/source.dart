@@ -14,44 +14,40 @@ import 'models/episode.dart';
 
 final defaultEpisodeList = [
   const Episode(
-      id: 1,
+      id: '1',
       image: firstImg,
       duration: 3650000,
       seriesName: 'Something Was Wrong',
-      channel: 'Julia Cesar',
       title: 'There Were No Red Flags',
       audioUrl: firstUrl,
       description: firstDesc,
       episodeNumber: 10,
       date: 'Jun 2'),
   const Episode(
-      id: 2,
+      id: '2',
       image: secondImg,
       duration: 2965000,
       seriesName: 'Stolen: Search for Jermain',
-      channel: 'Gimlet',
       title: 'The Dark Horse',
       audioUrl: secondUrl,
       description: secondDesc,
       episodeNumber: 02,
       date: 'Nov 5'),
   const Episode(
-      id: 3,
+      id: '3',
       image: thirdImg,
       duration: 1732000,
       seriesName: 'Business Wars',
-      channel: 'Wondery',
       title: 'Introducing Who, When, WOW!',
       audioUrl: thirdUrl,
       description: thirdDesc,
       episodeNumber: 01,
       date: 'May 09'),
   const Episode(
-      id: 4,
+      id: '4',
       image: fourthImg,
       duration: 732000,
       seriesName: 'Conspiracy Theories',
-      channel: 'Parcast Network',
       title: 'Stolen Body Hypothesis',
       audioUrl: fourthUrl,
       description: fourthDesc,
@@ -59,53 +55,12 @@ final defaultEpisodeList = [
       date: 'Jan 22'),
 ];
 
-final seriesList = [
-  Series(
-      image: firstSeriesImage,
-      name: 'The History of Christianity',
-      description: firstSeriesDesc,
-      channel: 'Bertie Pearson',
-      episodeList: seriesEpisodeList),
-  Series(
-      image: secondSeriesImage,
-      name: 'The Cut',
-      description: secondSeriesDesc,
-      channel: 'Vox Media Podcast Network',
-      episodeList: seriesEpisodeList),
-  Series(
-      image: thirdSeriesImage,
-      name: 'Philosophize This',
-      description: thirdSeriesDesc,
-      channel: 'Stephen West',
-      episodeList: seriesEpisodeList),
-  Series(
-      image: fourthSeriesImage,
-      name: 'Business Wars',
-      description: fourthSeriesDesc,
-      channel: 'Wondery',
-      episodeList: seriesEpisodeList),
-  Series(
-      image: fifthSeriesImage,
-      name: 'TANIS',
-      description: fifthSeriesDesc,
-      channel: 'Public Radio Alliance',
-      episodeList: seriesEpisodeList)
-];
-
-final exampleSeries = Series(
-    image: fifthSeriesImage,
-    name: 'TANIS',
-    description: fifthSeriesDesc,
-    channel: 'Public Radio Alliance',
-    episodeList: seriesEpisodeList);
-
 final seriesEpisodeList = [
   const Episode(
-      id: 5,
+      id: '5',
       image: firstSeriesImage,
       duration: 185000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'Introducing The History of Christianity',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/BadPeople-20200723-WelcomeToBadPeople.mp3?alt=media&token=cb4c6bec-915e-4408-8f6b-924e8717d262',
@@ -113,11 +68,10 @@ final seriesEpisodeList = [
       episodeNumber: 0,
       date: 'Jan 22 2020'),
   const Episode(
-      id: 6,
+      id: '6',
       image: firstSeriesImage,
       duration: 2331000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'The origins of Christianity',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/TheSportsDesk-20210813-MessiPSGAndFootballsPowerShift.mp3?alt=media&token=61e58913-b02c-429a-82d2-3071bcf854b4',
@@ -125,11 +79,10 @@ final seriesEpisodeList = [
       episodeNumber: 1,
       date: 'Jan 22 2020'),
   const Episode(
-      id: 7,
+      id: '7',
       image: firstSeriesImage,
       duration: 543000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'The New Testament',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/RobertABelle_2021S_VO_Intro.mp3?alt=media&token=5e2aa36a-de4c-43c1-8179-76d3ae2c1af3',
@@ -137,11 +90,10 @@ final seriesEpisodeList = [
       episodeNumber: 2,
       date: 'Feb 01 2020'),
   const Episode(
-      id: 8,
+      id: '8',
       image: firstSeriesImage,
       duration: 968000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'The New Testament Part 2',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/ValorieKondosField_2019W_VO_Intro.mp3?alt=media&token=44f858fa-228b-4fba-970b-859eb7e2d973',
@@ -149,11 +101,10 @@ final seriesEpisodeList = [
       episodeNumber: 3,
       date: 'Feb 05 2020'),
   const Episode(
-      id: 9,
+      id: '9',
       image: firstSeriesImage,
       duration: 798000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'Salvation',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/movie-recommendation-126.appspot.com/o/NomavaZanazo_2021S_VO_Intro.mp3?alt=media&token=c22c9773-46f5-4946-8ad7-495f9a7b3253',
@@ -161,11 +112,10 @@ final seriesEpisodeList = [
       episodeNumber: 4,
       date: 'Feb 12 2020'),
   const Episode(
-      id: 10,
+      id: '10',
       image: firstSeriesImage,
       duration: 2469000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'A Theology of Atheism',
       audioUrl:
           'https://dcs.megaphone.fm/GLT5262457131.mp3?key=1365baa0ce5e90b0e8fe51b3dc57a1b2',
@@ -173,11 +123,10 @@ final seriesEpisodeList = [
       episodeNumber: 5,
       date: 'Feb 24 2020'),
   const Episode(
-      id: 11,
+      id: '11',
       image: firstSeriesImage,
       duration: 2221000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'Epistle to Diogentus',
       audioUrl:
           'https://stitcher-injected.simplecastaudio.com/2768da3d-358e-4261-bb27-d13709cba3f2/episodes/d232f425-8d29-417c-b060-c3a1eb336d3c/audio/128/default.mp3/default.mp3_18940eb4d07e7952c9bc8044064b7418_35544316.mp3',
@@ -185,11 +134,10 @@ final seriesEpisodeList = [
       episodeNumber: 6,
       date: 'Mar 02 2020'),
   const Episode(
-      id: 12,
+      id: '12',
       image: firstSeriesImage,
       duration: 3707000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'Gospel of Thomas',
       audioUrl:
           'https://stitcher-injected.simplecastaudio.com/2768da3d-358e-4261-bb27-d13709cba3f2/episodes/80d3c063-483b-4a23-a183-832677af0f67/audio/128/default.mp3/default.mp3_5e8438f0f29f93d9108d688c5c455e85_59343903.mp3',
@@ -197,11 +145,10 @@ final seriesEpisodeList = [
       episodeNumber: 7,
       date: 'Mar 30 2020'),
   const Episode(
-      id: 13,
+      id: '13',
       image: firstSeriesImage,
       duration: 4873000,
       seriesName: 'The History of Christianity',
-      channel: 'Bertie Pearson',
       title: 'The American West: Is It A Sin to be Wealthy ?',
       audioUrl:
           'https://firebasestorage.googleapis.com/v0/b/languagetranslator-app.appspot.com/o/default.mp3_ee1ec22741ef36af45ba742059ef4fe9_78003707.mp3?alt=media&token=a8599bb7-2afe-4b0a-958a-531d75426936',
@@ -269,10 +216,10 @@ const firstSeriesEpisodeDesc4 =
 const channelDesc =
     'A good society is one with a proper balance between the aptitudes of ‘head’, ‘hand’ and ‘heart’. The modern knowledge economy, however, has delivered higher and higher returns to the cognitive elite and reduced the relative pay and status of manual and caring jobs.';
 
-var defaultChannel = Channel(
+var defaultChannel = const Channel(
     channelDescription: channelDesc,
     channelImage:
         'https://images.pexels.com/photos/3435323/pexels-photo-3435323.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     channelName: 'The Pearson Podcast',
     channelOwner: 'Betty Pearson',
-    channelSeriesList: seriesList);
+    channelSeriesList: []);

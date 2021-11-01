@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,19 +29,19 @@ class AudioPlayerService {
   bool get isIndicatorExpanded => _isIndicatorExpanded;
   Stream<bool> get isIndicatorExpandedStream => _indicatorController.stream;
 
-  Future<void> play(List<Episode> episodeList, {int index = 0}) async {
+  Future<void> play(List episodeList, {int index = 0}) async {
     _updateContentWith(
         episodeList: episodeList,
         currentPosition: 0,
         playerState: loadingState,
         currentIndex: index);
 
-    final episode = episodeList[index];
+    var episode = episodeList[index];
 
     try {
       final duration = await _player.setUrl(episode.audioUrl);
       if (duration != null) {
-        episode.copyWith(duration: duration.inMilliseconds);
+        episode = episode.copyWith(duration: duration.inMilliseconds);
         episodeList[index] = episode;
         _updateContentWith(playerState: playingState, episodeList: episodeList);
         await _player.play();
@@ -103,6 +104,7 @@ class AudioPlayerService {
   }
 
   Future<void> seekNext() async {
+    if (_content.sortStyles == SortStyles.lastToFirst) return seekPrev();
     final isLoading = _content.playerState == loadingState;
     if (isLoading) return;
     int index = _content.currentIndex;
@@ -112,6 +114,7 @@ class AudioPlayerService {
   }
 
   Future<void> seekPrev() async {
+    if (_content.sortStyles == SortStyles.lastToFirst) return seekNext();
     final isLoading = _content.playerState == loadingState;
     if (isLoading) return;
     int index = _content.currentIndex;
@@ -172,15 +175,20 @@ class AudioPlayerService {
     }
   }
 
+  void updateContentSortStyle(SortStyles sortStyle) =>
+      _updateContentWith(sortStyle: sortStyle);
+
   void _updateContentWith(
       {IndicatorPlayerState? playerState,
-      List<Episode>? episodeList,
+      List? episodeList,
       int? currentIndex,
+      SortStyles? sortStyle,
       int? currentPosition}) {
     _content = _content.copyWith(
         playerState: playerState ?? _content.playerState,
         episodeList: episodeList ?? _content.episodeList,
         currentIndex: currentIndex ?? _content.currentIndex,
+        sortStyles: sortStyle ?? _content.sortStyles,
         currentPosition: currentPosition ?? _content.currentPosition);
     _contentController.add(_content);
   }

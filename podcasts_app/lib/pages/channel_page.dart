@@ -12,13 +12,13 @@ import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
 
 class ChannelPage extends StatefulWidget {
-  const ChannelPage(this.channelName, {key}) : super(key: key);
+  const ChannelPage(this.channelId, {key}) : super(key: key);
 
-  final String channelName;
+  final String channelId;
 
-  static void navigateTo(BuildContext context, {required String channelName}) {
+  static void navigateTo(BuildContext context, {required String channelId}) {
     Navigator.push(context,
-        CupertinoPageRoute(builder: (context) => ChannelPage(channelName)));
+        CupertinoPageRoute(builder: (context) => ChannelPage(channelId)));
   }
 
   @override
@@ -34,7 +34,7 @@ class _ChannelPageState extends State<ChannelPage> {
   void initState() {
     service = Provider.of(context, listen: false);
     bloc = ChannelPageBloc(service);
-    bloc.init();
+    bloc.init(widget.channelId);
     super.initState();
   }
 
@@ -67,7 +67,7 @@ class _ChannelPageState extends State<ChannelPage> {
         return true;
       },
       child: Scaffold(
-        appBar: _buildAppBar(widget.channelName),
+        appBar: _buildAppBar(channel.channelName),
         body: ListView(padding: EdgeInsets.zero, children: [
           _buildTitle(channel),
           _buildSeriesList(channel),
@@ -111,7 +111,7 @@ class _ChannelPageState extends State<ChannelPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(widget.channelName,
+                  AppText(channel.channelName,
                       alignment: TextAlign.start,
                       weight: FontWeight.w700,
                       maxLines: 4,
