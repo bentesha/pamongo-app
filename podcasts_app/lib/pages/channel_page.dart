@@ -81,9 +81,11 @@ class _ChannelPageState extends State<ChannelPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.channelPage(
-                topScrolledPixels: value, title: appBarTitle, popCallback: () {
-              bloc.shouldPop() ? Navigator.pop(context) : () {};
-            });
+                topScrolledPixels: value,
+                title: appBarTitle,
+                popCallback: () {
+                  if (bloc.shouldPop()) Navigator.pop(context);
+                });
           }),
     );
   }

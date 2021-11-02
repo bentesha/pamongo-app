@@ -51,7 +51,7 @@ class _EpisodePageState extends State<EpisodePage> {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.dh),
       child: AppTopBars.episodePage(() {
-        bloc.shouldPop() ? Navigator.pop(context) : () {};
+        if (bloc.shouldPop()) Navigator.pop(context);
       }),
     );
   }
