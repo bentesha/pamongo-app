@@ -26,12 +26,12 @@ class SortButton extends StatelessWidget {
               ),
               PopupMenuItem(
                 height: 35.dh,
-                child: _buildPopupMenuItem(isLastToFirst, 'latest'),
+                child: _buildPopupMenuItem(isLastToFirst, 'latest first'),
                 value: 1,
               ),
               PopupMenuItem(
                 height: 35.dh,
-                child: _buildPopupMenuItem(isFirstToLast, 'oldest'),
+                child: _buildPopupMenuItem(isFirstToLast, 'oldest first'),
                 value: 2,
               ),
             ]);

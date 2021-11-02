@@ -21,7 +21,7 @@ class _$EpisodeTearOff {
       {String image = '',
       String seriesName = '',
       int duration = 0,
-      String date = '',
+      required DateTime date,
       String id = '',
       String seriesId = '',
       int episodeNumber = 0,
@@ -51,7 +51,7 @@ mixin _$Episode {
   String get image => throw _privateConstructorUsedError;
   String get seriesName => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get seriesId => throw _privateConstructorUsedError;
   int get episodeNumber => throw _privateConstructorUsedError;
@@ -71,7 +71,7 @@ abstract class $EpisodeCopyWith<$Res> {
       {String image,
       String seriesName,
       int duration,
-      String date,
+      DateTime date,
       String id,
       String seriesId,
       int episodeNumber,
@@ -117,7 +117,7 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ abstract class _$EpisodeCopyWith<$Res> implements $EpisodeCopyWith<$Res> {
       {String image,
       String seriesName,
       int duration,
-      String date,
+      DateTime date,
       String id,
       String seriesId,
       int episodeNumber,
@@ -202,7 +202,7 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -238,7 +238,7 @@ class _$_Episode extends _Episode {
       {this.image = '',
       this.seriesName = '',
       this.duration = 0,
-      this.date = '',
+      required this.date,
       this.id = '',
       this.seriesId = '',
       this.episodeNumber = 0,
@@ -256,9 +256,8 @@ class _$_Episode extends _Episode {
   @JsonKey(defaultValue: 0)
   @override
   final int duration;
-  @JsonKey(defaultValue: '')
   @override
-  final String date;
+  final DateTime date;
   @JsonKey(defaultValue: '')
   @override
   final String id;
@@ -340,7 +339,7 @@ abstract class _Episode extends Episode {
       {String image,
       String seriesName,
       int duration,
-      String date,
+      required DateTime date,
       String id,
       String seriesId,
       int episodeNumber,
@@ -356,7 +355,7 @@ abstract class _Episode extends Episode {
   @override
   int get duration => throw _privateConstructorUsedError;
   @override
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   @override
   String get id => throw _privateConstructorUsedError;
   @override

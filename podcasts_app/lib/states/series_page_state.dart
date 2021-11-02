@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 

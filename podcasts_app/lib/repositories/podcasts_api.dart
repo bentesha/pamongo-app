@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/episode.dart';
@@ -12,9 +11,9 @@ class PodcastsApi {
 
   static Future<List> getFeaturedSeries() async {
     try {
-      final response = await http.get(
-          Uri.parse('${root}series?eager=channel&rangeStart=0&rangeEnd=5'));
-
+      const url =
+          '${root}series?eager=channel&rangeStart=0&rangeEnd=5&orderByDesc=createdAt';
+      final response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
       final results = body['results'];
       return results
@@ -28,8 +27,8 @@ class PodcastsApi {
 
   static Future<Channel> getChannelById(String channelId) async {
     try {
-      final response = await http
-          .get(Uri.parse('${root}channel?eager=series&id=$channelId'));
+      final url = '${root}channel?eager=series&id=$channelId';
+      final response = await http.get(Uri.parse(url));
 
       final body = jsonDecode(response.body);
 
@@ -49,7 +48,6 @@ class PodcastsApi {
   static Future<Series> getSeriesById(String seriesId) async {
     try {
       final url = '${root}series?eager=%5Bepisodes,%20channel%5D&id=$seriesId';
-      log(url);
       final response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
 
@@ -73,10 +71,10 @@ class PodcastsApi {
 
   static Future<List> getRecentEpisodes() async {
     try {
-      const url = '$root/episode?eager=series&rangeStart=0&rangeEnd=4';
+      const url =
+          '${root}episode?eager=series&rangeStart=0&rangeEnd=6&orderByDesc=createdAt';
       final response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
-
       final results = body['results'];
       return results.map((e) {
         final series = e['series'];

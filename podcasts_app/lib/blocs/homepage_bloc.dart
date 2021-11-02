@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/episode.dart';

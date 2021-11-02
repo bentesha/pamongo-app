@@ -11,7 +11,7 @@ class AudioProgressWidget extends StatefulWidget {
 class _AudioProgressWidgetState extends State<AudioProgressWidget> {
   double startValue = 0;
   double endValue = 0;
-  double maxTopGlobalOffset = 275.dh;
+  double maxTopGlobalOffset = 175.dh;
   static double initialOffset = 796.3.dh;
   ValueNotifier<double> positionValueNotifier = ValueNotifier(initialOffset);
   ValueNotifier<bool> isShowInitialWidgetNotifier = ValueNotifier<bool>(true);

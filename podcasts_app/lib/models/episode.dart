@@ -11,7 +11,7 @@ class Episode with _$Episode {
       {@Default('') String image,
       @Default('') String seriesName,
       @Default(0) int duration,
-      @Default('') String date,
+      required DateTime date,
       @Default('') String id,
       @Default('') String seriesId,
       @Default(0) int episodeNumber,
