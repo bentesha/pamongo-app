@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:podcasts/models/supplements.dart';
-import 'episode.dart';
 
 part 'progress_indicator_content.freezed.dart';
 
@@ -23,9 +22,9 @@ const errorState = IndicatorPlayerState.error;
 @freezed
 class ProgressIndicatorContent with _$ProgressIndicatorContent {
   const factory ProgressIndicatorContent(
-      {@Default([Episode()]) List episodeList,
+      {required List episodeList,
       @Default(0) int currentPosition,
       @Default(inactiveState) IndicatorPlayerState playerState,
-      @Default(SortStyles.firstToLast) SortStyles sortStyles,
+      @Default(SortStyles.firstToLast) SortStyles sortStyle,
       @Default(0) int currentIndex}) = _ProgressIndicatorContent;
 }

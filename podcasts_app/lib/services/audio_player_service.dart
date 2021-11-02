@@ -15,7 +15,8 @@ typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
 class AudioPlayerService {
   final _player = AudioPlayer();
 
-  ProgressIndicatorContent _content = const ProgressIndicatorContent();
+  static final initialEpisodeList = [Episode(date: DateTime.utc(2020))];
+  var _content = ProgressIndicatorContent(episodeList: initialEpisodeList);
   final _contentController = ContentStreamController.broadcast();
   final _indicatorController = StreamController<bool>.broadcast();
 
@@ -108,22 +109,38 @@ class AudioPlayerService {
   }
 
   Future<void> seekNext() async {
-    if (_content.sortStyles == SortStyles.lastToFirst) return seekPrev();
     final isLoading = _content.playerState == loadingState;
     if (isLoading) return;
+
     int index = _content.currentIndex;
-    final isLast = index == _content.episodeList.length - 1;
-    index = isLast ? index : index + 1;
-    play(_content.episodeList, index: index);
+    final isReversed = _content.sortStyle == SortStyles.lastToFirst;
+    if (isReversed) {
+      final isLast = index == 0;
+      index = isLast ? index : index - 1;
+    } else {
+      final isLast = index == _content.episodeList.length - 1;
+      index = isLast ? index : index + 1;
+    }
+    await play(_content.episodeList, index: index);
   }
 
   Future<void> seekPrev() async {
-    if (_content.sortStyles == SortStyles.lastToFirst) return seekNext();
     final isLoading = _content.playerState == loadingState;
     if (isLoading) return;
+
     int index = _content.currentIndex;
-    index = index == 0 ? 0 : index - 1;
-    play(_content.episodeList, index: index);
+    final isIntro = _content.episodeList[index].episodeNumber == 0;
+    if (isIntro) return;
+
+    final isReversed = _content.sortStyle == SortStyles.lastToFirst;
+    if (isReversed) {
+      final isLast = index == _content.episodeList.length - 2;
+      index = isLast ? index : index + 1;
+    } else {
+      final isLast = index == 1;
+      index = isLast ? index : index - 1;
+    }
+    await play(_content.episodeList, index: index);
   }
 
   void markAsCompleted() {
@@ -179,20 +196,21 @@ class AudioPlayerService {
     }
   }
 
-  void updateContentSortStyle(SortStyles sortStyle) =>
-      _updateContentWith(sortStyle: sortStyle);
+  void updateContentSortStyle(SortStyles sortStyle) {
+    _content = _content.copyWith(
+        sortStyle: sortStyle,
+        episodeList: _content.episodeList.reversed.toList());
+  }
 
   void _updateContentWith(
       {IndicatorPlayerState? playerState,
       List? episodeList,
       int? currentIndex,
-      SortStyles? sortStyle,
       int? currentPosition}) {
     _content = _content.copyWith(
         playerState: playerState ?? _content.playerState,
         episodeList: episodeList ?? _content.episodeList,
         currentIndex: currentIndex ?? _content.currentIndex,
-        sortStyles: sortStyle ?? _content.sortStyles,
         currentPosition: currentPosition ?? _content.currentPosition);
     _contentController.add(_content);
   }

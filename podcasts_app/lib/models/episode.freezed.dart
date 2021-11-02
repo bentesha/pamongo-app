@@ -20,17 +20,10 @@ class _$EpisodeTearOff {
   _Episode call(
       {String image = '',
       String seriesName = '',
-<<<<<<< HEAD
-      String channel = '',
-      String date = '',
       int duration = 0,
-      int id = -1,
-=======
-      int duration = 0,
-      String date = '',
+      required DateTime date,
       String id = '',
       String seriesId = '',
->>>>>>> 072cbf0... api-integration works well on internet
       int episodeNumber = 0,
       String title = '',
       String audioUrl = '',
@@ -38,13 +31,8 @@ class _$EpisodeTearOff {
     return _Episode(
       image: image,
       seriesName: seriesName,
-<<<<<<< HEAD
-      channel: channel,
-=======
       duration: duration,
->>>>>>> 072cbf0... api-integration works well on internet
       date: date,
-      duration: duration,
       id: id,
       seriesId: seriesId,
       episodeNumber: episodeNumber,
@@ -62,17 +50,10 @@ const $Episode = _$EpisodeTearOff();
 mixin _$Episode {
   String get image => throw _privateConstructorUsedError;
   String get seriesName => throw _privateConstructorUsedError;
-<<<<<<< HEAD
-  String get channel => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
   int get duration => throw _privateConstructorUsedError;
-  int get id => throw _privateConstructorUsedError;
-=======
-  int get duration => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get seriesId => throw _privateConstructorUsedError;
->>>>>>> 072cbf0... api-integration works well on internet
   int get episodeNumber => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get audioUrl => throw _privateConstructorUsedError;
@@ -89,17 +70,10 @@ abstract class $EpisodeCopyWith<$Res> {
   $Res call(
       {String image,
       String seriesName,
-<<<<<<< HEAD
-      String channel,
-      String date,
       int duration,
-      int id,
-=======
-      int duration,
-      String date,
+      DateTime date,
       String id,
       String seriesId,
->>>>>>> 072cbf0... api-integration works well on internet
       int episodeNumber,
       String title,
       String audioUrl,
@@ -118,13 +92,8 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
   $Res call({
     Object? image = freezed,
     Object? seriesName = freezed,
-<<<<<<< HEAD
-    Object? channel = freezed,
-=======
     Object? duration = freezed,
->>>>>>> 072cbf0... api-integration works well on internet
     Object? date = freezed,
-    Object? duration = freezed,
     Object? id = freezed,
     Object? seriesId = freezed,
     Object? episodeNumber = freezed,
@@ -141,25 +110,14 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
           ? _value.seriesName
           : seriesName // ignore: cast_nullable_to_non_nullable
               as String,
-<<<<<<< HEAD
-      channel: channel == freezed
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as String,
-=======
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
->>>>>>> 072cbf0... api-integration works well on internet
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      duration: duration == freezed
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -196,17 +154,10 @@ abstract class _$EpisodeCopyWith<$Res> implements $EpisodeCopyWith<$Res> {
   $Res call(
       {String image,
       String seriesName,
-<<<<<<< HEAD
-      String channel,
-      String date,
       int duration,
-      int id,
-=======
-      int duration,
-      String date,
+      DateTime date,
       String id,
       String seriesId,
->>>>>>> 072cbf0... api-integration works well on internet
       int episodeNumber,
       String title,
       String audioUrl,
@@ -226,13 +177,8 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
   $Res call({
     Object? image = freezed,
     Object? seriesName = freezed,
-<<<<<<< HEAD
-    Object? channel = freezed,
-=======
     Object? duration = freezed,
->>>>>>> 072cbf0... api-integration works well on internet
     Object? date = freezed,
-    Object? duration = freezed,
     Object? id = freezed,
     Object? seriesId = freezed,
     Object? episodeNumber = freezed,
@@ -249,25 +195,14 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
           ? _value.seriesName
           : seriesName // ignore: cast_nullable_to_non_nullable
               as String,
-<<<<<<< HEAD
-      channel: channel == freezed
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as String,
-=======
       duration: duration == freezed
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
->>>>>>> 072cbf0... api-integration works well on internet
       date: date == freezed
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
-      duration: duration == freezed
-          ? _value.duration
-          : duration // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -302,17 +237,10 @@ class _$_Episode extends _Episode {
   const _$_Episode(
       {this.image = '',
       this.seriesName = '',
-<<<<<<< HEAD
-      this.channel = '',
-      this.date = '',
       this.duration = 0,
-      this.id = -1,
-=======
-      this.duration = 0,
-      this.date = '',
+      required this.date,
       this.id = '',
       this.seriesId = '',
->>>>>>> 072cbf0... api-integration works well on internet
       this.episodeNumber = 0,
       this.title = '',
       this.audioUrl = '',
@@ -325,29 +253,15 @@ class _$_Episode extends _Episode {
   @JsonKey(defaultValue: '')
   @override
   final String seriesName;
-<<<<<<< HEAD
-  @JsonKey(defaultValue: '')
-  @override
-  final String channel;
-  @JsonKey(defaultValue: '')
-  @override
-  final String date;
   @JsonKey(defaultValue: 0)
   @override
   final int duration;
-  @JsonKey(defaultValue: -1)
-=======
-  @JsonKey(defaultValue: 0)
   @override
-  final int duration;
-  @JsonKey(defaultValue: '')
-  @override
-  final String date;
+  final DateTime date;
   @JsonKey(defaultValue: '')
   @override
   final String id;
   @JsonKey(defaultValue: '')
->>>>>>> 072cbf0... api-integration works well on internet
   @override
   final String seriesId;
   @JsonKey(defaultValue: 0)
@@ -365,11 +279,7 @@ class _$_Episode extends _Episode {
 
   @override
   String toString() {
-<<<<<<< HEAD
-    return 'Episode(image: $image, seriesName: $seriesName, channel: $channel, date: $date, duration: $duration, id: $id, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
-=======
     return 'Episode(image: $image, seriesName: $seriesName, duration: $duration, date: $date, id: $id, seriesId: $seriesId, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
->>>>>>> 072cbf0... api-integration works well on internet
   }
 
   @override
@@ -381,17 +291,11 @@ class _$_Episode extends _Episode {
             (identical(other.seriesName, seriesName) ||
                 const DeepCollectionEquality()
                     .equals(other.seriesName, seriesName)) &&
-<<<<<<< HEAD
-            (identical(other.channel, channel) ||
-                const DeepCollectionEquality()
-                    .equals(other.channel, channel)) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-=======
->>>>>>> 072cbf0... api-integration works well on internet
             (identical(other.duration, duration) ||
                 const DeepCollectionEquality()
                     .equals(other.duration, duration)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.seriesId, seriesId) ||
@@ -415,13 +319,8 @@ class _$_Episode extends _Episode {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(image) ^
       const DeepCollectionEquality().hash(seriesName) ^
-<<<<<<< HEAD
-      const DeepCollectionEquality().hash(channel) ^
-=======
       const DeepCollectionEquality().hash(duration) ^
->>>>>>> 072cbf0... api-integration works well on internet
       const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(duration) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(seriesId) ^
       const DeepCollectionEquality().hash(episodeNumber) ^
@@ -439,17 +338,10 @@ abstract class _Episode extends Episode {
   const factory _Episode(
       {String image,
       String seriesName,
-<<<<<<< HEAD
-      String channel,
-      String date,
       int duration,
-      int id,
-=======
-      int duration,
-      String date,
+      required DateTime date,
       String id,
       String seriesId,
->>>>>>> 072cbf0... api-integration works well on internet
       int episodeNumber,
       String title,
       String audioUrl,
@@ -461,23 +353,13 @@ abstract class _Episode extends Episode {
   @override
   String get seriesName => throw _privateConstructorUsedError;
   @override
-<<<<<<< HEAD
-  String get channel => throw _privateConstructorUsedError;
-  @override
-  String get date => throw _privateConstructorUsedError;
-  @override
   int get duration => throw _privateConstructorUsedError;
   @override
-  int get id => throw _privateConstructorUsedError;
-=======
-  int get duration => throw _privateConstructorUsedError;
-  @override
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   @override
   String get id => throw _privateConstructorUsedError;
   @override
   String get seriesId => throw _privateConstructorUsedError;
->>>>>>> 072cbf0... api-integration works well on internet
   @override
   int get episodeNumber => throw _privateConstructorUsedError;
   @override

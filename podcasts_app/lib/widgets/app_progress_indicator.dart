@@ -106,7 +106,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+      padding: const EdgeInsets.fromLTRB(30, 15, 30, 0),
       child: Column(children: [
         _buildSeriesImage(episode.image),
         Column(
@@ -122,18 +122,22 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                       color: AppColors.onPrimary,
                       size: 18,
                       weight: FontWeight.w600,
+                      maxLines: 2,
+                      height: 1.4,
                       alignment: TextAlign.start),
                 ),
-                const Icon(EvaIcons.heartOutline,
-                    size: 25, color: AppColors.onPrimary2)
+                const Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Icon(EvaIcons.heartOutline,
+                      size: 25, color: AppColors.onPrimary2),
+                )
               ],
             ),
             const SizedBox(height: 5),
-            AppText(
-              'Ep. ${episode.episodeNumber}: ' + episode.seriesName,
-              color: AppColors.onPrimary2,
-              size: 16,
-            ),
+            AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
+                color: AppColors.onPrimary2,
+                size: 16,
+                alignment: TextAlign.start),
           ],
         ),
       ]),
@@ -152,16 +156,17 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               decoration: const BoxDecoration(
                   color: AppColors.separator,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: const EdgeInsets.only(bottom: 20)),
+              margin: const EdgeInsets.only(bottom: 30)),
           SizedBox(
-              height: 285,
-              child: AppImage(
-                radius: 10,
-                image: image,
-                height: 300,
-                width: 350,
-                withBorders: true,
-              )),
+            height: 350,
+            child: AppImage(
+              radius: 10,
+              image: image,
+              height: 350,
+              fullWidth: true,
+              withBorders: true,
+            ),
+          ),
         ],
       ),
     );
@@ -174,7 +179,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isCurrentBigger = currentPosition >= duration;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+      padding: const EdgeInsets.fromLTRB(26, 15, 26, 15),
       child: Column(
         children: [
           SliderTheme(
@@ -333,31 +338,39 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        episode.title.length > 38
-                            ? episode.title.substring(0, 38) + ' ...'
-                            : episode.title,
-                        color: AppColors.onPrimary,
-                        size: 15,
-                        weight: FontWeight.w600,
-                      ),
+                          episode.title.length > 38
+                              ? episode.title.substring(0, 38) + ' ...'
+                              : episode.title,
+                          color: AppColors.onPrimary,
+                          size: 15,
+                          weight: FontWeight.w600,
+                          alignment: TextAlign.start),
+                      const SizedBox(height: 3),
                       AppText('Ep. ${episode.episodeNumber}',
-                          color: AppColors.onPrimary2, size: 15),
+                          alignment: TextAlign.start,
+                          color: AppColors.onPrimary2,
+                          size: 15),
                     ],
                   ),
                 ],
               ),
-              isLoading
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Lottie.asset('assets/icons/loading.json',
-                          fit: BoxFit.contain, height: 25),
-                    )
-                  : IconButton(
-                      onPressed: bloc.togglePlayerStatus,
-                      icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                          color: AppColors.onPrimary2),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                    ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: isLoading
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Lottie.asset('assets/icons/loading.json',
+                              fit: BoxFit.contain, height: 25),
+                        )
+                      : IconButton(
+                          onPressed: bloc.togglePlayerStatus,
+                          icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
+                              color: AppColors.onPrimary2, size: 25),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                        ),
+                ),
+              ),
             ],
           ),
         ),

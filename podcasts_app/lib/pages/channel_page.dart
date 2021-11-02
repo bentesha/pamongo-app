@@ -8,6 +8,7 @@ import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/channel_page_state.dart';
 import 'package:podcasts/widgets/channel_action_buttons.dart';
+import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
 
@@ -54,10 +55,6 @@ class _ChannelPageState extends State<ChannelPage> {
         });
   }
 
-  Widget _buildLoading(Channel channel, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
   Widget _buildContent(Channel channel, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
 
@@ -77,18 +74,18 @@ class _ChannelPageState extends State<ChannelPage> {
     );
   }
 
-  Widget _buildFailed(Channel channel, Supplements supplements) {
-    return _buildContent(channel, supplements);
-  }
-
   _buildAppBar(String appBarTitle) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(50),
       child: ValueListenableBuilder<double>(
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
-            return AppTopBars.channelPage(context,
-                topScrolledPixels: value, title: appBarTitle);
+            return AppTopBars.channelPage(
+                topScrolledPixels: value,
+                title: appBarTitle,
+                popCallback: () {
+                  bloc.shouldPop() ? Navigator.pop(context) : () {};
+                });
           }),
     );
   }
@@ -115,12 +112,7 @@ class _ChannelPageState extends State<ChannelPage> {
                       alignment: TextAlign.start,
                       weight: FontWeight.w700,
                       maxLines: 4,
-                      size: 25),
-                  const SizedBox(height: 5),
-                  AppText('by ' + channel.channelOwner,
-                      size: 14,
-                      weight: FontWeight.w600,
-                      color: AppColors.onSecondary2),
+                      size: 28),
                   const SizedBox(height: 5),
                 ],
               ),
@@ -149,9 +141,9 @@ class _ChannelPageState extends State<ChannelPage> {
           Container(height: 1, color: AppColors.separator),
           const Padding(
             padding: EdgeInsets.fromLTRB(18, 10, 10, 0),
-            child: AppText('My Series', size: 18, family: 'Casual'),
+            child: AppText('Channel Series', size: 18, family: 'Casual'),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -175,6 +167,13 @@ class _ChannelPageState extends State<ChannelPage> {
           child: SeriesWidget(series)),
     ]);
   }
+
+  Widget _buildLoading(Channel channel, Supplements supplements) {
+    return const AppLoadingIndicator();
+  }
+
+  Widget _buildFailed(Channel channel, Supplements supplements) =>
+      ErrorScreen(supplements.apiError!);
 
   Future<bool> _handleWillPop() async {
     final shouldPop = bloc.shouldPop();

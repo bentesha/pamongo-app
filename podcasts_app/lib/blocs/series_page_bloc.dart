@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/api_error.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/repositories/podcasts_api.dart';
 import 'package:podcasts/services/audio_player_service.dart';
@@ -23,12 +19,17 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     emit(SeriesPageState.loading(state.series, state.supplements));
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
-    var supplements = state.supplements
-        .copyWith(activeId: id, playerState: content.playerState);
+    final sortStyle = content.sortStyle;
+    var supplements = state.supplements.copyWith(
+        activeId: id, playerState: content.playerState, sortStyle: sortStyle);
+
     try {
       var series = await PodcastsApi.getSeriesById(seriesId);
-      final episodeList = series.episodeList;
+      var episodeList = series.episodeList;
       episodeList.sort((a, b) => a.episodeNumber.compareTo(b.episodeNumber));
+
+      final isLastToFirstSorting = sortStyle == SortStyles.lastToFirst;
+      if (isLastToFirstSorting) episodeList = episodeList.reversed.toList();
       series = series.copyWith(episodeList: episodeList);
       emit(SeriesPageState.content(series, supplements));
     } on ApiError catch (e) {
@@ -64,7 +65,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
         final normalList = episodeList.reversed.toList();
         supplements = supplements.copyWith(sortStyle: SortStyles.firstToLast);
         series = series.copyWith(episodeList: normalList);
-        service.updateContentSortStyle(sortStyle);
+        service.updateContentSortStyle(SortStyles.firstToLast);
         emit(SeriesPageState.content(series, supplements));
         return;
       }
@@ -74,7 +75,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
         supplements = supplements.copyWith(sortStyle: SortStyles.lastToFirst);
         series = series.copyWith(episodeList: reversedList);
         emit(SeriesPageState.content(series, supplements));
-        service.updateContentSortStyle(sortStyle);
+        service.updateContentSortStyle(SortStyles.lastToFirst);
         return;
       }
     }

@@ -9,10 +9,13 @@ class EpisodeTitle extends StatelessWidget {
       key})
       : super(key: key);
 
-  final String title, date, image, seriesName;
+  final String title, image, seriesName;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
+    final formatted = Utils.formatDateBy(date, 'MMMd');
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 10),
       Row(children: [
@@ -29,7 +32,7 @@ class EpisodeTitle extends StatelessWidget {
                     size: 13,
                     color: AppColors.onSecondary2),
                 AppText(
-                  date,
+                  formatted,
                   weight: FontWeight.w400,
                   color: AppColors.onSecondary2,
                   size: 13,
@@ -38,11 +41,7 @@ class EpisodeTitle extends StatelessWidget {
         )
       ]),
       const SizedBox(height: 5),
-      AppText(
-        title,
-        weight: FontWeight.w600,
-        size: 16,
-      ),
+      AppText(title, weight: FontWeight.w600, size: 16, maxLines: 1),
       const SizedBox(height: 5),
     ]);
   }

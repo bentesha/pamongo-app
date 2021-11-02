@@ -18,16 +18,16 @@ class _$ProgressIndicatorContentTearOff {
   const _$ProgressIndicatorContentTearOff();
 
   _ProgressIndicatorContent call(
-      {List<dynamic> episodeList = const [Episode()],
+      {required List<dynamic> episodeList,
       int currentPosition = 0,
       IndicatorPlayerState playerState = inactiveState,
-      SortStyles sortStyles = SortStyles.firstToLast,
+      SortStyles sortStyle = SortStyles.firstToLast,
       int currentIndex = 0}) {
     return _ProgressIndicatorContent(
       episodeList: episodeList,
       currentPosition: currentPosition,
       playerState: playerState,
-      sortStyles: sortStyles,
+      sortStyle: sortStyle,
       currentIndex: currentIndex,
     );
   }
@@ -41,7 +41,7 @@ mixin _$ProgressIndicatorContent {
   List<dynamic> get episodeList => throw _privateConstructorUsedError;
   int get currentPosition => throw _privateConstructorUsedError;
   IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
-  SortStyles get sortStyles => throw _privateConstructorUsedError;
+  SortStyles get sortStyle => throw _privateConstructorUsedError;
   int get currentIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -58,7 +58,7 @@ abstract class $ProgressIndicatorContentCopyWith<$Res> {
       {List<dynamic> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
-      SortStyles sortStyles,
+      SortStyles sortStyle,
       int currentIndex});
 }
 
@@ -76,7 +76,7 @@ class _$ProgressIndicatorContentCopyWithImpl<$Res>
     Object? episodeList = freezed,
     Object? currentPosition = freezed,
     Object? playerState = freezed,
-    Object? sortStyles = freezed,
+    Object? sortStyle = freezed,
     Object? currentIndex = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,9 +92,9 @@ class _$ProgressIndicatorContentCopyWithImpl<$Res>
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
               as IndicatorPlayerState,
-      sortStyles: sortStyles == freezed
-          ? _value.sortStyles
-          : sortStyles // ignore: cast_nullable_to_non_nullable
+      sortStyle: sortStyle == freezed
+          ? _value.sortStyle
+          : sortStyle // ignore: cast_nullable_to_non_nullable
               as SortStyles,
       currentIndex: currentIndex == freezed
           ? _value.currentIndex
@@ -115,7 +115,7 @@ abstract class _$ProgressIndicatorContentCopyWith<$Res>
       {List<dynamic> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
-      SortStyles sortStyles,
+      SortStyles sortStyle,
       int currentIndex});
 }
 
@@ -136,7 +136,7 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
     Object? episodeList = freezed,
     Object? currentPosition = freezed,
     Object? playerState = freezed,
-    Object? sortStyles = freezed,
+    Object? sortStyle = freezed,
     Object? currentIndex = freezed,
   }) {
     return _then(_ProgressIndicatorContent(
@@ -152,9 +152,9 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
               as IndicatorPlayerState,
-      sortStyles: sortStyles == freezed
-          ? _value.sortStyles
-          : sortStyles // ignore: cast_nullable_to_non_nullable
+      sortStyle: sortStyle == freezed
+          ? _value.sortStyle
+          : sortStyle // ignore: cast_nullable_to_non_nullable
               as SortStyles,
       currentIndex: currentIndex == freezed
           ? _value.currentIndex
@@ -168,13 +168,12 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
 
 class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   const _$_ProgressIndicatorContent(
-      {this.episodeList = const [Episode()],
+      {required this.episodeList,
       this.currentPosition = 0,
       this.playerState = inactiveState,
-      this.sortStyles = SortStyles.firstToLast,
+      this.sortStyle = SortStyles.firstToLast,
       this.currentIndex = 0});
 
-  @JsonKey(defaultValue: const [Episode()])
   @override
   final List<dynamic> episodeList;
   @JsonKey(defaultValue: 0)
@@ -185,14 +184,14 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   final IndicatorPlayerState playerState;
   @JsonKey(defaultValue: SortStyles.firstToLast)
   @override
-  final SortStyles sortStyles;
+  final SortStyles sortStyle;
   @JsonKey(defaultValue: 0)
   @override
   final int currentIndex;
 
   @override
   String toString() {
-    return 'ProgressIndicatorContent(episodeList: $episodeList, currentPosition: $currentPosition, playerState: $playerState, sortStyles: $sortStyles, currentIndex: $currentIndex)';
+    return 'ProgressIndicatorContent(episodeList: $episodeList, currentPosition: $currentPosition, playerState: $playerState, sortStyle: $sortStyle, currentIndex: $currentIndex)';
   }
 
   @override
@@ -208,9 +207,9 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
             (identical(other.playerState, playerState) ||
                 const DeepCollectionEquality()
                     .equals(other.playerState, playerState)) &&
-            (identical(other.sortStyles, sortStyles) ||
+            (identical(other.sortStyle, sortStyle) ||
                 const DeepCollectionEquality()
-                    .equals(other.sortStyles, sortStyles)) &&
+                    .equals(other.sortStyle, sortStyle)) &&
             (identical(other.currentIndex, currentIndex) ||
                 const DeepCollectionEquality()
                     .equals(other.currentIndex, currentIndex)));
@@ -222,7 +221,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
       const DeepCollectionEquality().hash(episodeList) ^
       const DeepCollectionEquality().hash(currentPosition) ^
       const DeepCollectionEquality().hash(playerState) ^
-      const DeepCollectionEquality().hash(sortStyles) ^
+      const DeepCollectionEquality().hash(sortStyle) ^
       const DeepCollectionEquality().hash(currentIndex);
 
   @JsonKey(ignore: true)
@@ -234,10 +233,10 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
 
 abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
   const factory _ProgressIndicatorContent(
-      {List<dynamic> episodeList,
+      {required List<dynamic> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
-      SortStyles sortStyles,
+      SortStyles sortStyle,
       int currentIndex}) = _$_ProgressIndicatorContent;
 
   @override
@@ -247,7 +246,7 @@ abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
   @override
   IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
   @override
-  SortStyles get sortStyles => throw _privateConstructorUsedError;
+  SortStyles get sortStyle => throw _privateConstructorUsedError;
   @override
   int get currentIndex => throw _privateConstructorUsedError;
   @override

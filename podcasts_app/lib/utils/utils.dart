@@ -27,12 +27,13 @@ class Utils {
     return status;
   }
 
-  static String convertFromTimestamp(String timestamp) {
-    final date = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ')
-        .parse('2021-10-30T10:04:15.000Z');
-    final formatted = DateFormat('MMMd').format(date);
-    return formatted;
+  static DateTime convertFromTimestamp(String timestamp) {
+    final date = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').parse(timestamp);
+    return date;
   }
+
+  static String formatDateBy(DateTime date, String format) =>
+      DateFormat(format).format(date);
 
   ///converts a millisecond to time in hour-minute-seconds format
   static String convertFrom(int duration, {bool includeSeconds = true}) {

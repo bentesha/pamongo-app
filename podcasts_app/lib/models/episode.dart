@@ -10,17 +10,10 @@ class Episode with _$Episode {
   const factory Episode(
       {@Default('') String image,
       @Default('') String seriesName,
-<<<<<<< HEAD
-      @Default('') String channel,
-      @Default('') String date,
       @Default(0) int duration,
-      @Default(-1) int id,
-=======
-      @Default(0) int duration,
-      @Default('') String date,
+      required DateTime date,
       @Default('') String id,
       @Default('') String seriesId,
->>>>>>> 072cbf0... api-integration works well on internet
       @Default(0) int episodeNumber,
       @Default('') String title,
       @Default('') String audioUrl,

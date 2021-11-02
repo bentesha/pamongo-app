@@ -8,6 +8,7 @@ class AppText extends StatefulWidget {
       this.color = AppColors.onSecondary,
       this.alignment = TextAlign.justify,
       this.maxLines,
+      this.height,
       key})
       : super(key: key);
 
@@ -18,6 +19,7 @@ class AppText extends StatefulWidget {
   final String family;
   final Color color;
   final TextAlign alignment;
+  final double? height;
 
   TextStyle _style() {
     return TextStyle(
@@ -25,6 +27,7 @@ class AppText extends StatefulWidget {
         fontSize: size.toDouble(),
         color: color,
         fontFamily: family,
+        height: height,
         overflow: TextOverflow.ellipsis);
   }
 
