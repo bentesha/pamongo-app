@@ -74,8 +74,8 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
         final reversedList = episodeList.reversed.toList();
         supplements = supplements.copyWith(sortStyle: SortStyles.lastToFirst);
         series = series.copyWith(episodeList: reversedList);
-        emit(SeriesPageState.content(series, supplements));
         service.updateContentSortStyle(SortStyles.lastToFirst);
+        emit(SeriesPageState.content(series, supplements));
         return;
       }
     }

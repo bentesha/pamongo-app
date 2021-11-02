@@ -90,8 +90,12 @@ class _SeriesPageState extends State<SeriesPage> {
       child: ValueListenableBuilder<double>(
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
-            return AppTopBars.seriesPage(context,
-                topScrolledPixels: value, title: appBarTitle);
+            return AppTopBars.seriesPage(
+                topScrolledPixels: value,
+                title: appBarTitle,
+                popCallback: () {
+                  if (bloc.shouldPop()) Navigator.pop(context);
+                });
           }),
     );
   }

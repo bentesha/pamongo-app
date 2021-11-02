@@ -18,10 +18,14 @@ class AppTopBars {
         title: title);
   }
 
-  static AppTopBar seriesPage(BuildContext context,
-      {required double topScrolledPixels, required String title}) {
+  static AppTopBar seriesPage(
+      {required double topScrolledPixels,
+      required String title,
+      required VoidCallback popCallback}) {
     return AppTopBar(Pages.seriesPage,
-        popCallback: () {}, topScrolledPixels: topScrolledPixels, title: title);
+        popCallback: popCallback,
+        topScrolledPixels: topScrolledPixels,
+        title: title);
   }
 }
 

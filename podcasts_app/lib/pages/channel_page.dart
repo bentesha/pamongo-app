@@ -84,7 +84,7 @@ class _ChannelPageState extends State<ChannelPage> {
                 topScrolledPixels: value,
                 title: appBarTitle,
                 popCallback: () {
-                  bloc.shouldPop() ? Navigator.pop(context) : () {};
+                  if (bloc.shouldPop()) Navigator.pop(context);
                 });
           }),
     );

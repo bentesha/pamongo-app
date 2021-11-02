@@ -41,7 +41,7 @@ class EpisodeTitle extends StatelessWidget {
         )
       ]),
       const SizedBox(height: 5),
-      AppText(title, weight: FontWeight.w600, size: 16, maxLines: 1),
+      AppText(title, weight: FontWeight.w600, size: 16, maxLines: 2),
       const SizedBox(height: 5),
     ]);
   }
