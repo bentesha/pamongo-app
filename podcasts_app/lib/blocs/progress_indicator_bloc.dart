@@ -1,17 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
+import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/source.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
-  static const inactiveContent = ProgressIndicatorContent();
+  static final list = [Episode(date: DateTime.utc(2020))];
+  static final inactiveContent = ProgressIndicatorContent(episodeList: list);
 
   ProgressIndicatorBloc(this.service)
-      : super(const ProgressIndicatorState.inactive(inactiveContent)) {
+      : super(ProgressIndicatorState.inactive(inactiveContent)) {
     service.onAudioPositionChanged.listen((position) {
       _handlePositionStream(position);
     });

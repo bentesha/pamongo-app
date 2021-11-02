@@ -3,35 +3,40 @@ import '../source.dart';
 enum Pages { homepage, episodePage, seriesPage, channelPage }
 
 class AppTopBars {
-  static AppTopBar episodePage(BuildContext context) {
-    return const AppTopBar(Pages.episodePage);
-  }
+  static AppTopBar homepage() => AppTopBar(Pages.homepage, popCallback: () {});
 
-  static AppTopBar homepage(BuildContext context) {
-    return const AppTopBar(Pages.homepage);
-  }
+  static AppTopBar episodePage(VoidCallback popCallback) =>
+      AppTopBar(Pages.episodePage, popCallback: popCallback);
 
-  static AppTopBar channelPage(BuildContext context,
-      {required double topScrolledPixels, required String title}) {
+  static AppTopBar channelPage(
+      {required double topScrolledPixels,
+      required String title,
+      required VoidCallback popCallback}) {
     return AppTopBar(Pages.channelPage,
-        topScrolledPixels: topScrolledPixels, title: title);
+        topScrolledPixels: topScrolledPixels,
+        popCallback: popCallback,
+        title: title);
   }
 
   static AppTopBar seriesPage(BuildContext context,
       {required double topScrolledPixels, required String title}) {
     return AppTopBar(Pages.seriesPage,
-        topScrolledPixels: topScrolledPixels, title: title);
+        popCallback: () {}, topScrolledPixels: topScrolledPixels, title: title);
   }
 }
 
 class AppTopBar extends StatelessWidget {
   const AppTopBar(this.page,
-      {this.topScrolledPixels = 0, this.title = 'hellow', key})
+      {this.topScrolledPixels = 0,
+      required this.popCallback,
+      this.title = 'hellow',
+      key})
       : super(key: key);
 
   final Pages page;
   final double topScrolledPixels;
   final String title;
+  final VoidCallback popCallback;
 
   @override
   AppBar build(BuildContext context) {
@@ -78,7 +83,7 @@ class AppTopBar extends StatelessWidget {
       return IconButton(
           padding: EdgeInsets.zero,
           icon: Icon(EvaIcons.arrowBackOutline, size: 25.dw),
-          onPressed: () => Navigator.pop(context));
+          onPressed: popCallback);
     });
   }
 }

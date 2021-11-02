@@ -21,8 +21,7 @@ dependencies:
   fluttertoast: ^8.0.8
   audio_service: ^0.18.0
   just_audio: ^0.9.13
-  flutter_svg: ^0.23.0+1
-
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/episode_page_bloc.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/episode_page_state.dart';
 import 'package:podcasts/themes/app_colors.dart';
+import 'package:podcasts/widgets/error_screen.dart';
 import '../source.dart';
 import 'series_page.dart';
 
@@ -50,7 +50,9 @@ class _EpisodePageState extends State<EpisodePage> {
   _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.episodePage(context),
+      child: AppTopBars.episodePage(() {
+        bloc.shouldPop() ? Navigator.pop(context) : () {};
+      }),
     );
   }
 
@@ -63,14 +65,6 @@ class _EpisodePageState extends State<EpisodePage> {
               failed: _buildError,
               content: _buildContent);
         });
-  }
-
-  Widget _buildLoading(Episode episode, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
-  Widget _buildError(Episode episode, Supplements supplements) {
-    return _buildContent(episode, supplements);
   }
 
   Widget _buildContent(Episode episode, Supplements supplements) {
@@ -112,19 +106,18 @@ class _EpisodePageState extends State<EpisodePage> {
   _buildViewAllButton(Episode episode) {
     return Center(
       child: TextButton(
-        onPressed: () => SeriesPage.navigateTo(
-            context,
-            Series(
-                image: episode.image,
-                name: episode.seriesName,
-                description: episode.description,
-                channel: episode.channel,
-                episodeList: seriesEpisodeList)),
+        onPressed: () => SeriesPage.navigateTo(context, episode.seriesId),
         child: AppText('View All Episodes',
             size: 15.w, weight: FontWeight.w600, color: AppColors.active),
       ),
     );
   }
+
+  Widget _buildLoading(Episode episode, Supplements supplements) =>
+      const AppLoadingIndicator();
+
+  Widget _buildError(Episode episode, Supplements supplements) =>
+      ErrorScreen(supplements.apiError!);
 
   Future<bool> _handleWillPop() async {
     final shouldPop = bloc.shouldPop();

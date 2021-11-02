@@ -7,18 +7,19 @@ import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/series_page_state.dart';
+import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/series_action_buttons.dart';
 import 'package:podcasts/widgets/sort_button.dart';
 import '../source.dart';
 import 'channel_page.dart';
 
 class SeriesPage extends StatefulWidget {
-  final Series series;
-  const SeriesPage({required this.series, key}) : super(key: key);
+  final String seriesId;
+  const SeriesPage({required this.seriesId, key}) : super(key: key);
 
-  static void navigateTo(BuildContext context, Series series) =>
-      Navigator.of(context)
-          .push(CupertinoPageRoute(builder: (_) => SeriesPage(series: series)));
+  static void navigateTo(BuildContext context, String seriesId) =>
+      Navigator.of(context).push(
+          CupertinoPageRoute(builder: (_) => SeriesPage(seriesId: seriesId)));
 
   @override
   State<SeriesPage> createState() => _SeriesPageState();
@@ -27,16 +28,13 @@ class SeriesPage extends StatefulWidget {
 class _SeriesPageState extends State<SeriesPage> {
   late final SeriesPageBloc bloc;
   late final AudioPlayerService service;
-  late final Series series;
   final topScrolledPixelsNotifier = ValueNotifier<double>(0);
-  final scrollController = ScrollController();
 
   @override
   void initState() {
     service = Provider.of<AudioPlayerService>(context, listen: false);
     bloc = SeriesPageBloc(service);
-    series = widget.series;
-    bloc.init(series);
+    bloc.init(widget.seriesId);
     super.initState();
   }
 
@@ -57,11 +55,8 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  Widget _buildError(List<Episode> episodeList, Supplements supplements) {
-    return _buildContent(episodeList, supplements);
-  }
-
-  Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildContent(Series series, Supplements supplements) {
+    final episodeList = series.episodeList;
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
     final isSortingFromFirstToLast =
@@ -73,10 +68,11 @@ class _SeriesPageState extends State<SeriesPage> {
         return true;
       },
       child: Scaffold(
-        appBar: _buildAppBar(widget.series.name),
+        appBar: _buildAppBar(series.name),
         body: ListView(children: [
-          _buildTitle(),
+          _buildTitle(series),
           _buildEpisodeIntro(
+              series.name,
               isSortingFromFirstToLast
                   ? episodeList[0]
                   : episodeList[episodeList.length - 1],
@@ -100,7 +96,8 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  _buildEpisodeIntro(Episode introEpisode, Supplements supplements) {
+  _buildEpisodeIntro(
+      String seriesName, Episode introEpisode, Supplements supplements) {
     final playerState = supplements.playerState;
     final activeId = supplements.activeId;
 
@@ -120,7 +117,7 @@ class _SeriesPageState extends State<SeriesPage> {
                   size: 12.w,
                   weight: FontWeight.w600,
                   color: AppColors.onPrimary2)),
-          AppText('Introducing ${widget.series.name}', size: 15.w),
+          AppText('Introducing $seriesName', size: 15.w, maxLines: 2),
           EpisodeActionButtons(Pages.seriesPage,
               status: status,
               duration: duration,
@@ -129,7 +126,7 @@ class _SeriesPageState extends State<SeriesPage> {
         ]));
   }
 
-  _buildTitle() {
+  _buildTitle(Series series) {
     return Padding(
       padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 15.dh),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -140,13 +137,14 @@ class _SeriesPageState extends State<SeriesPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(series.name, size: 16.w, weight: FontWeight.w600),
+                  AppText(series.name,
+                      size: 16.w, weight: FontWeight.w600, maxLines: 2),
                   SizedBox(height: 8.dh),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
-                        channelName: series.channel),
+                        channelId: series.channelId),
                     child: Text(
-                      series.channel,
+                      series.channelName,
                       style: TextStyle(
                         fontSize: 14.dw,
                         fontFamily: 'Louis',
@@ -184,12 +182,9 @@ class _SeriesPageState extends State<SeriesPage> {
     );
   }
 
-  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
-  Widget _buildEpisodeList(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildEpisodeList(List episodeList, Supplements supplements) {
     final sortStyle = supplements.sortStyle;
+    final isOnlyOne = episodeList.length == 2;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,14 +195,20 @@ class _SeriesPageState extends State<SeriesPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              AppText((series.episodeList.length - 1).toString() + '  Episodes',
-                  family: 'Casual', size: 18.w, color: AppColors.active),
-              SortButton(sortStyle: sortStyle, onSelectedCallback: bloc.sort)
+              AppText(
+                  (episodeList.length - 1).toString() +
+                      ' Episode${isOnlyOne ? '' : 's'}',
+                  family: 'Casual',
+                  size: 18.w,
+                  color: AppColors.active),
+              isOnlyOne
+                  ? SizedBox(height: 35.dh)
+                  : SortButton(
+                      sortStyle: sortStyle, onSelectedCallback: bloc.sort)
             ],
           ),
         ),
         ListView.builder(
-          controller: scrollController,
           itemCount: episodeList.length,
           shrinkWrap: true,
           padding: EdgeInsets.zero,
@@ -226,17 +227,9 @@ class _SeriesPageState extends State<SeriesPage> {
   }
 
   _buildEpisode(int index, Episode episode, Supplements supplements) {
-    return Column(children: [
-      index == 1
-          ? Container()
-          : Container(height: 1, color: AppColors.separator),
-      _episode(index, episode, supplements)
-    ]);
-  }
-
-  _episode(int index, Episode episode, Supplements supplements) {
     final playerState = supplements.playerState;
     final activeId = supplements.activeId;
+    final sortStyle = supplements.sortStyle;
 
     final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
@@ -247,20 +240,33 @@ class _SeriesPageState extends State<SeriesPage> {
 
     final status = Utils.getStatus(episode.id, activeId, playerState);
     final duration = Utils.convertFrom(episode.duration, includeSeconds: false);
+    final date = Utils.formatDateBy(episode.date, 'yMMMd');
 
-    return Padding(
+    final shouldPaintTopBorder =
+        sortStyle == SortStyles.firstToLast ? index != 1 : index != 0;
+
+    return Container(
       padding: EdgeInsets.only(left: 18.dw),
+      decoration: BoxDecoration(
+          border: Border(
+              top: BorderSide(
+                  width: shouldPaintTopBorder ? 1 : 0,
+                  color: shouldPaintTopBorder
+                      ? AppColors.separator
+                      : Colors.transparent))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          index == 1 ? const SizedBox(height: 1) : SizedBox(height: 10.dh),
-          AppText(episode.date, size: 14.w, color: AppColors.onSecondary2),
+          shouldPaintTopBorder
+              ? SizedBox(height: 10.dh)
+              : SizedBox(height: 1.dh),
+          AppText(date, size: 14.w, color: AppColors.onSecondary2),
           SizedBox(height: 5.dh),
-          AppText(
-            'Ep. ${episode.episodeNumber} : ${episode.title}',
-            weight: FontWeight.w600,
-            size: 16.w,
-          ),
+          AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
+              weight: FontWeight.w600,
+              size: 16.w,
+              alignment: TextAlign.start,
+              maxLines: 2),
           EpisodeActionButtons(
             Pages.seriesPage,
             status: status,
@@ -271,6 +277,14 @@ class _SeriesPageState extends State<SeriesPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildError(Series series, Supplements supplements) {
+    return ErrorScreen(supplements.apiError!);
+  }
+
+  Widget _buildLoading(Series series, Supplements supplements) {
+    return const AppLoadingIndicator();
   }
 
   Future<bool> _handleWillPop() async {

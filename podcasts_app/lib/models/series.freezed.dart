@@ -19,15 +19,19 @@ class _$SeriesTearOff {
 
   _Series call(
       {String image = '',
-      String description = '',
       String name = '',
-      String channel = '',
-      List<Episode> episodeList = const []}) {
+      String channelName = '',
+      String description = '',
+      String id = '',
+      String channelId = '',
+      List<dynamic> episodeList = const []}) {
     return _Series(
       image: image,
-      description: description,
       name: name,
-      channel: channel,
+      channelName: channelName,
+      description: description,
+      id: id,
+      channelId: channelId,
       episodeList: episodeList,
     );
   }
@@ -39,10 +43,12 @@ const $Series = _$SeriesTearOff();
 /// @nodoc
 mixin _$Series {
   String get image => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get channel => throw _privateConstructorUsedError;
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  String get channelName => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get channelId => throw _privateConstructorUsedError;
+  List<dynamic> get episodeList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SeriesCopyWith<Series> get copyWith => throw _privateConstructorUsedError;
@@ -54,10 +60,12 @@ abstract class $SeriesCopyWith<$Res> {
       _$SeriesCopyWithImpl<$Res>;
   $Res call(
       {String image,
-      String description,
       String name,
-      String channel,
-      List<Episode> episodeList});
+      String channelName,
+      String description,
+      String id,
+      String channelId,
+      List<dynamic> episodeList});
 }
 
 /// @nodoc
@@ -71,9 +79,11 @@ class _$SeriesCopyWithImpl<$Res> implements $SeriesCopyWith<$Res> {
   @override
   $Res call({
     Object? image = freezed,
-    Object? description = freezed,
     Object? name = freezed,
-    Object? channel = freezed,
+    Object? channelName = freezed,
+    Object? description = freezed,
+    Object? id = freezed,
+    Object? channelId = freezed,
     Object? episodeList = freezed,
   }) {
     return _then(_value.copyWith(
@@ -81,22 +91,30 @@ class _$SeriesCopyWithImpl<$Res> implements $SeriesCopyWith<$Res> {
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      channel: channel == freezed
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
+      channelName: channelName == freezed
+          ? _value.channelName
+          : channelName // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      channelId: channelId == freezed
+          ? _value.channelId
+          : channelId // ignore: cast_nullable_to_non_nullable
               as String,
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+              as List<dynamic>,
     ));
   }
 }
@@ -108,10 +126,12 @@ abstract class _$SeriesCopyWith<$Res> implements $SeriesCopyWith<$Res> {
   @override
   $Res call(
       {String image,
-      String description,
       String name,
-      String channel,
-      List<Episode> episodeList});
+      String channelName,
+      String description,
+      String id,
+      String channelId,
+      List<dynamic> episodeList});
 }
 
 /// @nodoc
@@ -126,9 +146,11 @@ class __$SeriesCopyWithImpl<$Res> extends _$SeriesCopyWithImpl<$Res>
   @override
   $Res call({
     Object? image = freezed,
-    Object? description = freezed,
     Object? name = freezed,
-    Object? channel = freezed,
+    Object? channelName = freezed,
+    Object? description = freezed,
+    Object? id = freezed,
+    Object? channelId = freezed,
     Object? episodeList = freezed,
   }) {
     return _then(_Series(
@@ -136,55 +158,72 @@ class __$SeriesCopyWithImpl<$Res> extends _$SeriesCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      channel: channel == freezed
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
+      channelName: channelName == freezed
+          ? _value.channelName
+          : channelName // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      channelId: channelId == freezed
+          ? _value.channelId
+          : channelId // ignore: cast_nullable_to_non_nullable
               as String,
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<Episode>,
+              as List<dynamic>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Series implements _Series {
+class _$_Series extends _Series {
   const _$_Series(
       {this.image = '',
-      this.description = '',
       this.name = '',
-      this.channel = '',
-      this.episodeList = const []});
+      this.channelName = '',
+      this.description = '',
+      this.id = '',
+      this.channelId = '',
+      this.episodeList = const []})
+      : super._();
 
   @JsonKey(defaultValue: '')
   @override
   final String image;
   @JsonKey(defaultValue: '')
   @override
-  final String description;
-  @JsonKey(defaultValue: '')
-  @override
   final String name;
   @JsonKey(defaultValue: '')
   @override
-  final String channel;
+  final String channelName;
+  @JsonKey(defaultValue: '')
+  @override
+  final String description;
+  @JsonKey(defaultValue: '')
+  @override
+  final String id;
+  @JsonKey(defaultValue: '')
+  @override
+  final String channelId;
   @JsonKey(defaultValue: const [])
   @override
-  final List<Episode> episodeList;
+  final List<dynamic> episodeList;
 
   @override
   String toString() {
-    return 'Series(image: $image, description: $description, name: $name, channel: $channel, episodeList: $episodeList)';
+    return 'Series(image: $image, name: $name, channelName: $channelName, description: $description, id: $id, channelId: $channelId, episodeList: $episodeList)';
   }
 
   @override
@@ -193,14 +232,19 @@ class _$_Series implements _Series {
         (other is _Series &&
             (identical(other.image, image) ||
                 const DeepCollectionEquality().equals(other.image, image)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.channelName, channelName) ||
+                const DeepCollectionEquality()
+                    .equals(other.channelName, channelName)) &&
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.channel, channel) ||
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.channelId, channelId) ||
                 const DeepCollectionEquality()
-                    .equals(other.channel, channel)) &&
+                    .equals(other.channelId, channelId)) &&
             (identical(other.episodeList, episodeList) ||
                 const DeepCollectionEquality()
                     .equals(other.episodeList, episodeList)));
@@ -210,9 +254,11 @@ class _$_Series implements _Series {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(image) ^
-      const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(channel) ^
+      const DeepCollectionEquality().hash(channelName) ^
+      const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(channelId) ^
       const DeepCollectionEquality().hash(episodeList);
 
   @JsonKey(ignore: true)
@@ -221,24 +267,31 @@ class _$_Series implements _Series {
       __$SeriesCopyWithImpl<_Series>(this, _$identity);
 }
 
-abstract class _Series implements Series {
+abstract class _Series extends Series {
   const factory _Series(
       {String image,
-      String description,
       String name,
-      String channel,
-      List<Episode> episodeList}) = _$_Series;
+      String channelName,
+      String description,
+      String id,
+      String channelId,
+      List<dynamic> episodeList}) = _$_Series;
+  const _Series._() : super._();
 
   @override
   String get image => throw _privateConstructorUsedError;
   @override
-  String get description => throw _privateConstructorUsedError;
-  @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String get channel => throw _privateConstructorUsedError;
+  String get channelName => throw _privateConstructorUsedError;
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  @override
+  String get id => throw _privateConstructorUsedError;
+  @override
+  String get channelId => throw _privateConstructorUsedError;
+  @override
+  List<dynamic> get episodeList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SeriesCopyWith<_Series> get copyWith => throw _privateConstructorUsedError;

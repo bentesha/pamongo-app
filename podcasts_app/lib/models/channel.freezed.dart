@@ -21,7 +21,7 @@ class _$ChannelTearOff {
       {String channelName = '',
       String channelImage = '',
       String channelDescription = '',
-      List<Series> channelSeriesList = const [],
+      List<dynamic> channelSeriesList = const [],
       String channelOwner = ''}) {
     return _Channel(
       channelName: channelName,
@@ -41,7 +41,7 @@ mixin _$Channel {
   String get channelName => throw _privateConstructorUsedError;
   String get channelImage => throw _privateConstructorUsedError;
   String get channelDescription => throw _privateConstructorUsedError;
-  List<Series> get channelSeriesList => throw _privateConstructorUsedError;
+  List<dynamic> get channelSeriesList => throw _privateConstructorUsedError;
   String get channelOwner => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -56,7 +56,7 @@ abstract class $ChannelCopyWith<$Res> {
       {String channelName,
       String channelImage,
       String channelDescription,
-      List<Series> channelSeriesList,
+      List<dynamic> channelSeriesList,
       String channelOwner});
 }
 
@@ -92,7 +92,7 @@ class _$ChannelCopyWithImpl<$Res> implements $ChannelCopyWith<$Res> {
       channelSeriesList: channelSeriesList == freezed
           ? _value.channelSeriesList
           : channelSeriesList // ignore: cast_nullable_to_non_nullable
-              as List<Series>,
+              as List<dynamic>,
       channelOwner: channelOwner == freezed
           ? _value.channelOwner
           : channelOwner // ignore: cast_nullable_to_non_nullable
@@ -110,7 +110,7 @@ abstract class _$ChannelCopyWith<$Res> implements $ChannelCopyWith<$Res> {
       {String channelName,
       String channelImage,
       String channelDescription,
-      List<Series> channelSeriesList,
+      List<dynamic> channelSeriesList,
       String channelOwner});
 }
 
@@ -147,7 +147,7 @@ class __$ChannelCopyWithImpl<$Res> extends _$ChannelCopyWithImpl<$Res>
       channelSeriesList: channelSeriesList == freezed
           ? _value.channelSeriesList
           : channelSeriesList // ignore: cast_nullable_to_non_nullable
-              as List<Series>,
+              as List<dynamic>,
       channelOwner: channelOwner == freezed
           ? _value.channelOwner
           : channelOwner // ignore: cast_nullable_to_non_nullable
@@ -158,13 +158,14 @@ class __$ChannelCopyWithImpl<$Res> extends _$ChannelCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Channel implements _Channel {
+class _$_Channel extends _Channel {
   const _$_Channel(
       {this.channelName = '',
       this.channelImage = '',
       this.channelDescription = '',
       this.channelSeriesList = const [],
-      this.channelOwner = ''});
+      this.channelOwner = ''})
+      : super._();
 
   @JsonKey(defaultValue: '')
   @override
@@ -177,7 +178,7 @@ class _$_Channel implements _Channel {
   final String channelDescription;
   @JsonKey(defaultValue: const [])
   @override
-  final List<Series> channelSeriesList;
+  final List<dynamic> channelSeriesList;
   @JsonKey(defaultValue: '')
   @override
   final String channelOwner;
@@ -223,13 +224,14 @@ class _$_Channel implements _Channel {
       __$ChannelCopyWithImpl<_Channel>(this, _$identity);
 }
 
-abstract class _Channel implements Channel {
+abstract class _Channel extends Channel {
   const factory _Channel(
       {String channelName,
       String channelImage,
       String channelDescription,
-      List<Series> channelSeriesList,
+      List<dynamic> channelSeriesList,
       String channelOwner}) = _$_Channel;
+  const _Channel._() : super._();
 
   @override
   String get channelName => throw _privateConstructorUsedError;
@@ -238,7 +240,7 @@ abstract class _Channel implements Channel {
   @override
   String get channelDescription => throw _privateConstructorUsedError;
   @override
-  List<Series> get channelSeriesList => throw _privateConstructorUsedError;
+  List<dynamic> get channelSeriesList => throw _privateConstructorUsedError;
   @override
   String get channelOwner => throw _privateConstructorUsedError;
   @override

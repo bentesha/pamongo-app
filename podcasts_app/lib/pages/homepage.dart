@@ -7,6 +7,7 @@ import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
 import 'package:podcasts/widgets/audio_progress_widget.dart';
+import 'package:podcasts/widgets/error_screen.dart';
 import '../source.dart';
 import 'series_page.dart';
 import 'episode_page.dart';
@@ -41,7 +42,7 @@ class _HomepageState extends State<Homepage> {
   _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.homepage(context),
+      child: AppTopBars.homepage(),
     );
   }
 
@@ -56,15 +57,8 @@ class _HomepageState extends State<Homepage> {
         });
   }
 
-  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
-  Widget _buildError(List<Episode> episodeList, Supplements supplements) {
-    return _buildContent(episodeList, supplements);
-  }
-
-  Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildContent(
+      List episodeList, List seriesList, Supplements supplements) {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
@@ -75,7 +69,7 @@ class _HomepageState extends State<Homepage> {
       child: ListView(
         padding: EdgeInsets.only(top: 10.dh),
         children: [
-          _buildSeries(),
+          _buildSeries(seriesList),
           _buildRecent(episodeList, supplements),
           shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 15.dh)
         ],
@@ -83,7 +77,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  _buildSeries() {
+  _buildSeries(List seriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -100,13 +94,14 @@ class _HomepageState extends State<Homepage> {
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
               final isFirst = index == 0;
-              final isLast = index == 4;
+              final isLast = index == seriesList.length - 1;
 
               return Container(
                   margin: EdgeInsets.only(
                       left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
                   child: GestureDetector(
-                    onTap: () => SeriesPage.navigateTo(context, series),
+                    onTap: () async =>
+                        SeriesPage.navigateTo(context, series.id),
                     child: SizedBox(
                         width: 96.dw, child: _buildSeriesEntry(series)),
                   ));
@@ -124,7 +119,7 @@ class _HomepageState extends State<Homepage> {
       SizedBox(height: 9.dh),
       AppText(series.name, alignment: TextAlign.start, size: 14.w, maxLines: 3),
       SizedBox(height: 5.dh),
-      AppText(series.channel,
+      AppText(series.channelName,
           size: 12.w,
           alignment: TextAlign.start,
           color: AppColors.onSecondary2,
@@ -132,7 +127,7 @@ class _HomepageState extends State<Homepage> {
     ]);
   }
 
-  _buildRecent(List<Episode> episodeList, Supplements supplements) {
+  _buildRecent(List episodeList, Supplements supplements) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:
@@ -172,6 +167,14 @@ class _HomepageState extends State<Homepage> {
       ],
     );
   }
+
+  Widget _buildLoading(
+          List episodeList, List seriesList, Supplements supplements) =>
+      const AppLoadingIndicator();
+
+  Widget _buildError(
+          List episodeList, List seriesList, Supplements supplements) =>
+      ErrorScreen(supplements.apiError!);
 
   void _insertOverlay() {
     final overlay = Overlay.of(context)!;

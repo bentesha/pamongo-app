@@ -1,5 +1,6 @@
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
+import 'package:intl/intl.dart';
 
 extension SizeExtension on num {
   // ignore: unused_element
@@ -11,7 +12,7 @@ extension SizeExtension on num {
 
 class Utils {
   static String getStatus(
-      int episodeId, int activeId, IndicatorPlayerState playerState) {
+      String episodeId, String activeId, IndicatorPlayerState playerState) {
     String status = 'Play';
     if (activeId == episodeId) {
       switch (playerState) {
@@ -34,6 +35,14 @@ class Utils {
     }
     return status;
   }
+
+  static DateTime convertFromTimestamp(String timestamp) {
+    final date = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').parse(timestamp);
+    return date;
+  }
+
+  static String formatDateBy(DateTime date, String format) =>
+      DateFormat(format).format(date);
 
   ///converts a millisecond to time in hour-minute-seconds format
   static String convertFrom(int duration, {bool includeSeconds = true}) {
