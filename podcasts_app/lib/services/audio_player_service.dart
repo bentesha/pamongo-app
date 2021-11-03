@@ -184,9 +184,8 @@ class AudioPlayerService {
     }
   }
 
-  void updateContentSortStyle(SortStyles sortStyle) {
-    _content = _content.copyWith(sortStyle: sortStyle);
-  }
+  void updateContentSortStyle(SortStyles sortStyle) =>
+      _content = _content.copyWith(sortStyle: sortStyle);
 
   void _updateContentWith(
       {IndicatorPlayerState? playerState,

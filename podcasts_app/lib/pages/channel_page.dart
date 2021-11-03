@@ -173,10 +173,8 @@ class _ChannelPageState extends State<ChannelPage> {
   }
 
   Widget _buildFailed(Channel channel, Supplements supplements) =>
-      ErrorScreen(supplements.apiError ??
-          ApiError(
-              type: ApiErrorType.unknown,
-              message: 'An error ocurred. Please try again'));
+      ErrorScreen(supplements.apiError!,
+          refreshCallback: () => bloc.init(widget.channelId));
 
   Future<bool> _handleWillPop() async {
     final shouldPop = bloc.shouldPop();
