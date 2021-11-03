@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/series_page_bloc.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/series_page_state.dart';
 import 'package:podcasts/widgets/error_screen.dart';
+import 'package:podcasts/widgets/page_episode_tiles.dart';
 import 'package:podcasts/widgets/series_action_buttons.dart';
 import 'package:podcasts/widgets/sort_button.dart';
 import '../source.dart';
@@ -59,8 +59,6 @@ class _SeriesPageState extends State<SeriesPage> {
     final episodeList = series.episodeList;
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
-    final isSortingFromFirstToLast =
-        supplements.sortStyle == SortStyles.oldestFirst;
 
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
@@ -71,12 +69,11 @@ class _SeriesPageState extends State<SeriesPage> {
         appBar: _buildAppBar(series.name),
         body: ListView(children: [
           _buildTitle(series),
-          _buildEpisodeIntro(
-              series.name,
-              isSortingFromFirstToLast
-                  ? episodeList[0]
-                  : episodeList[episodeList.length - 1],
-              supplements),
+          EpisodeTiles.introEpisode(
+              seriesName: series.name,
+              episodeList: episodeList,
+              playCallback: bloc.play,
+              supplements: supplements),
           _buildEpisodeList(episodeList, supplements),
           shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
         ]),
@@ -98,36 +95,6 @@ class _SeriesPageState extends State<SeriesPage> {
                 });
           }),
     );
-  }
-
-  _buildEpisodeIntro(
-      String seriesName, Episode introEpisode, Supplements supplements) {
-    final playerState = supplements.playerState;
-    final activeId = supplements.activeId;
-
-    final status = Utils.getStatus(introEpisode.id, activeId, playerState);
-    final duration = Utils.convertFrom(introEpisode.duration);
-
-    return Container(
-        margin: EdgeInsets.only(left: 18.dw, right: 24.dw, bottom: 10.dh),
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),
-        color: const Color(0xffEEEDE7),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              padding: EdgeInsets.all(2.dw),
-              margin: EdgeInsets.only(bottom: 3.dh),
-              color: AppColors.onSecondary2,
-              child: AppText('INTRO',
-                  size: 12.w,
-                  weight: FontWeight.w600,
-                  color: AppColors.onPrimary2)),
-          AppText('Introducing $seriesName', size: 15.w, maxLines: 2),
-          EpisodeActionButtons(Pages.seriesPage,
-              status: status,
-              duration: duration,
-              playCallback: bloc.playIntro,
-              actionPadding: EdgeInsets.only(top: 5.dh))
-        ]));
   }
 
   _buildTitle(Series series) {
@@ -189,6 +156,7 @@ class _SeriesPageState extends State<SeriesPage> {
   Widget _buildEpisodeList(List episodeList, Supplements supplements) {
     final sortStyle = supplements.sortStyle;
     final isOnlyOne = episodeList.length == 2;
+    final numberOfEpisodes = episodeList.length - 1;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +168,7 @@ class _SeriesPageState extends State<SeriesPage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               AppText(
-                  (episodeList.length - 1).toString() +
+                  numberOfEpisodes.toString() +
                       ' Episode${isOnlyOne ? '' : 's'}',
                   family: 'Casual',
                   size: 18.w,
@@ -222,64 +190,15 @@ class _SeriesPageState extends State<SeriesPage> {
             final isIntroEpisode = episode.episodeNumber == 0;
             return isIntroEpisode
                 ? Container()
-                : _buildEpisode(index, episode, supplements);
+                : EpisodeTiles.seriesPage(
+                    index: index,
+                    episode: episode,
+                    supplements: supplements,
+                    playCallback: bloc.play);
           },
         ),
         SizedBox(height: 10.dh)
       ],
-    );
-  }
-
-  _buildEpisode(int index, Episode episode, Supplements supplements) {
-    final playerState = supplements.playerState;
-    final activeId = supplements.activeId;
-    final sortStyle = supplements.sortStyle;
-
-    final isPlaying = playerState == playingState;
-    final isLoading = playerState == loadingState;
-    final isPaused = playerState == pausedState;
-
-    final isInactive =
-        (isPlaying || isLoading || isPaused) && activeId == episode.id;
-
-    final status = Utils.getStatus(episode.id, activeId, playerState);
-    final duration = Utils.convertFrom(episode.duration, includeSeconds: false);
-    final date = Utils.formatDateBy(episode.date, 'yMMMd');
-
-    final shouldPaintTopBorder =
-        sortStyle == SortStyles.oldestFirst ? index != 1 : index != 0;
-
-    return Container(
-      padding: EdgeInsets.only(left: 18.dw),
-      decoration: BoxDecoration(
-          border: Border(
-              top: BorderSide(
-                  width: shouldPaintTopBorder ? 1 : 0,
-                  color: shouldPaintTopBorder
-                      ? AppColors.separator
-                      : Colors.transparent))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          shouldPaintTopBorder
-              ? SizedBox(height: 10.dh)
-              : SizedBox(height: 1.dh),
-          AppText(date, size: 14.w, color: AppColors.onSecondary2),
-          SizedBox(height: 5.dh),
-          AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
-              weight: FontWeight.w600,
-              size: 16.w,
-              alignment: TextAlign.start,
-              maxLines: 2),
-          EpisodeActionButtons(
-            Pages.seriesPage,
-            status: status,
-            duration: duration,
-            actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
-            playCallback: isInactive ? () {} : () => bloc.play(index),
-          )
-        ],
-      ),
     );
   }
 

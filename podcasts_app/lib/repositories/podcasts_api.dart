@@ -27,16 +27,23 @@ class PodcastsApi {
 
   static Future<Channel> getChannelById(String channelId) async {
     try {
-      final url = '${root}channel?eager=series&id=$channelId';
+      final url =
+          '${root}series?eager=%5Bchannel,episodes%5D&channelId=$channelId';
       final response = await http.get(Uri.parse(url));
-
       final body = jsonDecode(response.body);
+      final jsonSeries = body['results'];
+      final jsonChannel = jsonSeries.first['channel'];
 
-      final jsonChannel = body['results'][0];
-      final series = jsonChannel['series'];
-      final seriesList = series
-          .map((e) => Series.fromJson(e, channelName: jsonChannel['name']))
-          .toList();
+      final seriesList = jsonSeries.map((series) {
+        final episodeList = series['episodes']
+            .map((episode) => Episode.fromJson(episode,
+                seriesId: series['id'],
+                seriesImage: series['thumbnailUrl'],
+                seriesName: series['name']))
+            .toList();
+        return Series.fromJson(series,
+            channelName: jsonChannel['name'], episodeList: episodeList);
+      }).toList();
 
       return Channel.fromJson(jsonChannel, seriesList: seriesList);
     } catch (_) {

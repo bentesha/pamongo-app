@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/channel_page_bloc.dart';
+import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
@@ -141,17 +142,16 @@ class _ChannelPageState extends State<ChannelPage> {
           Container(height: 1, color: AppColors.separator),
           Padding(
             padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
-            child: AppText('Channel Series', size: 18.w, family: 'Casual'),
+            child: AppText('Channel Series', size: 16.w, family: 'Casual'),
           ),
           SizedBox(height: 8.dh),
-          ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: channel.channelSeriesList.map((e) {
-              final index = channel.channelSeriesList.indexOf(e);
-              return _buildSeries(e, index);
-            }).toList(),
-          )
+          ListView.builder(
+              itemCount: channel.channelSeriesList.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (_, index) {
+                return _buildSeries(channel.channelSeriesList[index], index);
+              })
         ],
       ),
     );
@@ -173,7 +173,10 @@ class _ChannelPageState extends State<ChannelPage> {
   }
 
   Widget _buildFailed(Channel channel, Supplements supplements) =>
-      ErrorScreen(supplements.apiError!);
+      ErrorScreen(supplements.apiError ??
+          ApiError(
+              type: ApiErrorType.unknown,
+              message: 'An error ocurred. Please try again'));
 
   Future<bool> _handleWillPop() async {
     final shouldPop = bloc.shouldPop();

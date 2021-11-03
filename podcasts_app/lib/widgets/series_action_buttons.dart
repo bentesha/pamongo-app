@@ -31,7 +31,10 @@ class SeriesActionButtons extends StatelessWidget {
   _buildVisitSeriesButton() {
     final radius = isOnSeriesPage ? 5.dw : 15.dw;
     return AppTextButton(
-        callback: visitSeriesCallback, text: 'Visit Series', radius: radius);
+        callback: visitSeriesCallback,
+        text: 'Visit Series',
+        radius: radius,
+        fontWeight: FontWeight.w400);
   }
 
   _iconButton(IconData icon) {

@@ -26,9 +26,13 @@ class _SeriesWidgetState extends State<SeriesWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(widget.series.name, size: 16.w, weight: FontWeight.w600),
+              AppText(widget.series.name,
+                  size: 16.w,
+                  weight: FontWeight.w600,
+                  color: AppColors.onSecondary),
               SizedBox(height: 3.dh),
-              AppText('Episodes : 24', size: 16.w)
+              AppText('Episodes : ${widget.series.episodeList.length}',
+                  size: 16.w, color: AppColors.onSecondary)
             ],
           ),
         ],
