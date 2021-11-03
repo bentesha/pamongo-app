@@ -62,7 +62,6 @@ class _EpisodePageState extends State<EpisodePage> {
         builder: (context, state) {
           return state.when(
               loading: _buildLoading,
-              failed: _buildError,
               content: _buildContent);
         });
   }
@@ -92,9 +91,6 @@ class _EpisodePageState extends State<EpisodePage> {
 
   Widget _buildLoading(Episode episode, Supplements supplements) =>
       const AppLoadingIndicator();
-
-  Widget _buildError(Episode episode, Supplements supplements) =>
-      ErrorScreen(supplements.apiError!);
 
   Future<bool> _handleWillPop() async {
     final shouldPop = bloc.shouldPop();

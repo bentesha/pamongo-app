@@ -16,11 +16,12 @@ class ChannelPageBloc extends Cubit<ChannelPageState> {
   Future<void> init(String channelId) async {
     emit(ChannelPageState.loading(state.channel, state.supplements));
     final playerState = service.getCurrentContent.playerState;
-    final supplements = state.supplements.copyWith(playerState: playerState);
+    var supplements = state.supplements.copyWith(playerState: playerState);
     try {
       final channel = await PodcastsApi.getChannelById(channelId);
       emit(ChannelPageState.content(channel, supplements));
-    } on ApiError catch (_) {
+    } on ApiError catch (e) {
+      supplements = supplements.copyWith(apiError: e);
       emit(ChannelPageState.failed(state.channel, supplements));
     }
   }

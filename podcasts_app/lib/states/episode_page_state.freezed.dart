@@ -30,13 +30,6 @@ class _$EpisodePageStateTearOff {
       supplements,
     );
   }
-
-  _Failed failed(Episode episode, Supplements supplements) {
-    return _Failed(
-      episode,
-      supplements,
-    );
-  }
 }
 
 /// @nodoc
@@ -51,21 +44,18 @@ mixin _$EpisodePageState {
   TResult when<TResult extends Object?>({
     required TResult Function(Episode episode, Supplements supplements) loading,
     required TResult Function(Episode episode, Supplements supplements) content,
-    required TResult Function(Episode episode, Supplements supplements) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -73,21 +63,18 @@ mixin _$EpisodePageState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
-    required TResult Function(_Failed value) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -233,7 +220,6 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function(Episode episode, Supplements supplements) loading,
     required TResult Function(Episode episode, Supplements supplements) content,
-    required TResult Function(Episode episode, Supplements supplements) failed,
   }) {
     return loading(episode, supplements);
   }
@@ -243,7 +229,6 @@ class _$_Loading implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
   }) {
     return loading?.call(episode, supplements);
   }
@@ -253,7 +238,6 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -267,7 +251,6 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
-    required TResult Function(_Failed value) failed,
   }) {
     return loading(this);
   }
@@ -277,7 +260,6 @@ class _$_Loading implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
   }) {
     return loading?.call(this);
   }
@@ -287,7 +269,6 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -394,7 +375,6 @@ class _$_Content implements _Content {
   TResult when<TResult extends Object?>({
     required TResult Function(Episode episode, Supplements supplements) loading,
     required TResult Function(Episode episode, Supplements supplements) content,
-    required TResult Function(Episode episode, Supplements supplements) failed,
   }) {
     return content(episode, supplements);
   }
@@ -404,7 +384,6 @@ class _$_Content implements _Content {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
   }) {
     return content?.call(episode, supplements);
   }
@@ -414,7 +393,6 @@ class _$_Content implements _Content {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Episode episode, Supplements supplements)? loading,
     TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -428,7 +406,6 @@ class _$_Content implements _Content {
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
-    required TResult Function(_Failed value) failed,
   }) {
     return content(this);
   }
@@ -438,7 +415,6 @@ class _$_Content implements _Content {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
   }) {
     return content?.call(this);
   }
@@ -448,7 +424,6 @@ class _$_Content implements _Content {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -469,164 +444,4 @@ abstract class _Content implements EpisodePageState {
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$FailedCopyWith<$Res>
-    implements $EpisodePageStateCopyWith<$Res> {
-  factory _$FailedCopyWith(_Failed value, $Res Function(_Failed) then) =
-      __$FailedCopyWithImpl<$Res>;
-  @override
-  $Res call({Episode episode, Supplements supplements});
-
-  @override
-  $EpisodeCopyWith<$Res> get episode;
-  @override
-  $SupplementsCopyWith<$Res> get supplements;
-}
-
-/// @nodoc
-class __$FailedCopyWithImpl<$Res> extends _$EpisodePageStateCopyWithImpl<$Res>
-    implements _$FailedCopyWith<$Res> {
-  __$FailedCopyWithImpl(_Failed _value, $Res Function(_Failed) _then)
-      : super(_value, (v) => _then(v as _Failed));
-
-  @override
-  _Failed get _value => super._value as _Failed;
-
-  @override
-  $Res call({
-    Object? episode = freezed,
-    Object? supplements = freezed,
-  }) {
-    return _then(_Failed(
-      episode == freezed
-          ? _value.episode
-          : episode // ignore: cast_nullable_to_non_nullable
-              as Episode,
-      supplements == freezed
-          ? _value.supplements
-          : supplements // ignore: cast_nullable_to_non_nullable
-              as Supplements,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_Failed implements _Failed {
-  const _$_Failed(this.episode, this.supplements);
-
-  @override
-  final Episode episode;
-  @override
-  final Supplements supplements;
-
-  @override
-  String toString() {
-    return 'EpisodePageState.failed(episode: $episode, supplements: $supplements)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.episode, episode) ||
-                const DeepCollectionEquality()
-                    .equals(other.episode, episode)) &&
-            (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episode) ^
-      const DeepCollectionEquality().hash(supplements);
-
-  @JsonKey(ignore: true)
-  @override
-  _$FailedCopyWith<_Failed> get copyWith =>
-      __$FailedCopyWithImpl<_Failed>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(Episode episode, Supplements supplements) loading,
-    required TResult Function(Episode episode, Supplements supplements) content,
-    required TResult Function(Episode episode, Supplements supplements) failed,
-  }) {
-    return failed(episode, supplements);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Episode episode, Supplements supplements)? loading,
-    TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
-  }) {
-    return failed?.call(episode, supplements);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Episode episode, Supplements supplements)? loading,
-    TResult Function(Episode episode, Supplements supplements)? content,
-    TResult Function(Episode episode, Supplements supplements)? failed,
-    required TResult orElse(),
-  }) {
-    if (failed != null) {
-      return failed(episode, supplements);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Content value) content,
-    required TResult Function(_Failed value) failed,
-  }) {
-    return failed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
-  }) {
-    return failed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Failed value)? failed,
-    required TResult orElse(),
-  }) {
-    if (failed != null) {
-      return failed(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Failed implements EpisodePageState {
-  const factory _Failed(Episode episode, Supplements supplements) = _$_Failed;
-
-  @override
-  Episode get episode => throw _privateConstructorUsedError;
-  @override
-  Supplements get supplements => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;
 }

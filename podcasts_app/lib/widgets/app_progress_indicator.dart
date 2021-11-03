@@ -21,6 +21,7 @@ class AppProgressIndicator extends StatefulWidget {
 class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   late final AudioPlayerService service;
   late final ProgressIndicatorBloc bloc;
+  Widget title = Container();
 
   @override
   void initState() {
@@ -130,7 +131,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               ],
             ),
             SizedBox(height: 5.dh),
-            AppText('Ep. ${episode.episodeNumber}: ' + episode.seriesName,
+            AppText('Ep. ${episode.episodeNumber} from - ' + episode.seriesName,
                 color: AppColors.onPrimary2,
                 size: 16.w,
                 alignment: TextAlign.start),
@@ -143,7 +144,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   _buildSeriesImage(String image) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 5.dh, bottom: 5.dh),
+      padding: EdgeInsets.only(bottom: 5.dh),
       child: Column(
         children: [
           Container(
@@ -361,7 +362,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                           weight: FontWeight.w600,
                           alignment: TextAlign.start),
                       SizedBox(height: 3.dh),
-                      AppText('Ep. ${episode.episodeNumber}',
+                      AppText(
+                          'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
                           alignment: TextAlign.start,
                           color: AppColors.onPrimary2,
                           size: 15.w),

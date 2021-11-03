@@ -141,7 +141,10 @@ class _HomepageState extends State<Homepage> {
 
   Widget _buildError(
           List episodeList, List seriesList, Supplements supplements) =>
-      ErrorScreen(supplements.apiError!);
+      ErrorScreen(
+        supplements.apiError!,
+        refreshCallback: bloc.refresh,
+      );
 
   void _insertOverlay() {
     final overlay = Overlay.of(context)!;

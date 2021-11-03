@@ -203,7 +203,8 @@ class _SeriesPageState extends State<SeriesPage> {
   }
 
   Widget _buildError(Series series, Supplements supplements) {
-    return ErrorScreen(supplements.apiError!);
+    return ErrorScreen(supplements.apiError!,
+        refreshCallback: () => bloc.init(widget.seriesId));
   }
 
   Widget _buildLoading(Series series, Supplements supplements) {
