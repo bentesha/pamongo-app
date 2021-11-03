@@ -79,7 +79,7 @@ class PodcastsApi {
   static Future<List> getRecentEpisodes() async {
     try {
       const url =
-          '${root}episode?eager=series&rangeStart=0&rangeEnd=6&orderByDesc=createdAt';
+          '${root}episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt';
       final response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
       final results = body['results'];

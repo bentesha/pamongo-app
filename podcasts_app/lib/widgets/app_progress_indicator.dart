@@ -96,6 +96,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
 
     return Column(children: [
       _buildTitle(episode),
+      _buildProgressIndicatorAction(),
       _buildSlider(content),
       _buildActions(content),
     ]);
@@ -104,32 +105,19 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
   _buildTitle(Episode episode) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30.dw, 15.dh, 30.dw, 0),
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _buildSeriesImage(episode.image),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10.dh),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: AppText(episode.title,
-                      color: AppColors.onPrimary,
-                      size: 18.w,
-                      weight: FontWeight.w600,
-                      maxLines: 2,
-                      height: 1.4,
-                      alignment: TextAlign.start),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.dw),
-                  child: Icon(EvaIcons.heartOutline,
-                      size: 25.dw, color: AppColors.onPrimary2),
-                )
-              ],
-            ),
+            AppText(episode.title,
+                color: AppColors.onPrimary,
+                size: 18.w,
+                weight: FontWeight.w600,
+                maxLines: 2,
+                height: 1.4,
+                alignment: TextAlign.start),
             SizedBox(height: 5.dh),
             AppText('Ep. ${episode.episodeNumber} from - ' + episode.seriesName,
                 color: AppColors.onPrimary2,
@@ -176,12 +164,12 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isCurrentBigger = currentPosition >= duration;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(26.dw, 15.dh, 26.dw, 15.dh),
+      padding: EdgeInsets.fromLTRB(26.dw, 0, 26.dw, 15.dh),
       child: Column(
         children: [
           Container(
             height: 30.dh,
-            margin: EdgeInsets.fromLTRB(0, 20.dh, 0, 10.dh),
+            margin: EdgeInsets.fromLTRB(0, 15.dh, 0, 10.dh),
             child: SliderTheme(
               data: SliderThemeData(
                   trackHeight: 3.dh,
@@ -294,6 +282,36 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     callback: bloc.skipToNext)
                 : Container()
           ]),
+    );
+  }
+
+  _buildProgressIndicatorAction() {
+    return Padding(
+      padding: EdgeInsets.only(left: 18.dw, top: 10.dw),
+      child: Row(
+        children: [
+          _buildIconButton(
+              callback: () {},
+              iconSize: 23.dw,
+              icon: AppIcons.addToPlayList,
+              iconColor: AppColors.onPrimary2),
+          _buildIconButton(
+              callback: () {},
+              iconSize: 23.dw,
+              icon: AppIcons.download,
+              iconColor: AppColors.onPrimary2),
+          _buildIconButton(
+              callback: () {},
+              iconSize: 23.dw,
+              icon: AppIcons.bookmark,
+              iconColor: AppColors.onPrimary2),
+          _buildIconButton(
+              callback: () {},
+              iconSize: 23.dw,
+              icon: AppIcons.share ,
+              iconColor: AppColors.onPrimary2),
+        ],
+      ),
     );
   }
 
