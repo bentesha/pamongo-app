@@ -25,6 +25,6 @@ class ProgressIndicatorContent with _$ProgressIndicatorContent {
       {required List episodeList,
       @Default(0) int currentPosition,
       @Default(inactiveState) IndicatorPlayerState playerState,
-      @Default(SortStyles.firstToLast) SortStyles sortStyle,
+      @Default(SortStyles.oldestFirst) SortStyles sortStyle,
       @Default(0) int currentIndex}) = _ProgressIndicatorContent;
 }

@@ -60,7 +60,7 @@ class _SeriesPageState extends State<SeriesPage> {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
     final isSortingFromFirstToLast =
-        supplements.sortStyle == SortStyles.firstToLast;
+        supplements.sortStyle == SortStyles.oldestFirst;
 
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
@@ -247,7 +247,7 @@ class _SeriesPageState extends State<SeriesPage> {
     final date = Utils.formatDateBy(episode.date, 'yMMMd');
 
     final shouldPaintTopBorder =
-        sortStyle == SortStyles.firstToLast ? index != 1 : index != 0;
+        sortStyle == SortStyles.oldestFirst ? index != 1 : index != 0;
 
     return Container(
       padding: EdgeInsets.only(left: 18.dw),

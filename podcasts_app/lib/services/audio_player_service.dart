@@ -30,16 +30,20 @@ class AudioPlayerService {
   bool get isIndicatorExpanded => _isIndicatorExpanded;
   Stream<bool> get isIndicatorExpandedStream => _indicatorController.stream;
 
-  Future<void> play(List episodeList, {int index = 0}) async {
+  Future<void> play(List episodeList,
+      {int index = 0, bool shoudlFormatIndex = true}) async {
+    final lastIndex = episodeList.length - 1;
+    final isLatestFirstSorted = _content.sortStyle == SortStyles.latestFirst;
+    if (isLatestFirstSorted && shoudlFormatIndex) index = lastIndex - index;
+
     _updateContentWith(
         episodeList: episodeList,
         currentPosition: 0,
         playerState: loadingState,
         currentIndex: index);
 
-    var episode = episodeList[index];
-
     try {
+      var episode = episodeList[index];
       final duration = await _player.setUrl(episode.audioUrl);
       if (duration != null) {
         episode = episode.copyWith(duration: duration.inMilliseconds);
@@ -47,10 +51,6 @@ class AudioPlayerService {
         _updateContentWith(playerState: playingState, episodeList: episodeList);
         await _player.play();
       }
-      //use this if the duration from api issue is fixed
-      /* await _player.setUrl(episode.audioUrl);
-      _updateContentWith(playerState: playingState);
-      await _player.play(); */
     } catch (e) {
       log(e.toString());
       _updateContentWith(playerState: errorState);
@@ -112,35 +112,23 @@ class AudioPlayerService {
     final isLoading = _content.playerState == loadingState;
     if (isLoading) return;
 
-    int index = _content.currentIndex;
-    final isReversed = _content.sortStyle == SortStyles.lastToFirst;
-    if (isReversed) {
-      final isLast = index == 0;
-      index = isLast ? index : index - 1;
-    } else {
-      final isLast = index == _content.episodeList.length - 1;
-      index = isLast ? index : index + 1;
-    }
-    await play(_content.episodeList, index: index);
+    var index = _content.currentIndex;
+    final isLast = index == _content.episodeList.length - 1;
+    index = isLast ? index : index + 1;
+    await play(_content.episodeList, index: index, shoudlFormatIndex: false);
   }
 
   Future<void> seekPrev() async {
-    final isLoading = _content.playerState == loadingState;
-    if (isLoading) return;
-
-    int index = _content.currentIndex;
+    var index = _content.currentIndex;
     final isIntro = _content.episodeList[index].episodeNumber == 0;
     if (isIntro) return;
 
-    final isReversed = _content.sortStyle == SortStyles.lastToFirst;
-    if (isReversed) {
-      final isLast = index == _content.episodeList.length - 2;
-      index = isLast ? index : index + 1;
-    } else {
-      final isLast = index == 1;
-      index = isLast ? index : index - 1;
-    }
-    await play(_content.episodeList, index: index);
+    final isLoading = _content.playerState == loadingState;
+    if (isLoading) return;
+
+    final isLast = index == 1;
+    index = isLast ? index : index - 1;
+    await play(_content.episodeList, index: index, shoudlFormatIndex: false);
   }
 
   void markAsCompleted() {
@@ -197,9 +185,7 @@ class AudioPlayerService {
   }
 
   void updateContentSortStyle(SortStyles sortStyle) {
-    _content = _content.copyWith(
-        sortStyle: sortStyle,
-        episodeList: _content.episodeList.reversed.toList());
+    _content = _content.copyWith(sortStyle: sortStyle);
   }
 
   void _updateContentWith(
