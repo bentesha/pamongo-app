@@ -19,7 +19,7 @@ class _$SupplementsTearOff {
 
   _Supplements call(
       {String activeId = '',
-      SortStyles sortStyle = SortStyles.firstToLast,
+      SortStyles sortStyle = SortStyles.oldestFirst,
       AudioError? audioError,
       ApiError? apiError,
       dynamic playerState = inactiveState}) {
@@ -163,7 +163,7 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
 class _$_Supplements implements _Supplements {
   const _$_Supplements(
       {this.activeId = '',
-      this.sortStyle = SortStyles.firstToLast,
+      this.sortStyle = SortStyles.oldestFirst,
       this.audioError,
       this.apiError,
       this.playerState = inactiveState});
@@ -171,7 +171,7 @@ class _$_Supplements implements _Supplements {
   @JsonKey(defaultValue: '')
   @override
   final String activeId;
-  @JsonKey(defaultValue: SortStyles.firstToLast)
+  @JsonKey(defaultValue: SortStyles.oldestFirst)
   @override
   final SortStyles sortStyle;
   @override

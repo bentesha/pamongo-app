@@ -11,29 +11,27 @@ class SortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isFirstToLast = sortStyle == SortStyles.firstToLast;
-    final isLastToFirst = sortStyle == SortStyles.lastToFirst;
+    final isFirstToLast = sortStyle == SortStyles.oldestFirst;
+    final isLastToFirst = sortStyle == SortStyles.latestFirst;
+
     return PopupMenuButton<int>(
         icon: const Icon(AppIcons.sort, size: 20),
         onSelected: onSelectedCallback,
         padding: EdgeInsets.zero,
         itemBuilder: (context) => [
               const PopupMenuItem(
-                height: 35,
-                enabled: false,
-                child: AppText("Sort by", weight: FontWeight.w600, size: 16),
-                value: 0,
-              ),
+                  height: 35,
+                  enabled: false,
+                  child: AppText("Sort by", weight: FontWeight.w600, size: 16),
+                  value: 0),
               PopupMenuItem(
-                height: 35,
-                child: _buildPopupMenuItem(isLastToFirst, 'latest first'),
-                value: 1,
-              ),
+                  height: 35,
+                  child: _buildPopupMenuItem(isLastToFirst, 'latest first'),
+                  value: 1),
               PopupMenuItem(
-                height: 35,
-                child: _buildPopupMenuItem(isFirstToLast, 'oldest first'),
-                value: 2,
-              ),
+                  height: 35,
+                  child: _buildPopupMenuItem(isFirstToLast, 'oldest first'),
+                  value: 2),
             ]);
   }
 

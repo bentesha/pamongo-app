@@ -21,7 +21,7 @@ class _$ProgressIndicatorContentTearOff {
       {required List<dynamic> episodeList,
       int currentPosition = 0,
       IndicatorPlayerState playerState = inactiveState,
-      SortStyles sortStyle = SortStyles.firstToLast,
+      SortStyles sortStyle = SortStyles.oldestFirst,
       int currentIndex = 0}) {
     return _ProgressIndicatorContent(
       episodeList: episodeList,
@@ -171,7 +171,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
       {required this.episodeList,
       this.currentPosition = 0,
       this.playerState = inactiveState,
-      this.sortStyle = SortStyles.firstToLast,
+      this.sortStyle = SortStyles.oldestFirst,
       this.currentIndex = 0});
 
   @override
@@ -182,7 +182,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   @JsonKey(defaultValue: inactiveState)
   @override
   final IndicatorPlayerState playerState;
-  @JsonKey(defaultValue: SortStyles.firstToLast)
+  @JsonKey(defaultValue: SortStyles.oldestFirst)
   @override
   final SortStyles sortStyle;
   @JsonKey(defaultValue: 0)

@@ -28,8 +28,8 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
       var episodeList = series.episodeList;
       episodeList.sort((a, b) => a.episodeNumber.compareTo(b.episodeNumber));
 
-      final isLastToFirstSorting = sortStyle == SortStyles.lastToFirst;
-      if (isLastToFirstSorting) episodeList = episodeList.reversed.toList();
+      final isLastFirstSorting = sortStyle == SortStyles.latestFirst;
+      if (isLastFirstSorting) episodeList = episodeList.reversed.toList();
       series = series.copyWith(episodeList: episodeList);
       emit(SeriesPageState.content(series, supplements));
     } on ApiError catch (e) {
@@ -39,13 +39,16 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
   }
 
   Future<void> play(int index) async {
-    final episodeList = state.series.episodeList;
+    var episodeList = state.series.episodeList;
+    final sortStyle = state.supplements.sortStyle;
+    final isLastFirstSorted = sortStyle == SortStyles.latestFirst;
+    if (isLastFirstSorted) episodeList = episodeList.reversed.toList();
     await service.play(episodeList, index: index);
   }
 
   Future<void> playIntro() async {
     final sortStyle = state.supplements.sortStyle;
-    final isSortingFromFirstToLast = sortStyle == SortStyles.firstToLast;
+    final isSortingFromFirstToLast = sortStyle == SortStyles.oldestFirst;
     final index =
         isSortingFromFirstToLast ? 0 : state.series.episodeList.length - 1;
     await play(index);
@@ -57,24 +60,24 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     var supplements = state.supplements;
     emit(SeriesPageState.loading(series, supplements));
 
-    final isByFirstToLast = sortIndex == 2;
+    final isOldestFirstSorted = sortIndex == 2;
     final sortStyle = supplements.sortStyle;
 
-    if (isByFirstToLast) {
-      if (sortStyle == SortStyles.lastToFirst) {
+    if (isOldestFirstSorted) {
+      if (sortStyle == SortStyles.latestFirst) {
         final normalList = episodeList.reversed.toList();
-        supplements = supplements.copyWith(sortStyle: SortStyles.firstToLast);
+        supplements = supplements.copyWith(sortStyle: SortStyles.oldestFirst);
         series = series.copyWith(episodeList: normalList);
-        service.updateContentSortStyle(SortStyles.firstToLast);
+        service.updateContentSortStyle(SortStyles.oldestFirst);
         emit(SeriesPageState.content(series, supplements));
         return;
       }
     } else {
-      if (sortStyle == SortStyles.firstToLast) {
+      if (sortStyle == SortStyles.oldestFirst) {
         final reversedList = episodeList.reversed.toList();
-        supplements = supplements.copyWith(sortStyle: SortStyles.lastToFirst);
+        supplements = supplements.copyWith(sortStyle: SortStyles.latestFirst);
         series = series.copyWith(episodeList: reversedList);
-        service.updateContentSortStyle(SortStyles.lastToFirst);
+        service.updateContentSortStyle(SortStyles.latestFirst);
         emit(SeriesPageState.content(series, supplements));
         return;
       }

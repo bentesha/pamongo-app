@@ -5,13 +5,13 @@ import 'package:podcasts/models/progress_indicator_content.dart';
 
 part 'supplements.freezed.dart';
 
-enum SortStyles { firstToLast, lastToFirst}
+enum SortStyles { oldestFirst, latestFirst}
 
 @freezed
 class Supplements with _$Supplements {
   const factory Supplements(
       {@Default('') String activeId,
-      @Default(SortStyles.firstToLast) SortStyles sortStyle,
+      @Default(SortStyles.oldestFirst) SortStyles sortStyle,
       AudioError? audioError,
       ApiError? apiError,
       @Default(inactiveState) playerState}) = _Supplements;
