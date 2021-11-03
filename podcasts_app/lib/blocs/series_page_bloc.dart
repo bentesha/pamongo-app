@@ -46,29 +46,21 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     await service.play(episodeList, index: index);
   }
 
-  Future<void> playIntro() async {
-    final sortStyle = state.supplements.sortStyle;
-    final isSortingFromFirstToLast = sortStyle == SortStyles.oldestFirst;
-    final index =
-        isSortingFromFirstToLast ? 0 : state.series.episodeList.length - 1;
-    await play(index);
-  }
-
   void sort(int sortIndex) {
     var series = state.series;
-    final episodeList = series.episodeList;
     var supplements = state.supplements;
     emit(SeriesPageState.loading(series, supplements));
 
-    final isOldestFirstSorted = sortIndex == 2;
+    final episodeList = series.episodeList;
     final sortStyle = supplements.sortStyle;
+    final isOldestFirstSorted = sortIndex == 2;
 
     if (isOldestFirstSorted) {
       if (sortStyle == SortStyles.latestFirst) {
         final normalList = episodeList.reversed.toList();
         supplements = supplements.copyWith(sortStyle: SortStyles.oldestFirst);
-        series = series.copyWith(episodeList: normalList);
         service.updateContentSortStyle(SortStyles.oldestFirst);
+        series = series.copyWith(episodeList: normalList);
         emit(SeriesPageState.content(series, supplements));
         return;
       }
@@ -76,8 +68,8 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
       if (sortStyle == SortStyles.oldestFirst) {
         final reversedList = episodeList.reversed.toList();
         supplements = supplements.copyWith(sortStyle: SortStyles.latestFirst);
-        series = series.copyWith(episodeList: reversedList);
         service.updateContentSortStyle(SortStyles.latestFirst);
+        series = series.copyWith(episodeList: reversedList);
         emit(SeriesPageState.content(series, supplements));
         return;
       }

@@ -2,12 +2,17 @@ import '../source.dart';
 
 class AppTextButton extends StatelessWidget {
   const AppTextButton(
-      {required this.callback, required this.text, required this.radius, key})
+      {required this.callback,
+      required this.text,
+      required this.radius,
+      this.fontWeight = FontWeight.w700,
+      key})
       : super(key: key);
 
   final VoidCallback callback;
   final String text;
   final double radius;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class AppTextButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
           child: AppText(text,
-              size: 14, color: Colors.black87, weight: FontWeight.w700)),
+              size: 15, color: Colors.black87, weight: fontWeight)),
     );
   }
 }

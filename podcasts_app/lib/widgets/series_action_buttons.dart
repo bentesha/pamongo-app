@@ -33,7 +33,8 @@ class SeriesActionButtons extends StatelessWidget {
     return AppTextButton(
         callback: visitSeriesCallback,
         text: 'Visit Series',
-        radius: radius.toDouble());
+        radius: radius.toDouble(),
+        fontWeight: FontWeight.w400);
   }
 
   _iconButton(IconData icon) {
