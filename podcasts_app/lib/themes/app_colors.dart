@@ -7,6 +7,7 @@ class AppColors {
   static const onPrimary2 = Color(0xffD0DBDC);
   static const onSecondary = Colors.black;
   static const onSecondary2 = Colors.black54;
+  static const onSecondary3 = Colors.black87;
   static const separator = Color(0xffDBDDD0);
   static const background = Color(0xffFEFEFE);
   static const error = Color(0xffBC3A38);

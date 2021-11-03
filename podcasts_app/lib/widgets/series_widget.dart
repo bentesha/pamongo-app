@@ -29,7 +29,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
               AppText(widget.series.name,
                   size: 16.w,
                   weight: FontWeight.w600,
-                  color: AppColors.onSecondary),
+                  color: AppColors.onSecondary3),
               SizedBox(height: 3.dh),
               AppText('Episodes : ${widget.series.episodeList.length}',
                   size: 16.w, color: AppColors.onSecondary)

@@ -41,7 +41,11 @@ class EpisodeTitle extends StatelessWidget {
         )
       ]),
       SizedBox(height: 5.dh),
-      AppText(title, weight: FontWeight.w600, size: 16.w, maxLines: 2),
+      AppText(title,
+          weight: FontWeight.w600,
+          size: 16.w,
+          maxLines: 2,
+          color: AppColors.onSecondary3),
       SizedBox(height: 5.dh),
     ]);
   }
