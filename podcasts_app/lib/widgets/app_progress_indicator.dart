@@ -313,65 +313,44 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: episode.image == ''
-                        ? Container(
-                            height: 50,
-                            width: 50,
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.podcasts,
-                              size: 25,
-                              color: AppColors.onSecondary2,
-                            ))
-                        : AppImage(
-                            image: episode.image,
-                            radius: 10,
-                            height: 50,
-                            width: 50,
-                            withBorders: true),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                          episode.title.length > 38
-                              ? episode.title.substring(0, 38) + ' ...'
-                              : episode.title,
-                          color: AppColors.onPrimary,
-                          size: 15,
-                          weight: FontWeight.w600,
-                          alignment: TextAlign.start),
-                      const SizedBox(height: 3),
-                      AppText(
-                          'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
-                          alignment: TextAlign.start,
-                          color: AppColors.onPrimary2,
-                          size: 15),
-                    ],
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: AppImage(
+                    image: episode.image,
+                    radius: 7,
+                    height: 50,
+                    width: 50,
+                    withBorders: true),
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: isLoading
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Lottie.asset('assets/icons/loading.json',
-                              fit: BoxFit.contain, height: 25),
-                        )
-                      : IconButton(
-                          onPressed: bloc.togglePlayerStatus,
-                          icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                              color: AppColors.onPrimary2, size: 25),
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(episode.title,
+                        color: AppColors.onPrimary,
+                        size: 15,
+                        weight: FontWeight.w600,
+                        alignment: TextAlign.start),
+                    const SizedBox(height: 3),
+                    AppText(
+                        'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
+                        alignment: TextAlign.start,
+                        color: AppColors.onPrimary2,
+                        size: 15),
+                  ],
                 ),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: isLoading
+                    ? Lottie.asset('assets/icons/loading.json',
+                        fit: BoxFit.contain, height: 25)
+                    : IconButton(
+                        onPressed: bloc.togglePlayerStatus,
+                        icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
+                            color: AppColors.onPrimary2, size: 25)),
               ),
             ],
           ),
