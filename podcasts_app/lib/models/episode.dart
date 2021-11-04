@@ -26,7 +26,7 @@ class Episode with _$Episode {
       Episode(
           image: seriesImage,
           seriesName: seriesName,
-          duration: json['duration'] * 60000,
+          duration: (json['duration'] * 1000).toInt(),
           date: Utils.convertFromTimestamp(json['createdAt']),
           id: json['id'],
           seriesId: seriesId,

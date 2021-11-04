@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
@@ -8,11 +7,10 @@ import 'package:podcasts/states/progress_indicator_state.dart';
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
-  static final list = [Episode(date: DateTime.utc(2020))];
-  static final inactiveContent = ProgressIndicatorContent(episodeList: list);
+  bool isExpanded = false;
 
   ProgressIndicatorBloc(this.service)
-      : super(ProgressIndicatorState.inactive(inactiveContent)) {
+      : super(ProgressIndicatorState.initial()) {
     service.onAudioPositionChanged.listen((position) {
       _handlePositionStream(position);
     });
@@ -36,14 +34,14 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
   void _handleContentStream(ProgressIndicatorContent content) {
     final hasFailedToBuffer = content.playerState == errorState;
-    final bufferError = AudioError.fromType(ErrorType.failedToBuffer);
 
     if (hasFailedToBuffer) {
-      emit(ProgressIndicatorState.failed(content, bufferError));
+      emit(ProgressIndicatorState.failed(content, state.isHiding,
+          content.error ?? AudioError.fromType(ErrorType.unknown)));
       return;
     }
 
-    emit(ProgressIndicatorState.active(content));
+    emit(ProgressIndicatorState.active(content, isExpanded));
   }
 
   void _handlePositionStream(Duration? position) {
@@ -78,7 +76,12 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
       }
 
       emit(ProgressIndicatorState.active(
-          state.content.copyWith(currentPosition: _position)));
+          state.content.copyWith(currentPosition: _position), state.isHiding));
     }
+  }
+
+  void toggleVisibilityStatus() {
+    isExpanded = !isExpanded;
+    emit(ProgressIndicatorState.active(state.content, !state.isHiding));
   }
 }

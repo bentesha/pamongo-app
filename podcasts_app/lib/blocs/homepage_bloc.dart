@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/repositories/podcasts_api.dart';
+import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
 
@@ -19,8 +19,8 @@ class HomepageBloc extends Cubit<HomepageState> {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));
     try {
-      final recent = await PodcastsApi.getRecentEpisodes();
-      final featured = await PodcastsApi.getFeaturedSeries();
+      final recent = await PodcastsRepository.getRecentEpisodes();
+      final featured = await PodcastsRepository.getFeaturedSeries();
       emit(HomepageState.content(recent, featured, state.supplements));
     } on ApiError catch (e) {
       final supplements = state.supplements.copyWith(apiError: e);
@@ -30,12 +30,6 @@ class HomepageBloc extends Cubit<HomepageState> {
   }
 
   void play(Episode episode) async => await service.play([episode]);
-
-  bool shouldPop() {
-    final isExpanded = service.isIndicatorExpanded;
-    service.changeIndicatorExpandedStatusTo(false);
-    return !isExpanded;
-  }
 
   Future<void> refresh() async {
     emit(HomepageState.loading(

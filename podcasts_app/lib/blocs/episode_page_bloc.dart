@@ -24,12 +24,6 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
 
   void play() async => await service.play([state.episode]);
 
-  bool shouldPop() {
-    final isExpanded = service.isIndicatorExpanded;
-    service.changeIndicatorExpandedStatusTo(false);
-    return !isExpanded;
-  }
-
   _handleContentStream(ProgressIndicatorContent content) async {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;

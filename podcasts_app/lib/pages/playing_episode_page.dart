@@ -1,76 +1,65 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
 import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
 import '../source.dart';
 
-class AppProgressIndicator extends StatefulWidget {
-  final bool isShowInitial;
+class PlayingEpisodePage extends StatefulWidget {
+  const PlayingEpisodePage(this.bloc, {key}) : super(key: key);
 
-  const AppProgressIndicator(this.isShowInitial, {key}) : super(key: key);
+  final ProgressIndicatorBloc bloc;
 
   @override
-  State<AppProgressIndicator> createState() => _AppProgressIndicatorState();
+  State<PlayingEpisodePage> createState() => _PlayingEpisodePageState();
 }
 
-class _AppProgressIndicatorState extends State<AppProgressIndicator> {
-  late final AudioPlayerService service;
+class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   late final ProgressIndicatorBloc bloc;
-  Widget title = Container();
 
   @override
   void initState() {
-    service = Provider.of<AudioPlayerService>(context, listen: false);
-    bloc = ProgressIndicatorBloc(service);
+    bloc = widget.bloc;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
-        bloc: bloc,
-        listener: (context, state) {
-          final error =
-              state.maybeWhen(failed: (_, e) => e, orElse: () => null);
-
-          if (error != null) _showError(error);
-        },
-        builder: (context, state) {
-          return state.when(
-              active: _buildActive,
-              inactive: _buildInactive,
-              failed: _buildFailed,
-              loading: _buildLoading);
-        });
-  }
-
-  Widget _buildActive(ProgressIndicatorContent content) {
-    return Container(
-      color: AppColors.primary,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: [
-          ListView(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              _buildInitial(content),
-              _buildContent(content),
-            ],
+    return WillPopScope(
+      onWillPop: _handleWillPop,
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  AppColors.active,
+                  AppColors.active.withOpacity(.85),
+                  AppColors.primary,
+                ]),
           ),
-        ],
+          child: BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
+              bloc: bloc,
+              listener: (context, state) {
+                final error = state.maybeWhen(
+                    failed: (_, __, e) => e, orElse: () => null);
+
+                if (error != null) _showError(error);
+              },
+              builder: (context, state) {
+                return state.when(active: _buildContent, failed: _buildFailed);
+              }),
+        ),
       ),
     );
   }
 
-  Widget _buildInactive(ProgressIndicatorContent content) {
-    return Container();
+  Widget _buildFailed(
+      ProgressIndicatorContent content, bool isHiding, AudioError error) {
+    return _buildContent(content, isHiding);
   }
 
   _showError(AudioError error) async {
@@ -83,33 +72,44 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
         textColor: AppColors.onPrimary);
   }
 
-  Widget _buildFailed(ProgressIndicatorContent content, AudioError error) {
-    return _buildActive(content);
-  }
-
-  Widget _buildLoading(ProgressIndicatorContent content) {
-    return _buildActive(content);
-  }
-
-  _buildInitial(ProgressIndicatorContent content) {
-    return widget.isShowInitial ? _initialWidget(content) : Container();
-  }
-
-  _buildContent(ProgressIndicatorContent content) {
+  Widget _buildContent(ProgressIndicatorContent content, bool isHiding) {
     final episode = content.episodeList[content.currentIndex];
 
     return Column(children: [
+      _buildDropButton(),
       _buildTitle(episode),
+      _buildProgressIndicatorActions(content),
       _buildSlider(content),
-      _buildActions(content)
+      _buildAudioControlActions(content),
     ]);
+  }
+
+  _buildDropButton() {
+    return Container(
+      padding:const EdgeInsets.only(top: 40, left: 18),
+      alignment: Alignment.centerLeft,
+      child: _buildIconButton(
+          callback: () {
+            Navigator.pop(context);
+            bloc.toggleVisibilityStatus();
+          },
+          icon: EvaIcons.arrowIosDownwardOutline,
+          iconSize: 30),
+    );
   }
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 15, 30, 0),
-      child: Column(children: [
-        _buildSeriesImage(episode.image),
+      padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        AppImage(
+          radius: 10,
+          image: episode.image,
+          height: 350,
+          fullWidth: true,
+          withBorders: true,
+        ),
+        const SizedBox(height: 40),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -142,34 +142,6 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
           ],
         ),
       ]),
-    );
-  }
-
-  _buildSeriesImage(String image) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(bottom: 5),
-      child: Column(
-        children: [
-          Container(
-              height: 4,
-              width: 25,
-              decoration: const BoxDecoration(
-                  color: AppColors.separator,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              margin: const EdgeInsets.only(bottom: 30)),
-          SizedBox(
-            height: 350,
-            child: AppImage(
-              radius: 10,
-              image: image,
-              height: 350,
-              fullWidth: true,
-              withBorders: true,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -237,7 +209,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     );
   }
 
-  _buildActions(ProgressIndicatorContent content) {
+  _buildAudioControlActions(ProgressIndicatorContent content) {
     final playerState = content.playerState;
     final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
@@ -245,9 +217,59 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isInactive = isLoading || isComplete;
     final isPlayingSeries = content.episodeList.length > 1;
 
-    return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+      child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildIconButton(
+                iconSize: 35,
+                iconColor: isLoading || !isPlayingSeries
+                    ? AppColors.inactive
+                    : AppColors.onPrimary2,
+                icon: EvaIcons.skipBackOutline,
+                callback: isPlayingSeries ? bloc.skipToPrev : () {}),
+            _buildIconButton(
+                iconSize: 35,
+                iconColor:
+                    isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                icon: Icons.replay_10_outlined,
+                callback: () => bloc.changePosition(10000,
+                    positionRequiresUpdate: true, isForwarding: false)),
+            _buildIconButton(
+                icon: isPlaying ? Icons.pause : Ionicons.play,
+                backgroundColor: AppColors.secondary,
+                iconColor:
+                    isLoading ? AppColors.inactive : AppColors.onSecondary,
+                callback: isLoading ? () {} : bloc.togglePlayerStatus,
+                iconSize: 25),
+            _buildIconButton(
+                iconSize: 35,
+                icon: Icons.forward_30_outlined,
+                iconColor:
+                    isInactive ? AppColors.inactive : AppColors.onPrimary2,
+                callback: () =>
+                    bloc.changePosition(30000, positionRequiresUpdate: true)),
+            _buildIconButton(
+                iconSize: 35,
+                iconColor: isLoading || !isPlayingSeries
+                    ? AppColors.inactive
+                    : AppColors.onPrimary2,
+                icon: EvaIcons.skipForwardOutline,
+                callback: isPlayingSeries ? bloc.skipToNext : () {})
+          ]),
+    );
+  }
+
+  _buildProgressIndicatorActions(ProgressIndicatorContent content) {
+    final playerState = content.playerState;
+    final isPlaying = playerState == playingState;
+    final isLoading = playerState == loadingState;
+    final isPlayingSeries = content.episodeList.length > 1;
+    return Padding(
+      padding: const EdgeInsets.only(left: 18, top: 15),
+      child: Row(
         children: [
           isPlayingSeries
               ? _buildIconButton(
@@ -268,21 +290,16 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
               callback: isLoading ? () {} : bloc.togglePlayerStatus,
               iconSize: 25),
           _buildIconButton(
-              icon: Icons.forward_30_outlined,
-              iconColor: isInactive ? AppColors.inactive : AppColors.onPrimary2,
-              callback: () =>
-                  bloc.changePosition(30000, positionRequiresUpdate: true)),
-          isPlayingSeries
-              ? _buildIconButton(
-                  iconColor:
-                      isLoading ? AppColors.inactive : AppColors.onPrimary2,
-                  icon: EvaIcons.skipForwardOutline,
-                  callback: bloc.skipToNext)
-              : Container()
-        ]);
+              callback: () {},
+              iconSize: 23,
+              icon: AppIcons.share,
+              iconColor: AppColors.onPrimary2),
+        ],
+      ),
+    );
   }
 
-  _buildIconButton(
+  Widget _buildIconButton(
       {Color iconColor = AppColors.onPrimary2,
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
@@ -297,69 +314,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
             minimumSize: const Size.fromRadius(30)));
   }
 
-  Widget _initialWidget(ProgressIndicatorContent content) {
-    final episode = content.episodeList[content.currentIndex];
-    final fullWidth = MediaQuery.of(context).size.width;
-    final loadingWidth = content.currentPosition * fullWidth / episode.duration;
-    final isPlaying = content.playerState == playingState;
-    final isLoading = content.playerState == loadingState;
-
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        Container(
-          color: AppColors.primary,
-          height: 70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: AppImage(
-                    image: episode.image,
-                    radius: 7,
-                    height: 50,
-                    width: 50,
-                    withBorders: true),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(episode.title,
-                        color: AppColors.onPrimary,
-                        size: 15,
-                        weight: FontWeight.w600,
-                        alignment: TextAlign.start),
-                    const SizedBox(height: 3),
-                    AppText(
-                        'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
-                        alignment: TextAlign.start,
-                        color: AppColors.onPrimary2,
-                        size: 15),
-                  ],
-                ),
-              ),
-              Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: isLoading
-                    ? Lottie.asset('assets/icons/loading.json',
-                        fit: BoxFit.contain, height: 25)
-                    : IconButton(
-                        onPressed: bloc.togglePlayerStatus,
-                        icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                            color: AppColors.onPrimary2, size: 25)),
-              ),
-            ],
-          ),
-        ),
-        Container(
-            height: 4,
-            color: AppColors.secondary,
-            width: content.currentPosition == 0 ? 0 : loadingWidth)
-      ],
-    );
+  Future<bool> _handleWillPop() async {
+    bloc.toggleVisibilityStatus();
+    return true;
   }
 }
