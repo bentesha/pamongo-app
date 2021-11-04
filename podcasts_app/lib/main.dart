@@ -8,5 +8,3 @@ void main() async {
       create: (_) => AudioPlayerService(), child: const MyApp());
   runApp(myApp);
 }
-
-

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:http/http.dart';
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:http/http.dart' as http;
 import 'package:podcasts/models/series.dart';
 
-class PodcastsApi {
+class PodcastsRepository {
   static const root = 'http://pamongo.mobicap.co.tz:9090/api/';
 
   static Future<List> getFeaturedSeries() async {
@@ -77,10 +78,11 @@ class PodcastsApi {
   }
 
   static Future<List> getRecentEpisodes() async {
+    var response = Response('', 200);
     try {
       const url =
-          '${root}episode?eager=series&rangeStart=0&rangeEnd=6&orderByDesc=createdAt&sequence%3Aneq=0';
-      final response = await http.get(Uri.parse(url));
+          '${root}episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=0';
+      response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
       final results = body['results'];
       return results.map((e) {
@@ -91,6 +93,7 @@ class PodcastsApi {
             seriesName: series['name']);
       }).toList();
     } catch (_) {
+      log(response.statusCode.toString());
       log(_.toString());
       throw ApiError.fromType(ApiErrorType.unknown);
     }

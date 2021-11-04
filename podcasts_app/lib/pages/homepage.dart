@@ -1,11 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
+import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/homepage_state.dart';
-import 'package:podcasts/widgets/audio_progress_widget.dart';
+import 'package:podcasts/widgets/audio_progress_indicator.dart';
 import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/page_episode_tiles.dart';
 import '../source.dart';
@@ -33,9 +34,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _handleWillPop,
-        child: Scaffold(appBar: _buildAppBar(), body: _buildBody()));
+    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
   }
 
   _buildAppBar() {
@@ -151,11 +150,5 @@ class _HomepageState extends State<Homepage> {
     final entry =
         OverlayEntry(builder: (context) => const AudioProgressWidget());
     overlay.insert(entry);
-  }
-
-  Future<bool> _handleWillPop() async {
-    final shouldPop = bloc.shouldPop();
-    if (shouldPop) return true;
-    return false;
   }
 }

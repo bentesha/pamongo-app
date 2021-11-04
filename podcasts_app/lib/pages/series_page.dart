@@ -40,10 +40,6 @@ class _SeriesPageState extends State<SeriesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: _handleWillPop, child: _buildBody());
-  }
-
-  _buildBody() {
     return BlocBuilder<SeriesPageBloc, SeriesPageState>(
       bloc: bloc,
       builder: (_, state) {
@@ -88,11 +84,7 @@ class _SeriesPageState extends State<SeriesPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.seriesPage(
-                topScrolledPixels: value,
-                title: appBarTitle,
-                popCallback: () {
-                  if (bloc.shouldPop()) Navigator.pop(context);
-                });
+                topScrolledPixels: value, title: appBarTitle);
           }),
     );
   }
@@ -209,11 +201,5 @@ class _SeriesPageState extends State<SeriesPage> {
 
   Widget _buildLoading(Series series, Supplements supplements) {
     return const AppLoadingIndicator();
-  }
-
-  Future<bool> _handleWillPop() async {
-    final shouldPop = bloc.shouldPop();
-    if (shouldPop) return true;
-    return false;
   }
 }
