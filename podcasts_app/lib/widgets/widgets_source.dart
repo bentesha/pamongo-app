@@ -1,6 +1,6 @@
-export 'package:podcasts/widgets/app_top_bar.dart';
+export 'package:podcasts/widgets/app_top_bars.dart';
 export 'package:podcasts/widgets/episode_tile.dart';
-export 'package:podcasts/widgets/app_progress_indicator.dart';
+export 'package:podcasts/pages/playing_episode_page.dart';
 export 'package:podcasts/widgets/app_text.dart';
 export 'package:podcasts/widgets/app_image.dart';
 export 'package:podcasts/widgets/app_rich_text.dart';

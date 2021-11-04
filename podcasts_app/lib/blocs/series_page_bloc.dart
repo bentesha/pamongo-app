@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/repositories/podcasts_api.dart';
+import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/series_page_state.dart';
 
@@ -24,7 +24,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
         activeId: id, playerState: content.playerState, sortStyle: sortStyle);
 
     try {
-      var series = await PodcastsApi.getSeriesById(seriesId);
+      var series = await PodcastsRepository.getSeriesById(seriesId);
       var episodeList = series.episodeList;
       episodeList.sort((a, b) => a.episodeNumber.compareTo(b.episodeNumber));
 
@@ -76,12 +76,6 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     }
 
     emit(SeriesPageState.content(series, supplements));
-  }
-
-  bool shouldPop() {
-    final isExpanded = service.isIndicatorExpanded;
-    service.changeIndicatorExpandedStatusTo(false);
-    return !isExpanded;
   }
 
   _handleContentStream(ProgressIndicatorContent content) {

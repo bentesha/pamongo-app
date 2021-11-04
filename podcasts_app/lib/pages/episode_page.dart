@@ -6,7 +6,6 @@ import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/episode_page_state.dart';
 import 'package:podcasts/themes/app_colors.dart';
-import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/page_episode_tiles.dart';
 import '../source.dart';
 import 'series_page.dart';
@@ -38,21 +37,16 @@ class _EpisodePageState extends State<EpisodePage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _handleWillPop,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildBody(),
     );
   }
 
   _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.episodePage(() {
-        if (bloc.shouldPop()) Navigator.pop(context);
-      }),
+      child: AppTopBars.episodePage(),
     );
   }
 
@@ -60,9 +54,7 @@ class _EpisodePageState extends State<EpisodePage> {
     return BlocBuilder<EpisodePageBloc, EpisodePageState>(
         bloc: bloc,
         builder: (context, state) {
-          return state.when(
-              loading: _buildLoading,
-              content: _buildContent);
+          return state.when(loading: _buildLoading, content: _buildContent);
         });
   }
 
@@ -91,10 +83,4 @@ class _EpisodePageState extends State<EpisodePage> {
 
   Widget _buildLoading(Episode episode, Supplements supplements) =>
       const AppLoadingIndicator();
-
-  Future<bool> _handleWillPop() async {
-    final shouldPop = bloc.shouldPop();
-    if (shouldPop) return true;
-    return false;
-  }
 }

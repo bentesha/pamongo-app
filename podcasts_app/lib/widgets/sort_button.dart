@@ -42,6 +42,7 @@ class SortButton extends StatelessWidget {
         Container(
             width: 5,
             height: 5,
+            margin: EdgeInsets.only(top: 3.dh),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected ? AppColors.secondary : Colors.transparent)),

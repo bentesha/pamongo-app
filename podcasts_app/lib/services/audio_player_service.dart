@@ -18,17 +18,11 @@ class AudioPlayerService {
   static final initialEpisodeList = [Episode(date: DateTime.utc(2020))];
   var _content = ProgressIndicatorContent(episodeList: initialEpisodeList);
   final _contentController = ContentStreamController.broadcast();
-  final _indicatorController = StreamController<bool>.broadcast();
 
   ContentStream get onIndicatorContentStateChanged => _contentController.stream;
   ProgressIndicatorContent get getCurrentContent => _content;
   Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
   int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
-
-  //determines whether the bottom audio-progress-indicator is expanded or not
-  bool _isIndicatorExpanded = false;
-  bool get isIndicatorExpanded => _isIndicatorExpanded;
-  Stream<bool> get isIndicatorExpandedStream => _indicatorController.stream;
 
   Future<void> play(List episodeList,
       {int index = 0, bool shoudlFormatIndex = true}) async {
@@ -53,7 +47,9 @@ class AudioPlayerService {
       }
     } catch (e) {
       log(e.toString());
-      _updateContentWith(playerState: errorState);
+      _updateContentWith(
+          playerState: errorState,
+          error: AudioError.fromType(ErrorType.failedToBuffer));
     }
   }
 
@@ -139,7 +135,7 @@ class AudioPlayerService {
   void markAsFailedToBuffer() {
     final position = _player.position.inMilliseconds;
     _updateContentWith(currentPosition: position, playerState: errorState);
-    _player.pause();
+    if (_player.playing) _player.pause();
   }
 
   Future<void> _handleSeekCallback(int newPosition, int index) async {
@@ -149,38 +145,35 @@ class AudioPlayerService {
         : newPosition.isNegative
             ? 0
             : newPosition;
+
     _updateContentWith(
         currentPosition: correctedPosition, playerState: loadingState);
 
     final episode = _content.episodeList[index];
-
     try {
       if (_player.playing) _player.pause();
-      await checkConnectivity();
+      await _checkConnectivity();
       await _player.setUrl(episode.audioUrl);
       await _player.seek(Duration(milliseconds: newPosition));
       _updateContentWith(playerState: playingState);
       _player.play();
-    } catch (_) {
-      _updateContentWith(playerState: errorState);
-      if (_player.playing) _player.pause();
+    } on AudioError catch (e) {
+      log(e.toString());
+      _updateContentWith(playerState: errorState, error: e);
     }
   }
 
-  void changeIndicatorExpandedStatusTo(bool isExpanded) {
-    _isIndicatorExpanded = isExpanded;
-    _indicatorController.add(isExpanded);
-  }
-
-  Future<void> checkConnectivity() async {
+  Future<void> _checkConnectivity() async {
     try {
       await http
           .get(Uri.parse('https://pub.dev/'))
           .timeout(const Duration(seconds: 3));
     } on TimeoutException catch (_) {
-      throw AudioError.fromErrorCode(errorCode: 0);
+      throw AudioError.fromType(ErrorType.internet);
     } on SocketException catch (_) {
-      throw AudioError.fromErrorCode(errorCode: 0);
+      throw AudioError.fromType(ErrorType.internet);
+    } catch (_) {
+      throw AudioError.fromType(ErrorType.unknown);
     }
   }
 
@@ -191,12 +184,14 @@ class AudioPlayerService {
       {IndicatorPlayerState? playerState,
       List? episodeList,
       int? currentIndex,
+      AudioError? error,
       int? currentPosition}) {
     _content = _content.copyWith(
         playerState: playerState ?? _content.playerState,
         episodeList: episodeList ?? _content.episodeList,
         currentIndex: currentIndex ?? _content.currentIndex,
-        currentPosition: currentPosition ?? _content.currentPosition);
+        currentPosition: currentPosition ?? _content.currentPosition,
+        error: error);
     _contentController.add(_content);
   }
 }

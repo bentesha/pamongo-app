@@ -1,72 +1,65 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
 import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
 import '../source.dart';
 
-class AppProgressIndicator extends StatefulWidget {
-  final bool isShowInitial;
+class PlayingEpisodePage extends StatefulWidget {
+  const PlayingEpisodePage(this.bloc, {key}) : super(key: key);
 
-  const AppProgressIndicator(this.isShowInitial, {key}) : super(key: key);
+  final ProgressIndicatorBloc bloc;
 
   @override
-  State<AppProgressIndicator> createState() => _AppProgressIndicatorState();
+  State<PlayingEpisodePage> createState() => _PlayingEpisodePageState();
 }
 
-class _AppProgressIndicatorState extends State<AppProgressIndicator> {
-  late final AudioPlayerService service;
+class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   late final ProgressIndicatorBloc bloc;
-  Widget title = Container();
 
   @override
   void initState() {
-    service = Provider.of<AudioPlayerService>(context, listen: false);
-    bloc = ProgressIndicatorBloc(service);
+    bloc = widget.bloc;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
-        bloc: bloc,
-        listener: (context, state) {
-          final error =
-              state.maybeWhen(failed: (_, e) => e, orElse: () => null);
+    return WillPopScope(
+      onWillPop: _handleWillPop,
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  AppColors.active,
+                  AppColors.active.withOpacity(.85),
+                  AppColors.primary,
+                ]),
+          ),
+          child: BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
+              bloc: bloc,
+              listener: (context, state) {
+                final error = state.maybeWhen(
+                    failed: (_, __, e) => e, orElse: () => null);
 
-          if (error != null) _showError(error);
-        },
-        builder: (context, state) {
-          return state.when(
-              active: _buildActive,
-              inactive: _buildInactive,
-              failed: _buildFailed,
-              loading: _buildLoading);
-        });
-  }
-
-  Widget _buildActive(ProgressIndicatorContent content) {
-    return Container(
-      color: AppColors.primary,
-      width: MediaQuery.of(context).size.width,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          _buildInitial(content),
-          _buildContent(content),
-        ],
+                if (error != null) _showError(error);
+              },
+              builder: (context, state) {
+                return state.when(active: _buildContent, failed: _buildFailed);
+              }),
+        ),
       ),
     );
   }
 
-  Widget _buildInactive(ProgressIndicatorContent content) {
-    return Container();
+  Widget _buildFailed(
+      ProgressIndicatorContent content, bool isHiding, AudioError error) {
+    return _buildContent(content, isHiding);
   }
 
   _showError(AudioError error) async {
@@ -79,34 +72,44 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
         textColor: AppColors.onPrimary);
   }
 
-  Widget _buildFailed(ProgressIndicatorContent content, AudioError error) {
-    return _buildActive(content);
-  }
-
-  Widget _buildLoading(ProgressIndicatorContent content) {
-    return _buildActive(content);
-  }
-
-  _buildInitial(ProgressIndicatorContent content) {
-    return widget.isShowInitial ? _initialWidget(content) : Container();
-  }
-
-  _buildContent(ProgressIndicatorContent content) {
+  Widget _buildContent(ProgressIndicatorContent content, bool isHiding) {
     final episode = content.episodeList[content.currentIndex];
 
     return Column(children: [
+      _buildDropButton(),
       _buildTitle(episode),
-      _buildProgressIndicatorAction(),
+      _buildProgressIndicatorActions(),
       _buildSlider(content),
-      _buildActions(content),
+      _buildAudioControlActions(content),
     ]);
+  }
+
+  _buildDropButton() {
+    return Container(
+      padding: EdgeInsets.only(top: 40.dh, left: 18.dw),
+      alignment: Alignment.centerLeft,
+      child: _buildIconButton(
+          callback: () {
+            Navigator.pop(context);
+            bloc.toggleVisibilityStatus();
+          },
+          icon: EvaIcons.arrowIosDownwardOutline,
+          iconSize: 30),
+    );
   }
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(30.dw, 15.dh, 30.dw, 0),
+      padding: EdgeInsets.fromLTRB(30.dw, 50.dh, 30.dw, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _buildSeriesImage(episode.image),
+        AppImage(
+          radius: 10.dw,
+          image: episode.image,
+          height: 350.h,
+          fullWidth: true,
+          withBorders: true,
+        ),
+        SizedBox(height: 40.dh),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,34 +129,6 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
           ],
         ),
       ]),
-    );
-  }
-
-  _buildSeriesImage(String image) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(bottom: 5.dh),
-      child: Column(
-        children: [
-          Container(
-              height: 4.dh,
-              width: 25.dw,
-              decoration: BoxDecoration(
-                  color: AppColors.separator,
-                  borderRadius: BorderRadius.all(Radius.circular(10.dw))),
-              margin: EdgeInsets.only(bottom: 30.dh)),
-          SizedBox(
-            height: 350.dh,
-            child: AppImage(
-              radius: 10.dw,
-              image: image,
-              height: 350.h,
-              fullWidth: true,
-              withBorders: true,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -230,7 +205,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     );
   }
 
-  _buildActions(ProgressIndicatorContent content) {
+  _buildAudioControlActions(ProgressIndicatorContent content) {
     final playerState = content.playerState;
     final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
@@ -239,19 +214,18 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
     final isPlayingSeries = content.episodeList.length > 1;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.dw, 0.dh, 16.dw, 0),
+      padding: EdgeInsets.fromLTRB(16.dw, 10.dh, 16.dw, 0),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            isPlayingSeries
-                ? _buildIconButton(
-                    iconSize: 35.dw,
-                    iconColor:
-                        isLoading ? AppColors.inactive : AppColors.onPrimary2,
-                    icon: EvaIcons.skipBackOutline,
-                    callback: bloc.skipToPrev)
-                : Container(),
+            _buildIconButton(
+                iconSize: 35.dw,
+                iconColor: isLoading || !isPlayingSeries
+                    ? AppColors.inactive
+                    : AppColors.onPrimary2,
+                icon: EvaIcons.skipBackOutline,
+                callback: isPlayingSeries ? bloc.skipToPrev : () {}),
             _buildIconButton(
                 iconSize: 35.dw,
                 iconColor:
@@ -273,21 +247,20 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
                     isInactive ? AppColors.inactive : AppColors.onPrimary2,
                 callback: () =>
                     bloc.changePosition(30000, positionRequiresUpdate: true)),
-            isPlayingSeries
-                ? _buildIconButton(
-                    iconSize: 35.dw,
-                    iconColor:
-                        isLoading ? AppColors.inactive : AppColors.onPrimary2,
-                    icon: EvaIcons.skipForwardOutline,
-                    callback: bloc.skipToNext)
-                : Container()
+            _buildIconButton(
+                iconSize: 35.dw,
+                iconColor: isLoading || !isPlayingSeries
+                    ? AppColors.inactive
+                    : AppColors.onPrimary2,
+                icon: EvaIcons.skipForwardOutline,
+                callback: isPlayingSeries ? bloc.skipToNext : () {})
           ]),
     );
   }
 
-  _buildProgressIndicatorAction() {
+  _buildProgressIndicatorActions() {
     return Padding(
-      padding: EdgeInsets.only(left: 18.dw, top: 10.dw),
+      padding: EdgeInsets.only(left: 18.dw, top: 15.dw),
       child: Row(
         children: [
           _buildIconButton(
@@ -308,14 +281,14 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
           _buildIconButton(
               callback: () {},
               iconSize: 23.dw,
-              icon: AppIcons.share ,
+              icon: AppIcons.share,
               iconColor: AppColors.onPrimary2),
         ],
       ),
     );
   }
 
-  _buildIconButton(
+  Widget _buildIconButton(
       {Color iconColor = AppColors.onPrimary2,
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
@@ -330,69 +303,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator> {
             minimumSize: Size.fromRadius(25.dw)));
   }
 
-  Widget _initialWidget(ProgressIndicatorContent content) {
-    final episode = content.episodeList[content.currentIndex];
-    final fullWidth = MediaQuery.of(context).size.width;
-    final loadingWidth = content.currentPosition * fullWidth / episode.duration;
-    final isPlaying = content.playerState == playingState;
-    final isLoading = content.playerState == loadingState;
-
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        Container(
-          color: AppColors.primary,
-          height: 70.dh,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.dw),
-                child: AppImage(
-                    image: episode.image,
-                    radius: 7.dw,
-                    height: 50.h,
-                    width: 50.h,
-                    withBorders: true),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(episode.title,
-                        color: AppColors.onPrimary,
-                        size: 15.w,
-                        weight: FontWeight.w600,
-                        alignment: TextAlign.start),
-                    SizedBox(height: 3.dh),
-                    AppText(
-                        'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
-                        alignment: TextAlign.start,
-                        color: AppColors.onPrimary2,
-                        size: 15.w),
-                  ],
-                ),
-              ),
-              Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.symmetric(horizontal: 12.dw),
-                child: isLoading
-                    ? Lottie.asset('assets/icons/loading.json',
-                        fit: BoxFit.contain, height: 25.dh)
-                    : IconButton(
-                        onPressed: bloc.togglePlayerStatus,
-                        icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                            color: AppColors.onPrimary2, size: 25.dw)),
-              ),
-            ],
-          ),
-        ),
-        Container(
-            height: 4.dh,
-            color: AppColors.secondary,
-            width: content.currentPosition == 0 ? 0 : loadingWidth)
-      ],
-    );
+  Future<bool> _handleWillPop() async {
+    bloc.toggleVisibilityStatus();
+    return true;
   }
 }

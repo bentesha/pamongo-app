@@ -3,44 +3,31 @@ import '../source.dart';
 enum Pages { homepage, episodePage, seriesPage, channelPage }
 
 class AppTopBars {
-  static AppTopBar homepage() => AppTopBar(Pages.homepage, popCallback: () {});
+  static AppTopBar homepage() => const AppTopBar(Pages.homepage);
 
-  static AppTopBar episodePage(VoidCallback popCallback) =>
-      AppTopBar(Pages.episodePage, popCallback: popCallback);
+  static AppTopBar episodePage() => const AppTopBar(Pages.episodePage);
 
   static AppTopBar channelPage(
-      {required double topScrolledPixels,
-      required String title,
-      required VoidCallback popCallback}) {
+      {required double topScrolledPixels, required String title}) {
     return AppTopBar(Pages.channelPage,
-        topScrolledPixels: topScrolledPixels,
-        popCallback: popCallback,
-        title: title);
+        topScrolledPixels: topScrolledPixels, title: title);
   }
 
   static AppTopBar seriesPage(
-      {required double topScrolledPixels,
-      required String title,
-      required VoidCallback popCallback}) {
+      {required double topScrolledPixels, required String title}) {
     return AppTopBar(Pages.seriesPage,
-        popCallback: popCallback,
-        topScrolledPixels: topScrolledPixels,
-        title: title);
+        topScrolledPixels: topScrolledPixels, title: title);
   }
 }
 
 class AppTopBar extends StatelessWidget {
   const AppTopBar(this.page,
-      {this.topScrolledPixels = 0,
-      required this.popCallback,
-      this.title = 'hellow',
-      key})
+      {this.topScrolledPixels = 0, this.title = 'hellow', key})
       : super(key: key);
 
   final Pages page;
   final double topScrolledPixels;
   final String title;
-  final VoidCallback popCallback;
 
   @override
   AppBar build(BuildContext context) {
@@ -70,10 +57,7 @@ class AppTopBar extends StatelessWidget {
             automaticallyImplyLeading: false,
             title: isTitleChanged
                 ? AppText(title,
-                    size: 18.w,
-                    weight: FontWeight.w600,
-                    color: AppColors.active,
-                    family: 'Louis')
+                    size: 18.w, weight: FontWeight.w600, family: 'Louis')
                 : Container(),
             iconTheme: const IconThemeData(color: AppColors.onSecondary),
             leading: _buildBackArrow(),
@@ -87,7 +71,7 @@ class AppTopBar extends StatelessWidget {
       return IconButton(
           padding: EdgeInsets.zero,
           icon: Icon(EvaIcons.arrowBackOutline, size: 25.dw),
-          onPressed: popCallback);
+          onPressed: () => Navigator.of(context).pop());
     });
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/channel_page_bloc.dart';
-import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
@@ -42,10 +41,6 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(onWillPop: _handleWillPop, child: _buildBody());
-  }
-
-  _buildBody() {
     return BlocBuilder<ChannelPageBloc, ChannelPageState>(
         bloc: bloc,
         builder: (context, state) {
@@ -82,11 +77,7 @@ class _ChannelPageState extends State<ChannelPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.channelPage(
-                topScrolledPixels: value,
-                title: appBarTitle,
-                popCallback: () {
-                  if (bloc.shouldPop()) Navigator.pop(context);
-                });
+                topScrolledPixels: value, title: appBarTitle);
           }),
     );
   }
@@ -175,10 +166,4 @@ class _ChannelPageState extends State<ChannelPage> {
   Widget _buildFailed(Channel channel, Supplements supplements) =>
       ErrorScreen(supplements.apiError!,
           refreshCallback: () => bloc.init(widget.channelId));
-
-  Future<bool> _handleWillPop() async {
-    final shouldPop = bloc.shouldPop();
-    if (shouldPop) return true;
-    return false;
-  }
 }
