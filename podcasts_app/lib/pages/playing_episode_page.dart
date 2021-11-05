@@ -36,9 +36,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  AppColors.active,
-                  AppColors.active.withOpacity(.85),
-                  AppColors.primary,
+                  AppColors.onSecondary3,
+                  AppColors.onSecondary3.withOpacity(.85),
+                  AppColors.onSecondary3.withOpacity(.75),
                 ]),
           ),
           child: BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(

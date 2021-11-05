@@ -1,25 +1,34 @@
+import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/source.dart';
 
-class EpisodeTitle extends StatelessWidget {
+class EpisodeTitle extends StatefulWidget {
   const EpisodeTitle(
       {required this.title,
       required this.seriesName,
       required this.date,
       required this.image,
+      required this.page,
+      required this.seriesId,
       key})
       : super(key: key);
 
-  final String title, image, seriesName;
+  final String title, image, seriesName, seriesId;
   final DateTime date;
+  final Pages page;
 
   @override
+  State<EpisodeTitle> createState() => _EpisodeTitleState();
+}
+
+class _EpisodeTitleState extends State<EpisodeTitle> {
+  @override
   Widget build(BuildContext context) {
-    final formatted = Utils.formatDateBy(date, 'MMMd');
+    final formatted = Utils.formatDateBy(widget.date, 'MMMd');
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 10),
       Row(children: [
-        AppImage(radius: 7, image: image, height: 36, width: 36),
+        AppImage(image: widget.image, height: 36, width: 36, radius: 7),
         const SizedBox(width: 10),
         SizedBox(
           height: 45,
@@ -27,10 +36,15 @@ class EpisodeTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppText(seriesName,
-                    weight: FontWeight.w400,
-                    size: 13,
-                    color: AppColors.onSecondary2),
+                GestureDetector(
+                  onTap: _handleOnTap,
+                  child: AppText(widget.seriesName,
+                      weight: FontWeight.w400,
+                      size: 13,
+                      color: widget.page == Pages.homepage
+                          ? AppColors.onSecondary2
+                          : AppColors.primary),
+                ),
                 AppText(
                   formatted,
                   weight: FontWeight.w400,
@@ -41,12 +55,16 @@ class EpisodeTitle extends StatelessWidget {
         )
       ]),
       const SizedBox(height: 5),
-      AppText(title,
+      AppText(widget.title,
           weight: FontWeight.w600,
           size: 16,
           maxLines: 2,
           color: AppColors.onSecondary3),
       const SizedBox(height: 5),
     ]);
+  }
+
+  _handleOnTap() {
+    SeriesPage.navigateTo(context, widget.seriesId);
   }
 }

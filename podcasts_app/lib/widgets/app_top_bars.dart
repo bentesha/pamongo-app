@@ -21,8 +21,7 @@ class AppTopBars {
 }
 
 class AppTopBar extends StatelessWidget {
-  const AppTopBar(this.page,
-      {this.topScrolledPixels = 0, this.title = 'hellow', key})
+  const AppTopBar(this.page, {this.topScrolledPixels = 0, this.title = '', key})
       : super(key: key);
 
   final Pages page;
@@ -45,13 +44,11 @@ class AppTopBar extends StatelessWidget {
     return isHomepage || isEpisodePage
         ? AppBar(
             centerTitle: isHomepage,
-            elevation: isHomepage ? 1 : 0,
+            elevation: isHomepage ? 0 : 0,
             backgroundColor: AppColors.background,
             automaticallyImplyLeading: false,
             iconTheme: const IconThemeData(color: AppColors.onSecondary),
-            title: isHomepage
-                ? const AppText('Podcasts', size: 20, weight: FontWeight.w600)
-                : Container(),
+            title: Container(),
             leading: isEpisodePage ? _buildBackArrow() : Container())
         : AppBar(
             automaticallyImplyLeading: false,

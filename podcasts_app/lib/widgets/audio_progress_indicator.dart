@@ -82,13 +82,13 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          color: AppColors.primary,
+          color: AppColors.onSecondary3,
           height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: AppImage(
                     image: episode.image,
                     radius: 7,
@@ -106,7 +106,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
                         size: 15,
                         weight: FontWeight.w600,
                         alignment: TextAlign.start),
-                    SizedBox(height: 3),
+                    const SizedBox(height: 3),
                     AppText(
                         'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
                         alignment: TextAlign.start,
@@ -117,7 +117,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
               ),
               Container(
                 alignment: Alignment.centerRight,
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: isLoading
                     ? Lottie.asset('assets/icons/loading.json',
                         fit: BoxFit.contain, height: 25)

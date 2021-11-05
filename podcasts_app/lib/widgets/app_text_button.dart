@@ -27,8 +27,7 @@ class AppTextButton extends StatelessWidget {
                 side: const BorderSide(color: AppColors.inactive, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
-          child: AppText(text,
-              size: 15, color: Colors.black87, weight: fontWeight)),
+          child: AppText(text, size: 15, weight: fontWeight)),
     );
   }
 }

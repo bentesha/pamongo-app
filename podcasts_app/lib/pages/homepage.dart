@@ -78,9 +78,12 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 18, top: 8),
-          child: AppText('Series',
-              family: 'Casual', size: 18, color: AppColors.active),
+          padding: EdgeInsets.only(left: 18, top: 1),
+          child: AppText('Featured Series',
+              color: AppColors.onSecondary3,
+              weight: FontWeight.w600,
+              family: 'Louis',
+              size: 18),
         ),
         const SizedBox(height: 10),
         SingleChildScrollView(
@@ -94,7 +97,7 @@ class _HomepageState extends State<Homepage> {
             }).toList(),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 15)
       ],
     );
   }

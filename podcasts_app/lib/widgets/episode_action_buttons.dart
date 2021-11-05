@@ -53,10 +53,10 @@ class EpisodeActionButtons extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               color: isPaused || isPlaying
-                  ? AppColors.primary
+                  ? AppColors.onSecondary3
                   : Colors.transparent,
               border: isPaused || isPlaying
-                  ? Border.all(width: 1.5, color: AppColors.primary)
+                  ? Border.all(width: 1.5, color: AppColors.onSecondary3)
                   : Border.all(width: 1, color: Colors.grey)),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [

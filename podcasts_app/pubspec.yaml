@@ -22,6 +22,8 @@ dependencies:
   audio_service: ^0.18.0
   just_audio: ^0.9.13
   intl: ^0.17.0
+  flutter_svg: ^0.23.0+1
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -32,8 +34,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-     - assets/images/
-     - assets/icons/
+    - assets/images/
+    - assets/icons/
 
   fonts:
     - family: WorkSans
@@ -42,9 +44,9 @@ flutter:
     - family: Casual
       fonts:
         - asset: assets/fonts/casual.ttf
-    - family: Redhat
+    - family: logo
       fonts:
-        - asset: assets/fonts/redhat.ttf     
+        - asset: assets/fonts/logo.ttf
     - family: Louis
       fonts:
-        - asset: assets/fonts/louis.ttf      
+        - asset: assets/fonts/louis.ttf
