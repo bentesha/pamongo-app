@@ -29,8 +29,8 @@ class EpisodeTile extends StatelessWidget {
     final bool isDescriptionFirst = isHomepage;
     final text = AppText(
       episode.description,
-      color: AppColors.onSecondary2,
       size: 16,
+      color: AppColors.textColor2,
       maxLines: descriptionMaxLines,
     );
 

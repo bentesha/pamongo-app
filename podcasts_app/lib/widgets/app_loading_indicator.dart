@@ -6,7 +6,7 @@ class AppLoadingIndicator extends StatelessWidget {
   final Color backgroundColor;
   const AppLoadingIndicator({
     this.message,
-    this.backgroundColor = AppColors.background,
+    this.backgroundColor = AppColors.backgroundColor,
     key,
   }) : super(key: key);
 
@@ -14,7 +14,7 @@ class AppLoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        color: AppColors.background,
+        color: AppColors.backgroundColor,
         child: message != null
             ? Column(
                 mainAxisSize: MainAxisSize.max,

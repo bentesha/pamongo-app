@@ -36,9 +36,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  AppColors.onSecondary3,
-                  AppColors.onSecondary3.withOpacity(.85),
-                  AppColors.onSecondary3.withOpacity(.75),
+                  AppColors.primaryColor,
+                  AppColors.primaryColor.withOpacity(.85),
+                  AppColors.primaryColor.withOpacity(.75),
                 ]),
           ),
           child: BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
@@ -68,7 +68,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
-        backgroundColor: AppColors.error,
+        backgroundColor: AppColors.primaryColor,
         textColor: AppColors.onPrimary);
   }
 
@@ -86,7 +86,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildDropButton() {
     return Container(
-      padding:const EdgeInsets.only(top: 40, left: 18),
+      padding: const EdgeInsets.only(top: 40, left: 18),
       alignment: Alignment.centerLeft,
       child: _buildIconButton(
           callback: () {
@@ -155,18 +155,24 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       padding: const EdgeInsets.fromLTRB(26, 15, 26, 15),
       child: Column(
         children: [
-          SliderTheme(
-            data: const SliderThemeData(
-                trackHeight: 3,
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6)),
-            child: Slider(
-                activeColor: AppColors.secondary,
-                inactiveColor: AppColors.onPrimary2,
-                value: isCurrentBigger ? duration : currentPosition,
-                min: 0.0,
-                max: content.episodeList[content.currentIndex].duration
-                    .toDouble(),
-                onChanged: bloc.changePosition),
+          Container(
+            height: 30,
+            margin: const EdgeInsets.fromLTRB(0, 15, 0, 10),
+            child: SliderTheme(
+              data: SliderThemeData(
+                  trackHeight: 3,
+                  thumbShape:
+                      const RoundSliderThumbShape(enabledThumbRadius: 6),
+                  overlayShape: SliderComponentShape.noThumb),
+              child: Slider(
+                  activeColor: AppColors.accentColor,
+                  inactiveColor: AppColors.onPrimary2,
+                  value: isCurrentBigger ? duration : currentPosition,
+                  min: 0.0,
+                  max: content.episodeList[content.currentIndex].duration
+                      .toDouble(),
+                  onChanged: bloc.changePosition),
+            ),
           ),
           _buildLabels(content)
         ],
@@ -226,35 +232,35 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
             _buildIconButton(
                 iconSize: 35,
                 iconColor: isLoading || !isPlayingSeries
-                    ? AppColors.inactive
+                    ? AppColors.disabledColor
                     : AppColors.onPrimary2,
                 icon: EvaIcons.skipBackOutline,
                 callback: isPlayingSeries ? bloc.skipToPrev : () {}),
             _buildIconButton(
                 iconSize: 35,
                 iconColor:
-                    isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                    isLoading ? AppColors.disabledColor : AppColors.onPrimary2,
                 icon: Icons.replay_10_outlined,
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
             _buildIconButton(
                 icon: isPlaying ? Icons.pause : Ionicons.play,
-                backgroundColor: AppColors.secondary,
+                backgroundColor: AppColors.accentColor,
                 iconColor:
-                    isLoading ? AppColors.inactive : AppColors.onSecondary,
+                    isLoading ? AppColors.disabledColor : AppColors.onAccent,
                 callback: isLoading ? () {} : bloc.togglePlayerStatus,
                 iconSize: 25),
             _buildIconButton(
                 iconSize: 35,
                 icon: Icons.forward_30_outlined,
                 iconColor:
-                    isInactive ? AppColors.inactive : AppColors.onPrimary2,
+                    isInactive ? AppColors.disabledColor : AppColors.onPrimary2,
                 callback: () =>
                     bloc.changePosition(30000, positionRequiresUpdate: true)),
             _buildIconButton(
                 iconSize: 35,
                 iconColor: isLoading || !isPlayingSeries
-                    ? AppColors.inactive
+                    ? AppColors.disabledColor
                     : AppColors.onPrimary2,
                 icon: EvaIcons.skipForwardOutline,
                 callback: isPlayingSeries ? bloc.skipToNext : () {})

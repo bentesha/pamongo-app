@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
-import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
@@ -34,43 +33,47 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
-  }
-
-  _buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
-      child: AppTopBars.homepage(),
-    );
-  }
-
-  _buildBody() {
-    return BlocBuilder<HomepageBloc, HomepageState>(
-        bloc: bloc,
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading,
-              failed: _buildError,
-              content: _buildContent);
-        });
+    return Scaffold(
+        body: BlocBuilder<HomepageBloc, HomepageState>(
+            bloc: bloc,
+            builder: (_, state) {
+              return state.when(
+                  loading: _buildLoading,
+                  failed: _buildError,
+                  content: _buildContent);
+            }));
   }
 
   Widget _buildContent(
       List episodeList, List seriesList, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
     return RefreshIndicator(
-      onRefresh: bloc.refresh,
-      backgroundColor: Colors.white,
-      color: AppColors.secondary,
-      child: ListView(
-        padding: const EdgeInsets.only(top: 10),
-        children: [
-          _buildSeries(seriesList),
-          _buildRecent(episodeList, supplements),
-          shouldLeaveSpace ? const SizedBox(height: 70) : Container()
-        ],
-      ),
-    );
+        onRefresh: bloc.refresh,
+        backgroundColor: Colors.white,
+        color: AppColors.accentColor,
+        child: CustomScrollView(
+          slivers: [
+            const SliverAppBar(
+                floating: true,
+                forceElevated: true,
+                backgroundColor: AppColors.backgroundColor,
+                elevation: 1,
+                toolbarHeight: 55,
+                centerTitle: true,
+                title: Padding(
+                  padding: EdgeInsets.only(left: 2, top: 10),
+                  child: AppText('Pamongo', family: 'logo', size: 22),
+                )),
+            SliverList(
+                delegate: SliverChildListDelegate.fixed([
+              _buildSeries(seriesList),
+              _buildRecent(episodeList, supplements),
+              shouldLeaveSpace
+                  ? const SizedBox(height: 80)
+                  : const SizedBox(height: 15),
+            ]))
+          ],
+        ));
   }
 
   _buildSeries(List seriesList) {
@@ -78,12 +81,8 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 18, top: 1),
-          child: AppText('Featured Series',
-              color: AppColors.onSecondary3,
-              weight: FontWeight.w600,
-              family: 'Louis',
-              size: 18),
+          padding: EdgeInsets.only(left: 18, top: 18),
+          child: AppText('Featured Series', weight: FontWeight.w600, size: 20),
         ),
         const SizedBox(height: 10),
         SingleChildScrollView(
@@ -116,12 +115,16 @@ class _HomepageState extends State<Homepage> {
           AppImage(image: series.image, height: 96, width: 96, radius: 10),
           const SizedBox(height: 9),
           AppText(series.name,
-              alignment: TextAlign.start, size: 14, maxLines: 3),
+              alignment: TextAlign.start,
+              size: 14,
+              maxLines: 3,
+              color: AppColors.textColor2,
+              weight: FontWeight.w600),
           const SizedBox(height: 5),
           AppText(series.channelName,
               size: 12,
               alignment: TextAlign.start,
-              color: AppColors.onSecondary2,
+              color: AppColors.textColor2,
               maxLines: 3)
         ]),
       ),

@@ -23,20 +23,21 @@ class _SeriesWidgetState extends State<SeriesWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(widget.series.name,
-                  size: 16,
-                  weight: FontWeight.w600,
-                  color: AppColors.onSecondary3),
+              AppText(
+                widget.series.name,
+                size: 16,
+                weight: FontWeight.w600,
+              ),
               const SizedBox(height: 3),
               AppText('Episodes : ${widget.series.episodeList.length}',
-                  size: 16, color: AppColors.onSecondary)
+                  size: 16)
             ],
           ),
         ],
       ),
       const SizedBox(height: 10),
       AppText(widget.series.description,
-          size: 15, color: AppColors.onSecondary2, maxLines: 3),
+          size: 15, color: AppColors.textColor2, maxLines: 3),
       SeriesActionButtons(
         visitSeriesCallback: () =>
             SeriesPage.navigateTo(context, widget.series.id),

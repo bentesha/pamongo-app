@@ -41,10 +41,11 @@ class SortButton extends StatelessWidget {
         Container(
             width: 5,
             height: 5,
-            margin:const EdgeInsets.only(top: 3),
+            margin: const EdgeInsets.only(top: 3),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? AppColors.secondary : Colors.transparent)),
+                color:
+                    isSelected ? AppColors.accentColor : Colors.transparent)),
         const SizedBox(width: 10),
         AppText(text, size: 15),
       ],

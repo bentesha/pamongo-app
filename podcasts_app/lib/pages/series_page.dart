@@ -59,7 +59,6 @@ class _SeriesPageState extends State<SeriesPage> {
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
-        notification.metrics.axisDirection;
         return true;
       },
       child: Scaffold(
@@ -108,7 +107,7 @@ class _SeriesPageState extends State<SeriesPage> {
                     onTap: () => ChannelPage.navigateTo(context,
                         channelId: series.channelId),
                     child: AppText(series.channelName,
-                        size: 14, family: 'Louis', color: AppColors.primary),
+                        size: 14, color: AppColors.focusColor),
                   )
                 ],
               ),
@@ -123,8 +122,7 @@ class _SeriesPageState extends State<SeriesPage> {
         Padding(
             padding: const EdgeInsets.only(right: 10),
             child: AppRichText(
-              text: AppText(series.description,
-                  size: 16, color: AppColors.onSecondary2, maxLines: 4),
+              text: AppText(series.description, size: 16, maxLines: 4),
               useToggleExpansionButtons: true,
             ))
       ]),
@@ -149,9 +147,7 @@ class _SeriesPageState extends State<SeriesPage> {
                   numberOfEpisodes.toString() +
                       ' Episode${isOnlyOne ? '' : 's'}',
                   size: 18,
-                  family: 'Louis',
-                  weight: FontWeight.w400,
-                  color: AppColors.onSecondary),
+                  weight: FontWeight.w400),
               isOnlyOne
                   ? const SizedBox(height: 35)
                   : SortButton(
