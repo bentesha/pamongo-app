@@ -9,7 +9,7 @@ class AppIcons {
   static const sort = EvaIcons.flip;
   static const sortUp = Ionicons.trending_up;
   static const sortDown = Ionicons.trending_down;
-  static const share = EvaIcons.share;
+  static const share = EvaIcons.shareOutline;
   static const follow = EvaIcons.plus;
   static const podcast = EvaIcons.radioOutline;
 }

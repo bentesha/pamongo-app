@@ -15,7 +15,7 @@ class ErrorScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(EvaIcons.wifiOff, size: 32.dw, color: AppColors.inactive),
+          Icon(EvaIcons.wifiOff, size: 32.dw, color: AppColors.errorColor),
           Padding(
             padding: EdgeInsets.all(20.dw),
             child: AppText(

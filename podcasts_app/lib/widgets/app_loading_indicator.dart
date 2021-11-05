@@ -6,7 +6,7 @@ import '../source.dart';
   final Color backgroundColor;
   const AppLoadingIndicator({
     this.message,
-    this.backgroundColor = AppColors.background,
+    this.backgroundColor = AppColors.backgroundColor,
     key,
   }) : super(key: key);
 
@@ -14,7 +14,7 @@ import '../source.dart';
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        color: AppColors.background,
+        color: AppColors.backgroundColor,
         child: message != null
             ? Column(
                 mainAxisSize: MainAxisSize.max,

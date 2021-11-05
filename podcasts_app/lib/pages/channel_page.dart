@@ -116,8 +116,8 @@ class _ChannelPageState extends State<ChannelPage> {
         Padding(
           padding: EdgeInsets.only(right: 10.dw),
           child: AppRichText(
-              text: AppText(channel.channelDescription,
-                  size: 16.w, color: AppColors.onSecondary2, maxLines: 4),
+              text:
+                  AppText(channel.channelDescription, size: 16.w, maxLines: 4),
               useToggleExpansionButtons: true),
         )
       ]),
@@ -130,7 +130,7 @@ class _ChannelPageState extends State<ChannelPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(height: 1, color: AppColors.separator),
+          Container(height: 1, color: AppColors.dividerColor),
           Padding(
             padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
             child: AppText('Channel Series', size: 18.w, family: 'Louis'),
@@ -152,7 +152,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       index == 0
           ? Container()
-          : Container(height: 1, color: AppColors.separator),
+          : Container(height: 1, color: AppColors.dividerColor),
       Padding(
           padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 0),
           child: SeriesWidget(series)),

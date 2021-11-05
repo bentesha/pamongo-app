@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
-import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
@@ -34,43 +33,47 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
-  }
-
-  _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.homepage(),
-    );
-  }
-
-  _buildBody() {
-    return BlocBuilder<HomepageBloc, HomepageState>(
-        bloc: bloc,
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading,
-              failed: _buildError,
-              content: _buildContent);
-        });
+    return Scaffold(
+        body: BlocBuilder<HomepageBloc, HomepageState>(
+            bloc: bloc,
+            builder: (_, state) {
+              return state.when(
+                  loading: _buildLoading,
+                  failed: _buildError,
+                  content: _buildContent);
+            }));
   }
 
   Widget _buildContent(
       List episodeList, List seriesList, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
     return RefreshIndicator(
-      onRefresh: bloc.refresh,
-      backgroundColor: Colors.white,
-      color: AppColors.secondary,
-      child: ListView(
-        padding: EdgeInsets.only(top: 10.dh),
-        children: [
-          _buildSeries(seriesList),
-          _buildRecent(episodeList, supplements),
-          shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 15.dh)
-        ],
-      ),
-    );
+        onRefresh: bloc.refresh,
+        backgroundColor: Colors.white,
+        color: AppColors.accentColor,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+                floating: true,
+                forceElevated: true,
+                backgroundColor: AppColors.backgroundColor,
+                elevation: 1,
+                toolbarHeight: 55.dh,
+                centerTitle: true,
+                title: Padding(
+                  padding: EdgeInsets.only(left: 2.dw, top: 10.dh),
+                  child: AppText('Pamongo', family: 'logo', size: 22.w),
+                )),
+            SliverList(
+                delegate: SliverChildListDelegate.fixed([
+              _buildSeries(seriesList),
+              _buildRecent(episodeList, supplements),
+              shouldLeaveSpace
+                  ? SizedBox(height: 80.dh)
+                  : SizedBox(height: 15.dh),
+            ]))
+          ],
+        ));
   }
 
   _buildSeries(List seriesList) {
@@ -78,12 +81,9 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 18.dw, top: 1.dh),
-          child: AppText('Featured Series',
-              color: AppColors.onSecondary3,
-              weight: FontWeight.w600,
-              family: 'Louis',
-              size: 18.w),
+          padding: EdgeInsets.only(left: 18.dw, top: 18.dh),
+          child:
+              AppText('Featured Series', weight: FontWeight.w600, size: 20.w),
         ),
         SizedBox(height: 10.dh),
         SingleChildScrollView(
@@ -116,12 +116,16 @@ class _HomepageState extends State<Homepage> {
               image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
           SizedBox(height: 9.dh),
           AppText(series.name,
-              alignment: TextAlign.start, size: 14.w, maxLines: 3),
+              alignment: TextAlign.start,
+              size: 14.w,
+              maxLines: 3,
+              color: AppColors.textColor2,
+              weight: FontWeight.w600),
           SizedBox(height: 5.dh),
           AppText(series.channelName,
               size: 12.w,
               alignment: TextAlign.start,
-              color: AppColors.onSecondary2,
+              color: AppColors.textColor2,
               maxLines: 3)
         ]),
       ),

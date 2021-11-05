@@ -77,7 +77,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
     _buildState();
     return Column(
       children: [
-        Container(height: 1, color: AppColors.separator),
+        Container(height: 1, color: AppColors.dividerColor),
         Padding(
             padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
             child: GestureDetector(
@@ -198,7 +198,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
               top: BorderSide(
                   width: shouldPaintTopBorder ? 1 : 0,
                   color: shouldPaintTopBorder
-                      ? AppColors.separator
+                      ? AppColors.dividerColor
                       : Colors.transparent))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,12 +206,12 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
           shouldPaintTopBorder
               ? SizedBox(height: 10.dh)
               : SizedBox(height: 1.dh),
-          AppText(date, size: 14.w, color: AppColors.onSecondary2),
+          AppText(date, size: 14.w, color: AppColors.textColor2),
           SizedBox(height: 5.dh),
           AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
-              weight: FontWeight.w600,
               size: 16.w,
-              color: Colors.black87,
+              color: AppColors.textColor,
+              weight: FontWeight.w600,
               alignment: TextAlign.start,
               maxLines: 2),
           EpisodeActionButtons(
@@ -265,22 +265,27 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
     return Container(
         margin: EdgeInsets.only(left: 18.dw, right: 24.dw, bottom: 10.dh),
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),
-        color: const Color(0xffEEEDE7),
+        color: const Color(0xff4E4F50),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
               padding: EdgeInsets.all(2.dw),
-              margin: EdgeInsets.only(bottom: 3.dh),
-              color: AppColors.onSecondary2,
+              margin: EdgeInsets.only(bottom: 2.dh),
               child: AppText('INTRO',
                   size: 12.w,
                   weight: FontWeight.w600,
-                  color: AppColors.onPrimary2)),
-          AppText('Introducing ${widget.seriesName}', size: 15.w, maxLines: 2),
+                  color: AppColors.onPrimary)),
+          AppText('Introducing ${widget.seriesName}',
+              weight: FontWeight.w600,
+              size: 15.w,
+              maxLines: 2,
+              color: AppColors.onPrimary),
           EpisodeActionButtons(Pages.seriesPage,
+              statusColor: AppColors.onPrimary,
+              iconsColor: AppColors.onPrimary,
               status: status,
               duration: duration,
               playCallback: () => widget.playCallback(index),
-              actionPadding: EdgeInsets.only(top: 5.dh))
+              actionPadding: EdgeInsets.only(top: 8.dh))
         ]));
   }
 }

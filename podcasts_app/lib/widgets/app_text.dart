@@ -5,7 +5,7 @@ class AppText extends StatefulWidget {
       {this.weight = FontWeight.w400,
       required this.size,
       this.family = 'Louis',
-      this.color = AppColors.onSecondary,
+      this.color = AppColors.textColor,
       this.alignment = TextAlign.justify,
       this.maxLines,
       this.height,

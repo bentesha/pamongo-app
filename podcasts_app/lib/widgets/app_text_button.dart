@@ -24,10 +24,11 @@ class AppTextButton extends StatelessWidget {
           style: TextButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 15.dw),
             shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.inactive, width: 1),
+                side: const BorderSide(color: AppColors.borderColor, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
-          child: AppText(text, size: 15.w, weight: fontWeight)),
+          child: AppText(text,
+              size: 15.w, weight: fontWeight, color: AppColors.textColor)),
     );
   }
 }

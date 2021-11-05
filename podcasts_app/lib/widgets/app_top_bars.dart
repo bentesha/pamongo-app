@@ -1,5 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
-
 import '../source.dart';
 
 enum Pages { homepage, episodePage, seriesPage, channelPage }
@@ -33,7 +31,6 @@ class AppTopBar extends StatelessWidget {
   @override
   AppBar build(BuildContext context) {
     final isEpisodePage = page == Pages.episodePage;
-    final isHomepage = page == Pages.homepage;
     final isChannelPage = page == Pages.channelPage;
     final isSeriesPage = page == Pages.seriesPage;
 
@@ -43,33 +40,23 @@ class AppTopBar extends StatelessWidget {
     final isTitleChanged =
         shouldChangeSeriesPageTitle || shouldChangeChannelPageTitle;
 
-    return isHomepage || isEpisodePage
+    return isEpisodePage
         ? AppBar(
-            centerTitle: isHomepage,
-            elevation: isHomepage ? 0 : 0,
-            backgroundColor: AppColors.background,
+            centerTitle: false,
+            elevation: 0,
+            backgroundColor: AppColors.backgroundColor,
             automaticallyImplyLeading: false,
-            iconTheme: const IconThemeData(color: AppColors.onSecondary),
-            title: isHomepage
-                ? /*  const AppText('Pamongo',
-                    family: 'Louis', size: 20, weight: FontWeight.w600) */
-                Text('Pamongo',
-                    style: GoogleFonts.doHyeon(
-                        color: AppColors.onSecondary,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 1.5,
-                        fontSize: 22.dw))
-                : Container(),
-            leading: isEpisodePage ? _buildBackArrow() : Container())
+            iconTheme: const IconThemeData(color: Colors.black),
+            leading: _buildBackArrow())
         : AppBar(
             automaticallyImplyLeading: false,
             title: isTitleChanged
                 ? AppText(title,
                     size: 18.w, weight: FontWeight.w600, family: 'Louis')
                 : Container(),
-            iconTheme: const IconThemeData(color: AppColors.onSecondary),
+            iconTheme: const IconThemeData(color: Colors.black),
             leading: _buildBackArrow(),
-            backgroundColor: AppColors.background,
+            backgroundColor: AppColors.backgroundColor,
             elevation: isTitleChanged ? 2 : 0,
           );
   }

@@ -42,13 +42,12 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
                       weight: FontWeight.w400,
                       size: 13.w,
                       color: widget.page == Pages.homepage
-                          ? AppColors.onSecondary2
-                          : AppColors.primary),
+                          ? AppColors.textColor
+                          : AppColors.focusColor),
                 ),
                 AppText(
                   formatted,
                   weight: FontWeight.w400,
-                  color: AppColors.onSecondary2,
                   size: 13.w,
                 )
               ]),
@@ -59,7 +58,7 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
           weight: FontWeight.w600,
           size: 16.w,
           maxLines: 2,
-          color: AppColors.onSecondary3),
+          color: AppColors.textColor),
       SizedBox(height: 5.dh),
     ]);
   }

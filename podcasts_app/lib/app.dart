@@ -26,9 +26,9 @@ class _MyAppState extends State<MyApp> {
     await AudioService.init(
       builder: () => ForegroundPlayer(service),
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.example.podcasts_app',
-        androidNotificationChannelName: 'Podcasts App',
-      ),
+          androidNotificationChannelId: 'com.example.podcasts_app',
+          androidNotificationChannelName: 'Pamongo',
+          androidNotificationIcon: 'drawable/logo_small'),
     );
   }
 
@@ -38,7 +38,9 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(411.4, 866.3),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(scaffoldBackgroundColor: AppColors.background),
+            theme: ThemeData(
+                scaffoldBackgroundColor: AppColors.backgroundColor,
+                fontFamily: 'Louis'),
             home: const Homepage()));
   }
 }

@@ -26,20 +26,21 @@ class _SeriesWidgetState extends State<SeriesWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(widget.series.name,
-                  size: 16.w,
-                  weight: FontWeight.w600,
-                  color: AppColors.onSecondary3),
+              AppText(
+                widget.series.name,
+                size: 16.w,
+                weight: FontWeight.w600,
+              ),
               SizedBox(height: 3.dh),
               AppText('Episodes : ${widget.series.episodeList.length}',
-                  size: 16.w, color: AppColors.onSecondary)
+                  size: 16.w)
             ],
           ),
         ],
       ),
       SizedBox(height: 10.dh),
       AppText(widget.series.description,
-          size: 15.w, color: AppColors.onSecondary2, maxLines: 3),
+          size: 15.w, color: AppColors.textColor2, maxLines: 3),
       SeriesActionButtons(
         visitSeriesCallback: () =>
             SeriesPage.navigateTo(context, widget.series.id),

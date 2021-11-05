@@ -82,7 +82,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          color: AppColors.onSecondary3,
+          color: AppColors.primaryColor,
           height: 70.dh,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,7 +132,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
         ),
         Container(
             height: 4.dh,
-            color: AppColors.secondary,
+            color: AppColors.accentColor,
             width: content.currentPosition == 0 ? 0 : loadingWidth)
       ],
     );
@@ -144,7 +144,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 3,
-        backgroundColor: AppColors.error,
+        backgroundColor: AppColors.primaryColor,
         textColor: AppColors.onPrimary);
   }
 
