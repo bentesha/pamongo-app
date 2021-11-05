@@ -82,7 +82,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          color: AppColors.primary,
+          color: AppColors.onSecondary3,
           height: 70.dh,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

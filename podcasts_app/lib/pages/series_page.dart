@@ -59,6 +59,7 @@ class _SeriesPageState extends State<SeriesPage> {
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
+        notification.metrics.axisDirection;
         return true;
       },
       child: Scaffold(
@@ -102,26 +103,12 @@ class _SeriesPageState extends State<SeriesPage> {
                 children: [
                   AppText(series.name,
                       size: 16.w, weight: FontWeight.w600, maxLines: 2),
-                  SizedBox(height: 8.dh),
+                  SizedBox(height: 5.dh),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
                         channelId: series.channelId),
-                    child: Text(
-                      series.channelName,
-                      style: TextStyle(
-                        fontSize: 14.dw,
-                        fontFamily: 'Louis',
-                        fontWeight: FontWeight.w500,
-                        shadows: const [
-                          Shadow(color: AppColors.active, offset: Offset(0, -5))
-                        ],
-                        color: Colors.transparent,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColors.active,
-                        decorationThickness: 2,
-                        decorationStyle: TextDecorationStyle.dashed,
-                      ),
-                    ),
+                    child: AppText(series.channelName,
+                        size: 14.w, family: 'Louis', color: AppColors.primary),
                   )
                 ],
               ),
@@ -162,9 +149,10 @@ class _SeriesPageState extends State<SeriesPage> {
               AppText(
                   numberOfEpisodes.toString() +
                       ' Episode${isOnlyOne ? '' : 's'}',
-                  family: 'Casual',
                   size: 18.w,
-                  color: AppColors.active),
+                  family: 'Louis',
+                  weight: FontWeight.w400,
+                  color: AppColors.onSecondary),
               isOnlyOne
                   ? SizedBox(height: 35.dh)
                   : SortButton(

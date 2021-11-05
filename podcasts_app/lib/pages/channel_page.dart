@@ -133,7 +133,7 @@ class _ChannelPageState extends State<ChannelPage> {
           Container(height: 1, color: AppColors.separator),
           Padding(
             padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
-            child: AppText('Channel Series', size: 16.w, family: 'Casual'),
+            child: AppText('Channel Series', size: 18.w, family: 'Louis'),
           ),
           SizedBox(height: 8.dh),
           ListView.builder(

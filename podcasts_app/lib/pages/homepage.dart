@@ -78,9 +78,12 @@ class _HomepageState extends State<Homepage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 18.dw, top: 8.dh),
-          child: AppText('Series',
-              family: 'Casual', size: 18.w, color: AppColors.active),
+          padding: EdgeInsets.only(left: 18.dw, top: 1.dh),
+          child: AppText('Featured Series',
+              color: AppColors.onSecondary3,
+              weight: FontWeight.w600,
+              family: 'Louis',
+              size: 18.w),
         ),
         SizedBox(height: 10.dh),
         SingleChildScrollView(
@@ -93,7 +96,7 @@ class _HomepageState extends State<Homepage> {
             }).toList(),
           ),
         ),
-        SizedBox(height: 15.dh),
+        SizedBox(height: 15.dh)
       ],
     );
   }

@@ -38,11 +38,12 @@ class EpisodeTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         EpisodeTitle(
-          title: episode.title,
-          seriesName: episode.seriesName,
-          date: episode.date,
-          image: episode.image,
-        ),
+            title: episode.title,
+            seriesName: episode.seriesName,
+            date: episode.date,
+            image: episode.image,
+            seriesId: episode.seriesId,
+            page: page),
         isDescriptionFirst ? Container() : _buildActions(playCallback),
         isHomepage
             ? text

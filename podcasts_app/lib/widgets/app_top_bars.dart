@@ -1,3 +1,5 @@
+import 'package:google_fonts/google_fonts.dart';
+
 import '../source.dart';
 
 enum Pages { homepage, episodePage, seriesPage, channelPage }
@@ -21,8 +23,7 @@ class AppTopBars {
 }
 
 class AppTopBar extends StatelessWidget {
-  const AppTopBar(this.page,
-      {this.topScrolledPixels = 0, this.title = 'hellow', key})
+  const AppTopBar(this.page, {this.topScrolledPixels = 0, this.title = '', key})
       : super(key: key);
 
   final Pages page;
@@ -45,12 +46,19 @@ class AppTopBar extends StatelessWidget {
     return isHomepage || isEpisodePage
         ? AppBar(
             centerTitle: isHomepage,
-            elevation: isHomepage ? 1 : 0,
+            elevation: isHomepage ? 0 : 0,
             backgroundColor: AppColors.background,
             automaticallyImplyLeading: false,
             iconTheme: const IconThemeData(color: AppColors.onSecondary),
             title: isHomepage
-                ? AppText('Podcasts', size: 20.w, weight: FontWeight.w600)
+                ? /*  const AppText('Pamongo',
+                    family: 'Louis', size: 20, weight: FontWeight.w600) */
+                Text('Pamongo',
+                    style: GoogleFonts.doHyeon(
+                        color: AppColors.onSecondary,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1.5,
+                        fontSize: 22.dw))
                 : Container(),
             leading: isEpisodePage ? _buildBackArrow() : Container())
         : AppBar(

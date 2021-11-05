@@ -66,7 +66,6 @@ class _EpisodePageState extends State<EpisodePage> {
             episode: episode,
             supplements: supplements,
             playCallback: bloc.play),
-        _buildViewAllButton(episode)
       ],
     );
   }
@@ -75,8 +74,13 @@ class _EpisodePageState extends State<EpisodePage> {
     return Center(
       child: TextButton(
         onPressed: () => SeriesPage.navigateTo(context, episode.seriesId),
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20.dw),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.dw)),
+                side: const BorderSide(width: 1, color: AppColors.inactive))),
         child: AppText('View All Episodes',
-            size: 15.w, weight: FontWeight.w600, color: AppColors.active),
+            size: 15.w, weight: FontWeight.w600, color: AppColors.primary),
       ),
     );
   }
