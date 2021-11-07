@@ -158,7 +158,7 @@ class _HomepageState extends State<Homepage> {
   void _insertOverlay() {
     final overlay = Overlay.of(context)!;
     final entry =
-        OverlayEntry(builder: (context) => const AudioProgressWidget());
+        OverlayEntry(builder: (context) => const AudioProgressIndicator());
     overlay.insert(entry);
   }
 }
