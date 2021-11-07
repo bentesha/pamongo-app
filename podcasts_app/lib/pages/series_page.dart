@@ -69,6 +69,7 @@ class _SeriesPageState extends State<SeriesPage> {
               seriesName: series.name,
               episodeList: episodeList,
               playCallback: bloc.play,
+              resumeCallback: bloc.togglePlayerStatus,
               supplements: supplements),
           _buildEpisodeList(episodeList, supplements),
           shouldLeaveSpace ? const SizedBox(height: 80) : Container()
@@ -169,6 +170,7 @@ class _SeriesPageState extends State<SeriesPage> {
                     index: index,
                     episode: episode,
                     supplements: supplements,
+                    resumeCallback: bloc.togglePlayerStatus,
                     playCallback: bloc.play);
           },
         ),

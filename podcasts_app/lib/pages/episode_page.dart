@@ -65,6 +65,7 @@ class _EpisodePageState extends State<EpisodePage> {
         EpisodeTiles.episodePage(
             episode: episode,
             supplements: supplements,
+            resumeCallback: bloc.togglePlayerStatus,
             playCallback: bloc.play),
       ],
     );

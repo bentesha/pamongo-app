@@ -7,45 +7,54 @@ import '../source.dart';
 class EpisodeTiles {
   static Widget homepage(
       {required void Function(Episode) playCallback,
+      required VoidCallback resumeCallback,
       required Supplements supplements,
       required Episode episode}) {
-    return HomepageEpisodeTile(episode, supplements, playCallback);
+    return HomepageEpisodeTile(
+        episode, supplements, playCallback, resumeCallback);
   }
 
   static Widget episodePage(
       {required VoidCallback playCallback,
       required Supplements supplements,
+      required VoidCallback resumeCallback,
       required Episode episode}) {
-    return EpisodePageEpisodeTile(episode, supplements, playCallback);
+    return EpisodePageEpisodeTile(
+        episode, supplements, playCallback, resumeCallback);
   }
 
   static Widget seriesPage(
       {required void Function(int) playCallback,
       required Supplements supplements,
       required int index,
+      required VoidCallback resumeCallback,
       required Episode episode}) {
-    return SeriesPageEpisodeTile(index, episode, supplements, playCallback);
+    return SeriesPageEpisodeTile(
+        index, episode, supplements, playCallback, resumeCallback);
   }
 
   static Widget introEpisode({
     required void Function(int) playCallback,
     required Supplements supplements,
     required String seriesName,
+    required VoidCallback resumeCallback,
     required List episodeList,
   }) {
     return SeriesPageIntroEpisode(
-        seriesName, episodeList, supplements, playCallback);
+        seriesName, episodeList, supplements, playCallback, resumeCallback);
   }
 }
 
 class HomepageEpisodeTile extends StatefulWidget {
-  const HomepageEpisodeTile(this.episode, this.supplements, this.playCallback,
+  const HomepageEpisodeTile(
+      this.episode, this.supplements, this.playCallback, this.resumeCallback,
       {key})
       : super(key: key);
 
   final Episode episode;
   final Supplements supplements;
   final void Function(Episode) playCallback;
+  final VoidCallback resumeCallback;
 
   @override
   State<HomepageEpisodeTile> createState() => _HomepageEpisodeTileState();
@@ -53,7 +62,7 @@ class HomepageEpisodeTile extends StatefulWidget {
 
 class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
   String status = '', duration = '';
-  bool isInactive = false;
+  bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
 
   void _buildState() {
@@ -61,12 +70,12 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
     final activeId = widget.supplements.activeId;
     final playerState = widget.supplements.playerState;
 
-    final isLoading = playerState == loadingState;
     final isPlaying = playerState == playingState;
     final isPaused = playerState == pausedState;
 
-    isInactive =
-        (isLoading || isPlaying || isPaused) && activeId == widget.episode.id;
+    isLoading = playerState == loadingState && activeId == episode.id;
+
+    isActive = (isPlaying || isPaused) && activeId == episode.id;
 
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
@@ -88,8 +97,11 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   status: status,
                   descriptionMaxLines: 3,
                   actionPadding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                  playCallback:
-                      isInactive ? () {} : () => widget.playCallback(episode),
+                  playCallback: isActive
+                      ? widget.resumeCallback
+                      : isLoading
+                          ? () {}
+                          : () => widget.playCallback(episode),
                   duration: duration,
                 ))),
       ],
@@ -99,13 +111,13 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
 
 class EpisodePageEpisodeTile extends StatefulWidget {
   const EpisodePageEpisodeTile(
-      this.episode, this.supplements, this.playCallback,
+      this.episode, this.supplements, this.playCallback, this.resumeCallback,
       {key})
       : super(key: key);
 
   final Episode episode;
   final Supplements supplements;
-  final VoidCallback playCallback;
+  final VoidCallback playCallback, resumeCallback;
 
   @override
   State<EpisodePageEpisodeTile> createState() => _EpisodePageEpisodeTileState();
@@ -113,7 +125,7 @@ class EpisodePageEpisodeTile extends StatefulWidget {
 
 class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
   String status = '', duration = '';
-  bool isInactive = false;
+  bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
 
   void _buildState() {
@@ -123,8 +135,8 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
 
     final isPlaying = playerState == playingState;
     final isPaused = playerState == pausedState;
-    final isLoading = playerState == loadingState;
-    isInactive = (isPlaying || isLoading || isPaused) && activeId == episode.id;
+    isLoading = playerState == loadingState && activeId == episode.id;
+    isActive = (isPlaying || isPaused) && activeId == episode.id;
 
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
@@ -142,14 +154,18 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             status: status,
             episode: episode,
             duration: duration,
-            playCallback: isInactive ? () {} : widget.playCallback,
+            playCallback: isActive
+                ? widget.resumeCallback
+                : isLoading
+                    ? () {}
+                    : widget.playCallback,
             actionPadding: const EdgeInsets.fromLTRB(0, 10, 10, 10)));
   }
 }
 
 class SeriesPageEpisodeTile extends StatefulWidget {
-  const SeriesPageEpisodeTile(
-      this.index, this.episode, this.supplements, this.playCallback,
+  const SeriesPageEpisodeTile(this.index, this.episode, this.supplements,
+      this.playCallback, this.resumeCallback,
       {key})
       : super(key: key);
 
@@ -157,13 +173,14 @@ class SeriesPageEpisodeTile extends StatefulWidget {
   final int index;
   final Supplements supplements;
   final void Function(int) playCallback;
+  final VoidCallback resumeCallback;
 
   @override
   State<SeriesPageEpisodeTile> createState() => _SeriesPageEpisodeTileState();
 }
 
 class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
-  bool shouldPaintTopBorder = false, isInactive = false;
+  bool shouldPaintTopBorder = false, isLoading = false, isActive = false;
   String status = '', duration = '', date = '';
   Episode episode = Episode(date: DateTime.now());
 
@@ -176,10 +193,9 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
     final isOldestFirstSorted = supplements.sortStyle == SortStyles.oldestFirst;
 
     final isPlaying = playerState == playingState;
-    final isLoading = playerState == loadingState;
     final isPaused = playerState == pausedState;
-
-    isInactive = (isPlaying || isLoading || isPaused) && activeId == episode.id;
+    isLoading = playerState == loadingState && activeId == episode.id;
+    isActive = (isPlaying || isPaused) && activeId == episode.id;
 
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
@@ -219,8 +235,11 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             status: status,
             duration: duration,
             actionPadding: const EdgeInsets.fromLTRB(0, 10, 0, 8),
-            playCallback:
-                isInactive ? () {} : () => widget.playCallback(widget.index),
+            playCallback: isActive
+                ? widget.resumeCallback
+                : isLoading
+                    ? () {}
+                    : () => widget.playCallback(widget.index),
           )
         ],
       ),
@@ -229,13 +248,14 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
 }
 
 class SeriesPageIntroEpisode extends StatefulWidget {
-  const SeriesPageIntroEpisode(
-      this.seriesName, this.episodeList, this.supplements, this.playCallback,
+  const SeriesPageIntroEpisode(this.seriesName, this.episodeList,
+      this.supplements, this.playCallback, this.resumeCallback,
       {key})
       : super(key: key);
 
   final String seriesName;
   final void Function(int) playCallback;
+  final VoidCallback resumeCallback;
   final List episodeList;
   final Supplements supplements;
 
@@ -246,6 +266,7 @@ class SeriesPageIntroEpisode extends StatefulWidget {
 class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
   String duration = '', status = '';
   int index = 0;
+  bool isLoading = false, isActive = false;
 
   void _buildState() {
     final playerState = widget.supplements.playerState;
@@ -257,6 +278,11 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
     final introEpisode = widget.episodeList[index];
     status = Utils.getStatus(introEpisode.id, activeId, playerState);
     duration = Utils.convertFrom(introEpisode.duration);
+
+    final isPlaying = playerState == playingState;
+    final isPaused = playerState == pausedState;
+    isLoading = playerState == loadingState && activeId == introEpisode.id;
+    isActive = (isPlaying || isPaused) && activeId == introEpisode.id;
   }
 
   @override
@@ -265,7 +291,7 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
     return Container(
         margin: const EdgeInsets.only(left: 18, right: 24, bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        color: const Color(0xff4E4F50),
+        color: const Color(0xFF626263),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
               padding: const EdgeInsets.all(2),
@@ -284,7 +310,11 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
               iconsColor: AppColors.onPrimary,
               status: status,
               duration: duration,
-              playCallback: () => widget.playCallback(index),
+              playCallback: isActive
+                  ? widget.resumeCallback
+                  : isLoading
+                      ? () {}
+                      : () => widget.playCallback(index),
               actionPadding: const EdgeInsets.only(top: 8))
         ]));
   }

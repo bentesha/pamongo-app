@@ -22,7 +22,6 @@ dependencies:
   audio_service: ^0.18.0
   just_audio: ^0.9.13
   intl: ^0.17.0
-  flutter_svg: ^0.23.0+1
 
 dev_dependencies:
   flutter_test:
@@ -37,9 +36,6 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: logo
-      fonts:
-        - asset: assets/fonts/logo.ttf
     - family: Louis
       fonts:
         - asset: assets/fonts/louis.ttf

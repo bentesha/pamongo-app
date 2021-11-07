@@ -53,7 +53,7 @@ class _HomepageState extends State<Homepage> {
         color: AppColors.accentColor,
         child: CustomScrollView(
           slivers: [
-            const SliverAppBar(
+            SliverAppBar(
                 floating: true,
                 forceElevated: true,
                 backgroundColor: AppColors.backgroundColor,
@@ -61,9 +61,9 @@ class _HomepageState extends State<Homepage> {
                 toolbarHeight: 55,
                 centerTitle: true,
                 title: Padding(
-                  padding: EdgeInsets.only(left: 2, top: 10),
-                  child: AppText('Pamongo', family: 'logo', size: 22),
-                )),
+                    padding: const EdgeInsets.only(left: 2, top: 10),
+                    child: Image.asset('assets/images/logo_long.png',
+                        height: 25))),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
               _buildSeries(seriesList),
@@ -136,7 +136,10 @@ class _HomepageState extends State<Homepage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
             .map((e) => EpisodeTiles.homepage(
-                playCallback: bloc.play, supplements: supplements, episode: e))
+                resumeCallback: bloc.togglePlayerStatus,
+                playCallback: bloc.play,
+                supplements: supplements,
+                episode: e))
             .toList());
   }
 

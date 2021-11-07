@@ -280,19 +280,19 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           isPlayingSeries
               ? _buildIconButton(
                   iconColor:
-                      isLoading ? AppColors.inactive : AppColors.onPrimary2,
+                      isLoading ? AppColors.disabledColor : AppColors.onPrimary2,
                   icon: EvaIcons.skipBackOutline,
                   callback: bloc.skipToPrev)
               : Container(),
           _buildIconButton(
-              iconColor: isLoading ? AppColors.inactive : AppColors.onPrimary2,
+              iconColor: isLoading ? AppColors.disabledColor : AppColors.onPrimary2,
               icon: Icons.replay_10_outlined,
               callback: () => bloc.changePosition(10000,
                   positionRequiresUpdate: true, isForwarding: false)),
           _buildIconButton(
               icon: isPlaying ? Icons.pause : Ionicons.play,
-              backgroundColor: AppColors.secondary,
-              iconColor: isLoading ? AppColors.inactive : AppColors.onSecondary,
+              backgroundColor: AppColors.accentColor,
+              iconColor: isLoading ? AppColors.disabledColor : AppColors.onAccent,
               callback: isLoading ? () {} : bloc.togglePlayerStatus,
               iconSize: 25),
           _buildIconButton(

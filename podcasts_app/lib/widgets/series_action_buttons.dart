@@ -43,6 +43,6 @@ class SeriesActionButtons extends StatelessWidget {
         padding: const EdgeInsets.only(right: 15),
         constraints: const BoxConstraints(),
 
-        icon: Icon(icon, color: AppColors.primaryColor, size: 22.dw));
+        icon: Icon(icon, color: AppColors.primaryColor, size: 22));
   }
 }
