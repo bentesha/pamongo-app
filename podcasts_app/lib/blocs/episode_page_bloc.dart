@@ -24,6 +24,8 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
 
   void play() async => await service.play([state.episode]);
 
+  void togglePlayerStatus() async => await service.toggleStatus();
+
   _handleContentStream(ProgressIndicatorContent content) async {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;

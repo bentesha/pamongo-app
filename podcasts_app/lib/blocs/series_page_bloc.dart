@@ -4,6 +4,7 @@ import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
+import 'package:podcasts/source.dart';
 import 'package:podcasts/states/series_page_state.dart';
 
 class SeriesPageBloc extends Cubit<SeriesPageState> {
@@ -45,6 +46,8 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     if (isLastFirstSorted) episodeList = episodeList.reversed.toList();
     await service.play(episodeList, index: index);
   }
+
+  void togglePlayerStatus() async => await service.toggleStatus();
 
   void sort(int sortIndex) {
     var series = state.series;

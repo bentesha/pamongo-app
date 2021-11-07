@@ -61,9 +61,9 @@ class _HomepageState extends State<Homepage> {
                 toolbarHeight: 55.dh,
                 centerTitle: true,
                 title: Padding(
-                  padding: EdgeInsets.only(left: 2.dw, top: 10.dh),
-                  child: AppText('Pamongo', family: 'logo', size: 22.w),
-                )),
+                    padding: EdgeInsets.only(left: 2.dw, top: 10.dh),
+                    child: Image.asset('assets/images/logo_long.png',
+                        height: 25))),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
               _buildSeries(seriesList),
@@ -137,7 +137,10 @@ class _HomepageState extends State<Homepage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
             .map((e) => EpisodeTiles.homepage(
-                playCallback: bloc.play, supplements: supplements, episode: e))
+                resumeCallback: bloc.togglePlayerStatus,
+                playCallback: bloc.play,
+                supplements: supplements,
+                episode: e))
             .toList());
   }
 
