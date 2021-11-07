@@ -10,14 +10,14 @@ import 'package:podcasts/source.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
 import 'package:podcasts/widgets/custom_page_transition.dart';
 
-class AudioProgressWidget extends StatefulWidget {
-  const AudioProgressWidget({key}) : super(key: key);
+class AudioProgressIndicator extends StatefulWidget {
+  const AudioProgressIndicator({key}) : super(key: key);
 
   @override
-  State<AudioProgressWidget> createState() => AudioProgressWidgetState();
+  State<AudioProgressIndicator> createState() => AudioProgressIndicatorState();
 }
 
-class AudioProgressWidgetState extends State<AudioProgressWidget> {
+class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
   final initialOffset = 796.3;
   late final ProgressIndicatorBloc bloc;
   late final AudioPlayerService service;
@@ -77,6 +77,7 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
     final loadingWidth = content.currentPosition * fullWidth / episode.duration;
     final isPlaying = content.playerState == playingState;
     final isLoading = content.playerState == loadingState;
+    final isIntroEpisode = episode.episodeNumber == 0;
 
     return Stack(
       alignment: Alignment.bottomLeft,
@@ -106,12 +107,14 @@ class AudioProgressWidgetState extends State<AudioProgressWidget> {
                         size: 15,
                         weight: FontWeight.w600,
                         alignment: TextAlign.start),
-                    const SizedBox(height: 3),
-                    AppText(
-                        'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
-                        alignment: TextAlign.start,
-                        color: AppColors.onPrimary2,
-                        size: 15),
+                    !isIntroEpisode ? const SizedBox(height: 3) : Container(),
+                    !isIntroEpisode
+                        ? AppText(
+                            'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
+                            alignment: TextAlign.start,
+                            color: AppColors.onPrimary2,
+                            size: 15)
+                        : Container()
                   ],
                 ),
               ),
