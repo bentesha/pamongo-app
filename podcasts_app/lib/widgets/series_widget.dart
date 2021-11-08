@@ -12,6 +12,13 @@ class SeriesWidget extends StatefulWidget {
 }
 
 class _SeriesWidgetState extends State<SeriesWidget> {
+  late final int numberOfEpisodes;
+  @override
+  void initState() {
+    super.initState();
+    numberOfEpisodes = widget.series.episodeList.length - 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -32,8 +39,11 @@ class _SeriesWidgetState extends State<SeriesWidget> {
                 weight: FontWeight.w600,
               ),
               SizedBox(height: 3.dh),
-              AppText('Episodes : ${widget.series.episodeList.length}',
-                  size: 16.w)
+              AppText(
+                  numberOfEpisodes == 0
+                      ? 'Introduction episode only'
+                      : 'Episodes : $numberOfEpisodes',
+                  size: 14.w)
             ],
           ),
         ],

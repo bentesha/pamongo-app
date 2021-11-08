@@ -59,11 +59,18 @@ class _HomepageState extends State<Homepage> {
                 backgroundColor: AppColors.backgroundColor,
                 elevation: 1,
                 toolbarHeight: 55.dh,
-                centerTitle: true,
+                centerTitle: false,
                 title: Padding(
                     padding: EdgeInsets.only(left: 2.dw, top: 10.dh),
-                    child: Image.asset('assets/images/logo_long.png',
-                        height: 25))),
+                    child:
+                        Image.asset('assets/images/logo_long.png', height: 25)),
+                actions: [
+                  IconButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.only(top: 10.dh),
+                      icon: const Icon(Icons.explore_outlined,
+                          color: AppColors.secondaryColor))
+                ]),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
               _buildSeries(seriesList),

@@ -6,6 +6,7 @@ class AppTextButton extends StatelessWidget {
       required this.text,
       required this.radius,
       this.fontWeight = FontWeight.w700,
+      this.textColor = AppColors.textColor,
       key})
       : super(key: key);
 
@@ -13,6 +14,7 @@ class AppTextButton extends StatelessWidget {
   final String text;
   final double radius;
   final FontWeight fontWeight;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class AppTextButton extends StatelessWidget {
                 side: const BorderSide(color: AppColors.borderColor, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
-          child: AppText(text,
-              size: 15.w, weight: fontWeight, color: AppColors.textColor)),
+          child:
+              AppText(text, size: 15.w, weight: fontWeight, color: textColor)),
     );
   }
 }

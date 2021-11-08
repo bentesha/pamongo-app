@@ -19,11 +19,15 @@ class _$SupplementsTearOff {
 
   _Supplements call(
       {String activeId = '',
+      String activeEpisodeRemainingTime = '',
+      double activeEpisodeRemainingFraction = 0,
       SortStyles sortStyle = SortStyles.oldestFirst,
       ApiError? apiError,
       dynamic playerState = inactiveState}) {
     return _Supplements(
       activeId: activeId,
+      activeEpisodeRemainingTime: activeEpisodeRemainingTime,
+      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction,
       sortStyle: sortStyle,
       apiError: apiError,
       playerState: playerState,
@@ -37,6 +41,9 @@ const $Supplements = _$SupplementsTearOff();
 /// @nodoc
 mixin _$Supplements {
   String get activeId => throw _privateConstructorUsedError;
+  String get activeEpisodeRemainingTime => throw _privateConstructorUsedError;
+  double get activeEpisodeRemainingFraction =>
+      throw _privateConstructorUsedError;
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   ApiError? get apiError => throw _privateConstructorUsedError;
   dynamic get playerState => throw _privateConstructorUsedError;
@@ -53,6 +60,8 @@ abstract class $SupplementsCopyWith<$Res> {
       _$SupplementsCopyWithImpl<$Res>;
   $Res call(
       {String activeId,
+      String activeEpisodeRemainingTime,
+      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState});
@@ -69,6 +78,8 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
   @override
   $Res call({
     Object? activeId = freezed,
+    Object? activeEpisodeRemainingTime = freezed,
+    Object? activeEpisodeRemainingFraction = freezed,
     Object? sortStyle = freezed,
     Object? apiError = freezed,
     Object? playerState = freezed,
@@ -78,6 +89,14 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
           ? _value.activeId
           : activeId // ignore: cast_nullable_to_non_nullable
               as String,
+      activeEpisodeRemainingTime: activeEpisodeRemainingTime == freezed
+          ? _value.activeEpisodeRemainingTime
+          : activeEpisodeRemainingTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction == freezed
+          ? _value.activeEpisodeRemainingFraction
+          : activeEpisodeRemainingFraction // ignore: cast_nullable_to_non_nullable
+              as double,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
@@ -103,6 +122,8 @@ abstract class _$SupplementsCopyWith<$Res>
   @override
   $Res call(
       {String activeId,
+      String activeEpisodeRemainingTime,
+      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState});
@@ -121,6 +142,8 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? activeId = freezed,
+    Object? activeEpisodeRemainingTime = freezed,
+    Object? activeEpisodeRemainingFraction = freezed,
     Object? sortStyle = freezed,
     Object? apiError = freezed,
     Object? playerState = freezed,
@@ -130,6 +153,14 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
           ? _value.activeId
           : activeId // ignore: cast_nullable_to_non_nullable
               as String,
+      activeEpisodeRemainingTime: activeEpisodeRemainingTime == freezed
+          ? _value.activeEpisodeRemainingTime
+          : activeEpisodeRemainingTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction == freezed
+          ? _value.activeEpisodeRemainingFraction
+          : activeEpisodeRemainingFraction // ignore: cast_nullable_to_non_nullable
+              as double,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
@@ -148,6 +179,8 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
 class _$_Supplements implements _Supplements {
   const _$_Supplements(
       {this.activeId = '',
+      this.activeEpisodeRemainingTime = '',
+      this.activeEpisodeRemainingFraction = 0,
       this.sortStyle = SortStyles.oldestFirst,
       this.apiError,
       this.playerState = inactiveState});
@@ -155,6 +188,12 @@ class _$_Supplements implements _Supplements {
   @JsonKey(defaultValue: '')
   @override
   final String activeId;
+  @JsonKey(defaultValue: '')
+  @override
+  final String activeEpisodeRemainingTime;
+  @JsonKey(defaultValue: 0)
+  @override
+  final double activeEpisodeRemainingFraction;
   @JsonKey(defaultValue: SortStyles.oldestFirst)
   @override
   final SortStyles sortStyle;
@@ -166,7 +205,7 @@ class _$_Supplements implements _Supplements {
 
   @override
   String toString() {
-    return 'Supplements(activeId: $activeId, sortStyle: $sortStyle, apiError: $apiError, playerState: $playerState)';
+    return 'Supplements(activeId: $activeId, activeEpisodeRemainingTime: $activeEpisodeRemainingTime, activeEpisodeRemainingFraction: $activeEpisodeRemainingFraction, sortStyle: $sortStyle, apiError: $apiError, playerState: $playerState)';
   }
 
   @override
@@ -176,6 +215,16 @@ class _$_Supplements implements _Supplements {
             (identical(other.activeId, activeId) ||
                 const DeepCollectionEquality()
                     .equals(other.activeId, activeId)) &&
+            (identical(other.activeEpisodeRemainingTime,
+                    activeEpisodeRemainingTime) ||
+                const DeepCollectionEquality().equals(
+                    other.activeEpisodeRemainingTime,
+                    activeEpisodeRemainingTime)) &&
+            (identical(other.activeEpisodeRemainingFraction,
+                    activeEpisodeRemainingFraction) ||
+                const DeepCollectionEquality().equals(
+                    other.activeEpisodeRemainingFraction,
+                    activeEpisodeRemainingFraction)) &&
             (identical(other.sortStyle, sortStyle) ||
                 const DeepCollectionEquality()
                     .equals(other.sortStyle, sortStyle)) &&
@@ -191,6 +240,8 @@ class _$_Supplements implements _Supplements {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(activeId) ^
+      const DeepCollectionEquality().hash(activeEpisodeRemainingTime) ^
+      const DeepCollectionEquality().hash(activeEpisodeRemainingFraction) ^
       const DeepCollectionEquality().hash(sortStyle) ^
       const DeepCollectionEquality().hash(apiError) ^
       const DeepCollectionEquality().hash(playerState);
@@ -204,12 +255,19 @@ class _$_Supplements implements _Supplements {
 abstract class _Supplements implements Supplements {
   const factory _Supplements(
       {String activeId,
+      String activeEpisodeRemainingTime,
+      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState}) = _$_Supplements;
 
   @override
   String get activeId => throw _privateConstructorUsedError;
+  @override
+  String get activeEpisodeRemainingTime => throw _privateConstructorUsedError;
+  @override
+  double get activeEpisodeRemainingFraction =>
+      throw _privateConstructorUsedError;
   @override
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   @override

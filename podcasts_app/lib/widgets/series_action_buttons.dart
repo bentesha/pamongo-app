@@ -33,6 +33,7 @@ class SeriesActionButtons extends StatelessWidget {
     return AppTextButton(
         callback: visitSeriesCallback,
         text: 'Visit Series',
+        textColor: AppColors.textColor2,
         radius: radius,
         fontWeight: FontWeight.w400);
   }

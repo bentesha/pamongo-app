@@ -3,6 +3,7 @@ import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/episode_page_state.dart';
+import 'package:podcasts/utils/utils.dart';
 
 class EpisodePageBloc extends Cubit<EpisodePageState> {
   final AudioPlayerService service;
@@ -17,8 +18,16 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
-    final supplements =
-        state.supplements.copyWith(activeId: id, playerState: playerState);
+
+    final supplements = state.supplements.copyWith(
+        activeId: id,
+        playerState: playerState,
+        activeEpisodeRemainingFraction: playerState == pausedState
+            ? service.getRemainingTimeFraction
+            : state.supplements.activeEpisodeRemainingFraction,
+        activeEpisodeRemainingTime: playerState == pausedState
+            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
+            : state.supplements.activeEpisodeRemainingTime);
     emit(EpisodePageState.content(episode, supplements));
   }
 
@@ -30,8 +39,16 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
-    final supplements =
-        state.supplements.copyWith(activeId: id, playerState: playerState);
+
+    final supplements = state.supplements.copyWith(
+        activeId: id,
+        playerState: playerState,
+        activeEpisodeRemainingFraction: playerState == pausedState
+            ? service.getRemainingTimeFraction
+            : state.supplements.activeEpisodeRemainingFraction,
+        activeEpisodeRemainingTime: playerState == pausedState
+            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
+            : state.supplements.activeEpisodeRemainingTime);
     emit(EpisodePageState.content(state.episode, supplements));
   }
 }

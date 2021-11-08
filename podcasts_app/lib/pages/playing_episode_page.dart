@@ -36,9 +36,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [
-                  AppColors.primaryColor,
-                  AppColors.primaryColor.withOpacity(.85),
-                  AppColors.primaryColor.withOpacity(.75),
+                  AppColors.indicatorColor,
+                  AppColors.indicatorColor.withOpacity(.85),
+                  AppColors.indicatorColor.withOpacity(.75),
                 ]),
           ),
           child: BlocConsumer<ProgressIndicatorBloc, ProgressIndicatorState>(
@@ -107,7 +107,6 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           image: episode.image,
           height: 350.h,
           fullWidth: true,
-          withBorders: true,
         ),
         SizedBox(height: 40.dh),
         Column(
@@ -115,7 +114,6 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           children: [
             SizedBox(height: 10.dh),
             AppText(episode.title,
-                color: AppColors.onPrimary,
                 size: 18.w,
                 weight: FontWeight.w600,
                 maxLines: 2,
@@ -123,9 +121,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 alignment: TextAlign.start),
             SizedBox(height: 5.dh),
             AppText('Ep. ${episode.episodeNumber} from - ' + episode.seriesName,
-                color: AppColors.onPrimary2,
-                size: 16.w,
-                alignment: TextAlign.start),
+                size: 16.w, alignment: TextAlign.start),
           ],
         ),
       ]),
@@ -179,10 +175,11 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppText(currentPosition,
-                size: 14.w,
-                weight: FontWeight.w400,
-                color: AppColors.onPrimary2),
+            AppText(
+              currentPosition,
+              size: 14.w,
+              weight: FontWeight.w400,
+            ),
             isLoading || hasFailedToBuffer
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -192,15 +189,16 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                           padding: EdgeInsets.fromLTRB(15.dw, 0, 0, 0),
                           child: AppText(
                               isLoading ? 'buffering ... ' : 'couldn\'t play',
-                              color: AppColors.onPrimary2,
+                              color: AppColors.textColor2,
                               size: 14.w)),
                     ],
                   )
                 : Container(),
-            AppText(duration,
-                size: 14.w,
-                weight: FontWeight.w400,
-                color: AppColors.onPrimary2)
+            AppText(
+              duration,
+              size: 14.w,
+              weight: FontWeight.w400,
+            )
           ]),
     );
   }
@@ -223,34 +221,38 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 iconSize: 35.dw,
                 iconColor: isLoading || !isPlayingSeries
                     ? AppColors.disabledColor
-                    : AppColors.onPrimary2,
+                    : AppColors.secondaryColor,
                 icon: EvaIcons.skipBackOutline,
                 callback: isPlayingSeries ? bloc.skipToPrev : () {}),
             _buildIconButton(
                 iconSize: 35.dw,
-                iconColor:
-                    isLoading ? AppColors.disabledColor : AppColors.onPrimary2,
+                iconColor: isLoading
+                    ? AppColors.disabledColor
+                    : AppColors.secondaryColor,
                 icon: Icons.replay_10_outlined,
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
             _buildIconButton(
                 icon: isPlaying ? Icons.pause : Ionicons.play,
                 backgroundColor: AppColors.accentColor,
-                iconColor: isLoading ? AppColors.disabledColor : AppColors.onAccent,
+                iconColor: isLoading
+                    ? AppColors.disabledColor
+                    : AppColors.secondaryColor,
                 callback: isLoading ? () {} : bloc.togglePlayerStatus,
                 iconSize: 25.dw),
             _buildIconButton(
                 iconSize: 35.dw,
                 icon: Icons.forward_30_outlined,
-                iconColor:
-                    isInactive ? AppColors.disabledColor : AppColors.onPrimary2,
+                iconColor: isInactive
+                    ? AppColors.disabledColor
+                    : AppColors.secondaryColor,
                 callback: () =>
                     bloc.changePosition(30000, positionRequiresUpdate: true)),
             _buildIconButton(
                 iconSize: 35.dw,
                 iconColor: isLoading || !isPlayingSeries
                     ? AppColors.disabledColor
-                    : AppColors.onPrimary2,
+                    : AppColors.secondaryColor,
                 icon: EvaIcons.skipForwardOutline,
                 callback: isPlayingSeries ? bloc.skipToNext : () {})
           ]),
@@ -263,32 +265,36 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       child: Row(
         children: [
           _buildIconButton(
-              callback: () {},
-              iconSize: 23.dw,
-              icon: AppIcons.addToPlayList,
-              iconColor: AppColors.onPrimary2),
+            callback: () {},
+            iconSize: 23.dw,
+            icon: AppIcons.addToPlayList,
+            //  iconColor: AppColors.onPrimary2,
+          ),
           _buildIconButton(
-              callback: () {},
-              iconSize: 23.dw,
-              icon: AppIcons.download,
-              iconColor: AppColors.onPrimary2),
+            callback: () {},
+            iconSize: 23.dw,
+            icon: AppIcons.download,
+            //     iconColor: AppColors.onPrimary2,
+          ),
           _buildIconButton(
-              callback: () {},
-              iconSize: 23.dw,
-              icon: AppIcons.bookmark,
-              iconColor: AppColors.onPrimary2),
+            callback: () {},
+            iconSize: 23.dw,
+            icon: AppIcons.bookmark,
+            //     iconColor: AppColors.onPrimary2,
+          ),
           _buildIconButton(
-              callback: () {},
-              iconSize: 23.dw,
-              icon: AppIcons.share,
-              iconColor: AppColors.onPrimary2),
+            callback: () {},
+            iconSize: 23.dw,
+            icon: AppIcons.share,
+            //     iconColor: AppColors.onPrimary2,
+          ),
         ],
       ),
     );
   }
 
   Widget _buildIconButton(
-      {Color iconColor = AppColors.onPrimary2,
+      {Color iconColor = AppColors.primaryColor,
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
       IconData icon = Icons.home,

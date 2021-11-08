@@ -22,6 +22,6 @@ class ChannelActionButtons extends StatelessWidget {
         onPressed: () {},
         padding: EdgeInsets.only(right: 15.dw),
         constraints: const BoxConstraints(),
-        icon: Icon(icon, color: Colors.black, size: 22.dw));
+        icon: Icon(icon, color: AppColors.primaryColor, size: 22.dw));
   }
 }

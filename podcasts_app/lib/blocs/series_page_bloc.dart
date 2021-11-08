@@ -4,8 +4,8 @@ import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/source.dart';
 import 'package:podcasts/states/series_page_state.dart';
+import 'package:podcasts/utils/utils.dart';
 
 class SeriesPageBloc extends Cubit<SeriesPageState> {
   final AudioPlayerService service;
@@ -20,9 +20,19 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     emit(SeriesPageState.loading(state.series, state.supplements));
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
+    final playerState = content.playerState;
+
     final sortStyle = content.sortStyle;
     var supplements = state.supplements.copyWith(
-        activeId: id, playerState: content.playerState, sortStyle: sortStyle);
+        activeId: id,
+        playerState: content.playerState,
+        sortStyle: sortStyle,
+        activeEpisodeRemainingFraction: playerState == pausedState
+            ? service.getRemainingTimeFraction
+            : state.supplements.activeEpisodeRemainingFraction,
+        activeEpisodeRemainingTime: playerState == pausedState
+            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
+            : state.supplements.activeEpisodeRemainingTime);
 
     try {
       var series = await PodcastsRepository.getSeriesById(seriesId);
@@ -83,8 +93,17 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   _handleContentStream(ProgressIndicatorContent content) {
     final id = content.episodeList[content.currentIndex].id;
-    final supplements = state.supplements
-        .copyWith(activeId: id, playerState: content.playerState);
+    final playerState = content.playerState;
+
+    final supplements = state.supplements.copyWith(
+        activeId: id,
+        playerState: content.playerState,
+        activeEpisodeRemainingFraction: playerState == pausedState
+            ? service.getRemainingTimeFraction
+            : state.supplements.activeEpisodeRemainingFraction,
+        activeEpisodeRemainingTime: playerState == pausedState
+            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
+            : state.supplements.activeEpisodeRemainingTime);
     emit(SeriesPageState.content(state.series, supplements));
   }
 }
