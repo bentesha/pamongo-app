@@ -95,6 +95,9 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   page: Pages.homepage,
                   episode: widget.episode,
                   status: status,
+                  remainingTime: widget.supplements.activeEpisodeRemainingTime,
+                  remainingFraction:
+                      widget.supplements.activeEpisodeRemainingFraction,
                   descriptionMaxLines: 3,
                   actionPadding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   playCallback: isActive
@@ -154,6 +157,9 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             status: status,
             episode: episode,
             duration: duration,
+            remainingTime: widget.supplements.activeEpisodeRemainingTime,
+            remainingFraction:
+                widget.supplements.activeEpisodeRemainingFraction,
             playCallback: isActive
                 ? widget.resumeCallback
                 : isLoading
@@ -234,6 +240,9 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             Pages.seriesPage,
             status: status,
             duration: duration,
+            remainingTime: widget.supplements.activeEpisodeRemainingTime,
+            remainingFraction:
+                widget.supplements.activeEpisodeRemainingFraction,
             actionPadding: const EdgeInsets.fromLTRB(0, 10, 0, 8),
             playCallback: isActive
                 ? widget.resumeCallback
@@ -291,25 +300,28 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
     return Container(
         margin: const EdgeInsets.only(left: 18, right: 24, bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        color: const Color(0xFF626263),
+        color: const Color(0xFFF2F1EF),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
               padding: const EdgeInsets.all(2),
               margin: const EdgeInsets.only(bottom: 2),
-              child: const AppText('INTRO',
-                  size: 12,
-                  weight: FontWeight.w600,
-                  color: AppColors.onPrimary)),
-          AppText('Introducing ${widget.seriesName}',
-              weight: FontWeight.w600,
-              size: 15,
-              maxLines: 2,
-              color: AppColors.onPrimary),
+              child: const AppText(
+                'INTRO',
+                size: 12,
+                weight: FontWeight.w600,
+              )),
+          AppText(
+            'Introducing ${widget.seriesName}',
+            weight: FontWeight.w600,
+            size: 15,
+            maxLines: 2,
+          ),
           EpisodeActionButtons(Pages.seriesPage,
-              statusColor: AppColors.onPrimary,
-              iconsColor: AppColors.onPrimary,
               status: status,
               duration: duration,
+              remainingTime: widget.supplements.activeEpisodeRemainingTime,
+              remainingFraction:
+                  widget.supplements.activeEpisodeRemainingFraction,
               playCallback: isActive
                   ? widget.resumeCallback
                   : isLoading

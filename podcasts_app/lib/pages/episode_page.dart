@@ -5,10 +5,8 @@ import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/episode_page_state.dart';
-import 'package:podcasts/themes/app_colors.dart';
 import 'package:podcasts/widgets/page_episode_tiles.dart';
 import '../source.dart';
-import 'series_page.dart';
 
 class EpisodePage extends StatefulWidget {
   const EpisodePage({required this.episode, key}) : super(key: key);

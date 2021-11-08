@@ -33,6 +33,7 @@ class SeriesActionButtons extends StatelessWidget {
     return AppTextButton(
         callback: visitSeriesCallback,
         text: 'Visit Series',
+        textColor: AppColors.textColor2,
         radius: radius.toDouble(),
         fontWeight: FontWeight.w400);
   }
@@ -42,7 +43,6 @@ class SeriesActionButtons extends StatelessWidget {
         onPressed: () {},
         padding: const EdgeInsets.only(right: 15),
         constraints: const BoxConstraints(),
-
         icon: Icon(icon, color: AppColors.primaryColor, size: 22));
   }
 }

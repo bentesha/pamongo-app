@@ -4,6 +4,7 @@ import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
+import 'package:podcasts/source.dart';
 import 'package:podcasts/states/homepage_state.dart';
 
 class HomepageBloc extends Cubit<HomepageState> {
@@ -43,8 +44,17 @@ class HomepageBloc extends Cubit<HomepageState> {
     final episodeList = state.episodeList;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
-    final supplements =
-        state.supplements.copyWith(playerState: playerState, activeId: id);
+    final remainingTime = service.getRemainingTime;
+
+    final supplements = state.supplements.copyWith(
+        playerState: playerState,
+        activeId: id,
+        activeEpisodeRemainingFraction: playerState == pausedState
+            ? service.getRemainingTimeFraction
+            : state.supplements.activeEpisodeRemainingFraction,
+        activeEpisodeRemainingTime: playerState == pausedState
+            ? Utils.convertFrom(remainingTime, includeSeconds: false)
+            : state.supplements.activeEpisodeRemainingTime);
     emit(HomepageState.content(episodeList, state.seriesList, supplements));
   }
 }

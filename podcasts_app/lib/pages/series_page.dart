@@ -135,48 +135,54 @@ class _SeriesPageState extends State<SeriesPage> {
     final isOnlyOne = episodeList.length == 2;
     final numberOfEpisodes = episodeList.length - 1;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 0, 10, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
+    return numberOfEpisodes == 0
+        ? const Padding(
+            padding: EdgeInsets.all(18),
+            child: AppText('No episode has been uploaded yet.',
+                size: 18, color: AppColors.textColor2),
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                  numberOfEpisodes.toString() +
-                      ' Episode${isOnlyOne ? '' : 's'}',
-                  size: 18,
-                  weight: FontWeight.w400),
-              isOnlyOne
-                  ? const SizedBox(height: 35)
-                  : SortButton(
-                      sortStyle: sortStyle, onSelectedCallback: bloc.sort)
+              Padding(
+                padding: EdgeInsets.fromLTRB(18, 0, 10, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    AppText(
+                        numberOfEpisodes.toString() +
+                            ' Episode${isOnlyOne ? '' : 's'}',
+                        size: 18,
+                        weight: FontWeight.w400),
+                    isOnlyOne
+                        ? const SizedBox(height: 35)
+                        : SortButton(
+                            sortStyle: sortStyle, onSelectedCallback: bloc.sort)
+                  ],
+                ),
+              ),
+              ListView.builder(
+                itemCount: episodeList.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final episode = episodeList[index];
+                  final isIntroEpisode = episode.episodeNumber == 0;
+                  return isIntroEpisode
+                      ? Container()
+                      : EpisodeTiles.seriesPage(
+                          index: index,
+                          episode: episode,
+                          supplements: supplements,
+                          resumeCallback: bloc.togglePlayerStatus,
+                          playCallback: bloc.play);
+                },
+              ),
+              const SizedBox(height: 10)
             ],
-          ),
-        ),
-        ListView.builder(
-          itemCount: episodeList.length,
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final episode = episodeList[index];
-            final isIntroEpisode = episode.episodeNumber == 0;
-            return isIntroEpisode
-                ? Container()
-                : EpisodeTiles.seriesPage(
-                    index: index,
-                    episode: episode,
-                    supplements: supplements,
-                    resumeCallback: bloc.togglePlayerStatus,
-                    playCallback: bloc.play);
-          },
-        ),
-        const SizedBox(height: 10)
-      ],
-    );
+          );
   }
 
   Widget _buildError(Series series, Supplements supplements) {

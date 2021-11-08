@@ -20,7 +20,7 @@ class AppLoadingIndicator extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/icons/loading_content.json',
+                  Lottie.asset('assets/icons/loading_2.json',
                       height: 40, width: 40),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -28,7 +28,7 @@ class AppLoadingIndicator extends StatelessWidget {
                   )
                 ],
               )
-            : Lottie.asset('assets/icons/loading_content.json',
+            : Lottie.asset('assets/icons/loading_2.json',
                 height: 40, width: 40));
   }
 }

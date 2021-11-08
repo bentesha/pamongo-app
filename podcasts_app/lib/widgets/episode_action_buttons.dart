@@ -1,5 +1,6 @@
 import 'package:lottie/lottie.dart';
 import 'package:podcasts/source.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class EpisodeActionButtons extends StatelessWidget {
   const EpisodeActionButtons(this.page,
@@ -7,6 +8,8 @@ class EpisodeActionButtons extends StatelessWidget {
       required this.actionPadding,
       required this.status,
       required this.duration,
+      required this.remainingTime,
+      required this.remainingFraction,
       this.statusColor = AppColors.textColor,
       this.iconsColor = AppColors.primaryColor,
       key})
@@ -16,8 +19,9 @@ class EpisodeActionButtons extends StatelessWidget {
   final EdgeInsetsGeometry actionPadding;
   final VoidCallback playCallback;
   final String status;
-  final String duration;
+  final String duration, remainingTime;
   final Color statusColor, iconsColor;
+  final double remainingFraction;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,8 @@ class EpisodeActionButtons extends StatelessWidget {
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
 
+    log(status);
+
     return GestureDetector(
       onTap: playCallback,
       child: Container(
@@ -67,25 +73,34 @@ class EpisodeActionButtons extends StatelessWidget {
                 ? Lottie.asset('assets/icons/playing.json',
                     fit: BoxFit.contain, height: 30)
                 : isLoading
-                    ? Lottie.asset('assets/icons/loading.json',
-                        fit: BoxFit.contain, height: 10)
-                    : isPaused
-                        ? const Icon(AppIcons.play,
-                            color: AppColors.onPrimary2, size: 20)
-                        : const Icon(AppIcons.playCircled,
-                            size: 20, color: AppColors.accentColor),
+                    ? Lottie.asset('assets/icons/loading_2.json',
+                        fit: BoxFit.contain, height: 15)
+                    : /* isPaused
+                        ? CircularPercentIndicator(
+                            progressColor: const Color(0xffFF4500),
+                            radius: 17,
+                            percent: remainingFraction,
+                            lineWidth: 2.5,
+                          )
+                        :  */
+                    const Icon(AppIcons.playCircled,
+                        size: 20, color: AppColors.accentColor),
             AppText(
                 isOnHomepage
-                    ? '  ' + status
+                    ? isPaused
+                        ? '   ${remainingTime}left'
+                        : '  ' + status
                     : isOnChannelPage
                         ? isPlaying || isLoading
                             ? '  ' + status
                             : isPaused
-                                ? '  Paused'
+                                ? '   ${remainingTime}left'
                                 : '  $duration'
-                        : isPlaying || isLoading || isPaused
-                            ? '  ' + status
-                            : '  $duration',
+                        : isPaused
+                            ? '   ${remainingTime}left'
+                            : isPlaying || isLoading
+                                ? '  ' + status
+                                : '  $duration',
                 weight: FontWeight.w400,
                 color:
                     isPaused || isPlaying ? AppColors.onPrimary : statusColor,

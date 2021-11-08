@@ -83,7 +83,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
       alignment: Alignment.bottomLeft,
       children: [
         Container(
-          color: AppColors.primaryColor,
+          color: AppColors.indicatorColor,
           height: 70,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +103,6 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(episode.title,
-                        color: AppColors.onPrimary,
                         size: 15,
                         weight: FontWeight.w600,
                         alignment: TextAlign.start),
@@ -112,7 +111,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                         ? AppText(
                             'Ep. ${episode.episodeNumber} from - ${episode.seriesName}',
                             alignment: TextAlign.start,
-                            color: AppColors.onPrimary2,
+                            color: AppColors.textColor2,
                             size: 15)
                         : Container()
                   ],
@@ -122,13 +121,13 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: isLoading
-                    ? Lottie.asset('assets/icons/loading.json',
+                    ? Lottie.asset('assets/icons/loading_2.json',
                         fit: BoxFit.contain, height: 25)
                     : IconButton(
                         onPressed: bloc.togglePlayerStatus,
                         padding: EdgeInsets.zero,
                         icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                            color: AppColors.onPrimary2, size: 25)),
+                            color: AppColors.primaryColor, size: 25)),
               ),
             ],
           ),

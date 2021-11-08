@@ -8,7 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   eva_icons_flutter: ^3.0.0
   ionicons: ^0.1.2
   freezed: ^0.14.5
@@ -22,6 +21,7 @@ dependencies:
   audio_service: ^0.18.0
   just_audio: ^0.9.13
   intl: ^0.17.0
+  percent_indicator: ^3.4.0
 
 dev_dependencies:
   flutter_test:

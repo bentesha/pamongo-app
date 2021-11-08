@@ -10,6 +10,8 @@ class EpisodeTile extends StatelessWidget {
       required this.playCallback,
       required this.status,
       required this.duration,
+      required this.remainingTime,
+      required this.remainingFraction,
       required this.descriptionMaxLines,
       this.useToggleExpansionButtons = false,
       key})
@@ -19,9 +21,10 @@ class EpisodeTile extends StatelessWidget {
   final EdgeInsetsGeometry actionPadding;
   final Episode episode;
   final VoidCallback playCallback;
-  final String status, duration;
+  final String status, duration, remainingTime;
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
+  final double remainingFraction;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +63,8 @@ class EpisodeTile extends StatelessWidget {
         playCallback: playCallback,
         status: status,
         duration: duration,
+        remainingTime: remainingTime,
+        remainingFraction: remainingFraction,
         actionPadding: actionPadding);
   }
 }

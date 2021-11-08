@@ -17,12 +17,17 @@ class AudioPlayerService {
 
   static final initialEpisodeList = [Episode(date: DateTime.utc(2020))];
   var _content = ProgressIndicatorContent(episodeList: initialEpisodeList);
+  var _currentPlayerDuration = 0;
   final _contentController = ContentStreamController.broadcast();
 
   ContentStream get onIndicatorContentStateChanged => _contentController.stream;
   ProgressIndicatorContent get getCurrentContent => _content;
   Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
   int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
+  int get getRemainingTime =>
+      _currentPlayerDuration - _player.position.inMilliseconds;
+  double get getRemainingTimeFraction =>
+      _player.position.inMilliseconds / _currentPlayerDuration;
 
   Future<void> play(List episodeList,
       {int index = 0, bool shoudlFormatIndex = true}) async {
@@ -40,6 +45,7 @@ class AudioPlayerService {
       var episode = episodeList[index];
       final duration = await _player.setUrl(episode.audioUrl);
       if (duration != null) {
+        _currentPlayerDuration = duration.inMilliseconds;
         episode = episode.copyWith(duration: duration.inMilliseconds);
         episodeList[index] = episode;
         _updateContentWith(playerState: playingState, episodeList: episodeList);
