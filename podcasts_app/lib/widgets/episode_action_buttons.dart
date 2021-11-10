@@ -8,7 +8,6 @@ class EpisodeActionButtons extends StatelessWidget {
       required this.status,
       required this.duration,
       required this.remainingTime,
-      required this.remainingFraction,
       key})
       : super(key: key);
 
@@ -17,7 +16,6 @@ class EpisodeActionButtons extends StatelessWidget {
   final VoidCallback playCallback;
   final String status;
   final String duration, remainingTime;
-  final double remainingFraction;
 
   @override
   Widget build(BuildContext context) {

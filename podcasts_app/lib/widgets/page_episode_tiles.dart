@@ -97,8 +97,6 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   episode: widget.episode,
                   status: status,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
-                  remainingFraction:
-                      widget.supplements.activeEpisodeRemainingFraction,
                   descriptionMaxLines: 3,
                   actionPadding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   playCallback: isActive
@@ -160,8 +158,6 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             episode: episode,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            remainingFraction:
-                widget.supplements.activeEpisodeRemainingFraction,
             playCallback: isActive
                 ? widget.resumeCallback
                 : isLoading
@@ -244,8 +240,6 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             status: status,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            remainingFraction:
-                widget.supplements.activeEpisodeRemainingFraction,
             actionPadding: const EdgeInsets.fromLTRB(0, 10, 0, 8),
             playCallback: isActive
                 ? widget.resumeCallback
@@ -300,7 +294,7 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
   @override
   Widget build(BuildContext context) {
     _buildState();
-    
+
     return Container(
         margin: const EdgeInsets.only(left: 18, right: 24, bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -324,8 +318,6 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
               status: status,
               duration: duration,
               remainingTime: widget.supplements.activeEpisodeRemainingTime,
-              remainingFraction:
-                  widget.supplements.activeEpisodeRemainingFraction,
               playCallback: isActive
                   ? widget.resumeCallback
                   : isLoading

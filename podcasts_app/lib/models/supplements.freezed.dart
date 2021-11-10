@@ -20,14 +20,12 @@ class _$SupplementsTearOff {
   _Supplements call(
       {String activeId = '',
       String activeEpisodeRemainingTime = '',
-      double activeEpisodeRemainingFraction = 0,
       SortStyles sortStyle = SortStyles.oldestFirst,
       ApiError? apiError,
       dynamic playerState = inactiveState}) {
     return _Supplements(
       activeId: activeId,
       activeEpisodeRemainingTime: activeEpisodeRemainingTime,
-      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction,
       sortStyle: sortStyle,
       apiError: apiError,
       playerState: playerState,
@@ -42,8 +40,6 @@ const $Supplements = _$SupplementsTearOff();
 mixin _$Supplements {
   String get activeId => throw _privateConstructorUsedError;
   String get activeEpisodeRemainingTime => throw _privateConstructorUsedError;
-  double get activeEpisodeRemainingFraction =>
-      throw _privateConstructorUsedError;
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   ApiError? get apiError => throw _privateConstructorUsedError;
   dynamic get playerState => throw _privateConstructorUsedError;
@@ -61,7 +57,6 @@ abstract class $SupplementsCopyWith<$Res> {
   $Res call(
       {String activeId,
       String activeEpisodeRemainingTime,
-      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState});
@@ -79,7 +74,6 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
   $Res call({
     Object? activeId = freezed,
     Object? activeEpisodeRemainingTime = freezed,
-    Object? activeEpisodeRemainingFraction = freezed,
     Object? sortStyle = freezed,
     Object? apiError = freezed,
     Object? playerState = freezed,
@@ -93,10 +87,6 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
           ? _value.activeEpisodeRemainingTime
           : activeEpisodeRemainingTime // ignore: cast_nullable_to_non_nullable
               as String,
-      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction == freezed
-          ? _value.activeEpisodeRemainingFraction
-          : activeEpisodeRemainingFraction // ignore: cast_nullable_to_non_nullable
-              as double,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
@@ -123,7 +113,6 @@ abstract class _$SupplementsCopyWith<$Res>
   $Res call(
       {String activeId,
       String activeEpisodeRemainingTime,
-      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState});
@@ -143,7 +132,6 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
   $Res call({
     Object? activeId = freezed,
     Object? activeEpisodeRemainingTime = freezed,
-    Object? activeEpisodeRemainingFraction = freezed,
     Object? sortStyle = freezed,
     Object? apiError = freezed,
     Object? playerState = freezed,
@@ -157,10 +145,6 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
           ? _value.activeEpisodeRemainingTime
           : activeEpisodeRemainingTime // ignore: cast_nullable_to_non_nullable
               as String,
-      activeEpisodeRemainingFraction: activeEpisodeRemainingFraction == freezed
-          ? _value.activeEpisodeRemainingFraction
-          : activeEpisodeRemainingFraction // ignore: cast_nullable_to_non_nullable
-              as double,
       sortStyle: sortStyle == freezed
           ? _value.sortStyle
           : sortStyle // ignore: cast_nullable_to_non_nullable
@@ -180,7 +164,6 @@ class _$_Supplements implements _Supplements {
   const _$_Supplements(
       {this.activeId = '',
       this.activeEpisodeRemainingTime = '',
-      this.activeEpisodeRemainingFraction = 0,
       this.sortStyle = SortStyles.oldestFirst,
       this.apiError,
       this.playerState = inactiveState});
@@ -191,9 +174,6 @@ class _$_Supplements implements _Supplements {
   @JsonKey(defaultValue: '')
   @override
   final String activeEpisodeRemainingTime;
-  @JsonKey(defaultValue: 0)
-  @override
-  final double activeEpisodeRemainingFraction;
   @JsonKey(defaultValue: SortStyles.oldestFirst)
   @override
   final SortStyles sortStyle;
@@ -205,7 +185,7 @@ class _$_Supplements implements _Supplements {
 
   @override
   String toString() {
-    return 'Supplements(activeId: $activeId, activeEpisodeRemainingTime: $activeEpisodeRemainingTime, activeEpisodeRemainingFraction: $activeEpisodeRemainingFraction, sortStyle: $sortStyle, apiError: $apiError, playerState: $playerState)';
+    return 'Supplements(activeId: $activeId, activeEpisodeRemainingTime: $activeEpisodeRemainingTime, sortStyle: $sortStyle, apiError: $apiError, playerState: $playerState)';
   }
 
   @override
@@ -220,11 +200,6 @@ class _$_Supplements implements _Supplements {
                 const DeepCollectionEquality().equals(
                     other.activeEpisodeRemainingTime,
                     activeEpisodeRemainingTime)) &&
-            (identical(other.activeEpisodeRemainingFraction,
-                    activeEpisodeRemainingFraction) ||
-                const DeepCollectionEquality().equals(
-                    other.activeEpisodeRemainingFraction,
-                    activeEpisodeRemainingFraction)) &&
             (identical(other.sortStyle, sortStyle) ||
                 const DeepCollectionEquality()
                     .equals(other.sortStyle, sortStyle)) &&
@@ -241,7 +216,6 @@ class _$_Supplements implements _Supplements {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(activeId) ^
       const DeepCollectionEquality().hash(activeEpisodeRemainingTime) ^
-      const DeepCollectionEquality().hash(activeEpisodeRemainingFraction) ^
       const DeepCollectionEquality().hash(sortStyle) ^
       const DeepCollectionEquality().hash(apiError) ^
       const DeepCollectionEquality().hash(playerState);
@@ -256,7 +230,6 @@ abstract class _Supplements implements Supplements {
   const factory _Supplements(
       {String activeId,
       String activeEpisodeRemainingTime,
-      double activeEpisodeRemainingFraction,
       SortStyles sortStyle,
       ApiError? apiError,
       dynamic playerState}) = _$_Supplements;
@@ -265,9 +238,6 @@ abstract class _Supplements implements Supplements {
   String get activeId => throw _privateConstructorUsedError;
   @override
   String get activeEpisodeRemainingTime => throw _privateConstructorUsedError;
-  @override
-  double get activeEpisodeRemainingFraction =>
-      throw _privateConstructorUsedError;
   @override
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   @override

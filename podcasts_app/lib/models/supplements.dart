@@ -11,7 +11,6 @@ class Supplements with _$Supplements {
   const factory Supplements(
       {@Default('') String activeId,
       @Default('') String activeEpisodeRemainingTime,
-      @Default(0) double activeEpisodeRemainingFraction,
       @Default(SortStyles.oldestFirst) SortStyles sortStyle,
       ApiError? apiError,
       @Default(inactiveState) playerState}) = _Supplements;

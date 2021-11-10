@@ -22,9 +22,6 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final supplements = state.supplements.copyWith(
         activeId: id,
         playerState: playerState,
-        activeEpisodeRemainingFraction: playerState == pausedState
-            ? service.getRemainingTimeFraction
-            : state.supplements.activeEpisodeRemainingFraction,
         activeEpisodeRemainingTime: playerState == pausedState
             ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
             : state.supplements.activeEpisodeRemainingTime);
@@ -43,9 +40,6 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final supplements = state.supplements.copyWith(
         activeId: id,
         playerState: playerState,
-        activeEpisodeRemainingFraction: playerState == pausedState
-            ? service.getRemainingTimeFraction
-            : state.supplements.activeEpisodeRemainingFraction,
         activeEpisodeRemainingTime: playerState == pausedState
             ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
             : state.supplements.activeEpisodeRemainingTime);
