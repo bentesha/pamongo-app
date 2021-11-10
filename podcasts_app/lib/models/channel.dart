@@ -7,18 +7,20 @@ class Channel with _$Channel {
   const Channel._();
 
   const factory Channel(
-      {@Default('') String channelName,
-      @Default('') String channelImage,
-      @Default('') String channelDescription,
-      @Default([]) List channelSeriesList,
-      @Default('') String channelOwner}) = _Channel;
+      {@Default('') String name,
+      @Default('') String image,
+      @Default('') String id,
+      @Default('') String description,
+      @Default([]) List seriesList,
+      @Default('') String owner}) = _Channel;
 
   static Channel fromJson(Map<String, dynamic> json,
           {List seriesList = const []}) =>
       Channel(
-          channelName: json['name'],
-          channelDescription: json['description'],
-          channelImage: json['thumbnailUrl'],
-          channelOwner: 'James Calvin',
-          channelSeriesList: seriesList);
+          name: json['name'],
+          description: json['description'],
+          image: json['thumbnailUrl'],
+          id: json['id'],
+          owner: 'James Calvin',
+          seriesList: seriesList);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/homepage_bloc.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
@@ -9,6 +10,7 @@ import 'package:podcasts/widgets/audio_progress_indicator.dart';
 import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/page_episode_tiles.dart';
 import '../source.dart';
+import 'explore_page.dart';
 import 'series_page.dart';
 
 class Homepage extends StatefulWidget {
@@ -60,16 +62,16 @@ class _HomepageState extends State<Homepage> {
                 elevation: 1,
                 toolbarHeight: 55,
                 centerTitle: false,
-                title: Padding(
-                    padding: const EdgeInsets.only(left: 2, top: 10),
-                    child:
-                        Image.asset('assets/images/logo_long.png', height: 25)),
+                title: Image.asset('assets/images/logo_long.png', height: 25),
                 actions: [
                   IconButton(
-                      onPressed: () {},
-                      padding: const EdgeInsets.only(top: 10),
+                      onPressed: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (_) => const ExplorePage())),
+                      padding: const EdgeInsets.only(right: 10),
                       icon: const Icon(Icons.explore_outlined,
-                          color: AppColors.secondaryColor))
+                          size: 28, color: AppColors.secondaryColor))
                 ]),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
@@ -103,7 +105,7 @@ class _HomepageState extends State<Homepage> {
             }).toList(),
           ),
         ),
-        const SizedBox(height: 15)
+        const SizedBox(height: 10)
       ],
     );
   }

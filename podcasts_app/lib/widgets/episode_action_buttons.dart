@@ -1,6 +1,5 @@
 import 'package:lottie/lottie.dart';
 import 'package:podcasts/source.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class EpisodeActionButtons extends StatelessWidget {
   const EpisodeActionButtons(this.page,
@@ -10,8 +9,6 @@ class EpisodeActionButtons extends StatelessWidget {
       required this.duration,
       required this.remainingTime,
       required this.remainingFraction,
-      this.statusColor = AppColors.textColor,
-      this.iconsColor = AppColors.primaryColor,
       key})
       : super(key: key);
 
@@ -20,7 +17,6 @@ class EpisodeActionButtons extends StatelessWidget {
   final VoidCallback playCallback;
   final String status;
   final String duration, remainingTime;
-  final Color statusColor, iconsColor;
   final double remainingFraction;
 
   @override
@@ -51,8 +47,6 @@ class EpisodeActionButtons extends StatelessWidget {
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
 
-    log(status);
-
     return GestureDetector(
       onTap: playCallback,
       child: Container(
@@ -61,10 +55,8 @@ class EpisodeActionButtons extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
-              color: isPaused || isPlaying
-                  ? AppColors.primaryColor
-                  : Colors.transparent,
-              border: isPaused || isPlaying
+              color: isPlaying ? AppColors.primaryColor : Colors.transparent,
+              border: isPlaying
                   ? Border.all(width: 1.5, color: AppColors.primaryColor)
                   : Border.all(width: 1, color: Colors.grey)),
           child:
@@ -75,16 +67,11 @@ class EpisodeActionButtons extends StatelessWidget {
                 : isLoading
                     ? Lottie.asset('assets/icons/loading_2.json',
                         fit: BoxFit.contain, height: 15)
-                    : /* isPaused
-                        ? CircularPercentIndicator(
-                            progressColor: const Color(0xffFF4500),
-                            radius: 17,
-                            percent: remainingFraction,
-                            lineWidth: 2.5,
-                          )
-                        :  */
-                    const Icon(AppIcons.playCircled,
-                        size: 20, color: AppColors.accentColor),
+                    : Icon(isPaused ? AppIcons.play : AppIcons.playCircled,
+                        size: 20,
+                        color: isPaused
+                            ? AppColors.primaryColor
+                            : AppColors.accentColor),
             AppText(
                 isOnHomepage
                     ? isPaused
@@ -102,8 +89,7 @@ class EpisodeActionButtons extends StatelessWidget {
                                 ? '  ' + status
                                 : '  $duration',
                 weight: FontWeight.w400,
-                color:
-                    isPaused || isPlaying ? AppColors.onPrimary : statusColor,
+                color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
                 size: 14),
           ])),
     );
@@ -114,6 +100,6 @@ class EpisodeActionButtons extends StatelessWidget {
         onPressed: () {},
         padding: padding,
         constraints: const BoxConstraints(),
-        icon: Icon(icon, color: iconsColor, size: 22));
+        icon: Icon(icon, color: AppColors.primaryColor, size: 22));
   }
 }

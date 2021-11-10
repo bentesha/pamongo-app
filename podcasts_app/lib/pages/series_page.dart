@@ -15,11 +15,11 @@ import 'channel_page.dart';
 
 class SeriesPage extends StatefulWidget {
   final String seriesId;
-  const SeriesPage({required this.seriesId, key}) : super(key: key);
+  const SeriesPage(this.seriesId, {key}) : super(key: key);
 
   static void navigateTo(BuildContext context, String seriesId) =>
-      Navigator.of(context).push(
-          CupertinoPageRoute(builder: (_) => SeriesPage(seriesId: seriesId)));
+      Navigator.of(context)
+          .push(CupertinoPageRoute(builder: (_) => SeriesPage(seriesId)));
 
   @override
   State<SeriesPage> createState() => _SeriesPageState();

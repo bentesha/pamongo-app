@@ -10,16 +10,30 @@ import 'package:podcasts/models/series.dart';
 class PodcastsRepository {
   static const root = 'http://pamongo.mobicap.co.tz:9090/api/';
 
-  static Future<List> getFeaturedSeries() async {
+  static Future<List<Series>> getFeaturedSeries() async => await getSeries(
+      'series?eager=channel&rangeStart=0&rangeEnd=7&orderByDesc=createdAt');
+
+  static Future<List<Episode>> getRecentEpisodes() async => getEpisodes(
+      'episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=0');
+
+  static Future<List<Series>> getAllSeries() async =>
+      await getSeries('series?eager=channel&orderByDesc=createdAt');
+
+  static Future<List<Episode>> getAllEpisodes() async =>
+      getEpisodes('episode?eager=series&orderByDesc=createdAt');
+
+  static Future<List<Channel>> getAllChannels() async {
     try {
-      const url =
-          '${root}series?eager=channel&rangeStart=0&rangeEnd=5&orderByDesc=createdAt';
+      const url = '${root}channel?orderByDesc=createdAt';
       final response = await http.get(Uri.parse(url));
       final body = jsonDecode(response.body);
       final results = body['results'];
-      return results
-          .map((e) => Series.fromJson(e, channelName: e['channel']['name']))
-          .toList();
+
+      final List<Channel> channelsList = [];
+      for (Map<String, dynamic> e in results) {
+        channelsList.add(Channel.fromJson(e, seriesList: []));
+      }
+      return channelsList;
     } catch (_) {
       log(_.toString());
       throw ApiError.fromType(ApiErrorType.unknown);
@@ -77,24 +91,47 @@ class PodcastsRepository {
     }
   }
 
-  static Future<List> getRecentEpisodes() async {
+  static Future<List<Episode>> getEpisodes(String url) async {
     var response = Response('', 200);
     try {
-      const url =
-          '${root}episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=0';
-      response = await http.get(Uri.parse(url));
+      final _url = root + url;
+      response = await http.get(Uri.parse(_url));
       final body = jsonDecode(response.body);
       final results = body['results'];
-      return results.map((e) {
+
+      List<Episode> episodeList = [];
+      for (Map<String, dynamic> e in results) {
         final series = e['series'];
-        return Episode.fromJson(e,
+        episodeList.add(Episode.fromJson(e,
             seriesId: series['id'],
             seriesImage: series['thumbnailUrl'],
-            seriesName: series['name']);
-      }).toList();
+            seriesName: series['name']));
+      }
+      return episodeList;
     } catch (_) {
       log(response.statusCode.toString());
       log(_.toString());
+      log('episodes');
+      throw ApiError.fromType(ApiErrorType.unknown);
+    }
+  }
+
+  static Future<List<Series>> getSeries(String url) async {
+    try {
+      final _url = root + url;
+      final response = await http.get(Uri.parse(_url));
+      final body = jsonDecode(response.body);
+      final results = body['results'];
+
+      final List<Series> seriesList = [];
+      for (Map<String, dynamic> e in results) {
+        seriesList.add(Series.fromJson(e, channelName: e['channel']['name']));
+      }
+      return seriesList;
+    } catch (_) {
+      log(_.toString());
+      log('series');
+
       throw ApiError.fromType(ApiErrorType.unknown);
     }
   }

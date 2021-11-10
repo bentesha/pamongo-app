@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomepageStateTearOff {
   const _$HomepageStateTearOff();
 
-  _Loading loading(List<dynamic> episodeList, List<dynamic> seriesList,
+  _Loading loading(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) {
     return _Loading(
       episodeList,
@@ -26,7 +26,7 @@ class _$HomepageStateTearOff {
     );
   }
 
-  _Failed failed(List<dynamic> episodeList, List<dynamic> seriesList,
+  _Failed failed(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) {
     return _Failed(
       episodeList,
@@ -35,7 +35,7 @@ class _$HomepageStateTearOff {
     );
   }
 
-  _Content content(List<dynamic> episodeList, List<dynamic> seriesList,
+  _Content content(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) {
     return _Content(
       episodeList,
@@ -50,45 +50,45 @@ const $HomepageState = _$HomepageStateTearOff();
 
 /// @nodoc
 mixin _$HomepageState {
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
-  List<dynamic> get seriesList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Series> get seriesList => throw _privateConstructorUsedError;
   Supplements get supplements => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         loading,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         failed,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
     required TResult orElse(),
@@ -128,8 +128,8 @@ abstract class $HomepageStateCopyWith<$Res> {
           HomepageState value, $Res Function(HomepageState) then) =
       _$HomepageStateCopyWithImpl<$Res>;
   $Res call(
-      {List<dynamic> episodeList,
-      List<dynamic> seriesList,
+      {List<Episode> episodeList,
+      List<Series> seriesList,
       Supplements supplements});
 
   $SupplementsCopyWith<$Res> get supplements;
@@ -154,11 +154,11 @@ class _$HomepageStateCopyWithImpl<$Res>
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       seriesList: seriesList == freezed
           ? _value.seriesList
           : seriesList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Series>,
       supplements: supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -180,8 +180,8 @@ abstract class _$LoadingCopyWith<$Res> implements $HomepageStateCopyWith<$Res> {
       __$LoadingCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<dynamic> episodeList,
-      List<dynamic> seriesList,
+      {List<Episode> episodeList,
+      List<Series> seriesList,
       Supplements supplements});
 
   @override
@@ -207,11 +207,11 @@ class __$LoadingCopyWithImpl<$Res> extends _$HomepageStateCopyWithImpl<$Res>
       episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       seriesList == freezed
           ? _value.seriesList
           : seriesList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Series>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -226,9 +226,9 @@ class _$_Loading implements _Loading {
   const _$_Loading(this.episodeList, this.seriesList, this.supplements);
 
   @override
-  final List<dynamic> episodeList;
+  final List<Episode> episodeList;
   @override
-  final List<dynamic> seriesList;
+  final List<Series> seriesList;
   @override
   final Supplements supplements;
 
@@ -267,14 +267,14 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         loading,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         failed,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         content,
   }) {
     return loading(episodeList, seriesList, supplements);
@@ -283,13 +283,13 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
   }) {
@@ -299,13 +299,13 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
     required TResult orElse(),
@@ -352,13 +352,13 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements HomepageState {
-  const factory _Loading(List<dynamic> episodeList, List<dynamic> seriesList,
+  const factory _Loading(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) = _$_Loading;
 
   @override
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override
@@ -373,8 +373,8 @@ abstract class _$FailedCopyWith<$Res> implements $HomepageStateCopyWith<$Res> {
       __$FailedCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<dynamic> episodeList,
-      List<dynamic> seriesList,
+      {List<Episode> episodeList,
+      List<Series> seriesList,
       Supplements supplements});
 
   @override
@@ -400,11 +400,11 @@ class __$FailedCopyWithImpl<$Res> extends _$HomepageStateCopyWithImpl<$Res>
       episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       seriesList == freezed
           ? _value.seriesList
           : seriesList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Series>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -419,9 +419,9 @@ class _$_Failed implements _Failed {
   const _$_Failed(this.episodeList, this.seriesList, this.supplements);
 
   @override
-  final List<dynamic> episodeList;
+  final List<Episode> episodeList;
   @override
-  final List<dynamic> seriesList;
+  final List<Series> seriesList;
   @override
   final Supplements supplements;
 
@@ -460,14 +460,14 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         loading,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         failed,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         content,
   }) {
     return failed(episodeList, seriesList, supplements);
@@ -476,13 +476,13 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
   }) {
@@ -492,13 +492,13 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
     required TResult orElse(),
@@ -545,13 +545,13 @@ class _$_Failed implements _Failed {
 }
 
 abstract class _Failed implements HomepageState {
-  const factory _Failed(List<dynamic> episodeList, List<dynamic> seriesList,
+  const factory _Failed(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) = _$_Failed;
 
   @override
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override
@@ -565,8 +565,8 @@ abstract class _$ContentCopyWith<$Res> implements $HomepageStateCopyWith<$Res> {
       __$ContentCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<dynamic> episodeList,
-      List<dynamic> seriesList,
+      {List<Episode> episodeList,
+      List<Series> seriesList,
       Supplements supplements});
 
   @override
@@ -592,11 +592,11 @@ class __$ContentCopyWithImpl<$Res> extends _$HomepageStateCopyWithImpl<$Res>
       episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       seriesList == freezed
           ? _value.seriesList
           : seriesList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Series>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -611,9 +611,9 @@ class _$_Content implements _Content {
   const _$_Content(this.episodeList, this.seriesList, this.supplements);
 
   @override
-  final List<dynamic> episodeList;
+  final List<Episode> episodeList;
   @override
-  final List<dynamic> seriesList;
+  final List<Series> seriesList;
   @override
   final Supplements supplements;
 
@@ -652,14 +652,14 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         loading,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         failed,
-    required TResult Function(List<dynamic> episodeList,
-            List<dynamic> seriesList, Supplements supplements)
+    required TResult Function(List<Episode> episodeList,
+            List<Series> seriesList, Supplements supplements)
         content,
   }) {
     return content(episodeList, seriesList, supplements);
@@ -668,13 +668,13 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
   }) {
@@ -684,13 +684,13 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         loading,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         failed,
-    TResult Function(List<dynamic> episodeList, List<dynamic> seriesList,
+    TResult Function(List<Episode> episodeList, List<Series> seriesList,
             Supplements supplements)?
         content,
     required TResult orElse(),
@@ -737,13 +737,13 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements HomepageState {
-  const factory _Content(List<dynamic> episodeList, List<dynamic> seriesList,
+  const factory _Content(List<Episode> episodeList, List<Series> seriesList,
       Supplements supplements) = _$_Content;
 
   @override
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override

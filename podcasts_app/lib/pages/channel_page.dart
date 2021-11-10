@@ -60,7 +60,7 @@ class _ChannelPageState extends State<ChannelPage> {
         return true;
       },
       child: Scaffold(
-        appBar: _buildAppBar(channel.channelName),
+        appBar: _buildAppBar(channel.name),
         body: ListView(padding: EdgeInsets.zero, children: [
           _buildTitle(channel),
           _buildSeriesList(channel),
@@ -89,18 +89,14 @@ class _ChannelPageState extends State<ChannelPage> {
         SizedBox(
           height: 150,
           child: Row(children: [
-            AppImage(
-                image: channel.channelImage,
-                height: 150,
-                width: 150,
-                radius: 10),
+            AppImage(image: channel.image, height: 150, width: 150, radius: 10),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(channel.channelName,
+                  AppText(channel.name,
                       alignment: TextAlign.start,
                       weight: FontWeight.w700,
                       maxLines: 4,
@@ -116,7 +112,7 @@ class _ChannelPageState extends State<ChannelPage> {
         Padding(
           padding: const EdgeInsets.only(right: 10),
           child: AppRichText(
-              text: AppText(channel.channelDescription, size: 16, maxLines: 4),
+              text: AppText(channel.description, size: 16, maxLines: 4),
               useToggleExpansionButtons: true),
         )
       ]),
@@ -136,11 +132,11 @@ class _ChannelPageState extends State<ChannelPage> {
           ),
           const SizedBox(height: 8),
           ListView.builder(
-              itemCount: channel.channelSeriesList.length,
+              itemCount: channel.seriesList.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (_, index) {
-                return _buildSeries(channel.channelSeriesList[index], index);
+                return _buildSeries(channel.seriesList[index], index);
               })
         ],
       ),

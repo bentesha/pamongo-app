@@ -150,7 +150,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                   overlayShape: SliderComponentShape.noThumb),
               child: Slider(
                   activeColor: AppColors.accentColor,
-                  inactiveColor: AppColors.onPrimary2,
+                  inactiveColor: AppColors.secondaryColor,
                   value: isCurrentBigger ? duration : currentPosition,
                   min: 0.0,
                   max: content.episodeList[content.currentIndex].duration
@@ -284,25 +284,21 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
             callback: () {},
             iconSize: 23,
             icon: AppIcons.addToPlayList,
-            //  iconColor: AppColors.onPrimary2,
           ),
           _buildIconButton(
             callback: () {},
             iconSize: 23,
             icon: AppIcons.download,
-            //     iconColor: AppColors.onPrimary2,
           ),
           _buildIconButton(
             callback: () {},
             iconSize: 23,
             icon: AppIcons.bookmark,
-            //     iconColor: AppColors.onPrimary2,
           ),
           _buildIconButton(
             callback: () {},
             iconSize: 23,
             icon: AppIcons.share,
-            //     iconColor: AppColors.onPrimary2,
           ),
         ],
       ),
