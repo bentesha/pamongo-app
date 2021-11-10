@@ -1,11 +1,13 @@
 import '../source.dart';
 
-enum Pages { homepage, episodePage, seriesPage, channelPage }
+enum Pages { homepage, episodePage, seriesPage, channelPage, explorePage }
 
 class AppTopBars {
   static AppTopBar homepage() => const AppTopBar(Pages.homepage);
 
   static AppTopBar episodePage() => const AppTopBar(Pages.episodePage);
+
+  static AppTopBar explorePage() => const AppTopBar(Pages.explorePage);
 
   static AppTopBar channelPage(
       {required double topScrolledPixels, required String title}) {

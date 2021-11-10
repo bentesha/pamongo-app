@@ -84,6 +84,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
   @override
   Widget build(BuildContext context) {
     _buildState();
+
     return Column(
       children: [
         Container(height: 1, color: AppColors.dividerColor),
@@ -148,6 +149,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
   @override
   Widget build(BuildContext context) {
     _buildState();
+
     return Padding(
         padding: EdgeInsets.fromLTRB(18.dw, 0, 15.dw, 20.dh),
         child: EpisodeTile(
@@ -213,6 +215,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
   @override
   Widget build(BuildContext context) {
     _buildState();
+
     return Container(
       padding: EdgeInsets.only(left: 18.dw, right: 18.dw),
       decoration: BoxDecoration(
@@ -297,6 +300,7 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
   @override
   Widget build(BuildContext context) {
     _buildState();
+    
     return Container(
         margin: EdgeInsets.only(left: 18.dw, right: 24.dw, bottom: 10.dh),
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),

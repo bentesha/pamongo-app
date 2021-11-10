@@ -21,7 +21,7 @@ class AppText extends StatefulWidget {
   final TextAlign alignment;
   final double? height;
 
-  TextStyle _style() {
+  TextStyle style() {
     return TextStyle(
         fontWeight: weight,
         fontSize: size.toDouble(),
@@ -32,7 +32,7 @@ class AppText extends StatefulWidget {
   }
 
   TextSpan toTextSpan() {
-    return TextSpan(text: data, style: _style());
+    return TextSpan(text: data, style: style());
   }
 
   @override
@@ -45,6 +45,6 @@ class _AppTextState extends State<AppText> {
     return Text(widget.data,
         textAlign: widget.alignment,
         maxLines: widget.maxLines,
-        style: widget._style());
+        style: widget.style());
   }
 }
