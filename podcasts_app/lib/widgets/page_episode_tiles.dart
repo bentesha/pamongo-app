@@ -97,8 +97,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   episode: widget.episode,
                   status: status,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
-                  remainingFraction:
-                      widget.supplements.activeEpisodeRemainingFraction,
+                 
                   descriptionMaxLines: 3,
                   actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
                   playCallback: isActive
@@ -160,8 +159,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             episode: episode,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            remainingFraction:
-                widget.supplements.activeEpisodeRemainingFraction,
+      
             playCallback: isActive
                 ? widget.resumeCallback
                 : isLoading
@@ -244,8 +242,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             status: status,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            remainingFraction:
-                widget.supplements.activeEpisodeRemainingFraction,
+        
             actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
             playCallback: isActive
                 ? widget.resumeCallback
@@ -324,8 +321,7 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
               status: status,
               duration: duration,
               remainingTime: widget.supplements.activeEpisodeRemainingTime,
-              remainingFraction:
-                  widget.supplements.activeEpisodeRemainingFraction,
+           
               playCallback: isActive
                   ? widget.resumeCallback
                   : isLoading

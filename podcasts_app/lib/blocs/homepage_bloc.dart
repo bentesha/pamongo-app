@@ -49,9 +49,6 @@ class HomepageBloc extends Cubit<HomepageState> {
     final supplements = state.supplements.copyWith(
         playerState: playerState,
         activeId: id,
-        activeEpisodeRemainingFraction: playerState == pausedState
-            ? service.getRemainingTimeFraction
-            : state.supplements.activeEpisodeRemainingFraction,
         activeEpisodeRemainingTime: playerState == pausedState
             ? Utils.convertFrom(remainingTime, includeSeconds: false)
             : state.supplements.activeEpisodeRemainingTime);
