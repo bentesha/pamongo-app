@@ -283,7 +283,7 @@ class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
 
     final introEpisode = widget.episodeList[index];
     status = Utils.getStatus(introEpisode.id, activeId, playerState);
-    duration = Utils.convertFrom(introEpisode.duration);
+    duration = Utils.convertFrom(introEpisode.duration, includeSeconds: false);
 
     final isPlaying = playerState == playingState;
     final isPaused = playerState == pausedState;
