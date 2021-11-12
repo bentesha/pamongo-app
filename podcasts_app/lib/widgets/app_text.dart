@@ -9,6 +9,7 @@ class AppText extends StatefulWidget {
       this.alignment = TextAlign.justify,
       this.maxLines,
       this.height,
+      this.letterSpacing,
       key})
       : super(key: key);
 
@@ -19,7 +20,7 @@ class AppText extends StatefulWidget {
   final String family;
   final Color color;
   final TextAlign alignment;
-  final double? height;
+  final double? height, letterSpacing;
 
   TextStyle style() {
     return TextStyle(
@@ -28,6 +29,7 @@ class AppText extends StatefulWidget {
         color: color,
         fontFamily: family,
         height: height,
+        letterSpacing: letterSpacing,
         overflow: TextOverflow.ellipsis);
   }
 

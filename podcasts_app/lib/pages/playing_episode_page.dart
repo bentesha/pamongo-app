@@ -75,7 +75,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   Widget _buildContent(ProgressIndicatorContent content, bool isHiding) {
     final episode = content.episodeList[content.currentIndex];
 
-    return Column(children: [
+    return ListView(padding: EdgeInsets.zero, children: [
       _buildDropButton(),
       _buildTitle(episode),
       _buildProgressIndicatorActions(content),
@@ -100,7 +100,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+      padding: const EdgeInsets.fromLTRB(30, 35, 30, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppImage(
           radius: 10,
@@ -108,19 +108,18 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           height: 350,
           fullWidth: true,
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 25),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-         const   SizedBox(height: 10),
+            const SizedBox(height: 10),
             AppText(episode.title,
                 size: 18,
                 weight: FontWeight.w600,
                 maxLines: 2,
                 height: 1.4,
                 alignment: TextAlign.start),
-        const    SizedBox(height: 5),
+            const SizedBox(height: 5),
             AppText('Ep. ${episode.episodeNumber} from - ' + episode.seriesName,
                 size: 16, alignment: TextAlign.start),
           ],
@@ -177,7 +176,6 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             AppText(
               currentPosition,
               size: 14,
@@ -238,12 +236,11 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
             _buildIconButton(
                 icon: isPlaying ? Icons.pause : Ionicons.play,
                 backgroundColor: AppColors.accentColor,
-
                 iconColor: isLoading
                     ? AppColors.disabledColor
                     : AppColors.secondaryColor,
                 callback: isLoading ? () {} : bloc.togglePlayerStatus,
-                iconSize: 25),
+                iconSize: 30),
             _buildIconButton(
                 iconSize: 35,
                 icon: Icons.forward_30_outlined,
@@ -265,7 +262,6 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildProgressIndicatorActions(ProgressIndicatorContent content) {
     final playerState = content.playerState;
-    final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
     final isPlayingSeries = content.episodeList.length > 1;
     return Padding(
@@ -274,13 +270,13 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
         children: [
           isPlayingSeries
               ? _buildIconButton(
-                  iconColor:
-                      isLoading ? AppColors.disabledColor : AppColors.onPrimary2,
+                  iconColor: isLoading
+                      ? AppColors.disabledColor
+                      : AppColors.onPrimary2,
                   icon: EvaIcons.skipBackOutline,
                   callback: bloc.skipToPrev)
               : Container(),
           _buildIconButton(
-
             callback: () {},
             iconSize: 23,
             icon: AppIcons.addToPlayList,

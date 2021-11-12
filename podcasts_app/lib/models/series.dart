@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:podcasts/models/episode.dart';
 
 part 'series.freezed.dart';
 
@@ -13,10 +14,10 @@ class Series with _$Series {
       @Default('') String description,
       @Default('') String id,
       @Default('') String channelId,
-      @Default([]) List episodeList}) = _Series;
+      @Default([]) List<Episode> episodeList}) = _Series;
 
   static Series fromJson(Map<String, dynamic> json,
-          {String channelName = '', List episodeList = const []}) =>
+          {String channelName = '', List<Episode> episodeList = const []}) =>
       Series(
           image: json['thumbnailUrl'],
           name: json['name'],

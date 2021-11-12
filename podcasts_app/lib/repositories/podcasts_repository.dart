@@ -49,13 +49,16 @@ class PodcastsRepository {
       final jsonSeries = body['results'];
       final jsonChannel = jsonSeries.first['channel'];
 
+      List<Episode> episodeList = [];
       final seriesList = jsonSeries.map((series) {
-        final episodeList = series['episodes']
-            .map((episode) => Episode.fromJson(episode,
-                seriesId: series['id'],
-                seriesImage: series['thumbnailUrl'],
-                seriesName: series['name']))
-            .toList();
+        final episodes = series['episodes'];
+        for (Map<String, dynamic> e in episodes) {
+          episodeList.add(Episode.fromJson(e,
+              seriesId: series['id'],
+              seriesImage: series['thumbnailUrl'],
+              seriesName: series['name']));
+        }
+
         return Series.fromJson(series,
             channelName: jsonChannel['name'], episodeList: episodeList);
       }).toList();
@@ -76,12 +79,14 @@ class PodcastsRepository {
       final series = body['results'][0];
       final channel = series['channel'];
       final episodes = series['episodes'];
-      final episodeList = episodes
-          .map((e) => Episode.fromJson(e,
-              seriesId: series['id'],
-              seriesImage: series['thumbnailUrl'],
-              seriesName: series['name']))
-          .toList();
+
+      List<Episode> episodeList = [];
+      for (Map<String, dynamic> e in episodes) {
+        episodeList.add(Episode.fromJson(e,
+            seriesId: series['id'],
+            seriesImage: series['thumbnailUrl'],
+            seriesName: series['name']));
+      }
 
       return Series.fromJson(series,
           channelName: channel['name'], episodeList: episodeList);
@@ -111,7 +116,6 @@ class PodcastsRepository {
     } catch (_) {
       log(response.statusCode.toString());
       log(_.toString());
-      log('episodes');
       throw ApiError.fromType(ApiErrorType.unknown);
     }
   }
@@ -130,8 +134,6 @@ class PodcastsRepository {
       return seriesList;
     } catch (_) {
       log(_.toString());
-      log('series');
-
       throw ApiError.fromType(ApiErrorType.unknown);
     }
   }

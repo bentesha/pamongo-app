@@ -24,7 +24,7 @@ class _$SeriesTearOff {
       String description = '',
       String id = '',
       String channelId = '',
-      List<dynamic> episodeList = const []}) {
+      List<Episode> episodeList = const []}) {
     return _Series(
       image: image,
       name: name,
@@ -48,7 +48,7 @@ mixin _$Series {
   String get description => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get channelId => throw _privateConstructorUsedError;
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SeriesCopyWith<Series> get copyWith => throw _privateConstructorUsedError;
@@ -65,7 +65,7 @@ abstract class $SeriesCopyWith<$Res> {
       String description,
       String id,
       String channelId,
-      List<dynamic> episodeList});
+      List<Episode> episodeList});
 }
 
 /// @nodoc
@@ -114,7 +114,7 @@ class _$SeriesCopyWithImpl<$Res> implements $SeriesCopyWith<$Res> {
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
     ));
   }
 }
@@ -131,7 +131,7 @@ abstract class _$SeriesCopyWith<$Res> implements $SeriesCopyWith<$Res> {
       String description,
       String id,
       String channelId,
-      List<dynamic> episodeList});
+      List<Episode> episodeList});
 }
 
 /// @nodoc
@@ -181,7 +181,7 @@ class __$SeriesCopyWithImpl<$Res> extends _$SeriesCopyWithImpl<$Res>
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
     ));
   }
 }
@@ -219,7 +219,7 @@ class _$_Series extends _Series {
   final String channelId;
   @JsonKey(defaultValue: const [])
   @override
-  final List<dynamic> episodeList;
+  final List<Episode> episodeList;
 
   @override
   String toString() {
@@ -275,7 +275,7 @@ abstract class _Series extends Series {
       String description,
       String id,
       String channelId,
-      List<dynamic> episodeList}) = _$_Series;
+      List<Episode> episodeList}) = _$_Series;
   const _Series._() : super._();
 
   @override
@@ -291,7 +291,7 @@ abstract class _Series extends Series {
   @override
   String get channelId => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SeriesCopyWith<_Series> get copyWith => throw _privateConstructorUsedError;
