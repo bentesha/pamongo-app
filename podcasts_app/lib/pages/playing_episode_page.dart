@@ -75,7 +75,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   Widget _buildContent(ProgressIndicatorContent content, bool isHiding) {
     final episode = content.episodeList[content.currentIndex];
 
-    return Column(children: [
+    return ListView(padding: EdgeInsets.zero, children: [
       _buildDropButton(),
       _buildTitle(episode),
       _buildProgressIndicatorActions(),
@@ -100,7 +100,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(30.dw, 50.dh, 30.dw, 0),
+      padding: EdgeInsets.fromLTRB(30.dw, 35.dh, 30.dw, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppImage(
           radius: 10.dw,
@@ -108,7 +108,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           height: 350.h,
           fullWidth: true,
         ),
-        SizedBox(height: 40.dh),
+        SizedBox(height: 25.dh),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -239,7 +239,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                     ? AppColors.disabledColor
                     : AppColors.secondaryColor,
                 callback: isLoading ? () {} : bloc.togglePlayerStatus,
-                iconSize: 25.dw),
+                iconSize: 30.dw),
             _buildIconButton(
                 iconSize: 35.dw,
                 icon: Icons.forward_30_outlined,
@@ -301,7 +301,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
         style: TextButton.styleFrom(
             shape: const CircleBorder(),
             backgroundColor: backgroundColor,
-            minimumSize: Size.fromRadius(25.dw)));
+            minimumSize: Size.fromRadius(30.dw)));
   }
 
   Future<bool> _handleWillPop() async {

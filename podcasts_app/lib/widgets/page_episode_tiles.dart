@@ -32,17 +32,6 @@ class EpisodeTiles {
     return SeriesPageEpisodeTile(
         index, episode, supplements, playCallback, resumeCallback);
   }
-
-  static Widget introEpisode({
-    required void Function(int) playCallback,
-    required Supplements supplements,
-    required String seriesName,
-    required VoidCallback resumeCallback,
-    required List episodeList,
-  }) {
-    return SeriesPageIntroEpisode(
-        seriesName, episodeList, supplements, playCallback, resumeCallback);
-  }
 }
 
 class HomepageEpisodeTile extends StatefulWidget {
@@ -97,7 +86,6 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   episode: widget.episode,
                   status: status,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
-                 
                   descriptionMaxLines: 3,
                   actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
                   playCallback: isActive
@@ -159,7 +147,6 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             episode: episode,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-      
             playCallback: isActive
                 ? widget.resumeCallback
                 : isLoading
@@ -186,17 +173,14 @@ class SeriesPageEpisodeTile extends StatefulWidget {
 }
 
 class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
-  bool shouldPaintTopBorder = false, isLoading = false, isActive = false;
+  bool isLoading = false, isActive = false;
   String status = '', duration = '', date = '';
   Episode episode = Episode(date: DateTime.now());
 
   void _buildState() {
     episode = widget.episode;
-    final index = widget.index;
-    final supplements = widget.supplements;
     final playerState = widget.supplements.playerState;
     final activeId = widget.supplements.activeId;
-    final isOldestFirstSorted = supplements.sortStyle == SortStyles.oldestFirst;
 
     final isPlaying = playerState == playingState;
     final isPaused = playerState == pausedState;
@@ -206,43 +190,34 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
     date = Utils.formatDateBy(episode.date, 'yMMMd');
-
-    shouldPaintTopBorder = isOldestFirstSorted ? index != 1 : index != 0;
   }
 
   @override
   Widget build(BuildContext context) {
     _buildState();
 
-    return Container(
+    return Padding(
       padding: EdgeInsets.only(left: 18.dw, right: 18.dw),
-      decoration: BoxDecoration(
-          border: Border(
-              top: BorderSide(
-                  width: shouldPaintTopBorder ? 1 : 0,
-                  color: shouldPaintTopBorder
-                      ? AppColors.dividerColor
-                      : Colors.transparent))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          shouldPaintTopBorder
-              ? SizedBox(height: 10.dh)
-              : SizedBox(height: 1.dh),
-          AppText(date, size: 14.w, color: AppColors.textColor2),
-          SizedBox(height: 5.dh),
-          AppText('Ep. ${episode.episodeNumber} : ${episode.title}',
-              size: 16.w,
-              color: AppColors.textColor,
-              weight: FontWeight.w600,
-              alignment: TextAlign.start,
-              maxLines: 2),
+          Padding(
+            padding: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
+            child: AppText(date, size: 14.w, color: AppColors.textColor2),
+          ),
+          AppText(
+            'Ep. ${episode.episodeNumber} : ${episode.title}',
+            size: 16.w,
+            color: AppColors.textColor2,
+            weight: FontWeight.w600,
+            alignment: TextAlign.start,
+            maxLines: 2,
+          ),
           EpisodeActionButtons(
             Pages.seriesPage,
             status: status,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-        
             actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
             playCallback: isActive
                 ? widget.resumeCallback
@@ -253,81 +228,5 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
         ],
       ),
     );
-  }
-}
-
-class SeriesPageIntroEpisode extends StatefulWidget {
-  const SeriesPageIntroEpisode(this.seriesName, this.episodeList,
-      this.supplements, this.playCallback, this.resumeCallback,
-      {key})
-      : super(key: key);
-
-  final String seriesName;
-  final void Function(int) playCallback;
-  final VoidCallback resumeCallback;
-  final List episodeList;
-  final Supplements supplements;
-
-  @override
-  State<SeriesPageIntroEpisode> createState() => _SeriesPageIntroEpisodeState();
-}
-
-class _SeriesPageIntroEpisodeState extends State<SeriesPageIntroEpisode> {
-  String duration = '', status = '';
-  int index = 0;
-  bool isLoading = false, isActive = false;
-
-  void _buildState() {
-    final playerState = widget.supplements.playerState;
-    final activeId = widget.supplements.activeId;
-    final sortStyle = widget.supplements.sortStyle;
-    final isLatestFirstSorted = sortStyle == SortStyles.latestFirst;
-    index = isLatestFirstSorted ? widget.episodeList.length - 1 : 0;
-
-    final introEpisode = widget.episodeList[index];
-    status = Utils.getStatus(introEpisode.id, activeId, playerState);
-    duration = Utils.convertFrom(introEpisode.duration);
-
-    final isPlaying = playerState == playingState;
-    final isPaused = playerState == pausedState;
-    isLoading = playerState == loadingState && activeId == introEpisode.id;
-    isActive = (isPlaying || isPaused) && activeId == introEpisode.id;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _buildState();
-    
-    return Container(
-        margin: EdgeInsets.only(left: 18.dw, right: 24.dw, bottom: 10.dh),
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),
-        color: const Color(0xFFF2F1EF),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              padding: EdgeInsets.all(2.dw),
-              margin: EdgeInsets.only(bottom: 2.dh),
-              child: AppText(
-                'INTRO',
-                size: 12.w,
-                weight: FontWeight.w600,
-              )),
-          AppText(
-            'Introducing ${widget.seriesName}',
-            weight: FontWeight.w600,
-            size: 15.w,
-            maxLines: 2,
-          ),
-          EpisodeActionButtons(Pages.seriesPage,
-              status: status,
-              duration: duration,
-              remainingTime: widget.supplements.activeEpisodeRemainingTime,
-           
-              playCallback: isActive
-                  ? widget.resumeCallback
-                  : isLoading
-                      ? () {}
-                      : () => widget.playCallback(index),
-              actionPadding: EdgeInsets.only(top: 8.dh))
-        ]));
   }
 }

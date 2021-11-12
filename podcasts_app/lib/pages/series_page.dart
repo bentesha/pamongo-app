@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:podcasts/blocs/series_page_bloc.dart';
+import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
@@ -65,12 +66,6 @@ class _SeriesPageState extends State<SeriesPage> {
         appBar: _buildAppBar(series.name),
         body: ListView(children: [
           _buildTitle(series),
-          EpisodeTiles.introEpisode(
-              seriesName: series.name,
-              episodeList: episodeList,
-              playCallback: bloc.play,
-              resumeCallback: bloc.togglePlayerStatus,
-              supplements: supplements),
           _buildEpisodeList(episodeList, supplements),
           shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
         ]),
@@ -126,17 +121,17 @@ class _SeriesPageState extends State<SeriesPage> {
             child: AppRichText(
               text: AppText(series.description, size: 16.w, maxLines: 4),
               useToggleExpansionButtons: true,
-            ))
+            )),
       ]),
     );
   }
 
-  Widget _buildEpisodeList(List episodeList, Supplements supplements) {
+  Widget _buildEpisodeList(List<Episode> episodeList, Supplements supplements) {
+    final listLength = episodeList.length;
     final sortStyle = supplements.sortStyle;
-    final isOnlyOne = episodeList.length == 2;
-    final numberOfEpisodes = episodeList.length - 1;
+    final isOnlyOne = listLength == 1;
 
-    return numberOfEpisodes == 0
+    return listLength == 0
         ? Padding(
             padding: EdgeInsets.all(18.dw),
             child: AppText('No episode has been uploaded yet.',
@@ -152,34 +147,28 @@ class _SeriesPageState extends State<SeriesPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AppText(
-                        numberOfEpisodes.toString() +
-                            ' Episode${isOnlyOne ? '' : 's'}',
-                        size: 18.w,
-                        weight: FontWeight.w400),
-                    isOnlyOne
-                        ? SizedBox(height: 35.dh)
-                        : SortButton(
-                            sortStyle: sortStyle, onSelectedCallback: bloc.sort)
+                      listLength.toString() + ' Episode${isOnlyOne ? '' : 's'}',
+                      size: 18.w,
+                      weight: FontWeight.w600,
+                    ),
+                    SortButton(
+                        sortStyle: sortStyle, onSelectedCallback: bloc.sort)
                   ],
                 ),
               ),
-              ListView.builder(
+              ListView.separated(
                 itemCount: episodeList.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final episode = episodeList[index];
-                  final isIntroEpisode = episode.episodeNumber == 0;
-                  return isIntroEpisode
-                      ? Container()
-                      : EpisodeTiles.seriesPage(
-                          index: index,
-                          episode: episode,
-                          supplements: supplements,
-                          resumeCallback: bloc.togglePlayerStatus,
-                          playCallback: bloc.play);
-                },
+                separatorBuilder: (_, __) =>
+                    Container(height: 1, color: AppColors.dividerColor),
+                itemBuilder: (_, index) => EpisodeTiles.seriesPage(
+                    index: index,
+                    episode: episodeList[index],
+                    supplements: supplements,
+                    resumeCallback: bloc.togglePlayerStatus,
+                    playCallback: bloc.play),
               ),
               SizedBox(height: 10.dh)
             ],

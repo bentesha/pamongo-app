@@ -39,11 +39,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
                 weight: FontWeight.w600,
               ),
               SizedBox(height: 3.dh),
-              AppText(
-                  numberOfEpisodes == 0
-                      ? 'Introduction episode only'
-                      : 'Episodes : $numberOfEpisodes',
-                  size: 14.w)
+              AppText('Episodes : $numberOfEpisodes', size: 14.w)
             ],
           ),
         ],
