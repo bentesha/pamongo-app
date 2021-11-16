@@ -77,10 +77,12 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
     return Column(
       children: [
         Container(height: 1, color: AppColors.dividerColor),
-        Padding(
-            padding: const EdgeInsets.only(left: 18, right: 20),
-            child: GestureDetector(
-                onTap: () => EpisodePage.navigateTo(context, widget.episode),
+        GestureDetector(
+          onTap: () => EpisodePage.navigateTo(context, widget.episode),
+          child: Container(
+            color: Colors.transparent,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 18, right: 20),
                 child: EpisodeTile(
                   page: Pages.homepage,
                   episode: widget.episode,
@@ -94,7 +96,9 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                           ? () {}
                           : () => widget.playCallback(episode),
                   duration: duration,
-                ))),
+                )),
+          ),
+        ),
       ],
     );
   }

@@ -171,7 +171,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     final hasFailedToBuffer = content.playerState == errorState;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.only(left: 5, right: 4, bottom: 10),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
