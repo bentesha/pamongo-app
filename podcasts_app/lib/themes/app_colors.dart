@@ -19,5 +19,6 @@ class AppColors {
   static const backgroundColor = Color(0xffFEFEFE);
   static const errorColor = Color(0xffBC3A38);
   static const borderColor = Color(0xFF4F4F4F);
-  static const disabledColor = Color(0xff868B8E);
+  //static const disabledColor = Color(0xff868B8E);
+  static const disabledColor = Color(0xFFC2C0BF);
 }

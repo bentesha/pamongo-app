@@ -6,14 +6,22 @@ class ChannelActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [_buildSubscribeButton(), _buildShareButton()]);
+    return _buildShareButton();
   }
 
   _buildShareButton() {
-    return _iconButton(AppIcons.share);
+    return SizedBox(
+      width: 116.dw,
+      child: AppTextButton(
+        callback: () {},
+        radius: 5.dw,
+        text: 'Share',
+        withIcon: true,
+      ),
+    );
   }
 
-  _buildSubscribeButton() {
+  /*  _buildSubscribeButton() {
     return AppTextButton(callback: () {}, text: 'Subscribe', radius: 5.dw);
   }
 
@@ -23,5 +31,5 @@ class ChannelActionButtons extends StatelessWidget {
         padding: EdgeInsets.only(right: 15.dw),
         constraints: const BoxConstraints(),
         icon: Icon(icon, color: AppColors.primaryColor, size: 22.dw));
-  }
+  } */
 }

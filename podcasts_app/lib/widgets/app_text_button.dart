@@ -7,6 +7,10 @@ class AppTextButton extends StatelessWidget {
       required this.radius,
       this.fontWeight = FontWeight.w700,
       this.textColor = AppColors.textColor,
+      this.withIcon = false,
+      this.icon = AppIcons.share,
+      this.iconColor = AppColors.primaryColor,
+      this.borderColor = AppColors.disabledColor,
       key})
       : super(key: key);
 
@@ -14,7 +18,9 @@ class AppTextButton extends StatelessWidget {
   final String text;
   final double radius;
   final FontWeight fontWeight;
-  final Color textColor;
+  final Color textColor, iconColor, borderColor;
+  final bool withIcon;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +32,20 @@ class AppTextButton extends StatelessWidget {
           style: TextButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 15.dw),
             shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.borderColor, width: 1),
+                side: BorderSide(color: borderColor, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
-          child:
-              AppText(text, size: 15.w, weight: fontWeight, color: textColor)),
+          child: withIcon
+              ? Row(
+                  children: [
+                    Icon(icon, color: iconColor, size: 18.dw),
+                    SizedBox(width: 15.dw),
+                    AppText(text,
+                        size: 15.w, weight: fontWeight, color: textColor)
+                  ],
+                )
+              : AppText(text,
+                  size: 15.w, weight: fontWeight, color: textColor)),
     );
   }
 }

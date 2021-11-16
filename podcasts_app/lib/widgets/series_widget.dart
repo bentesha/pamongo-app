@@ -16,7 +16,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
   @override
   void initState() {
     super.initState();
-    numberOfEpisodes = widget.series.episodeList.length - 1;
+    numberOfEpisodes = widget.series.episodeList.length;
   }
 
   @override

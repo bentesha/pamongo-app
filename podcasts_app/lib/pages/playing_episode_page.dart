@@ -5,6 +5,7 @@ import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
+import 'package:podcasts/widgets/app_text_button.dart';
 import '../source.dart';
 
 class PlayingEpisodePage extends StatefulWidget {
@@ -261,28 +262,16 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildProgressIndicatorActions() {
     return Padding(
-      padding: EdgeInsets.only(left: 18.dw, top: 15.dw),
+      padding: EdgeInsets.only(left: 30.dw, top: 15.dw),
       child: Row(
         children: [
-          _buildIconButton(
+          AppTextButton(
             callback: () {},
-            iconSize: 23.dw,
-            icon: AppIcons.addToPlayList,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23.dw,
-            icon: AppIcons.download,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23.dw,
-            icon: AppIcons.bookmark,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23.dw,
-            icon: AppIcons.share,
+            text: 'Share',
+            radius: 10.dw,
+            withIcon: true,
+            borderColor: AppColors.disabledColor,
+            fontWeight: FontWeight.w400,
           ),
         ],
       ),

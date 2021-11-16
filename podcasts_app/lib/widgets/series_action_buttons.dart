@@ -13,36 +13,46 @@ class SeriesActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       !isOnSeriesPage ? _buildVisitSeriesButton() : Container(),
-      _buildFollowButton(),
       _buildShareButton()
     ]);
   }
 
-  _buildFollowButton() {
-    return isOnSeriesPage
-        ? AppTextButton(callback: () {}, text: 'Follow', radius: 5.dw)
-        : _iconButton(AppIcons.follow);
-  }
-
   _buildShareButton() {
-    return _iconButton(AppIcons.share);
+    return isOnSeriesPage
+        ? AppTextButton(
+            callback: () {},
+            radius: 5.dw,
+            text: 'Share',
+            withIcon: true,
+          )
+        : _iconButton(AppIcons.share);
   }
 
   _buildVisitSeriesButton() {
     final radius = isOnSeriesPage ? 5.dw : 15.dw;
     return AppTextButton(
-        callback: visitSeriesCallback,
-        text: 'Visit Series',
-        textColor: AppColors.textColor2,
-        radius: radius,
-        fontWeight: FontWeight.w400);
+      callback: visitSeriesCallback,
+      text: 'Visit Series',
+      textColor: AppColors.textColor2,
+      radius: radius,
+      fontWeight: FontWeight.w400,
+    );
   }
 
   _iconButton(IconData icon) {
     return IconButton(
-        onPressed: () {},
-        padding: EdgeInsets.only(right: 15.dw),
-        constraints: const BoxConstraints(),
-        icon: Icon(icon, color: AppColors.primaryColor, size: 22.dw));
+      onPressed: () {},
+      padding: EdgeInsets.only(right: 15.dw),
+      constraints: const BoxConstraints(),
+      icon: Icon(icon, color: AppColors.primaryColor, size: 18.dw),
+    );
   }
+
+  /*  _buildFollowButton() {
+    return isOnSeriesPage
+        ? AppTextButton(callback: () {}, text: 'Follow', radius: 5.dw)
+        : _iconButton(AppIcons.follow);
+  }
+ */
+
 }

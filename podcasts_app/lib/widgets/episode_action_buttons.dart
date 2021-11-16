@@ -23,19 +23,14 @@ class EpisodeActionButtons extends StatelessWidget {
       padding: actionPadding,
       child: Row(children: [
         _buildStatusButton(),
-        _buildPlaylistButton(),
-        _buildDownloadButton()
+        _buildShareButton(),
       ]),
     );
   }
 
-  _buildPlaylistButton() {
-    return _iconButton(AppIcons.addToPlayList,
+  _buildShareButton() {
+    return _iconButton(AppIcons.share,
         padding: EdgeInsets.symmetric(horizontal: 10.dw));
-  }
-
-  _buildDownloadButton() {
-    return _iconButton(AppIcons.download);
   }
 
   _buildStatusButton() {
@@ -55,8 +50,14 @@ class EpisodeActionButtons extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15.dw)),
               color: isPlaying ? AppColors.primaryColor : Colors.transparent,
               border: isPlaying
-                  ? Border.all(width: 1.5, color: AppColors.primaryColor)
-                  : Border.all(width: 1, color: Colors.grey)),
+                  ? Border.all(
+                      width: 1.5,
+                      color: AppColors.primaryColor,
+                    )
+                  : Border.all(
+                      width: 1,
+                      color: AppColors.disabledColor,
+                    )),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             isPlaying
@@ -106,6 +107,6 @@ class EpisodeActionButtons extends StatelessWidget {
         onPressed: () {},
         padding: padding,
         constraints: const BoxConstraints(),
-        icon: Icon(icon, color: AppColors.primaryColor, size: 22.dw));
+        icon: Icon(icon, color: AppColors.primaryColor, size: 18.dw));
   }
 }
