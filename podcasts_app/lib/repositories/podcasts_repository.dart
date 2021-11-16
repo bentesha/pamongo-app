@@ -14,7 +14,7 @@ class PodcastsRepository {
       'series?eager=channel&rangeStart=0&rangeEnd=7&orderByDesc=createdAt');
 
   static Future<List<Episode>> getRecentEpisodes() async => getEpisodes(
-      'episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=0');
+      'episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=1');
 
   static Future<List<Series>> getAllSeries() async =>
       await getSeries('series?eager=channel&orderByDesc=createdAt');
