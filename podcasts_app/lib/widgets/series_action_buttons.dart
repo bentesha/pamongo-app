@@ -44,15 +44,7 @@ class SeriesActionButtons extends StatelessWidget {
       onPressed: () {},
       padding: EdgeInsets.only(right: 15.dw),
       constraints: const BoxConstraints(),
-      icon: Icon(icon, color: AppColors.primaryColor, size: 18.dw),
+      icon: Icon(icon, color: AppColors.secondaryColor, size: 18.dw),
     );
   }
-
-  /*  _buildFollowButton() {
-    return isOnSeriesPage
-        ? AppTextButton(callback: () {}, text: 'Follow', radius: 5.dw)
-        : _iconButton(AppIcons.follow);
-  }
- */
-
 }

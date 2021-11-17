@@ -19,6 +19,8 @@ class PlayingEpisodePage extends StatefulWidget {
 
 class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   late final ProgressIndicatorBloc bloc;
+  final positionNotifier = ValueNotifier<double>(0);
+  final useAudioPositionNotifier = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -130,11 +132,6 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   }
 
   _buildSlider(ProgressIndicatorContent content) {
-    final currentPosition = content.currentPosition.toDouble();
-    final episode = content.episodeList[content.currentIndex];
-    final duration = episode.duration.toDouble();
-    final isCurrentBigger = currentPosition >= duration;
-
     return Padding(
       padding: EdgeInsets.fromLTRB(26.dw, 0, 26.dw, 15.dh),
       child: Column(
@@ -147,20 +144,42 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                   trackHeight: 3.dh,
                   thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.dw),
                   overlayShape: SliderComponentShape.noThumb),
-              child: Slider(
-                  activeColor: AppColors.accentColor,
-                  inactiveColor: AppColors.secondaryColor,
-                  value: isCurrentBigger ? duration : currentPosition,
-                  min: 0.0,
-                  max: content.episodeList[content.currentIndex].duration
-                      .toDouble(),
-                  onChanged: bloc.changePosition),
+              child: _buildSliderLine(content),
             ),
           ),
           _buildLabels(content),
         ],
       ),
     );
+  }
+
+  _buildSliderLine(ProgressIndicatorContent content) {
+    final currentPosition = content.currentPosition.toDouble();
+    final episode = content.episodeList[content.currentIndex];
+
+    return ValueListenableBuilder<bool>(
+        valueListenable: useAudioPositionNotifier,
+        builder: (_, useAudioPosition, __) {
+          return ValueListenableBuilder<double>(
+              valueListenable: positionNotifier,
+              builder: (_, position, __) {
+                return Slider(
+                  activeColor: AppColors.accentColor,
+                  inactiveColor: AppColors.secondaryColor,
+                  value: useAudioPosition ? currentPosition : position,
+                  min: 0.0,
+                  max: episode.duration.toDouble(),
+                  onChanged: (value) {
+                    useAudioPositionNotifier.value = false;
+                    positionNotifier.value = value;
+                  },
+                  onChangeEnd: (value) {
+                    bloc.changePosition(value);
+                    useAudioPositionNotifier.value = true;
+                  },
+                );
+              });
+        });
   }
 
   _buildLabels(ProgressIndicatorContent content) {
