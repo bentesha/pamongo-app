@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +28,8 @@ class Utils {
           status = 'Loading';
           break;
         case completedState:
+          status = 'Completed';
+          break;
         case inactiveState:
         case errorState:
           status = 'Play';
@@ -34,6 +38,11 @@ class Utils {
       }
     }
     return status;
+  }
+
+  static SavedEpisode? getPlayedStatus(String id) {
+    final box = Hive.box('played_episodes');
+    return box.get(id);
   }
 
   static DateTime convertFromTimestamp(String timestamp) {

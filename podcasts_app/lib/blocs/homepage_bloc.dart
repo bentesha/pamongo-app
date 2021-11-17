@@ -34,6 +34,15 @@ class HomepageBloc extends Cubit<HomepageState> {
 
   void togglePlayerStatus() async => await service.toggleStatus();
 
+  void markAsPlayed(String id) {
+    final episodeList = state.episodeList;
+    final seriesList = state.seriesList;
+    final supplements = state.supplements;
+    emit(HomepageState.loading(episodeList, seriesList, supplements));
+    service.removeFromBox(id);
+    emit(HomepageState.content(episodeList, seriesList, supplements));
+  }
+
   Future<void> refresh() async {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));

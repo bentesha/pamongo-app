@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:podcasts/errors/audio_error.dart';
+import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/supplements.dart';
 
 part 'progress_indicator_content.freezed.dart';
@@ -23,7 +24,7 @@ const errorState = IndicatorPlayerState.error;
 @freezed
 class ProgressIndicatorContent with _$ProgressIndicatorContent {
   const factory ProgressIndicatorContent(
-      {required List episodeList,
+      {required List<Episode> episodeList,
       @Default(0) int currentPosition,
       @Default(inactiveState) IndicatorPlayerState playerState,
       @Default(SortStyles.oldestFirst) SortStyles sortStyle,

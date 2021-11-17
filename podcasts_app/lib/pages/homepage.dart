@@ -146,10 +146,12 @@ class _HomepageState extends State<Homepage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
             .map((e) => EpisodeTiles.homepage(
-                resumeCallback: bloc.togglePlayerStatus,
-                playCallback: bloc.play,
-                supplements: supplements,
-                episode: e))
+                  resumeCallback: bloc.togglePlayerStatus,
+                  playCallback: bloc.play,
+                  supplements: supplements,
+                  episode: e,
+                  markAsDoneCallback: bloc.markAsPlayed,
+                ))
             .toList());
   }
 

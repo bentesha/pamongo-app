@@ -1,4 +1,4 @@
-enum ApiErrorType { internet, unknown }
+enum ApiErrorType { internet, timeout, unknown }
 
 class ApiError extends Error {
   ApiError._({required this.type, required this.message});
@@ -12,6 +12,10 @@ class ApiError extends Error {
         return ApiError._(
             type: type,
             message: 'Please check your internet connection and try again.');
+      case ApiErrorType.timeout:
+        return ApiError._(
+            type: type,
+            message: 'Connection timed-out, Please try again later.');
       default:
         return ApiError._(
             type: type,

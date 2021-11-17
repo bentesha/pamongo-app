@@ -56,6 +56,14 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   void togglePlayerStatus() async => await service.toggleStatus();
 
+  void markAsPlayed(String id) {
+    final series = state.series;
+    final supplements = state.supplements;
+    emit(SeriesPageState.loading(series, supplements));
+    service.removeFromBox(id);
+    emit(SeriesPageState.content(series, supplements));
+  }
+
   void sort(int sortIndex) {
     var series = state.series;
     var supplements = state.supplements;

@@ -8,6 +8,7 @@ class EpisodeTile extends StatelessWidget {
       required this.episode,
       required this.page,
       required this.playCallback,
+      required this.markAsDoneCallback,
       required this.status,
       required this.duration,
       required this.remainingTime,
@@ -20,6 +21,7 @@ class EpisodeTile extends StatelessWidget {
   final EdgeInsetsGeometry actionPadding;
   final Episode episode;
   final VoidCallback playCallback;
+  final void Function(String) markAsDoneCallback;
   final String status, duration, remainingTime;
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
@@ -30,7 +32,7 @@ class EpisodeTile extends StatelessWidget {
     final bool isDescriptionFirst = isHomepage;
     final text = AppText(
       episode.description,
-      size: 16.w,
+      size: 15.w,
       color: AppColors.textColor2,
       maxLines: descriptionMaxLines,
     );
@@ -59,7 +61,9 @@ class EpisodeTile extends StatelessWidget {
   _buildActions(VoidCallback playCallback) {
     return EpisodeActionButtons(page,
         playCallback: playCallback,
+        markAsDoneCallback: markAsDoneCallback,
         status: status,
+        id: episode.id,
         duration: duration,
         remainingTime: remainingTime,
         actionPadding: actionPadding);

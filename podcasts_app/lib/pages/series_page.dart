@@ -164,11 +164,13 @@ class _SeriesPageState extends State<SeriesPage> {
                 separatorBuilder: (_, __) =>
                     Container(height: 1, color: AppColors.dividerColor),
                 itemBuilder: (_, index) => EpisodeTiles.seriesPage(
-                    index: index,
-                    episode: episodeList[index],
-                    supplements: supplements,
-                    resumeCallback: bloc.togglePlayerStatus,
-                    playCallback: bloc.play),
+                  index: index,
+                  episode: episodeList[index],
+                  supplements: supplements,
+                  resumeCallback: bloc.togglePlayerStatus,
+                  playCallback: bloc.play,
+                  markAsDoneCallback: bloc.markAsPlayed,
+                ),
               ),
               SizedBox(height: 10.dh)
             ],

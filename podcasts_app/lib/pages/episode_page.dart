@@ -64,10 +64,12 @@ class _EpisodePageState extends State<EpisodePage> {
       padding: EdgeInsets.zero,
       children: [
         EpisodeTiles.episodePage(
-            episode: episode,
-            supplements: supplements,
-            resumeCallback: bloc.togglePlayerStatus,
-            playCallback: bloc.play),
+          episode: episode,
+          supplements: supplements,
+          resumeCallback: bloc.togglePlayerStatus,
+          playCallback: bloc.play,
+          markAsDoneCallback: bloc.markAsPlayed,
+        ),
         shouldLeaveSpace ? SizedBox(height: 70.dh) : SizedBox(height: 10.dh)
       ],
     );
@@ -76,4 +78,3 @@ class _EpisodePageState extends State<EpisodePage> {
   Widget _buildLoading(Episode episode, Supplements supplements) =>
       const AppLoadingIndicator();
 }
- 
