@@ -4,23 +4,25 @@ import 'package:podcasts/source.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class EpisodeActionButtons extends StatelessWidget {
-  const EpisodeActionButtons(this.page,
+  const EpisodeActionButtons(
       {required this.playCallback,
       required this.markAsDoneCallback,
       required this.actionPadding,
       required this.status,
       required this.id,
       required this.duration,
+      required this.savedEpisode,
+      required this.savedEpisodeStatus,
       required this.remainingTime,
       key})
       : super(key: key);
 
-  final Pages page;
   final EdgeInsetsGeometry actionPadding;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback;
   final String status;
-  final String duration, id, remainingTime;
+  final String duration, id, remainingTime, savedEpisodeStatus;
+  final SavedEpisode savedEpisode;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +41,14 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _buildCheckmarkButton() {
-    final isSaved = Utils.getPlayedStatus(id) != null;
+    final isSaved = savedEpisode.position != 0;
     if (!isSaved) return Container();
     return Expanded(
       child: Container(
         height: 20.dw,
         alignment: Alignment.centerRight,
         child: PopupMenuButton(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(left: 40.dw),
           iconSize: 20.dw,
           itemBuilder: (_) {
             return [
@@ -57,7 +59,7 @@ class EpisodeActionButtons extends StatelessWidget {
                   children: [
                     AppText('Mark As Done', size: 16.w),
                     SizedBox(width: 10.dw),
-                    const Icon(Icons.done)
+                    Icon(Icons.done, size: 18.dw)
                   ],
                 ),
               )
@@ -122,65 +124,36 @@ class EpisodeActionButtons extends StatelessWidget {
                     ? Icon(AppIcons.playCircled,
                         size: 20.dw, color: AppColors.accentColor)
                     : savedEpisode.position != 0
-                        ? _circularIndicator(
-                            savedEpisode.position, savedEpisode.duration)
+                        ? _circularIndicator()
                         : Icon(AppIcons.playCircled,
                             size: 20.dw, color: AppColors.accentColor);
   }
 
   _statusText() {
-    final isOnHomepage = page == Pages.homepage;
-    final isOnChannelPage = page == Pages.channelPage;
     final isPlaying = status == 'Playing';
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
     final isCompleted = status == 'Completed';
 
-    final savedEpisode =
-        Utils.getPlayedStatus(id) ?? SavedEpisode(position: 0, duration: 0);
-    final savedEpisodeStatus = '  ' +
-        Utils.convertFrom(savedEpisode.duration - savedEpisode.position,
-            includeSeconds: false) +
-        'left';
-
     return AppText(
-        isOnHomepage
-            ? isPaused
+        isPlaying || isLoading
+            ? '  ' + status
+            : isPaused
                 ? '   ${remainingTime}left'
                 : isCompleted
                     ? '  $duration'
                     : savedEpisode.position != 0
-                        ? savedEpisodeStatus
-                        : '  $duration'
-            : isOnChannelPage
-                ? isPlaying || isLoading
-                    ? '  ' + status
-                    : isPaused
-                        ? '   ${remainingTime}left'
-                        : isCompleted
-                            ? '  $duration'
-                            : savedEpisode.position != 0
-                                ? savedEpisodeStatus
-                                : '  $duration'
-                : isPaused
-                    ? '   ${remainingTime}left'
-                    : isPlaying || isLoading
-                        ? '  ' + status
-                        : isCompleted
-                            ? '  $duration'
-                            : savedEpisode.position != 0
-                                ? savedEpisodeStatus
-                                : '  $duration',
+                        ? '   ${savedEpisodeStatus}left'
+                        : '  $duration',
         weight: FontWeight.w400,
         color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
         size: 14.w);
   }
 
-  _circularIndicator(int position, int duration) {
-    final currentStep = (position / duration * 100).toInt();
+  _circularIndicator() {
     return CircularStepProgressIndicator(
       totalSteps: 100,
-      currentStep: currentStep,
+      currentStep: savedEpisode.timeLeftInPercentage,
       stepSize: 1,
       selectedColor: AppColors.secondaryColor,
       unselectedColor: AppColors.disabledColor,
@@ -193,8 +166,7 @@ class EpisodeActionButtons extends StatelessWidget {
     );
   }
 
-  Widget _iconButton(IconData icon,
-      {EdgeInsetsGeometry padding = EdgeInsets.zero}) {
+  _iconButton(IconData icon, {EdgeInsetsGeometry padding = EdgeInsets.zero}) {
     return IconButton(
         onPressed: () {},
         alignment: Alignment.centerRight,

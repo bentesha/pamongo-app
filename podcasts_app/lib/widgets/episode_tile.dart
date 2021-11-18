@@ -1,4 +1,5 @@
 import 'package:podcasts/models/episode.dart';
+import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/app_rich_text.dart';
 
@@ -9,6 +10,8 @@ class EpisodeTile extends StatelessWidget {
       required this.page,
       required this.playCallback,
       required this.markAsDoneCallback,
+      required this.savedEpisode,
+      required this.savedEpisodeStatus,
       required this.status,
       required this.duration,
       required this.remainingTime,
@@ -22,9 +25,10 @@ class EpisodeTile extends StatelessWidget {
   final Episode episode;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback;
-  final String status, duration, remainingTime;
+  final String status, duration, remainingTime, savedEpisodeStatus;
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
+  final SavedEpisode savedEpisode;
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +63,14 @@ class EpisodeTile extends StatelessWidget {
   }
 
   _buildActions(VoidCallback playCallback) {
-    return EpisodeActionButtons(page,
+    return EpisodeActionButtons(
         playCallback: playCallback,
         markAsDoneCallback: markAsDoneCallback,
         status: status,
         id: episode.id,
         duration: duration,
+        savedEpisode: savedEpisode,
+        savedEpisodeStatus: savedEpisodeStatus,
         remainingTime: remainingTime,
         actionPadding: actionPadding);
   }

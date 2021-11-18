@@ -39,7 +39,7 @@ class AudioPlayerService {
     var episode = episodeList[index];
 
     if (box.containsKey(episodeList[index].id)) {
-      final savedEpisode = box.get(episode.id);
+      final savedEpisode = box.get(episode.id) as SavedEpisode;
       _duration = savedEpisode.duration;
       _updateContentWith(currentIndex: index, episodeList: episodeList);
       _handleSeekCallback(savedEpisode.position, index);
@@ -61,7 +61,7 @@ class AudioPlayerService {
         episode = episode.copyWith(duration: duration.inMilliseconds);
         episodeList[index] = episode;
         _updateContentWith(playerState: playingState, episodeList: episodeList);
-        await player.play().timeout(timeLimit);
+        await player.play();
       }
     } on TimeoutException catch (_) {
       _handleTimeoutException();
@@ -80,6 +80,7 @@ class AudioPlayerService {
     final isCompleted = playerState == completedState;
     final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
+    final isPaused = playerState == pausedState;
 
     if (isLoading) return;
     if (hasFailedToBuffer) return _handleSeekCallback(currentPosition, index);
@@ -90,7 +91,7 @@ class AudioPlayerService {
       await player.pause();
       return;
     }
-    if (playerState == pausedState) {
+    if (isPaused) {
       _updateContentWith(playerState: playingState);
       await player.play();
       return;
@@ -213,7 +214,11 @@ class AudioPlayerService {
     }
   }
 
-  void removeFromBox(String id) => box.delete(id);
+  void removeFromBox(String id) {
+    box.delete(id);
+    _updateContentWith();
+    log('updated');
+  }
 
   _handleAudioError(AudioError error) {
     log(error.toString());

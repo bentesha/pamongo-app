@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
+import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
@@ -8,9 +9,11 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
   bool isExpanded = false;
+  static var initialContent =
+      ProgressIndicatorContent(episodeList: [Episode(date: DateTime.now())]);
 
   ProgressIndicatorBloc(this.service)
-      : super(ProgressIndicatorState.initial()) {
+      : super(ProgressIndicatorState.initial(initialContent, true)) {
     service.onAudioPositionChanged.listen((position) {
       _handlePositionStream(position);
     });
@@ -34,10 +37,16 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
   void _handleContentStream(ProgressIndicatorContent content) {
     final hasFailedToBuffer = content.playerState == errorState;
+    final isInactive = content.playerState == inactiveState;
 
     if (hasFailedToBuffer) {
       emit(ProgressIndicatorState.failed(content, state.isHiding,
           content.error ?? AudioError.fromType(ErrorType.unknown)));
+      return;
+    }
+
+    if (isInactive) {
+      emit(ProgressIndicatorState.initial(initialContent, true));
       return;
     }
 

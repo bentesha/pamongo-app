@@ -1,5 +1,6 @@
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/pages/episode_page.dart';
 import '../source.dart';
@@ -54,9 +55,10 @@ class HomepageEpisodeTile extends StatefulWidget {
 }
 
 class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
-  String status = '', duration = '';
+  String status = '', duration = '', savedEpisodeStatus = '';
   bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
+  SavedEpisode savedEpisode = SavedEpisode.empty();
 
   void _buildState() {
     episode = widget.episode;
@@ -72,6 +74,9 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
 
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
+    savedEpisode = Utils.getPlayedStatus(episode.id) ?? SavedEpisode.empty();
+    savedEpisodeStatus =
+        Utils.convertFrom(savedEpisode.timeLeft, includeSeconds: false);
   }
 
   @override
@@ -91,6 +96,8 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   page: Pages.homepage,
                   episode: widget.episode,
                   status: status,
+                  savedEpisodeStatus: savedEpisodeStatus,
+                  savedEpisode: savedEpisode,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
                   descriptionMaxLines: 3,
                   actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
@@ -125,9 +132,10 @@ class EpisodePageEpisodeTile extends StatefulWidget {
 }
 
 class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
-  String status = '', duration = '';
+  String status = '', duration = '', savedEpisodeStatus = '';
   bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
+  SavedEpisode savedEpisode = SavedEpisode.empty();
 
   void _buildState() {
     episode = widget.episode;
@@ -141,6 +149,9 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
 
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
+    savedEpisode = Utils.getPlayedStatus(episode.id) ?? SavedEpisode.empty();
+    savedEpisodeStatus =
+        Utils.convertFrom(savedEpisode.timeLeft, includeSeconds: false);
   }
 
   @override
@@ -153,6 +164,8 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             page: Pages.episodePage,
             descriptionMaxLines: 10,
             useToggleExpansionButtons: true,
+            savedEpisodeStatus: savedEpisodeStatus,
+            savedEpisode: savedEpisode,
             status: status,
             episode: episode,
             duration: duration,
@@ -186,8 +199,9 @@ class SeriesPageEpisodeTile extends StatefulWidget {
 
 class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
   bool isLoading = false, isActive = false;
-  String status = '', duration = '', date = '';
+  String status = '', duration = '', date = '', savedEpisodeStatus = '';
   Episode episode = Episode(date: DateTime.now());
+  SavedEpisode savedEpisode = SavedEpisode.empty();
 
   void _buildState() {
     episode = widget.episode;
@@ -202,6 +216,10 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
     status = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
     date = Utils.formatDateBy(episode.date, 'yMMMd');
+
+    savedEpisode = Utils.getPlayedStatus(episode.id) ?? SavedEpisode.empty();
+    savedEpisodeStatus =
+        Utils.convertFrom(savedEpisode.timeLeft, includeSeconds: false);
   }
 
   @override
@@ -226,9 +244,10 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             maxLines: 2,
           ),
           EpisodeActionButtons(
-            Pages.seriesPage,
             id: episode.id,
             status: status,
+            savedEpisodeStatus: savedEpisodeStatus,
+            savedEpisode: savedEpisode,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
             actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),

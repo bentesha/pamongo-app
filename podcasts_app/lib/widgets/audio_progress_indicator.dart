@@ -40,7 +40,10 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
           if (error != null) _showError(error);
         },
         builder: (_, state) {
-          return state.when(active: _buildContent, failed: _buildFailed);
+          return state.when(
+              active: _buildContent,
+              failed: _buildFailed,
+              initial: _buildInitial);
         });
   }
 
@@ -69,6 +72,10 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
   Widget _buildFailed(
       ProgressIndicatorContent content, bool isHiding, AudioError error) {
     return _buildContent(content, isHiding);
+  }
+
+  Widget _buildInitial(ProgressIndicatorContent content, bool isHiding) {
+    return Container();
   }
 
   _indicatorContent(ProgressIndicatorContent content) {

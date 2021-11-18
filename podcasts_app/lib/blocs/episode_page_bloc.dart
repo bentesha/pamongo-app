@@ -32,19 +32,14 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
 
   void togglePlayerStatus() async => await service.toggleStatus();
 
-  void markAsPlayed(String id) {
-    final episode = state.episode;
-    final supplements = state.supplements;
-    emit(EpisodePageState.loading(episode, supplements));
-    service.removeFromBox(id);
-    emit(EpisodePageState.content(episode, supplements));
-  }
+  void markAsPlayed(String id) => service.removeFromBox(id);
 
   _handleContentStream(ProgressIndicatorContent content) async {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
 
+    emit(EpisodePageState.loading(state.episode, state.supplements));
     final supplements = state.supplements.copyWith(
         activeId: id,
         playerState: playerState,
