@@ -5,7 +5,7 @@ import 'package:podcasts/widgets/app_rich_text.dart';
 
 class EpisodeTile extends StatelessWidget {
   const EpisodeTile(
-      {required this.actionPadding,
+      {
       required this.episode,
       required this.page,
       required this.playCallback,
@@ -22,7 +22,6 @@ class EpisodeTile extends StatelessWidget {
       : super(key: key);
 
   final Pages page;
-  final EdgeInsetsGeometry actionPadding;
   final Episode episode;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
@@ -70,15 +69,15 @@ class EpisodeTile extends StatelessWidget {
   _buildActions(
       VoidCallback playCallback, void Function(String) shareCallback) {
     return EpisodeActionButtons(
-        playCallback: playCallback,
-        markAsDoneCallback: markAsDoneCallback,
-        shareCallback: shareCallback,
-        status: status,
-        id: episode.id,
-        duration: duration,
-        savedEpisode: savedEpisode,
-        savedEpisodeStatus: savedEpisodeStatus,
-        remainingTime: remainingTime,
-        actionPadding: actionPadding);
+      playCallback: playCallback,
+      markAsDoneCallback: markAsDoneCallback,
+      shareCallback: shareCallback,
+      status: status,
+      id: episode.id,
+      duration: duration,
+      savedEpisode: savedEpisode,
+      savedEpisodeStatus: savedEpisodeStatus,
+      remainingTime: remainingTime,
+    );
   }
 }

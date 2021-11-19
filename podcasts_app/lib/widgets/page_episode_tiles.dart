@@ -123,7 +123,6 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   savedEpisode: savedEpisode,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
                   descriptionMaxLines: 3,
-                  actionPadding: EdgeInsets.fromLTRB(0, 8.dh, 0, 8.dh),
                   markAsDoneCallback: widget.markAsDoneCallback,
                   playCallback: isActive
                       ? widget.resumeCallback
@@ -189,23 +188,23 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
     return Padding(
         padding: EdgeInsets.fromLTRB(18.dw, 0, 15.dw, 20.dh),
         child: EpisodeTile(
-            page: Pages.episodePage,
-            descriptionMaxLines: 10,
-            useToggleExpansionButtons: true,
-            savedEpisodeStatus: savedEpisodeStatus,
-            savedEpisode: savedEpisode,
-            shareCallback: widget.shareCallback,
-            status: status,
-            episode: episode,
-            duration: duration,
-            remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            markAsDoneCallback: widget.markAsDoneCallback,
-            playCallback: isActive
-                ? widget.resumeCallback
-                : isLoading
-                    ? () {}
-                    : widget.playCallback,
-            actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 10.dw, 10.dh)));
+          page: Pages.episodePage,
+          descriptionMaxLines: 10,
+          useToggleExpansionButtons: true,
+          savedEpisodeStatus: savedEpisodeStatus,
+          savedEpisode: savedEpisode,
+          shareCallback: widget.shareCallback,
+          status: status,
+          episode: episode,
+          duration: duration,
+          remainingTime: widget.supplements.activeEpisodeRemainingTime,
+          markAsDoneCallback: widget.markAsDoneCallback,
+          playCallback: isActive
+              ? widget.resumeCallback
+              : isLoading
+                  ? () {}
+                  : widget.playCallback,
+        ));
   }
 }
 
@@ -272,7 +271,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
           ),
           AppText(
             'Ep. ${episode.episodeNumber} : ${episode.title}',
-            size: 16.w,
+            size: 15.w,
             color: AppColors.textColor2,
             weight: FontWeight.w600,
             alignment: TextAlign.start,
@@ -286,7 +285,6 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             shareCallback: widget.shareCallback,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
-            actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),
             markAsDoneCallback: widget.markAsDoneCallback,
             playCallback: isActive
                 ? widget.resumeCallback

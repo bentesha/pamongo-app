@@ -26,10 +26,10 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
     final formatted = Utils.formatDateBy(widget.date, 'MMMd');
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 10),
+      SizedBox(height: 5.dh),
       Row(children: [
         AppImage(image: widget.image, height: 36.w, width: 36.w, radius: 7.dw),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.dw),
         SizedBox(
           height: 45.dh,
           child: Column(
@@ -53,13 +53,14 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
               ]),
         )
       ]),
-      SizedBox(height: 5.dh),
-      AppText(widget.title,
-          weight: FontWeight.w600,
-          size: 16.w,
-          maxLines: 2,
-          color: AppColors.textColor),
-      SizedBox(height: 5.dh),
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: 3.dh),
+        child: AppText(widget.title,
+            weight: FontWeight.w600,
+            size: 15.w,
+            maxLines: 2,
+            color: AppColors.textColor),
+      ),
     ]);
   }
 

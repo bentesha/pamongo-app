@@ -130,9 +130,9 @@ class _SeriesPageState extends State<SeriesPage> {
             shareCallback: () => bloc.share(ContentType.series, series.id),
             isOnSeriesPage: true),
         Padding(
-            padding: EdgeInsets.only(right: 10.dw),
+            padding: EdgeInsets.only(right: 10.dw, top: 5.dh),
             child: AppRichText(
-              text: AppText(series.description, size: 16.w, maxLines: 4),
+              text: AppText(series.description, size: 16.w, maxLines: 5),
               useToggleExpansionButtons: true,
             )),
       ]),
@@ -153,8 +153,9 @@ class _SeriesPageState extends State<SeriesPage> {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(height: 1, color: AppColors.dividerColor),
               Padding(
-                padding: EdgeInsets.fromLTRB(18.dw, 0, 10.dw, 0),
+                padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 10.dw, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,

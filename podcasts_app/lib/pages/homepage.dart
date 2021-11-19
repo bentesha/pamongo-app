@@ -96,7 +96,7 @@ class _HomepageState extends State<Homepage> {
         Padding(
           padding: EdgeInsets.only(left: 18.dw, top: 18.dh),
           child:
-              AppText('Featured Series', weight: FontWeight.w600, size: 20.w),
+              AppText('Featured Series', weight: FontWeight.w600, size: 18.w),
         ),
         SizedBox(height: 10.dh),
         SingleChildScrollView(
@@ -123,14 +123,16 @@ class _HomepageState extends State<Homepage> {
       child: Container(
         width: 96.dw,
         margin: EdgeInsets.only(
-            left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
+            left: isFirst ? 18.dw : 10.dw,
+            right: isLast ? 12.dw : 0,
+            bottom: 5.dh),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           AppImage(
               image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
           SizedBox(height: 9.dh),
           AppText(series.name,
               alignment: TextAlign.start,
-              size: 14.w,
+              size: 13.w,
               maxLines: 3,
               color: AppColors.textColor2,
               weight: FontWeight.w600),

@@ -7,7 +7,6 @@ class EpisodeActionButtons extends StatelessWidget {
   const EpisodeActionButtons(
       {required this.playCallback,
       required this.markAsDoneCallback,
-      required this.actionPadding,
       required this.status,
       required this.id,
       required this.duration,
@@ -18,7 +17,6 @@ class EpisodeActionButtons extends StatelessWidget {
       key})
       : super(key: key);
 
-  final EdgeInsetsGeometry actionPadding;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
   final String status;
@@ -28,7 +26,7 @@ class EpisodeActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: actionPadding,
+      padding: EdgeInsets.only(top: 8.dh, bottom: 6.dh),
       child: Row(children: [
         _buildStatusButton(),
         _buildShareButton(),
@@ -38,9 +36,7 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _buildShareButton() {
-    return _iconButton(AppIcons.share,
-        padding: EdgeInsets.only(left: 10.dw),
-        callback: () => shareCallback(id));
+    return _iconButton(AppIcons.share, callback: () => shareCallback(id));
   }
 
   _buildCheckmarkButton() {
@@ -78,8 +74,8 @@ class EpisodeActionButtons extends StatelessWidget {
       onTap: playCallback,
       child: Container(
           height: 30.dh,
-          padding: EdgeInsets.fromLTRB(10.dw, 0, 10.dw, 0),
-          margin: EdgeInsets.fromLTRB(0, 0, 5.dw, 0),
+          padding: EdgeInsets.symmetric(horizontal: 10.dw),
+          margin: EdgeInsets.only(right: 15.dw),
           decoration: _decoration(),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -110,9 +106,6 @@ class EpisodeActionButtons extends StatelessWidget {
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
     final isCompleted = status == 'Completed';
-
-    final savedEpisode =
-        Utils.getPlayedStatus(id) ?? SavedEpisode(position: 0, duration: 0);
 
     return isPlaying
         ? Lottie.asset('assets/icons/playing.json',
@@ -169,20 +162,17 @@ class EpisodeActionButtons extends StatelessWidget {
     );
   }
 
-  _iconButton(IconData icon,
-      {EdgeInsetsGeometry padding = EdgeInsets.zero,
-      required VoidCallback callback}) {
-    return IconButton(
-        onPressed: callback,
-        alignment: Alignment.centerRight,
-        padding: padding,
-        splashColor: AppColors.disabledColor,
-        highlightColor: AppColors.disabledColor,
-        constraints: const BoxConstraints(),
-        icon: Icon(
-          icon,
-          color: AppColors.secondaryColor,
-          size: 20.dw,
-        ));
+  _iconButton(IconData icon, {required VoidCallback callback}) {
+    return Padding(
+      padding: EdgeInsets.only(right: 15.dw),
+      child: IconButton(
+          onPressed: callback,
+          alignment: Alignment.centerRight,
+          splashColor: AppColors.disabledColor,
+          padding: EdgeInsets.zero,
+          highlightColor: AppColors.disabledColor,
+          constraints: const BoxConstraints(),
+          icon: Icon(icon, color: AppColors.secondaryColor, size: 20.dw)),
+    );
   }
 }

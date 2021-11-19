@@ -137,10 +137,9 @@ class _ChannelPageState extends State<ChannelPage> {
         children: [
           Container(height: 1, color: AppColors.dividerColor),
           Padding(
-            padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
+            padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 8.dh),
             child: AppText('Channel Series', size: 18.w, family: 'Louis'),
           ),
-          SizedBox(height: 8.dh),
           ListView.builder(
               itemCount: channel.seriesList.length,
               shrinkWrap: true,
@@ -159,7 +158,7 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.dividerColor),
       Padding(
-          padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 0),
+          padding: EdgeInsets.fromLTRB(18.dw, index == 0 ? 0 : 10.dh, 15.dw, 0),
           child: SeriesWidget(series,
               shareCallback: () => bloc.share(ContentType.series, series.id))),
     ]);
