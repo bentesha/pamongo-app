@@ -40,13 +40,13 @@ class SearchPageBloc extends Cubit<SearchPageState> {
         episodesList, seriesList, channelsList, keyword, supplements));
 
     episodesList = _episodesList
-        .where((e) => e.title.toLowerCase().contains(keyword))
+        .where((e) => e.title.toLowerCase().contains(keyword.toLowerCase()))
         .toList();
     seriesList = _seriesList
-        .where((e) => e.name.toLowerCase().contains(keyword))
+        .where((e) => e.name.toLowerCase().contains(keyword.toLowerCase()))
         .toList();
     channelsList = _channelsList
-        .where((e) => e.name.toLowerCase().contains(keyword))
+        .where((e) => e.name.toLowerCase().contains(keyword.toLowerCase()))
         .toList();
 
     emit(SearchPageState.content(

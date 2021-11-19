@@ -5,7 +5,9 @@ import 'package:podcasts/widgets/series_action_buttons.dart';
 
 class SeriesWidget extends StatefulWidget {
   final Series series;
-  const SeriesWidget(this.series, {key}) : super(key: key);
+  final VoidCallback shareCallback;
+  const SeriesWidget(this.series, {required this.shareCallback, key})
+      : super(key: key);
 
   @override
   State<SeriesWidget> createState() => _SeriesWidgetState();
@@ -48,6 +50,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
       AppText(widget.series.description,
           size: 15.w, color: AppColors.textColor2, maxLines: 3),
       SeriesActionButtons(
+        shareCallback: widget.shareCallback,
         visitSeriesCallback: () =>
             SeriesPage.navigateTo(context, widget.series.id),
       )

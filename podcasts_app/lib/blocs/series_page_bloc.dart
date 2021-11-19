@@ -58,6 +58,9 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   void markAsPlayed(String id) => service.removeFromBox(id);
 
+  void share(ContentType contentType, String id) async =>
+      await service.share(contentType, id);
+
   void sort(int sortIndex) {
     var series = state.series;
     var supplements = state.supplements;

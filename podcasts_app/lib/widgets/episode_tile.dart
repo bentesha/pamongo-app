@@ -12,6 +12,7 @@ class EpisodeTile extends StatelessWidget {
       required this.markAsDoneCallback,
       required this.savedEpisode,
       required this.savedEpisodeStatus,
+      required this.shareCallback,
       required this.status,
       required this.duration,
       required this.remainingTime,
@@ -24,7 +25,7 @@ class EpisodeTile extends StatelessWidget {
   final EdgeInsetsGeometry actionPadding;
   final Episode episode;
   final VoidCallback playCallback;
-  final void Function(String) markAsDoneCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
   final String status, duration, remainingTime, savedEpisodeStatus;
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
@@ -51,21 +52,27 @@ class EpisodeTile extends StatelessWidget {
             image: episode.image,
             seriesId: episode.seriesId,
             page: page),
-        isDescriptionFirst ? Container() : _buildActions(playCallback),
+        isDescriptionFirst
+            ? Container()
+            : _buildActions(playCallback, shareCallback),
         isHomepage
             ? text
             : AppRichText(
                 text: text,
                 useToggleExpansionButtons: useToggleExpansionButtons),
-        isDescriptionFirst ? _buildActions(playCallback) : Container(),
+        isDescriptionFirst
+            ? _buildActions(playCallback, shareCallback)
+            : Container(),
       ],
     );
   }
 
-  _buildActions(VoidCallback playCallback) {
+  _buildActions(
+      VoidCallback playCallback, void Function(String) shareCallback) {
     return EpisodeActionButtons(
         playCallback: playCallback,
         markAsDoneCallback: markAsDoneCallback,
+        shareCallback: shareCallback,
         status: status,
         id: episode.id,
         duration: duration,

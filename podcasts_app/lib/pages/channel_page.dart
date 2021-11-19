@@ -11,11 +11,14 @@ import 'package:podcasts/widgets/channel_action_buttons.dart';
 import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
+import 'homepage.dart';
 
 class ChannelPage extends StatefulWidget {
-  const ChannelPage(this.channelId, {key}) : super(key: key);
+  const ChannelPage(this.channelId, {this.isOpenedUsingLink = false, key})
+      : super(key: key);
 
   final String channelId;
+  final bool isOpenedUsingLink;
 
   static void navigateTo(BuildContext context, {required String channelId}) {
     Navigator.push(context,
@@ -59,13 +62,16 @@ class _ChannelPageState extends State<ChannelPage> {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
         return true;
       },
-      child: Scaffold(
-        appBar: _buildAppBar(channel.name),
-        body: ListView(padding: EdgeInsets.zero, children: [
-          _buildTitle(channel),
-          _buildSeriesList(channel),
-          shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
-        ]),
+      child: WillPopScope(
+        onWillPop: _handlePop,
+        child: Scaffold(
+          appBar: _buildAppBar(channel.name),
+          body: ListView(padding: EdgeInsets.zero, children: [
+            _buildTitle(channel),
+            _buildSeriesList(channel),
+            shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+          ]),
+        ),
       ),
     );
   }
@@ -77,7 +83,10 @@ class _ChannelPageState extends State<ChannelPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.channelPage(
-                topScrolledPixels: value, title: appBarTitle);
+              topScrolledPixels: value,
+              title: appBarTitle,
+              isOpenedUsingLink: widget.isOpenedUsingLink,
+            );
           }),
     );
   }
@@ -90,10 +99,7 @@ class _ChannelPageState extends State<ChannelPage> {
           height: 150.dh,
           child: Row(children: [
             AppImage(
-                image: channel.image,
-                height: 150.w,
-                width: 150.w,
-                radius: 10),
+                image: channel.image, height: 150.w, width: 150.w, radius: 10),
             SizedBox(width: 10.dw),
             Expanded(
               child: Column(
@@ -112,12 +118,11 @@ class _ChannelPageState extends State<ChannelPage> {
           ]),
         ),
         SizedBox(height: 10.dh),
-        const ChannelActionButtons(),
+        ChannelActionButtons(() => bloc.share(ContentType.channel, channel.id)),
         Padding(
           padding: EdgeInsets.only(right: 10.dw),
           child: AppRichText(
-              text:
-                  AppText(channel.description, size: 16.w, maxLines: 4),
+              text: AppText(channel.description, size: 16.w, maxLines: 4),
               useToggleExpansionButtons: true),
         )
       ]),
@@ -155,7 +160,8 @@ class _ChannelPageState extends State<ChannelPage> {
           : Container(height: 1, color: AppColors.dividerColor),
       Padding(
           padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 0),
-          child: SeriesWidget(series)),
+          child: SeriesWidget(series,
+              shareCallback: () => bloc.share(ContentType.series, series.id))),
     ]);
   }
 
@@ -166,4 +172,11 @@ class _ChannelPageState extends State<ChannelPage> {
   Widget _buildFailed(Channel channel, Supplements supplements) =>
       ErrorScreen(supplements.apiError!,
           refreshCallback: () => bloc.init(widget.channelId));
+
+  /// pushes to homepage if app is opened using the link, otherwise normal
+  /// behaviour applies.
+  Future<bool> _handlePop() async {
+    if (widget.isOpenedUsingLink) Homepage.navigateTo(context);
+    return true;
+  }
 }

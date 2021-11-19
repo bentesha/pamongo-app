@@ -10,20 +10,34 @@ class EpisodeTiles {
       {required void Function(Episode) playCallback,
       required VoidCallback resumeCallback,
       required void Function(String) markAsDoneCallback,
+      required void Function(String) shareCallback,
       required Supplements supplements,
       required Episode episode}) {
     return HomepageEpisodeTile(
-        episode, supplements, playCallback, resumeCallback, markAsDoneCallback);
+      episode,
+      supplements,
+      playCallback,
+      resumeCallback,
+      markAsDoneCallback,
+      shareCallback,
+    );
   }
 
   static Widget episodePage(
       {required VoidCallback playCallback,
       required Supplements supplements,
       required void Function(String) markAsDoneCallback,
+      required void Function(String) shareCallback,
       required VoidCallback resumeCallback,
       required Episode episode}) {
     return EpisodePageEpisodeTile(
-        episode, supplements, playCallback, resumeCallback, markAsDoneCallback);
+      episode,
+      supplements,
+      playCallback,
+      resumeCallback,
+      markAsDoneCallback,
+      shareCallback,
+    );
   }
 
   static Widget seriesPage(
@@ -31,23 +45,31 @@ class EpisodeTiles {
       required Supplements supplements,
       required int index,
       required void Function(String) markAsDoneCallback,
+      required void Function(String) shareCallback,
       required VoidCallback resumeCallback,
       required Episode episode}) {
-    return SeriesPageEpisodeTile(index, episode, supplements, playCallback,
-        resumeCallback, markAsDoneCallback);
+    return SeriesPageEpisodeTile(
+      index,
+      episode,
+      supplements,
+      playCallback,
+      resumeCallback,
+      markAsDoneCallback,
+      shareCallback,
+    );
   }
 }
 
 class HomepageEpisodeTile extends StatefulWidget {
   const HomepageEpisodeTile(this.episode, this.supplements, this.playCallback,
-      this.resumeCallback, this.markAsDoneCallback,
+      this.resumeCallback, this.markAsDoneCallback, this.shareCallback,
       {key})
       : super(key: key);
 
   final Episode episode;
   final Supplements supplements;
   final void Function(Episode) playCallback;
-  final void Function(String) markAsDoneCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
   final VoidCallback resumeCallback;
 
   @override
@@ -96,6 +118,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
                   page: Pages.homepage,
                   episode: widget.episode,
                   status: status,
+                  shareCallback: widget.shareCallback,
                   savedEpisodeStatus: savedEpisodeStatus,
                   savedEpisode: savedEpisode,
                   remainingTime: widget.supplements.activeEpisodeRemainingTime,
@@ -117,15 +140,20 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
 }
 
 class EpisodePageEpisodeTile extends StatefulWidget {
-  const EpisodePageEpisodeTile(this.episode, this.supplements,
-      this.playCallback, this.resumeCallback, this.markAsDoneCallback,
+  const EpisodePageEpisodeTile(
+      this.episode,
+      this.supplements,
+      this.playCallback,
+      this.resumeCallback,
+      this.markAsDoneCallback,
+      this.shareCallback,
       {key})
       : super(key: key);
 
   final Episode episode;
   final Supplements supplements;
   final VoidCallback playCallback, resumeCallback;
-  final void Function(String) markAsDoneCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
 
   @override
   State<EpisodePageEpisodeTile> createState() => _EpisodePageEpisodeTileState();
@@ -166,6 +194,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
             useToggleExpansionButtons: true,
             savedEpisodeStatus: savedEpisodeStatus,
             savedEpisode: savedEpisode,
+            shareCallback: widget.shareCallback,
             status: status,
             episode: episode,
             duration: duration,
@@ -181,8 +210,14 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
 }
 
 class SeriesPageEpisodeTile extends StatefulWidget {
-  const SeriesPageEpisodeTile(this.index, this.episode, this.supplements,
-      this.playCallback, this.resumeCallback, this.markAsDoneCallback,
+  const SeriesPageEpisodeTile(
+      this.index,
+      this.episode,
+      this.supplements,
+      this.playCallback,
+      this.resumeCallback,
+      this.markAsDoneCallback,
+      this.shareCallback,
       {key})
       : super(key: key);
 
@@ -191,7 +226,7 @@ class SeriesPageEpisodeTile extends StatefulWidget {
   final Supplements supplements;
   final void Function(int) playCallback;
   final VoidCallback resumeCallback;
-  final void Function(String) markAsDoneCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
 
   @override
   State<SeriesPageEpisodeTile> createState() => _SeriesPageEpisodeTileState();
@@ -248,6 +283,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             status: status,
             savedEpisodeStatus: savedEpisodeStatus,
             savedEpisode: savedEpisode,
+            shareCallback: widget.shareCallback,
             duration: duration,
             remainingTime: widget.supplements.activeEpisodeRemainingTime,
             actionPadding: EdgeInsets.fromLTRB(0, 10.dh, 0, 8.dh),

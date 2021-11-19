@@ -13,13 +13,14 @@ class EpisodeActionButtons extends StatelessWidget {
       required this.duration,
       required this.savedEpisode,
       required this.savedEpisodeStatus,
+      required this.shareCallback,
       required this.remainingTime,
       key})
       : super(key: key);
 
   final EdgeInsetsGeometry actionPadding;
   final VoidCallback playCallback;
-  final void Function(String) markAsDoneCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
   final String status;
   final String duration, id, remainingTime, savedEpisodeStatus;
   final SavedEpisode savedEpisode;
@@ -37,7 +38,9 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _buildShareButton() {
-    return _iconButton(AppIcons.share, padding: EdgeInsets.only(left: 10.dw));
+    return _iconButton(AppIcons.share,
+        padding: EdgeInsets.only(left: 10.dw),
+        callback: () => shareCallback(id));
   }
 
   _buildCheckmarkButton() {
@@ -166,11 +169,15 @@ class EpisodeActionButtons extends StatelessWidget {
     );
   }
 
-  _iconButton(IconData icon, {EdgeInsetsGeometry padding = EdgeInsets.zero}) {
+  _iconButton(IconData icon,
+      {EdgeInsetsGeometry padding = EdgeInsets.zero,
+      required VoidCallback callback}) {
     return IconButton(
-        onPressed: () {},
+        onPressed: callback,
         alignment: Alignment.centerRight,
         padding: padding,
+        splashColor: AppColors.disabledColor,
+        highlightColor: AppColors.disabledColor,
         constraints: const BoxConstraints(),
         icon: Icon(
           icon,

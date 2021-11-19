@@ -36,6 +36,9 @@ class HomepageBloc extends Cubit<HomepageState> {
 
   void markAsPlayed(String id) => service.removeFromBox(id);
 
+  void share(String id) => service.share(ContentType.episode, id);
+
+
   Future<void> refresh() async {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));

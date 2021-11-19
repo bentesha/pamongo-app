@@ -9,7 +9,7 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
   bool isExpanded = false;
-  static var initialContent =
+  static final initialContent =
       ProgressIndicatorContent(episodeList: [Episode(date: DateTime.now())]);
 
   ProgressIndicatorBloc(this.service)
@@ -34,6 +34,8 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   void skipToNext() async => await service.seekNext();
 
   void skipToPrev() async => await service.seekPrev();
+
+  void share(String id) async => await service.share(ContentType.episode, id);
 
   void _handleContentStream(ProgressIndicatorContent content) {
     final hasFailedToBuffer = content.playerState == errorState;

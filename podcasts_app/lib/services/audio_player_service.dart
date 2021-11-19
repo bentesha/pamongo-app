@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:podcasts/constants.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/saved_episodes.dart';
@@ -10,9 +11,12 @@ import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 
 typedef ContentStream = Stream<ProgressIndicatorContent>;
 typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
+
+enum ContentType { episode, series, channel }
 
 class AudioPlayerService {
   static final player = AudioPlayer();
@@ -218,6 +222,23 @@ class AudioPlayerService {
     box.delete(id);
     _updateContentWith();
     log('updated');
+  }
+
+  Future<void> share(ContentType contentType, String id) async {
+    var text = '';
+    switch (contentType) {
+      case ContentType.episode:
+        text = '${sharingHost}episode/$id';
+        break;
+      case ContentType.series:
+        text = '${sharingHost}series/$id';
+        break;
+      case ContentType.channel:
+        text = '${sharingHost}channel/$id';
+        break;
+      default:
+    }
+    await Share.share(text);
   }
 
   _handleAudioError(AudioError error) {

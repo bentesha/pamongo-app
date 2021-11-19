@@ -16,6 +16,10 @@ import 'series_page.dart';
 class Homepage extends StatefulWidget {
   const Homepage({key}) : super(key: key);
 
+  static navigateTo(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const Homepage()), (_) => false);
+
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -151,6 +155,7 @@ class _HomepageState extends State<Homepage> {
                   supplements: supplements,
                   episode: e,
                   markAsDoneCallback: bloc.markAsPlayed,
+                  shareCallback: bloc.share,
                 ))
             .toList());
   }

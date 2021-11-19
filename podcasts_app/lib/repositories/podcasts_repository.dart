@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:podcasts/constants.dart';
 import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/models/channel.dart';
 import 'package:podcasts/models/episode.dart';
@@ -8,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:podcasts/models/series.dart';
 
 class PodcastsRepository {
-  static const root = 'http://pamongo.mobicap.co.tz:9090/api/';
   static const timeLimit = Duration(seconds: 10);
 
   static Future<List<Series>> getFeaturedSeries() async => await getSeries(
@@ -16,6 +16,11 @@ class PodcastsRepository {
 
   static Future<List<Episode>> getRecentEpisodes() async => getEpisodes(
       'episode?eager=series&rangeStart=0&rangeEnd=7&orderByDesc=createdAt&sequence%3Aneq=1');
+
+  static Future<Episode> getEpisodeById(String id) async {
+    final episodeList = await getEpisodes('episode?eager=series&id=$id');
+    return episodeList.first;
+  }
 
   static Future<List<Series>> getAllSeries() async =>
       await getSeries('series?eager=channel&orderByDesc=createdAt');

@@ -88,7 +88,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     return ListView(padding: EdgeInsets.zero, children: [
       _buildDropButton(),
       _buildTitle(episode),
-      _buildProgressIndicatorActions(),
+      _buildProgressIndicatorActions(episode.id),
       _buildSlider(content),
       _buildAudioControlActions(content),
     ]);
@@ -259,14 +259,17 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 icon: Icons.replay_10_outlined,
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
-            _buildIconButton(
-                icon: isPlaying ? Icons.pause : Ionicons.play,
-                backgroundColor: AppColors.accentColor,
-                iconColor: isLoading
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
-                callback: isLoading ? () {} : bloc.togglePlayerStatus,
-                iconSize: 30.dw),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.dw),
+              child: _buildIconButton(
+                  icon: isPlaying ? Icons.pause : Ionicons.play,
+                  backgroundColor: AppColors.accentColor,
+                  iconColor: isLoading
+                      ? AppColors.disabledColor
+                      : AppColors.secondaryColor,
+                  callback: isLoading ? () {} : bloc.togglePlayerStatus,
+                  iconSize: 30.dw),
+            ),
             _buildIconButton(
                 iconSize: 35.dw,
                 icon: Icons.forward_30_outlined,
@@ -286,13 +289,13 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     );
   }
 
-  _buildProgressIndicatorActions() {
+  _buildProgressIndicatorActions(String id) {
     return Padding(
       padding: EdgeInsets.only(left: 30.dw, top: 15.dw),
       child: Row(
         children: [
           AppTextButton(
-            callback: () {},
+            callback: () => bloc.share(id),
             text: 'Share',
             radius: 10.dw,
             withIcon: true,

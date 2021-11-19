@@ -3,10 +3,13 @@ import 'package:podcasts/widgets/app_text_button.dart';
 
 class SeriesActionButtons extends StatelessWidget {
   const SeriesActionButtons(
-      {required this.visitSeriesCallback, this.isOnSeriesPage = false, key})
+      {required this.visitSeriesCallback,
+      required this.shareCallback,
+      this.isOnSeriesPage = false,
+      key})
       : super(key: key);
 
-  final VoidCallback visitSeriesCallback;
+  final VoidCallback visitSeriesCallback, shareCallback;
   final bool isOnSeriesPage;
 
   @override
@@ -20,12 +23,12 @@ class SeriesActionButtons extends StatelessWidget {
   _buildShareButton() {
     return isOnSeriesPage
         ? AppTextButton(
-            callback: () {},
+            callback: shareCallback,
             radius: 5.dw,
             text: 'Share',
             withIcon: true,
           )
-        : _iconButton(AppIcons.share);
+        : _iconButton(AppIcons.share, shareCallback);
   }
 
   _buildVisitSeriesButton() {
@@ -39,9 +42,9 @@ class SeriesActionButtons extends StatelessWidget {
     );
   }
 
-  _iconButton(IconData icon) {
+  _iconButton(IconData icon, VoidCallback callback) {
     return IconButton(
-      onPressed: () {},
+      onPressed: callback,
       padding: EdgeInsets.only(right: 15.dw),
       constraints: const BoxConstraints(),
       icon: Icon(icon, color: AppColors.secondaryColor, size: 18.dw),

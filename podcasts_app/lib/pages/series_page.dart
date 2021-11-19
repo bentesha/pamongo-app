@@ -13,10 +13,14 @@ import 'package:podcasts/widgets/series_action_buttons.dart';
 import 'package:podcasts/widgets/sort_button.dart';
 import '../source.dart';
 import 'channel_page.dart';
+import 'homepage.dart';
 
 class SeriesPage extends StatefulWidget {
   final String seriesId;
-  const SeriesPage(this.seriesId, {key}) : super(key: key);
+  final bool isOpenedUsingLink;
+
+  const SeriesPage(this.seriesId, {this.isOpenedUsingLink = false, key})
+      : super(key: key);
 
   static void navigateTo(BuildContext context, String seriesId) =>
       Navigator.of(context)
@@ -62,13 +66,16 @@ class _SeriesPageState extends State<SeriesPage> {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
         return true;
       },
-      child: Scaffold(
-        appBar: _buildAppBar(series.name),
-        body: ListView(children: [
-          _buildTitle(series),
-          _buildEpisodeList(episodeList, supplements),
-          shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
-        ]),
+      child: WillPopScope(
+        onWillPop: _handlePop,
+        child: Scaffold(
+          appBar: _buildAppBar(series.name),
+          body: ListView(children: [
+            _buildTitle(series),
+            _buildEpisodeList(episodeList, supplements),
+            shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+          ]),
+        ),
       ),
     );
   }
@@ -80,7 +87,10 @@ class _SeriesPageState extends State<SeriesPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.seriesPage(
-                topScrolledPixels: value, title: appBarTitle);
+              topScrolledPixels: value,
+              title: appBarTitle,
+              isOpenedUsingLink: widget.isOpenedUsingLink,
+            );
           }),
     );
   }
@@ -115,7 +125,10 @@ class _SeriesPageState extends State<SeriesPage> {
           ]),
         ),
         SizedBox(height: 10.dh),
-        SeriesActionButtons(visitSeriesCallback: () {}, isOnSeriesPage: true),
+        SeriesActionButtons(
+            visitSeriesCallback: () {},
+            shareCallback: () => bloc.share(ContentType.series, series.id),
+            isOnSeriesPage: true),
         Padding(
             padding: EdgeInsets.only(right: 10.dw),
             child: AppRichText(
@@ -164,13 +177,13 @@ class _SeriesPageState extends State<SeriesPage> {
                 separatorBuilder: (_, __) =>
                     Container(height: 1, color: AppColors.dividerColor),
                 itemBuilder: (_, index) => EpisodeTiles.seriesPage(
-                  index: index,
-                  episode: episodeList[index],
-                  supplements: supplements,
-                  resumeCallback: bloc.togglePlayerStatus,
-                  playCallback: bloc.play,
-                  markAsDoneCallback: bloc.markAsPlayed,
-                ),
+                    index: index,
+                    episode: episodeList[index],
+                    supplements: supplements,
+                    resumeCallback: bloc.togglePlayerStatus,
+                    playCallback: bloc.play,
+                    markAsDoneCallback: bloc.markAsPlayed,
+                    shareCallback: (id) => bloc.share(ContentType.episode, id)),
               ),
               SizedBox(height: 10.dh)
             ],
@@ -184,5 +197,12 @@ class _SeriesPageState extends State<SeriesPage> {
 
   Widget _buildLoading(Series series, Supplements supplements) {
     return const AppLoadingIndicator();
+  }
+
+  /// pushes to homepage if app is opened using the link, otherwise normal
+  /// behaviour applies.
+  Future<bool> _handlePop() async {
+    if (widget.isOpenedUsingLink) Homepage.navigateTo(context);
+    return true;
   }
 }

@@ -30,20 +30,19 @@ class AppTextButton extends StatelessWidget {
       child: TextButton(
           onPressed: callback,
           style: TextButton.styleFrom(
+            shadowColor: AppColors.disabledColor,
             padding: EdgeInsets.symmetric(horizontal: 15.dw),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(radius))),
           ),
           child: withIcon
-              ? Row(
-                  children: [
-                    Icon(icon, color: iconColor, size: 18.dw),
-                    SizedBox(width: 15.dw),
-                    AppText(text,
-                        size: 15.w, weight: fontWeight, color: textColor)
-                  ],
-                )
+              ? Row(children: [
+                  Icon(icon, color: iconColor, size: 18.dw),
+                  SizedBox(width: 15.dw),
+                  AppText(text,
+                      size: 15.w, weight: fontWeight, color: textColor)
+                ])
               : AppText(text,
                   size: 15.w, weight: fontWeight, color: textColor)),
     );
