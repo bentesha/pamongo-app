@@ -171,9 +171,7 @@ class EpisodeActionButtons extends StatelessWidget {
       child: IconButton(
           onPressed: callback,
           alignment: Alignment.centerRight,
-          splashColor: AppColors.disabledColor,
           padding: EdgeInsets.zero,
-          highlightColor: AppColors.disabledColor,
           constraints: const BoxConstraints(),
           icon: Icon(icon, color: AppColors.secondaryColor, size: 20.dw)),
     );

@@ -30,7 +30,7 @@ class AppTextButton extends StatelessWidget {
       child: TextButton(
           onPressed: callback,
           style: TextButton.styleFrom(
-            shadowColor: AppColors.disabledColor,
+            primary: AppColors.disabledColor,
             padding: EdgeInsets.symmetric(horizontal: 15.dw),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor, width: 1),

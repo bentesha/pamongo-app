@@ -17,6 +17,7 @@ class ExplorePageState with _$ExplorePageState {
       List<Episode> episodesList,
       List<Series> seriesList,
       List<Channel> channelList,
+      String searchKeyword,
       Supplements supplements) = _Content;
   const factory ExplorePageState.failed(
       List<Episode> episodesList,
@@ -25,5 +26,5 @@ class ExplorePageState with _$ExplorePageState {
       Supplements supplements) = _Failed;
 
   factory ExplorePageState.initial() =>
-      const ExplorePageState.content([], [], [], Supplements());
+      const ExplorePageState.content([], [], [], '', Supplements());
 }

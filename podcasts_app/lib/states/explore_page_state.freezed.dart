@@ -27,12 +27,17 @@ class _$ExplorePageStateTearOff {
     );
   }
 
-  _Content content(List<Episode> episodesList, List<Series> seriesList,
-      List<Channel> channelList, Supplements supplements) {
+  _Content content(
+      List<Episode> episodesList,
+      List<Series> seriesList,
+      List<Channel> channelList,
+      String searchKeyword,
+      Supplements supplements) {
     return _Content(
       episodesList,
       seriesList,
       channelList,
+      searchKeyword,
       supplements,
     );
   }
@@ -70,6 +75,7 @@ mixin _$ExplorePageState {
             List<Episode> episodesList,
             List<Series> seriesList,
             List<Channel> channelList,
+            String searchKeyword,
             Supplements supplements)
         content,
     required TResult Function(
@@ -85,8 +91,12 @@ mixin _$ExplorePageState {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -98,8 +108,12 @@ mixin _$ExplorePageState {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -310,6 +324,7 @@ class _$_Loading implements _Loading {
             List<Episode> episodesList,
             List<Series> seriesList,
             List<Channel> channelList,
+            String searchKeyword,
             Supplements supplements)
         content,
     required TResult Function(
@@ -328,8 +343,12 @@ class _$_Loading implements _Loading {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -344,8 +363,12 @@ class _$_Loading implements _Loading {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -421,6 +444,7 @@ abstract class _$ContentCopyWith<$Res>
       {List<Episode> episodesList,
       List<Series> seriesList,
       List<Channel> channelList,
+      String searchKeyword,
       Supplements supplements});
 
   @override
@@ -441,6 +465,7 @@ class __$ContentCopyWithImpl<$Res> extends _$ExplorePageStateCopyWithImpl<$Res>
     Object? episodesList = freezed,
     Object? seriesList = freezed,
     Object? channelList = freezed,
+    Object? searchKeyword = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Content(
@@ -456,6 +481,10 @@ class __$ContentCopyWithImpl<$Res> extends _$ExplorePageStateCopyWithImpl<$Res>
           ? _value.channelList
           : channelList // ignore: cast_nullable_to_non_nullable
               as List<Channel>,
+      searchKeyword == freezed
+          ? _value.searchKeyword
+          : searchKeyword // ignore: cast_nullable_to_non_nullable
+              as String,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
@@ -467,8 +496,8 @@ class __$ContentCopyWithImpl<$Res> extends _$ExplorePageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(
-      this.episodesList, this.seriesList, this.channelList, this.supplements);
+  const _$_Content(this.episodesList, this.seriesList, this.channelList,
+      this.searchKeyword, this.supplements);
 
   @override
   final List<Episode> episodesList;
@@ -477,11 +506,13 @@ class _$_Content implements _Content {
   @override
   final List<Channel> channelList;
   @override
+  final String searchKeyword;
+  @override
   final Supplements supplements;
 
   @override
   String toString() {
-    return 'ExplorePageState.content(episodesList: $episodesList, seriesList: $seriesList, channelList: $channelList, supplements: $supplements)';
+    return 'ExplorePageState.content(episodesList: $episodesList, seriesList: $seriesList, channelList: $channelList, searchKeyword: $searchKeyword, supplements: $supplements)';
   }
 
   @override
@@ -497,6 +528,9 @@ class _$_Content implements _Content {
             (identical(other.channelList, channelList) ||
                 const DeepCollectionEquality()
                     .equals(other.channelList, channelList)) &&
+            (identical(other.searchKeyword, searchKeyword) ||
+                const DeepCollectionEquality()
+                    .equals(other.searchKeyword, searchKeyword)) &&
             (identical(other.supplements, supplements) ||
                 const DeepCollectionEquality()
                     .equals(other.supplements, supplements)));
@@ -508,6 +542,7 @@ class _$_Content implements _Content {
       const DeepCollectionEquality().hash(episodesList) ^
       const DeepCollectionEquality().hash(seriesList) ^
       const DeepCollectionEquality().hash(channelList) ^
+      const DeepCollectionEquality().hash(searchKeyword) ^
       const DeepCollectionEquality().hash(supplements);
 
   @JsonKey(ignore: true)
@@ -528,6 +563,7 @@ class _$_Content implements _Content {
             List<Episode> episodesList,
             List<Series> seriesList,
             List<Channel> channelList,
+            String searchKeyword,
             Supplements supplements)
         content,
     required TResult Function(
@@ -537,7 +573,8 @@ class _$_Content implements _Content {
             Supplements supplements)
         failed,
   }) {
-    return content(episodesList, seriesList, channelList, supplements);
+    return content(
+        episodesList, seriesList, channelList, searchKeyword, supplements);
   }
 
   @override
@@ -546,14 +583,19 @@ class _$_Content implements _Content {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         failed,
   }) {
-    return content?.call(episodesList, seriesList, channelList, supplements);
+    return content?.call(
+        episodesList, seriesList, channelList, searchKeyword, supplements);
   }
 
   @override
@@ -562,8 +604,12 @@ class _$_Content implements _Content {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -571,7 +617,8 @@ class _$_Content implements _Content {
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(episodesList, seriesList, channelList, supplements);
+      return content(
+          episodesList, seriesList, channelList, searchKeyword, supplements);
     }
     return orElse();
   }
@@ -612,8 +659,12 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements ExplorePageState {
-  const factory _Content(List<Episode> episodesList, List<Series> seriesList,
-      List<Channel> channelList, Supplements supplements) = _$_Content;
+  const factory _Content(
+      List<Episode> episodesList,
+      List<Series> seriesList,
+      List<Channel> channelList,
+      String searchKeyword,
+      Supplements supplements) = _$_Content;
 
   @override
   List<Episode> get episodesList => throw _privateConstructorUsedError;
@@ -621,6 +672,7 @@ abstract class _Content implements ExplorePageState {
   List<Series> get seriesList => throw _privateConstructorUsedError;
   @override
   List<Channel> get channelList => throw _privateConstructorUsedError;
+  String get searchKeyword => throw _privateConstructorUsedError;
   @override
   Supplements get supplements => throw _privateConstructorUsedError;
   @override
@@ -746,6 +798,7 @@ class _$_Failed implements _Failed {
             List<Episode> episodesList,
             List<Series> seriesList,
             List<Channel> channelList,
+            String searchKeyword,
             Supplements supplements)
         content,
     required TResult Function(
@@ -764,8 +817,12 @@ class _$_Failed implements _Failed {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
@@ -780,8 +837,12 @@ class _$_Failed implements _Failed {
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
         loading,
-    TResult Function(List<Episode> episodesList, List<Series> seriesList,
-            List<Channel> channelList, Supplements supplements)?
+    TResult Function(
+            List<Episode> episodesList,
+            List<Series> seriesList,
+            List<Channel> channelList,
+            String searchKeyword,
+            Supplements supplements)?
         content,
     TResult Function(List<Episode> episodesList, List<Series> seriesList,
             List<Channel> channelList, Supplements supplements)?
