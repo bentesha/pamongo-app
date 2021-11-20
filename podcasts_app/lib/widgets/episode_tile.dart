@@ -5,8 +5,7 @@ import 'package:podcasts/widgets/app_rich_text.dart';
 
 class EpisodeTile extends StatelessWidget {
   const EpisodeTile(
-      {
-      required this.episode,
+      {required this.episode,
       required this.page,
       required this.playCallback,
       required this.markAsDoneCallback,
@@ -54,11 +53,14 @@ class EpisodeTile extends StatelessWidget {
         isDescriptionFirst
             ? Container()
             : _buildActions(playCallback, shareCallback),
-        isHomepage
-            ? text
-            : AppRichText(
-                text: text,
-                useToggleExpansionButtons: useToggleExpansionButtons),
+        Padding(
+          padding: EdgeInsets.only(right: 8.dw),
+          child: isHomepage
+              ? text
+              : AppRichText(
+                  text: text,
+                  useToggleExpansionButtons: useToggleExpansionButtons),
+        ),
         isDescriptionFirst
             ? _buildActions(playCallback, shareCallback)
             : Container(),

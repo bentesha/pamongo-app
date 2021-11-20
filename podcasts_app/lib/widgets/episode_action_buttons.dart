@@ -41,7 +41,10 @@ class EpisodeActionButtons extends StatelessWidget {
 
   _buildCheckmarkButton() {
     final isSaved = savedEpisode.position != 0;
-    if (!isSaved) return Container();
+    final isPlaying = status == "Playing";
+    final isLoading = status == "Loading";
+
+    if (!isSaved || isPlaying || isLoading) return Container();
     return Expanded(
       child: Container(
         height: 20.dw,

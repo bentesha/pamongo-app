@@ -58,8 +58,9 @@ class _ExplorePageState extends State<ExplorePage> {
           SizedBox(height: 10.dh),
           Row(
             children: [
-              _buildTabSwitcher(index: 0, tabName: 'Series'),
-              _buildTabSwitcher(index: 1, tabName: 'Channels'),
+              _buildTabSwitcher(index: 0, tabName: 'Episodes'),
+              _buildTabSwitcher(index: 1, tabName: 'Series'),
+              _buildTabSwitcher(index: 2, tabName: 'Channels'),
             ],
           ),
           Expanded(
@@ -101,11 +102,17 @@ class _ExplorePageState extends State<ExplorePage> {
                 color: AppColors.indicatorColor,
                 alignment: Alignment.centerLeft,
                 constraints: BoxConstraints.expand(height: 40.dh),
-                padding: EdgeInsets.only(left: 10.dw),
-                child: AppText(
-                  'search Pamongo',
-                  size: 16.w,
-                  color: AppColors.textColor2,
+                padding: EdgeInsets.symmetric(horizontal: 10.dw),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(
+                      'search Pamongo',
+                      size: 16.w,
+                      color: AppColors.textColor2,
+                    ),
+                    Icon(EvaIcons.search, size: 18.dw)
+                  ],
                 )),
           )),
     );

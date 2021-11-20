@@ -41,8 +41,9 @@ class AudioPlayerService {
     final isLatestFirstSorted = _content.sortStyle == SortStyles.latestFirst;
     if (isLatestFirstSorted && shoudlFormatIndex) index = lastIndex - index;
     var episode = episodeList[index];
+    final previousId = _content.episodeList[_content.currentIndex].id;
 
-    if (box.containsKey(episodeList[index].id)) {
+    if (box.containsKey(episodeList[index].id) && previousId != episode.id) {
       final savedEpisode = box.get(episode.id) as SavedEpisode;
       _duration = savedEpisode.duration;
       _updateContentWith(currentIndex: index, episodeList: episodeList);
@@ -221,7 +222,6 @@ class AudioPlayerService {
   void removeFromBox(String id) {
     box.delete(id);
     _updateContentWith();
-    log('updated');
   }
 
   Future<void> share(ContentType contentType, String id) async {
