@@ -239,7 +239,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     final isPlayingSeries = content.episodeList.length > 1;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.dw, 10.dh, 16.dw, 0),
+      padding: EdgeInsets.fromLTRB(10.dw, 10.dh, 10.dw, 0),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,7 +260,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.dw),
+              padding: EdgeInsets.symmetric(horizontal: 17.dw),
               child: _buildIconButton(
                   icon: isPlaying ? Icons.pause : Ionicons.play,
                   backgroundColor: AppColors.accentColor,

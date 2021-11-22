@@ -12,22 +12,25 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(EvaIcons.wifiOff, size: 32.dw, color: AppColors.errorColor),
-          Padding(
-            padding: EdgeInsets.all(20.dw),
-            child: AppText(
-              error.message,
-              size: 18.h,
-              alignment: TextAlign.center,
-              maxLines: 2,
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(EvaIcons.wifiOff, size: 32.dw, color: AppColors.errorColor),
+            Padding(
+              padding: EdgeInsets.all(20.dw),
+              child: AppText(
+                error.message,
+                size: 18.h,
+                alignment: TextAlign.center,
+                maxLines: 2,
+              ),
             ),
-          ),
-          AppTextButton(
-              callback: refreshCallback, text: 'Try Again', radius: 5.dw)
-        ],
+            AppTextButton(
+                callback: refreshCallback, text: 'Try Again', radius: 5.dw)
+          ],
+        ),
       ),
     );
   }

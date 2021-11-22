@@ -22,6 +22,7 @@ class _$SeriesTearOff {
       String name = '',
       String channelName = '',
       String description = '',
+      int totalNumberOfEpisodes = 0,
       String id = '',
       String channelId = '',
       List<Episode> episodeList = const []}) {
@@ -30,6 +31,7 @@ class _$SeriesTearOff {
       name: name,
       channelName: channelName,
       description: description,
+      totalNumberOfEpisodes: totalNumberOfEpisodes,
       id: id,
       channelId: channelId,
       episodeList: episodeList,
@@ -46,6 +48,7 @@ mixin _$Series {
   String get name => throw _privateConstructorUsedError;
   String get channelName => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  int get totalNumberOfEpisodes => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get channelId => throw _privateConstructorUsedError;
   List<Episode> get episodeList => throw _privateConstructorUsedError;
@@ -63,6 +66,7 @@ abstract class $SeriesCopyWith<$Res> {
       String name,
       String channelName,
       String description,
+      int totalNumberOfEpisodes,
       String id,
       String channelId,
       List<Episode> episodeList});
@@ -82,6 +86,7 @@ class _$SeriesCopyWithImpl<$Res> implements $SeriesCopyWith<$Res> {
     Object? name = freezed,
     Object? channelName = freezed,
     Object? description = freezed,
+    Object? totalNumberOfEpisodes = freezed,
     Object? id = freezed,
     Object? channelId = freezed,
     Object? episodeList = freezed,
@@ -103,6 +108,10 @@ class _$SeriesCopyWithImpl<$Res> implements $SeriesCopyWith<$Res> {
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      totalNumberOfEpisodes: totalNumberOfEpisodes == freezed
+          ? _value.totalNumberOfEpisodes
+          : totalNumberOfEpisodes // ignore: cast_nullable_to_non_nullable
+              as int,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -129,6 +138,7 @@ abstract class _$SeriesCopyWith<$Res> implements $SeriesCopyWith<$Res> {
       String name,
       String channelName,
       String description,
+      int totalNumberOfEpisodes,
       String id,
       String channelId,
       List<Episode> episodeList});
@@ -149,6 +159,7 @@ class __$SeriesCopyWithImpl<$Res> extends _$SeriesCopyWithImpl<$Res>
     Object? name = freezed,
     Object? channelName = freezed,
     Object? description = freezed,
+    Object? totalNumberOfEpisodes = freezed,
     Object? id = freezed,
     Object? channelId = freezed,
     Object? episodeList = freezed,
@@ -170,6 +181,10 @@ class __$SeriesCopyWithImpl<$Res> extends _$SeriesCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      totalNumberOfEpisodes: totalNumberOfEpisodes == freezed
+          ? _value.totalNumberOfEpisodes
+          : totalNumberOfEpisodes // ignore: cast_nullable_to_non_nullable
+              as int,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -194,6 +209,7 @@ class _$_Series extends _Series {
       this.name = '',
       this.channelName = '',
       this.description = '',
+      this.totalNumberOfEpisodes = 0,
       this.id = '',
       this.channelId = '',
       this.episodeList = const []})
@@ -211,6 +227,9 @@ class _$_Series extends _Series {
   @JsonKey(defaultValue: '')
   @override
   final String description;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int totalNumberOfEpisodes;
   @JsonKey(defaultValue: '')
   @override
   final String id;
@@ -223,7 +242,7 @@ class _$_Series extends _Series {
 
   @override
   String toString() {
-    return 'Series(image: $image, name: $name, channelName: $channelName, description: $description, id: $id, channelId: $channelId, episodeList: $episodeList)';
+    return 'Series(image: $image, name: $name, channelName: $channelName, description: $description, totalNumberOfEpisodes: $totalNumberOfEpisodes, id: $id, channelId: $channelId, episodeList: $episodeList)';
   }
 
   @override
@@ -240,6 +259,9 @@ class _$_Series extends _Series {
             (identical(other.description, description) ||
                 const DeepCollectionEquality()
                     .equals(other.description, description)) &&
+            (identical(other.totalNumberOfEpisodes, totalNumberOfEpisodes) ||
+                const DeepCollectionEquality().equals(
+                    other.totalNumberOfEpisodes, totalNumberOfEpisodes)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.channelId, channelId) ||
@@ -257,6 +279,7 @@ class _$_Series extends _Series {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(channelName) ^
       const DeepCollectionEquality().hash(description) ^
+      const DeepCollectionEquality().hash(totalNumberOfEpisodes) ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(channelId) ^
       const DeepCollectionEquality().hash(episodeList);
@@ -273,6 +296,7 @@ abstract class _Series extends Series {
       String name,
       String channelName,
       String description,
+      int totalNumberOfEpisodes,
       String id,
       String channelId,
       List<Episode> episodeList}) = _$_Series;
@@ -286,6 +310,8 @@ abstract class _Series extends Series {
   String get channelName => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;
+  @override
+  int get totalNumberOfEpisodes => throw _privateConstructorUsedError;
   @override
   String get id => throw _privateConstructorUsedError;
   @override

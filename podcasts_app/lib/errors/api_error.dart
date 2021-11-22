@@ -15,7 +15,7 @@ class ApiError extends Error {
       case ApiErrorType.timeout:
         return ApiError._(
             type: type,
-            message: 'Connection timed-out, Please try again later.');
+            message: 'Timeout was reached, Please try again later.');
       default:
         return ApiError._(
             type: type,

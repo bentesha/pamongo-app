@@ -57,18 +57,8 @@ class PodcastsRepository {
       final jsonSeries = body['results'];
       final jsonChannel = jsonSeries.first['channel'];
 
-      List<Episode> episodeList = [];
       final seriesList = jsonSeries.map((series) {
-        final episodes = series['episodes'];
-        for (Map<String, dynamic> e in episodes) {
-          episodeList.add(Episode.fromJson(e,
-              seriesId: series['id'],
-              seriesImage: series['thumbnailUrl'],
-              seriesName: series['name']));
-        }
-
-        return Series.fromJson(series,
-            channelName: jsonChannel['name'], episodeList: episodeList);
+        return Series.fromJson(series, channelName: jsonChannel['name']);
       }).toList();
 
       return Channel.fromJson(jsonChannel, seriesList: seriesList);
