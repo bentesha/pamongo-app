@@ -1,23 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:podcasts/blocs/channel_page_bloc.dart';
-import 'package:podcasts/models/channel.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/series.dart';
-import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/pages/series_page.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/states/channel_page_state.dart';
 import '../source.dart';
 
 class ChannelPage extends StatefulWidget {
-  const ChannelPage(this.channelName, {key}) : super(key: key);
+  const ChannelPage(this.channelId, {this.isOpenedUsingLink = false, key})
+      : super(key: key);
 
-  final String channelName;
+  final String channelId;
+  final bool isOpenedUsingLink;
 
-  static void navigateTo(BuildContext context, {required String channelName}) {
+  static void navigateTo(BuildContext context, {required String channelId}) {
     Navigator.push(context,
-        CupertinoPageRoute(builder: (context) => ChannelPage(channelName)));
+        CupertinoPageRoute(builder: (context) => ChannelPage(channelId)));
   }
 
   @override
@@ -27,21 +19,18 @@ class ChannelPage extends StatefulWidget {
 class _ChannelPageState extends State<ChannelPage> {
   late final ChannelPageBloc bloc;
   late final AudioPlayerService service;
+  final topScrolledPixelsNotifier = ValueNotifier<double>(0);
 
   @override
   void initState() {
     service = Provider.of(context, listen: false);
     bloc = ChannelPageBloc(service);
-    bloc.init();
+    bloc.init(widget.channelId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
-  }
-
-  _buildBody() {
     return BlocBuilder<ChannelPageBloc, ChannelPageState>(
         bloc: bloc,
         builder: (context, state) {
@@ -52,27 +41,40 @@ class _ChannelPageState extends State<ChannelPage> {
         });
   }
 
-  Widget _buildLoading(Channel channel, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
   Widget _buildContent(Channel channel, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
-    return ListView(padding: EdgeInsets.zero, children: [
-      _buildTitle(channel),
-      _buildSeriesList(channel),
-      shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 10.dh)
-    ]);
+
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        topScrolledPixelsNotifier.value = notification.metrics.pixels;
+        return true;
+      },
+      child: WillPopScope(
+        onWillPop: _handlePop,
+        child: Scaffold(
+          appBar: _buildAppBar(channel.name),
+          body: ListView(padding: EdgeInsets.zero, children: [
+            _buildTitle(channel),
+            _buildSeriesList(channel),
+            shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+          ]),
+        ),
+      ),
+    );
   }
 
-  Widget _buildFailed(Channel channel, Supplements supplements) {
-    return _buildContent(channel, supplements);
-  }
-
-  _buildAppBar() {
+  _buildAppBar(String appBarTitle) {
     return PreferredSize(
       preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.channelPage(context),
+      child: ValueListenableBuilder<double>(
+          valueListenable: topScrolledPixelsNotifier,
+          builder: (context, value, child) {
+            return AppTopBars.channelPage(
+              topScrolledPixels: value,
+              title: appBarTitle,
+              isOpenedUsingLink: widget.isOpenedUsingLink,
+            );
+          }),
     );
   }
 
@@ -84,33 +86,31 @@ class _ChannelPageState extends State<ChannelPage> {
           height: 150.dh,
           child: Row(children: [
             AppImage(
-                image: channel.channelImage,
-                height: 150.w,
-                width: 150.w,
-                radius: 10),
+                image: channel.image, height: 150.w, width: 150.w, radius: 10),
             SizedBox(width: 10.dw),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(widget.channelName,
+                  AppText(channel.name,
                       alignment: TextAlign.start,
-                      family: FontFamily.workSans,
-                      weight: 600,
-                      size: 25.w),
-                  SizedBox(height: 5.dh),
-                  AppText('by ' + channel.channelOwner, size: 15.w),
+                      weight: FontWeight.w700,
+                      maxLines: 4,
+                      size: 28.w),
                   SizedBox(height: 5.dh),
                 ],
               ),
             ),
           ]),
         ),
-        SizedBox(height: 15.dh),
+        SizedBox(height: 10.dh),
+        ChannelActionButtons(() => bloc.share(ContentType.channel, channel.id)),
         Padding(
           padding: EdgeInsets.only(right: 10.dw),
-          child: AppRichText(channel.channelDescription),
+          child: AppRichText(
+              text: AppText(channel.description, size: 16.w, maxLines: 4),
+              useToggleExpansionButtons: true),
         )
       ]),
     );
@@ -118,25 +118,22 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildSeriesList(Channel channel) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 10.dw),
+      padding: EdgeInsets.fromLTRB(0, 10.dw, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(height: 1, color: AppColors.separator),
+          Container(height: 1, color: AppColors.dividerColor),
           Padding(
-            padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 0),
-            child: AppText('My Series',
-                size: 18.w, weight: 400, family: FontFamily.casual),
+            padding: EdgeInsets.fromLTRB(18.dw, 10.dw, 10.dh, 8.dh),
+            child: AppText('Channel Series', size: 18.w, family: 'Louis'),
           ),
-          SizedBox(height: 10.dh),
-          ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: channel.channelSeriesList.map((e) {
-              final index = channel.channelSeriesList.indexOf(e);
-              return _buildSeries(e, index);
-            }).toList(),
-          )
+          ListView.builder(
+              itemCount: channel.seriesList.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (_, index) {
+                return _buildSeries(channel.seriesList[index], index);
+              })
         ],
       ),
     );
@@ -146,62 +143,26 @@ class _ChannelPageState extends State<ChannelPage> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       index == 0
           ? Container()
-          : Container(height: 1, color: AppColors.separator),
+          : Container(height: 1, color: AppColors.dividerColor),
       Padding(
-          padding: EdgeInsets.fromLTRB(18.dw, 10.dh, 15.dw, 5.dh),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: [
-                AppImage(
-                    image: series.image, width: 50.w, height: 50.w, radius: 10),
-                SizedBox(width: 10.dw),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(series.name,
-                        size: 16.w, family: FontFamily.louis, weight: 600),
-                    SizedBox(height: 3.dh),
-                    AppText('Episodes : 24',
-                        size: 16.w,
-                        family: FontFamily.louis,
-                        weight: 400,
-                        color: AppColors.onSecondary)
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 10.dh),
-            AppText(series.description,
-                size: 15.w,
-                family: FontFamily.workSans,
-                color: AppColors.onSecondary2),
-            _buildGoToSeriesButton(series)
-          ])),
+          padding: EdgeInsets.fromLTRB(18.dw, index == 0 ? 0 : 10.dh, 15.dw, 0),
+          child: SeriesWidget(series,
+              shareCallback: () => bloc.share(ContentType.series, series.id))),
     ]);
   }
 
-  _buildGoToSeriesButton(Series series) {
-    return Container(
-      height: 35.dh,
-      margin: EdgeInsets.only(top: 10.dh, bottom: 5.dh),
-      child: TextButton(
-          onPressed: () => SeriesPage.navigateTo(context, series),
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 5.dw),
-            maximumSize: Size.fromWidth(120.dw),
-            shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColors.inactive, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10.dw))),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(Icons.podcasts, color: AppColors.secondary, size: 20.dw),
-              AppText('Visit Series', size: 15.w),
-            ],
-          )),
-    );
+  Widget _buildLoading(Channel channel, Supplements supplements) {
+    return const AppLoadingIndicator();
+  }
+
+  Widget _buildFailed(Channel channel, Supplements supplements) =>
+      ErrorScreen(supplements.apiError!,
+          refreshCallback: () => bloc.init(widget.channelId));
+
+  /// pushes to homepage if app is opened using the link, otherwise normal
+  /// behaviour applies.
+  Future<bool> _handlePop() async {
+    if (widget.isOpenedUsingLink) Homepage.navigateTo(context);
+    return true;
   }
 }

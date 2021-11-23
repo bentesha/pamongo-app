@@ -8,7 +8,6 @@ part 'episode_page_state.freezed.dart';
 class EpisodePageState with _$EpisodePageState {
   const factory EpisodePageState.loading(Episode episode, Supplements supplements) = _Loading;
   const factory EpisodePageState.content(Episode episode,Supplements supplements) = _Content;
-  const factory EpisodePageState.failed(Episode episode,Supplements supplements) = _Failed;
 
-  factory EpisodePageState.initial() => const EpisodePageState.content(Episode(), Supplements());
+  factory EpisodePageState.initial() =>  EpisodePageState.content(Episode(date: DateTime.utc(2020)), const Supplements());
 }

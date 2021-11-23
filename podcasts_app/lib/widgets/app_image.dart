@@ -23,7 +23,7 @@ class AppImage extends StatelessWidget {
         ? Container(
             width: fullWidth ? double.maxFinite : width.toDouble(),
             decoration: BoxDecoration(
-                borderRadius: borderRadius, color: AppColors.separator),
+                borderRadius: borderRadius, color: AppColors.dividerColor),
             child: Stack(
               children: [
                 Container(
@@ -32,7 +32,6 @@ class AppImage extends StatelessWidget {
                     child: Icon(
                       Icons.podcasts,
                       size: 25.dw,
-                      color: AppColors.onSecondary2,
                     )),
                 Container(
                   decoration: BoxDecoration(
@@ -55,7 +54,7 @@ class AppImage extends StatelessWidget {
                     ? Border.all(width: 1, color: Colors.transparent)
                     : Border.all(width: 0, color: Colors.transparent),
                 borderRadius: borderRadius,
-                color: AppColors.separator),
+                color: AppColors.dividerColor),
             child: Stack(
               children: [
                 Container(
@@ -64,7 +63,6 @@ class AppImage extends StatelessWidget {
                     child: Icon(
                       Icons.podcasts,
                       size: 25.dw,
-                      color: AppColors.onSecondary2,
                     )),
                 Container(
                   decoration: BoxDecoration(

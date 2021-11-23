@@ -18,14 +18,18 @@ class _$ProgressIndicatorContentTearOff {
   const _$ProgressIndicatorContentTearOff();
 
   _ProgressIndicatorContent call(
-      {List<Episode> episodeList = const [Episode()],
+      {required List<Episode> episodeList,
       int currentPosition = 0,
       IndicatorPlayerState playerState = inactiveState,
+      SortStyles sortStyle = SortStyles.oldestFirst,
+      AudioError? error,
       int currentIndex = 0}) {
     return _ProgressIndicatorContent(
       episodeList: episodeList,
       currentPosition: currentPosition,
       playerState: playerState,
+      sortStyle: sortStyle,
+      error: error,
       currentIndex: currentIndex,
     );
   }
@@ -39,6 +43,8 @@ mixin _$ProgressIndicatorContent {
   List<Episode> get episodeList => throw _privateConstructorUsedError;
   int get currentPosition => throw _privateConstructorUsedError;
   IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
+  SortStyles get sortStyle => throw _privateConstructorUsedError;
+  AudioError? get error => throw _privateConstructorUsedError;
   int get currentIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -55,6 +61,8 @@ abstract class $ProgressIndicatorContentCopyWith<$Res> {
       {List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
+      SortStyles sortStyle,
+      AudioError? error,
       int currentIndex});
 }
 
@@ -72,6 +80,8 @@ class _$ProgressIndicatorContentCopyWithImpl<$Res>
     Object? episodeList = freezed,
     Object? currentPosition = freezed,
     Object? playerState = freezed,
+    Object? sortStyle = freezed,
+    Object? error = freezed,
     Object? currentIndex = freezed,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +97,14 @@ class _$ProgressIndicatorContentCopyWithImpl<$Res>
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
               as IndicatorPlayerState,
+      sortStyle: sortStyle == freezed
+          ? _value.sortStyle
+          : sortStyle // ignore: cast_nullable_to_non_nullable
+              as SortStyles,
+      error: error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as AudioError?,
       currentIndex: currentIndex == freezed
           ? _value.currentIndex
           : currentIndex // ignore: cast_nullable_to_non_nullable
@@ -106,6 +124,8 @@ abstract class _$ProgressIndicatorContentCopyWith<$Res>
       {List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
+      SortStyles sortStyle,
+      AudioError? error,
       int currentIndex});
 }
 
@@ -126,6 +146,8 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
     Object? episodeList = freezed,
     Object? currentPosition = freezed,
     Object? playerState = freezed,
+    Object? sortStyle = freezed,
+    Object? error = freezed,
     Object? currentIndex = freezed,
   }) {
     return _then(_ProgressIndicatorContent(
@@ -141,6 +163,14 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
               as IndicatorPlayerState,
+      sortStyle: sortStyle == freezed
+          ? _value.sortStyle
+          : sortStyle // ignore: cast_nullable_to_non_nullable
+              as SortStyles,
+      error: error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as AudioError?,
       currentIndex: currentIndex == freezed
           ? _value.currentIndex
           : currentIndex // ignore: cast_nullable_to_non_nullable
@@ -153,12 +183,13 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
 
 class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   const _$_ProgressIndicatorContent(
-      {this.episodeList = const [Episode()],
+      {required this.episodeList,
       this.currentPosition = 0,
       this.playerState = inactiveState,
+      this.sortStyle = SortStyles.oldestFirst,
+      this.error,
       this.currentIndex = 0});
 
-  @JsonKey(defaultValue: const [Episode()])
   @override
   final List<Episode> episodeList;
   @JsonKey(defaultValue: 0)
@@ -167,13 +198,18 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   @JsonKey(defaultValue: inactiveState)
   @override
   final IndicatorPlayerState playerState;
+  @JsonKey(defaultValue: SortStyles.oldestFirst)
+  @override
+  final SortStyles sortStyle;
+  @override
+  final AudioError? error;
   @JsonKey(defaultValue: 0)
   @override
   final int currentIndex;
 
   @override
   String toString() {
-    return 'ProgressIndicatorContent(episodeList: $episodeList, currentPosition: $currentPosition, playerState: $playerState, currentIndex: $currentIndex)';
+    return 'ProgressIndicatorContent(episodeList: $episodeList, currentPosition: $currentPosition, playerState: $playerState, sortStyle: $sortStyle, error: $error, currentIndex: $currentIndex)';
   }
 
   @override
@@ -189,6 +225,11 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
             (identical(other.playerState, playerState) ||
                 const DeepCollectionEquality()
                     .equals(other.playerState, playerState)) &&
+            (identical(other.sortStyle, sortStyle) ||
+                const DeepCollectionEquality()
+                    .equals(other.sortStyle, sortStyle)) &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)) &&
             (identical(other.currentIndex, currentIndex) ||
                 const DeepCollectionEquality()
                     .equals(other.currentIndex, currentIndex)));
@@ -200,6 +241,8 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
       const DeepCollectionEquality().hash(episodeList) ^
       const DeepCollectionEquality().hash(currentPosition) ^
       const DeepCollectionEquality().hash(playerState) ^
+      const DeepCollectionEquality().hash(sortStyle) ^
+      const DeepCollectionEquality().hash(error) ^
       const DeepCollectionEquality().hash(currentIndex);
 
   @JsonKey(ignore: true)
@@ -211,9 +254,11 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
 
 abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
   const factory _ProgressIndicatorContent(
-      {List<Episode> episodeList,
+      {required List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
+      SortStyles sortStyle,
+      AudioError? error,
       int currentIndex}) = _$_ProgressIndicatorContent;
 
   @override
@@ -222,6 +267,10 @@ abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
   int get currentPosition => throw _privateConstructorUsedError;
   @override
   IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
+  @override
+  SortStyles get sortStyle => throw _privateConstructorUsedError;
+  @override
+  AudioError? get error => throw _privateConstructorUsedError;
   @override
   int get currentIndex => throw _privateConstructorUsedError;
   @override

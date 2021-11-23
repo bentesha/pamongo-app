@@ -1,18 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:podcasts/blocs/homepage_bloc.dart';
-import 'package:podcasts/models/episode.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/states/homepage_state.dart';
-import 'package:podcasts/widgets/series_widget.dart';
-import 'package:podcasts/widgets/audio_progress_widget.dart';
 import '../source.dart';
-import 'series_page.dart';
-import 'episode_page.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({key}) : super(key: key);
+
+  static navigateTo(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const Homepage()), (_) => false);
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -27,138 +20,150 @@ class _HomepageState extends State<Homepage> {
     service = Provider.of<AudioPlayerService>(context, listen: false);
     bloc = HomepageBloc(service);
     bloc.init();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _showOverlay());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _insertOverlay());
     super.initState();
-  }
-
-  _showOverlay() {
-    final overlay = Overlay.of(context)!;
-    final entry =
-        OverlayEntry(builder: (context) => const AudioProgressWidget());
-    overlay.insert(entry);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+    return Scaffold(
+        body: BlocBuilder<HomepageBloc, HomepageState>(
+            bloc: bloc,
+            builder: (_, state) {
+              return state.when(
+                  loading: _buildLoading,
+                  failed: _buildError,
+                  content: _buildContent);
+            }));
   }
 
-  _buildAppBar() {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(50.dh),
-      child: AppTopBars.homepage(context),
-    );
-  }
-
-  _buildBody() {
-    return BlocBuilder<HomepageBloc, HomepageState>(
-        bloc: bloc,
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading,
-              failed: _buildError,
-              content: _buildContent);
-        });
-  }
-
-  Widget _buildError(List<Episode> episodeList, Supplements supplements) {
-    return _buildContent(episodeList, supplements);
-  }
-
-  Widget _buildContent(List<Episode> episodeList, Supplements supplements) {
-    final playerState = supplements.playerState;
-    final shouldLeaveSpace = playerState != inactiveState;
-
+  Widget _buildContent(
+      List episodeList, List seriesList, Supplements supplements) {
+    final shouldLeaveSpace = supplements.playerState != inactiveState;
     return RefreshIndicator(
-      onRefresh: bloc.refresh,
-      backgroundColor: Colors.white,
-      color: AppColors.secondary,
-      child: ListView(
-        padding: EdgeInsets.only(top: 10.dh),
-        children: [
-          _buildSeries(),
-          _buildRecent(episodeList, supplements),
-          shouldLeaveSpace ? SizedBox(height: 80.dh) : SizedBox(height: 15.dh)
-        ],
-      ),
-    );
+        onRefresh: bloc.refresh,
+        backgroundColor: Colors.white,
+        color: AppColors.accentColor,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+                floating: true,
+                forceElevated: true,
+                backgroundColor: AppColors.backgroundColor,
+                elevation: 1,
+                toolbarHeight: 55.dh,
+                centerTitle: false,
+                title: Image.asset('assets/images/logo_long.png', height: 25),
+                actions: [
+                  IconButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (_) => const ExplorePage())),
+                      padding: EdgeInsets.only(right: 10.dw),
+                      icon: Icon(Icons.explore_outlined,
+                          size: 28.dw, color: AppColors.secondaryColor))
+                ]),
+            SliverList(
+                delegate: SliverChildListDelegate.fixed([
+              _buildSeries(seriesList),
+              _buildRecent(episodeList, supplements),
+              shouldLeaveSpace
+                  ? SizedBox(height: 80.dh)
+                  : SizedBox(height: 15.dh),
+            ]))
+          ],
+        ));
   }
 
-  Widget _buildLoading(List<Episode> episodeList, Supplements supplements) {
-    return const AppLoadingIndicator();
-  }
-
-  _buildSeries() {
+  _buildSeries(List seriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 18.dw, top: 8.dh),
-          child: AppText('Series',
-              family: FontFamily.casual,
-              weight: 400,
-              size: 18.w,
-              color: AppColors.header),
+          padding: EdgeInsets.only(left: 18.dw, top: 18.dh),
+          child:
+              AppText('Featured Series', weight: FontWeight.w600, size: 18.w),
         ),
         SizedBox(height: 10.dh),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
-              final isFirst = index == 0;
-              final isLast = index == 4;
-
-              return Container(
-                  margin: EdgeInsets.only(
-                      left: isFirst ? 18.dw : 10.dw, right: isLast ? 12.dw : 0),
-                  child: GestureDetector(
-                    onTap: () => SeriesPage.navigateTo(context, series),
-                    child: SizedBox(width: 96.dw, child: SeriesWidget(series)),
-                  ));
+              return _buildSeriesEntry(series, index, seriesList.length);
             }).toList(),
           ),
         ),
-        SizedBox(height: 15.dh),
+        SizedBox(height: 10.dh)
       ],
     );
   }
 
-  _buildRecent(List<Episode> episodeList, Supplements supplements) {
+  Widget _buildSeriesEntry(Series series, int seriesIndex, int seriesLength) {
+    final isFirst = seriesIndex == 0;
+    final isLast = seriesIndex == seriesLength - 1;
+
+    return GestureDetector(
+      onTap: () async => SeriesPage.navigateTo(context, series.id),
+      child: Container(
+        width: 96.dw,
+        margin: EdgeInsets.only(
+            left: isFirst ? 18.dw : 10.dw,
+            right: isLast ? 12.dw : 0,
+            bottom: 5.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          AppImage(
+              image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
+          SizedBox(height: 9.dh),
+          AppText(series.name,
+              alignment: TextAlign.start,
+              size: 13.w,
+              maxLines: 3,
+              color: AppColors.textColor2,
+              weight: FontWeight.w600),
+          SizedBox(height: 5.dh),
+          AppText(series.channelName,
+              size: 12.w,
+              alignment: TextAlign.start,
+              color: AppColors.textColor2,
+              maxLines: 3)
+        ]),
+      ),
+    );
+  }
+
+  _buildRecent(List episodeList, Supplements supplements) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-            episodeList.map((e) => _buildEpisode(e, supplements)).toList());
+        children: episodeList
+            .map((e) => EpisodeTiles.homepage(
+                  resumeCallback: bloc.togglePlayerStatus,
+                  playCallback: bloc.play,
+                  supplements: supplements,
+                  episode: e,
+                  markAsDoneCallback: bloc.markAsPlayed,
+                  shareCallback: bloc.share,
+                ))
+            .toList());
   }
 
-  Widget _buildEpisode(Episode episode, Supplements supplements) {
-    final activeId = supplements.activeId;
-    final playerState = supplements.playerState;
+  Widget _buildLoading(
+          List episodeList, List seriesList, Supplements supplements) =>
+      const AppLoadingIndicator();
 
-    final isLoading = playerState == loadingState;
-    final isPlaying = playerState == playingState;
-    final isPaused = playerState == pausedState;
+  Widget _buildError(
+          List episodeList, List seriesList, Supplements supplements) =>
+      ErrorScreen(
+        supplements.apiError!,
+        refreshCallback: bloc.refresh,
+      );
 
-    final isInactive =
-        (isLoading || isPlaying || isPaused) && activeId == episode.id;
-
-    final status = Utils.getStatus(episode.id, activeId, playerState);
-
-    return Column(
-      children: [
-        Container(height: 1, color: AppColors.separator),
-        Padding(
-            padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
-            child: GestureDetector(
-                onTap: () => EpisodePage.navigateTo(context, episode),
-                child: EpisodeTile(Pages.homepage,
-                    playCallback: isInactive ? () {} : () => bloc.play(episode),
-                    status: status,
-                    duration: Utils.convertFrom(episode.duration,
-                        includeSeconds: false),
-                    episode: episode,
-                    actionPadding: EdgeInsets.fromLTRB(0, 5.dh, 0, 8.dh)))),
-      ],
-    );
+  void _insertOverlay() {
+    final overlay = Overlay.of(context)!;
+    final entry =
+        OverlayEntry(builder: (context) => const AudioProgressIndicator());
+    overlay.insert(entry);
   }
 }

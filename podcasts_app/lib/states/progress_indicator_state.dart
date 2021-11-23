@@ -6,8 +6,7 @@ part 'progress_indicator_state.freezed.dart';
 
 @freezed
 class ProgressIndicatorState with _$ProgressIndicatorState {
-  const factory ProgressIndicatorState.active(ProgressIndicatorContent content) = _Active;
-  const factory ProgressIndicatorState.inactive(ProgressIndicatorContent content) = _Inactive;
-  const factory ProgressIndicatorState.loading(ProgressIndicatorContent content) = _Loading;
-  const factory ProgressIndicatorState.failed(ProgressIndicatorContent content, AudioError error) = _Failed;
+  const factory ProgressIndicatorState.initial(ProgressIndicatorContent content, bool isHiding) = _Initial;
+  const factory ProgressIndicatorState.active(ProgressIndicatorContent content, bool isHiding) = _Active;
+  const factory ProgressIndicatorState.failed(ProgressIndicatorContent content, bool isHiding, AudioError error) = _Failed;
 }

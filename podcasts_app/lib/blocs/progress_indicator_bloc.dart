@@ -1,19 +1,16 @@
-import 'dart:developer';
-
-import 'package:bloc/bloc.dart';
-import 'package:podcasts/errors/audio_error.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/states/progress_indicator_state.dart';
 import 'package:audio_session/audio_session.dart';
+
+import '../source.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
-  static const inactiveContent = ProgressIndicatorContent();
+  bool isExpanded = false;
+  static final initialContent =
+      ProgressIndicatorContent(episodeList: [Episode(date: DateTime.now())]);
 
   ProgressIndicatorBloc(this.service)
-      : super(const ProgressIndicatorState.inactive(inactiveContent)) {
+      : super(ProgressIndicatorState.initial(initialContent, true)) {
     service.onAudioPositionChanged.listen((position) {
       _handlePositionStream(position);
     });
@@ -22,27 +19,26 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
       _handleContentStream(content);
     });
 
+    service.onEarphoneDetached.listen((event) {
+      service.toggleStatus();
+    });
+
     service.onInterruption.listen((event) {
-      log('INTERRUPTION!!!!!!!!!!!!!!');
       if (event.begin) {
         switch (event.type) {
           case AudioInterruptionType.duck:
-            // Another app started playing audio and we should duck.
-            break;
           case AudioInterruptionType.pause:
           case AudioInterruptionType.unknown:
-            // Another app started playing audio and we should pause.
+            service.toggleStatus();
             break;
         }
       } else {
         switch (event.type) {
           case AudioInterruptionType.duck:
-            // The interruption ended and we should unduck.
-            break;
           case AudioInterruptionType.pause:
-          // The interruption ended and we should resume.
+            service.toggleStatus();
+            break;
           case AudioInterruptionType.unknown:
-            // The interruption ended but we should not resume.
             break;
         }
       }
@@ -61,16 +57,24 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
   void skipToPrev() async => await service.seekPrev();
 
+  void share(String id) async => await service.share(ContentType.episode, id);
+
   void _handleContentStream(ProgressIndicatorContent content) {
     final hasFailedToBuffer = content.playerState == errorState;
-    final bufferError = AudioError.fromType(ErrorType.failedToBuffer);
+    final isInactive = content.playerState == inactiveState;
 
     if (hasFailedToBuffer) {
-      emit(ProgressIndicatorState.failed(content, bufferError));
+      emit(ProgressIndicatorState.failed(content, state.isHiding,
+          content.error ?? AudioError.fromType(ErrorType.unknown)));
       return;
     }
 
-    emit(ProgressIndicatorState.active(content));
+    if (isInactive) {
+      emit(ProgressIndicatorState.initial(initialContent, true));
+      return;
+    }
+
+    emit(ProgressIndicatorState.active(content, isExpanded));
   }
 
   void _handlePositionStream(Duration? position) {
@@ -105,7 +109,12 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
       }
 
       emit(ProgressIndicatorState.active(
-          state.content.copyWith(currentPosition: _position)));
+          state.content.copyWith(currentPosition: _position), state.isHiding));
     }
+  }
+
+  void toggleVisibilityStatus() {
+    isExpanded = !isExpanded;
+    emit(ProgressIndicatorState.active(state.content, !state.isHiding));
   }
 }

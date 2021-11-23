@@ -73,7 +73,6 @@ class ForegroundPlayer extends BaseAudioHandler with SeekHandler {
       id: episode.audioUrl,
       album: episode.seriesName,
       title: episode.title,
-      artist: episode.channel,
       duration: Duration(milliseconds: episode.duration),
       artUri: Uri.parse(episode.image),
     ));

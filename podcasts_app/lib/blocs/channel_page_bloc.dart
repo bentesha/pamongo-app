@@ -1,8 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/source.dart';
-import 'package:podcasts/states/channel_page_state.dart';
+import '../source.dart';
 
 class ChannelPageBloc extends Cubit<ChannelPageState> {
   final AudioPlayerService service;
@@ -12,11 +8,21 @@ class ChannelPageBloc extends Cubit<ChannelPageState> {
     });
   }
 
-  void init() {
+  Future<void> init(String channelId) async {
+    emit(ChannelPageState.loading(state.channel, state.supplements));
     final playerState = service.getCurrentContent.playerState;
-    final supplements = state.supplements.copyWith(playerState: playerState);
-    emit(ChannelPageState.content(defaultChannel, supplements));
+    var supplements = state.supplements.copyWith(playerState: playerState);
+    try {
+      final channel = await PodcastsRepository.getChannelById(channelId);
+      emit(ChannelPageState.content(channel, supplements));
+    } on ApiError catch (e) {
+      supplements = supplements.copyWith(apiError: e);
+      emit(ChannelPageState.failed(state.channel, supplements));
+    }
   }
+
+  void share(ContentType contentType, String id) async =>
+      await service.share(contentType, id);
 
   _handleContentStream(ProgressIndicatorContent content) {
     final supplements =

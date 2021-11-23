@@ -1,27 +1,53 @@
 import 'package:podcasts/models/series.dart';
+import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/source.dart';
+import 'package:podcasts/widgets/series_action_buttons.dart';
 
-class SeriesWidget extends StatelessWidget {
+class SeriesWidget extends StatefulWidget {
   final Series series;
-  const SeriesWidget(this.series, {key}) : super(key: key);
+  final VoidCallback shareCallback;
+  const SeriesWidget(this.series, {required this.shareCallback, key})
+      : super(key: key);
 
+  @override
+  State<SeriesWidget> createState() => _SeriesWidgetState();
+}
+
+class _SeriesWidgetState extends State<SeriesWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      AppImage(image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
-      SizedBox(height: 9.dh),
-      AppText(series.name,
-          family: FontFamily.workSans,
-          alignment: TextAlign.start,
-          size: 14.w,
-          weight: 400),
-      SizedBox(height: 5.dh),
-      AppText(series.channel,
-          size: 12.w,
-          family: FontFamily.workSans,
-          alignment: TextAlign.start,
-          weight: 400,
-          color: AppColors.onSecondary2)
+      Row(
+        children: [
+          AppImage(
+              image: widget.series.image,
+              width: 50.w,
+              height: 50.w,
+              radius: 10),
+          SizedBox(width: 10.dw),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText(
+                widget.series.name,
+                size: 16.w,
+                weight: FontWeight.w600,
+              ),
+              SizedBox(height: 3.dh),
+              AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
+                  size: 14.w)
+            ],
+          ),
+        ],
+      ),
+      SizedBox(height: 10.dh),
+      AppText(widget.series.description,
+          size: 15.w, color: AppColors.textColor2, maxLines: 3),
+      SeriesActionButtons(
+        shareCallback: widget.shareCallback,
+        visitSeriesCallback: () =>
+            SeriesPage.navigateTo(context, widget.series.id),
+      )
     ]);
   }
 }
