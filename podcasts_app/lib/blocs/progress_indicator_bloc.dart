@@ -1,10 +1,10 @@
+import 'package:audio_session/audio_session.dart';
 import '../source.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
   bool isExpanded = false;
-
   static final initialContent =
       ProgressIndicatorContent(episodeList: [Episode(date: DateTime.now())]);
 
@@ -16,6 +16,31 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
     service.onIndicatorContentStateChanged.listen((content) {
       _handleContentStream(content);
+    });
+
+    service.onEarphoneDetached.listen((event) {
+      service.toggleStatus();
+    });
+
+    service.onInterruption.listen((event) {
+      if (event.begin) {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+          case AudioInterruptionType.pause:
+          case AudioInterruptionType.unknown:
+            service.toggleStatus();
+            break;
+        }
+      } else {
+        switch (event.type) {
+          case AudioInterruptionType.duck:
+          case AudioInterruptionType.pause:
+            service.toggleStatus();
+            break;
+          case AudioInterruptionType.unknown:
+            break;
+        }
+      }
     });
   }
 
