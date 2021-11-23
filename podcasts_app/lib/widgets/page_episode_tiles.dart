@@ -1,9 +1,5 @@
-import 'package:podcasts/models/episode.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/saved_episodes.dart';
-import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/pages/episode_page.dart';
 import '../source.dart';
+import 'episode_tile.dart';
 
 class EpisodeTiles {
   static Widget homepage(

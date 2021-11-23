@@ -1,11 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:podcasts/errors/api_error.dart';
-import 'package:podcasts/models/episode.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
+import '../source.dart';
 import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/source.dart';
-import 'package:podcasts/states/homepage_state.dart';
 
 class HomepageBloc extends Cubit<HomepageState> {
   final AudioPlayerService service;
