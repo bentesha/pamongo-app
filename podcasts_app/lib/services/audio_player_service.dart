@@ -1,87 +1,113 @@
 import 'dart:async';
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:podcasts/constants.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
+import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 
 typedef ContentStream = Stream<ProgressIndicatorContent>;
 typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
 
+enum ContentType { episode, series, channel }
 class AudioPlayerService {
-  final _player = AudioPlayer();
-
+  static final player = AudioPlayer();
+  static final box = Hive.box('played_episodes');
+  static const timeLimit = Duration(seconds: 10);
   static final initialEpisodeList = [Episode(date: DateTime.utc(2020))];
   var _content = ProgressIndicatorContent(episodeList: initialEpisodeList);
+  static final contentController = ContentStreamController.broadcast();
   var _duration = 0;
-  final _contentController = ContentStreamController.broadcast();
 
-  ContentStream get onIndicatorContentStateChanged => _contentController.stream;
+  ContentStream get onIndicatorContentStateChanged => contentController.stream;
   ProgressIndicatorContent get getCurrentContent => _content;
-  Stream<Duration?> get onAudioPositionChanged => _player.positionStream;
-  int get getBufferedPosition => _player.bufferedPosition.inMilliseconds;
-  int get getRemainingTime => _duration - _player.position.inMilliseconds;
+  Stream<Duration?> get onAudioPositionChanged => player.positionStream;
+  int get getBufferedPosition => player.bufferedPosition.inMilliseconds;
+  int get getRemainingTime => _duration - player.position.inMilliseconds;
 
-  Future<void> play(List episodeList,
+  Future<void> play(List<Episode> episodeList,
       {int index = 0, bool shoudlFormatIndex = true}) async {
+    _addCurrentToBox();
+
     final lastIndex = episodeList.length - 1;
     final isLatestFirstSorted = _content.sortStyle == SortStyles.latestFirst;
     if (isLatestFirstSorted && shoudlFormatIndex) index = lastIndex - index;
+    var episode = episodeList[index];
+    final previousId = _content.episodeList[_content.currentIndex].id;
+
+    if (box.containsKey(episodeList[index].id) && previousId != episode.id) {
+      final savedEpisode = box.get(episode.id) as SavedEpisode;
+      _duration = savedEpisode.duration;
+      _updateContentWith(currentIndex: index, episodeList: episodeList);
+      _handleSeekCallback(savedEpisode.position, index);
+      return;
+    }
 
     _updateContentWith(
-        episodeList: episodeList,
-        currentPosition: 0,
-        playerState: loadingState,
-        currentIndex: index);
+      episodeList: episodeList,
+      currentPosition: 0,
+      playerState: loadingState,
+      currentIndex: index,
+    );
 
     try {
-      var episode = episodeList[index];
-      final duration = await _player.setUrl(episode.audioUrl);
+      final duration = await player.setUrl(episode.audioUrl).timeout(timeLimit);
 
       if (duration != null) {
         _duration = duration.inMilliseconds;
         episode = episode.copyWith(duration: duration.inMilliseconds);
         episodeList[index] = episode;
         _updateContentWith(playerState: playingState, episodeList: episodeList);
-        await _player.play();
+        await player.play();
       }
+    } on TimeoutException catch (_) {
+      _handleTimeoutException();
     } catch (e) {
-      log(e.toString());
-      _updateContentWith(
-          playerState: errorState,
-          error: AudioError.fromType(ErrorType.failedToBuffer));
+      _handleAudioError(AudioError.fromType(ErrorType.failedToBuffer));
     }
   }
 
-  ///pauses if player is playing, plays if player is paused or failed to buffer.
-  ///starts an episode again if it is completed
+  /// pauses if player is playing, plays if player is paused or failed to buffer.
+  /// starts an episode again if it is completed
   Future<void> toggleStatus() async {
     final playerState = _content.playerState;
     final currentPosition = _content.currentPosition;
     final hasFailedToBuffer = playerState == errorState;
     final index = _content.currentIndex;
+    final isCompleted = playerState == completedState;
+    final isPlaying = playerState == playingState;
+    final isLoading = playerState == loadingState;
+    final isPaused = playerState == pausedState;
 
-    if (playerState == loadingState) return;
-    if (hasFailedToBuffer) {
-      _handleSeekCallback(currentPosition, index);
-      return;
-    }
-    if (playerState == completedState) {
-      await play(_content.episodeList, index: index);
-      return;
-    }
-    if (playerState == playingState) {
+    if (isLoading) return;
+    if (hasFailedToBuffer) return _handleSeekCallback(currentPosition, index);
+    if (isCompleted) return await play(_content.episodeList, index: index);
+    if (isPlaying) {
       _updateContentWith(
           playerState: pausedState, currentPosition: currentPosition);
-      await _player.pause();
+      await player.pause();
       return;
     }
-    _updateContentWith(playerState: playingState);
-    await _player.play();
+    if (isPaused) {
+      _updateContentWith(playerState: playingState);
+      await player.play();
+      return;
+    }
+
+    final id = _content.episodeList[index].id;
+    final savedEpisode = Hive.box('played_episodes').get(id) as SavedEpisode?;
+    if (savedEpisode != null) {
+      log(savedEpisode.position.toString());
+      _handleSeekCallback(savedEpisode.position, index);
+    }
   }
 
   Future<void> changePosition(double position,
@@ -91,7 +117,7 @@ class AudioPlayerService {
 
     if (isLoading) return;
     if (positionRequiresUpdate) {
-      final currentPosition = _player.position.inMilliseconds;
+      final currentPosition = player.position.inMilliseconds;
       final updatedPosition = isForwarding
           ? currentPosition + position
           : currentPosition - position;
@@ -104,7 +130,7 @@ class AudioPlayerService {
   }
 
   Future<void> stop() async {
-    await _player.stop();
+    await player.stop();
     _updateContentWith(playerState: inactiveState);
   }
 
@@ -132,14 +158,17 @@ class AudioPlayerService {
   }
 
   void markAsCompleted() {
-    final duration = _content.episodeList[_content.currentIndex].duration;
+    final episode = _content.episodeList[_content.currentIndex];
+    final duration = episode.duration;
+    final id = episode.id;
+    if (box.containsKey(id)) box.delete(id);
     _updateContentWith(playerState: completedState, currentPosition: duration);
   }
 
   void markAsFailedToBuffer() {
-    final position = _player.position.inMilliseconds;
+    final position = player.position.inMilliseconds;
     _updateContentWith(currentPosition: position, playerState: errorState);
-    if (_player.playing) _player.pause();
+    if (player.playing) player.pause();
   }
 
   Future<void> _handleSeekCallback(int newPosition, int index) async {
@@ -151,29 +180,83 @@ class AudioPlayerService {
             : newPosition;
 
     _updateContentWith(
-        currentPosition: correctedPosition, playerState: loadingState);
+      currentPosition: correctedPosition,
+      playerState: loadingState,
+    );
 
     final episode = _content.episodeList[index];
     try {
-      if (_player.playing) _player.pause();
+      if (player.playing) player.pause();
       await _checkConnectivity();
-      await _player.setUrl(episode.audioUrl);
-      await _player.seek(Duration(milliseconds: newPosition));
+      await player.setUrl(episode.audioUrl).timeout(timeLimit);
+      await player.seek(Duration(milliseconds: newPosition)).timeout(timeLimit);
       _updateContentWith(playerState: playingState);
-      _player.play();
+      player.play();
     } on AudioError catch (e) {
-      log(e.toString());
-      _updateContentWith(playerState: errorState, error: e);
+      _handleAudioError(e);
+    } on TimeoutException catch (_) {
+      _handleTimeoutException();
+    }
+  }
+
+  ///adds the current episode, that is not completed to local storage
+  void _addCurrentToBox() {
+    final playerState = _content.playerState;
+    final shouldSaveToBox =
+        playerState != completedState && playerState != inactiveState;
+    final episode = _content.episodeList[_content.currentIndex];
+    final id = episode.id;
+    final duration = episode.duration;
+
+    if (shouldSaveToBox) {
+      box.put(
+          id,
+          SavedEpisode(
+            position: player.position.inMilliseconds,
+            duration: duration,
+          ));
+    }
+  }
+
+  void removeFromBox(String id) {
+    box.delete(id);
+    _updateContentWith();
+  }
+
+  Future<void> share(ContentType contentType, String id) async {
+    var text = '';
+    switch (contentType) {
+      case ContentType.episode:
+        text = '${sharingHost}episode/$id';
+        break;
+      case ContentType.series:
+        text = '${sharingHost}series/$id';
+        break;
+      case ContentType.channel:
+        text = '${sharingHost}channel/$id';
+        break;
+      default:
+    }
+    await Share.share(text);
+  }
+
+  _handleAudioError(AudioError error) {
+    log(error.toString());
+    _updateContentWith(playerState: errorState, error: error);
+  }
+
+  _handleTimeoutException() {
+    final e = AudioError.fromType(ErrorType.timeout);
+    if (_content.playerState != playingState) {
+      return _updateContentWith(playerState: errorState, error: e);
     }
   }
 
   Future<void> _checkConnectivity() async {
     try {
-      await http
-          .get(Uri.parse('https://pub.dev/'))
-          .timeout(const Duration(seconds: 3));
+      await http.get(Uri.parse('https://pub.dev/')).timeout(timeLimit);
     } on TimeoutException catch (_) {
-      throw AudioError.fromType(ErrorType.internet);
+      throw AudioError.fromType(ErrorType.timeout);
     } on SocketException catch (_) {
       throw AudioError.fromType(ErrorType.internet);
     } catch (_) {
@@ -186,7 +269,7 @@ class AudioPlayerService {
 
   void _updateContentWith(
       {IndicatorPlayerState? playerState,
-      List? episodeList,
+      List<Episode>? episodeList,
       int? currentIndex,
       AudioError? error,
       int? currentPosition}) {
@@ -196,6 +279,6 @@ class AudioPlayerService {
         currentIndex: currentIndex ?? _content.currentIndex,
         currentPosition: currentPosition ?? _content.currentPosition,
         error: error);
-    _contentController.add(_content);
+    contentController.add(_content);
   }
 }

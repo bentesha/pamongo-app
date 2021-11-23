@@ -14,25 +14,29 @@ class SortButton extends StatelessWidget {
     final isFirstToLast = sortStyle == SortStyles.oldestFirst;
     final isLastToFirst = sortStyle == SortStyles.latestFirst;
 
-    return PopupMenuButton<int>(
-        icon: const Icon(AppIcons.sort, size: 20),
-        onSelected: onSelectedCallback,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context) => [
-              const PopupMenuItem(
-                  height: 35,
-                  enabled: false,
-                  child: AppText("Sort by", weight: FontWeight.w600, size: 16),
-                  value: 0),
-              PopupMenuItem(
-                  height: 35,
-                  child: _buildPopupMenuItem(isLastToFirst, 'latest first'),
-                  value: 1),
-              PopupMenuItem(
-                  height: 35,
-                  child: _buildPopupMenuItem(isFirstToLast, 'oldest first'),
-                  value: 2),
-            ]);
+    return SizedBox(
+      height: 22,
+      child: PopupMenuButton<int>(
+          icon: const Icon(AppIcons.sort, size: 20),
+          onSelected: onSelectedCallback,
+          padding: EdgeInsets.zero,
+          itemBuilder: (context) => [
+                const PopupMenuItem(
+                    height: 35,
+                    enabled: false,
+                    child:
+                        AppText("Sort by", weight: FontWeight.w600, size: 16),
+                    value: 0),
+                PopupMenuItem(
+                    height: 35,
+                    child: _buildPopupMenuItem(isLastToFirst, 'latest first'),
+                    value: 1),
+                PopupMenuItem(
+                    height: 35,
+                    child: _buildPopupMenuItem(isFirstToLast, 'oldest first'),
+                    value: 2),
+              ]),
+    );
   }
 
   _buildPopupMenuItem(bool isSelected, String text) {

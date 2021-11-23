@@ -1,4 +1,4 @@
-enum ErrorType { internet, unknown, failedToBuffer }
+enum ErrorType { internet, unknown, failedToBuffer, timeout }
 
 class AudioError extends Error {
   AudioError._({required this.message});
@@ -15,6 +15,10 @@ class AudioError extends Error {
         return AudioError._(
             message:
                 'Failed to buffer, you might want  to check your internet connection.');
+
+      case ErrorType.timeout:
+        return AudioError._(
+            message: 'Connection timed out, please try again later.');
       default:
         return AudioError._(
             message: 'Oops! An error happened, Please try again later.');

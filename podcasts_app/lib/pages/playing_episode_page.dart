@@ -5,6 +5,7 @@ import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
+import 'package:podcasts/widgets/app_text_button.dart';
 import '../source.dart';
 
 class PlayingEpisodePage extends StatefulWidget {
@@ -18,6 +19,8 @@ class PlayingEpisodePage extends StatefulWidget {
 
 class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   late final ProgressIndicatorBloc bloc;
+  final positionNotifier = ValueNotifier<double>(0);
+  final useAudioPositionNotifier = ValueNotifier<bool>(true);
 
   @override
   void initState() {
@@ -50,7 +53,10 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 if (error != null) _showError(error);
               },
               builder: (context, state) {
-                return state.when(active: _buildContent, failed: _buildFailed);
+                return state.when(
+                    active: _buildContent,
+                    failed: _buildFailed,
+                    initial: _buildInitial);
               }),
         ),
       ),
@@ -60,6 +66,10 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   Widget _buildFailed(
       ProgressIndicatorContent content, bool isHiding, AudioError error) {
     return _buildContent(content, isHiding);
+  }
+
+  Widget _buildInitial(ProgressIndicatorContent content, bool isHiding) {
+    return Container();
   }
 
   _showError(AudioError error) async {
@@ -78,7 +88,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     return ListView(padding: EdgeInsets.zero, children: [
       _buildDropButton(),
       _buildTitle(episode),
-      _buildProgressIndicatorActions(content),
+      _buildProgressIndicatorActions(episode.id),
       _buildSlider(content),
       _buildAudioControlActions(content),
     ]);
@@ -129,13 +139,8 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   }
 
   _buildSlider(ProgressIndicatorContent content) {
-    final currentPosition = content.currentPosition.toDouble();
-    final episode = content.episodeList[content.currentIndex];
-    final duration = episode.duration.toDouble();
-    final isCurrentBigger = currentPosition >= duration;
-
     return Padding(
-      padding: const EdgeInsets.fromLTRB(26, 15, 26, 15),
+      padding: const EdgeInsets.fromLTRB(26, 0, 26, 15),
       child: Column(
         children: [
           Container(
@@ -147,20 +152,42 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                   thumbShape:
                       const RoundSliderThumbShape(enabledThumbRadius: 6),
                   overlayShape: SliderComponentShape.noThumb),
-              child: Slider(
-                  activeColor: AppColors.accentColor,
-                  inactiveColor: AppColors.secondaryColor,
-                  value: isCurrentBigger ? duration : currentPosition,
-                  min: 0.0,
-                  max: content.episodeList[content.currentIndex].duration
-                      .toDouble(),
-                  onChanged: bloc.changePosition),
+              child: _buildSliderLine(content),
             ),
           ),
-          _buildLabels(content)
+          _buildLabels(content),
         ],
       ),
     );
+  }
+
+  _buildSliderLine(ProgressIndicatorContent content) {
+    final currentPosition = content.currentPosition.toDouble();
+    final episode = content.episodeList[content.currentIndex];
+
+    return ValueListenableBuilder<bool>(
+        valueListenable: useAudioPositionNotifier,
+        builder: (_, useAudioPosition, __) {
+          return ValueListenableBuilder<double>(
+              valueListenable: positionNotifier,
+              builder: (_, position, __) {
+                return Slider(
+                  activeColor: AppColors.accentColor,
+                  inactiveColor: AppColors.secondaryColor,
+                  value: useAudioPosition ? currentPosition : position,
+                  min: 0.0,
+                  max: episode.duration.toDouble(),
+                  onChanged: (value) {
+                    useAudioPositionNotifier.value = false;
+                    positionNotifier.value = value;
+                  },
+                  onChangeEnd: (value) {
+                    bloc.changePosition(value);
+                    useAudioPositionNotifier.value = true;
+                  },
+                );
+              });
+        });
   }
 
   _buildLabels(ProgressIndicatorContent content) {
@@ -187,7 +214,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: AppText(
                               isLoading ? 'buffering ... ' : 'couldn\'t play',
                               color: AppColors.textColor2,
@@ -213,7 +240,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     final isPlayingSeries = content.episodeList.length > 1;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,14 +260,17 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
                 icon: Icons.replay_10_outlined,
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
-            _buildIconButton(
-                icon: isPlaying ? Icons.pause : Ionicons.play,
-                backgroundColor: AppColors.accentColor,
-                iconColor: isLoading
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
-                callback: isLoading ? () {} : bloc.togglePlayerStatus,
-                iconSize: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 17),
+              child: _buildIconButton(
+                  icon: isPlaying ? Icons.pause : Ionicons.play,
+                  backgroundColor: AppColors.accentColor,
+                  iconColor: isLoading
+                      ? AppColors.disabledColor
+                      : AppColors.secondaryColor,
+                  callback: isLoading ? () {} : bloc.togglePlayerStatus,
+                  iconSize: 30),
+            ),
             _buildIconButton(
                 iconSize: 35,
                 icon: Icons.forward_30_outlined,
@@ -260,41 +290,18 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     );
   }
 
-  _buildProgressIndicatorActions(ProgressIndicatorContent content) {
-    final playerState = content.playerState;
-    final isLoading = playerState == loadingState;
-    final isPlayingSeries = content.episodeList.length > 1;
+  _buildProgressIndicatorActions(String id) {
     return Padding(
-      padding: const EdgeInsets.only(left: 18, top: 15),
+      padding: const EdgeInsets.only(left: 30, top: 15),
       child: Row(
         children: [
-          isPlayingSeries
-              ? _buildIconButton(
-                  iconColor: isLoading
-                      ? AppColors.disabledColor
-                      : AppColors.onPrimary2,
-                  icon: EvaIcons.skipBackOutline,
-                  callback: bloc.skipToPrev)
-              : Container(),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23,
-            icon: AppIcons.addToPlayList,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23,
-            icon: AppIcons.download,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23,
-            icon: AppIcons.bookmark,
-          ),
-          _buildIconButton(
-            callback: () {},
-            iconSize: 23,
-            icon: AppIcons.share,
+          AppTextButton(
+            callback: () => bloc.share(id),
+            text: 'Share',
+            radius: 10,
+            withIcon: true,
+            borderColor: AppColors.disabledColor,
+            fontWeight: FontWeight.w400,
           ),
         ],
       ),
@@ -306,9 +313,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
       IconData icon = Icons.home,
-      int iconSize = 35}) {
+      required double iconSize}) {
     return TextButton(
-        child: Icon(icon, color: iconColor, size: iconSize.toDouble()),
+        child: Icon(icon, color: iconColor, size: iconSize),
         onPressed: callback,
         style: TextButton.styleFrom(
             shape: const CircleBorder(),

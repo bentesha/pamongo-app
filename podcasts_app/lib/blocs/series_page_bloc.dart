@@ -56,6 +56,11 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   void togglePlayerStatus() async => await service.toggleStatus();
 
+  void markAsPlayed(String id) => service.removeFromBox(id);
+
+  void share(ContentType contentType, String id) async =>
+      await service.share(contentType, id);
+
   void sort(int sortIndex) {
     var series = state.series;
     var supplements = state.supplements;
@@ -91,6 +96,8 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
   _handleContentStream(ProgressIndicatorContent content) {
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
+
+    emit(SeriesPageState.loading(state.series, state.supplements));
 
     final supplements = state.supplements.copyWith(
         activeId: id,

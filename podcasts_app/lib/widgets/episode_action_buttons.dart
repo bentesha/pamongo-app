@@ -1,103 +1,179 @@
 import 'package:lottie/lottie.dart';
+import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/source.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class EpisodeActionButtons extends StatelessWidget {
-  const EpisodeActionButtons(this.page,
+  const EpisodeActionButtons(
       {required this.playCallback,
-      required this.actionPadding,
+      required this.markAsDoneCallback,
       required this.status,
+      required this.id,
       required this.duration,
+      required this.savedEpisode,
+      required this.savedEpisodeStatus,
+      required this.shareCallback,
       required this.remainingTime,
       key})
       : super(key: key);
 
-  final Pages page;
-  final EdgeInsetsGeometry actionPadding;
   final VoidCallback playCallback;
+  final void Function(String) markAsDoneCallback, shareCallback;
   final String status;
-  final String duration, remainingTime;
+  final String duration, id, remainingTime, savedEpisodeStatus;
+  final SavedEpisode savedEpisode;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: actionPadding,
+      padding: const EdgeInsets.only(top: 8, bottom: 6),
       child: Row(children: [
         _buildStatusButton(),
-        _buildPlaylistButton(),
-        _buildDownloadButton()
+        _buildShareButton(),
+        _buildCheckmarkButton(),
       ]),
     );
   }
 
-  _buildPlaylistButton() {
-    return _iconButton(AppIcons.addToPlayList,
-        padding: const EdgeInsets.symmetric(horizontal: 10));
+  _buildShareButton() {
+    return _iconButton(AppIcons.share, callback: () => shareCallback(id));
   }
 
-  _buildDownloadButton() {
-    return _iconButton(AppIcons.download);
+  _buildCheckmarkButton() {
+    final isSaved = savedEpisode.position != 0;
+    final isPlaying = status == "Playing";
+    final isLoading = status == "Loading";
+
+    if (!isSaved || isPlaying || isLoading) return Container();
+    return Expanded(
+      child: Container(
+        height: 20,
+        alignment: Alignment.centerRight,
+        child: PopupMenuButton(
+          padding: const EdgeInsets.only(left: 40),
+          iconSize: 20,
+          itemBuilder: (_) {
+            return [
+              PopupMenuItem(
+                height: 20,
+                onTap: () => markAsDoneCallback(id),
+                child: Row(
+                  children: const [
+                    AppText('Mark As Done', size: 16),
+                    SizedBox(width: 10),
+                    Icon(Icons.done, size: 18)
+                  ],
+                ),
+              )
+            ];
+          },
+        ),
+      ),
+    );
   }
 
   _buildStatusButton() {
-    final isOnHomepage = page == Pages.homepage;
-    final isOnChannelPage = page == Pages.channelPage;
-    final isPlaying = status == 'Playing';
-    final isLoading = status == 'Loading';
-    final isPaused = status == 'Paused';
-
     return GestureDetector(
       onTap: playCallback,
       child: Container(
           height: 30,
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-          decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              color: isPlaying ? AppColors.primaryColor : Colors.transparent,
-              border: isPlaying
-                  ? Border.all(width: 1.5, color: AppColors.primaryColor)
-                  : Border.all(width: 1, color: Colors.grey)),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.only(right: 15),
+          decoration: _decoration(),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            isPlaying
-                ? Lottie.asset('assets/icons/playing.json',
-                    fit: BoxFit.contain, height: 30)
-                : isLoading
-                    ? Lottie.asset('assets/icons/loading_2.json',
-                        fit: BoxFit.contain, height: 15)
-                    : Icon(isPaused ? AppIcons.play : AppIcons.playCircled,
-                        size: 20,
-                        color: isPaused
-                            ? AppColors.primaryColor
-                            : AppColors.accentColor),
-            AppText(
-                isOnHomepage
-                    ? isPaused
-                        ? '   ${remainingTime}left'
-                        : '  ' + status
-                    : isOnChannelPage
-                        ? isPlaying || isLoading
-                            ? '  ' + status
-                            : isPaused
-                                ? '   ${remainingTime}left'
-                                : '  $duration'
-                        : isPaused
-                            ? '   ${remainingTime}left'
-                            : isPlaying || isLoading
-                                ? '  ' + status
-                                : '  $duration',
-                weight: FontWeight.w400,
-                color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
-                size: 14),
+            _statusIcon(),
+            _statusText(),
           ])),
     );
   }
 
-  _iconButton(IconData icon, {EdgeInsetsGeometry padding = EdgeInsets.zero}) {
-    return IconButton(
-        onPressed: () {},
-        padding: padding,
-        constraints: const BoxConstraints(),
-        icon: Icon(icon, color: AppColors.primaryColor, size: 22));
+  _decoration() {
+    final isPlaying = status == 'Playing';
+    return BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: isPlaying ? AppColors.primaryColor : Colors.transparent,
+        border: isPlaying
+            ? Border.all(
+                width: 1.5,
+                color: AppColors.primaryColor,
+              )
+            : Border.all(
+                width: 1,
+                color: AppColors.disabledColor,
+              ));
+  }
+
+  _statusIcon() {
+    final isPlaying = status == 'Playing';
+    final isLoading = status == 'Loading';
+    final isPaused = status == 'Paused';
+    final isCompleted = status == 'Completed';
+
+    return isPlaying
+        ? Lottie.asset('assets/icons/playing.json',
+            fit: BoxFit.contain, height: 30)
+        : isLoading
+            ? Lottie.asset('assets/icons/loading_2.json',
+                fit: BoxFit.contain, height: 15)
+            : isPaused
+                ? const Icon(AppIcons.play,
+                    size: 20, color: AppColors.primaryColor)
+                : isCompleted
+                    ? const Icon(AppIcons.playCircled,
+                        size: 20, color: AppColors.accentColor)
+                    : savedEpisode.position != 0
+                        ? _circularIndicator()
+                        : const Icon(AppIcons.playCircled,
+                            size: 20, color: AppColors.accentColor);
+  }
+
+  _statusText() {
+    final isPlaying = status == 'Playing';
+    final isLoading = status == 'Loading';
+    final isPaused = status == 'Paused';
+    final isCompleted = status == 'Completed';
+
+    return AppText(
+        isPlaying || isLoading
+            ? '  ' + status
+            : isPaused
+                ? '   ${remainingTime}left'
+                : isCompleted
+                    ? '  $duration'
+                    : savedEpisode.position != 0
+                        ? '   ${savedEpisodeStatus}left'
+                        : '  $duration',
+        weight: FontWeight.w400,
+        color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
+        size: 14);
+  }
+
+  _circularIndicator() {
+    return CircularStepProgressIndicator(
+      totalSteps: 100,
+      currentStep: savedEpisode.timeLeftInPercentage,
+      stepSize: 1,
+      selectedColor: AppColors.secondaryColor,
+      unselectedColor: AppColors.disabledColor,
+      padding: 0,
+      width: 20,
+      height: 20,
+      selectedStepSize: 2,
+      unselectedStepSize: 1,
+      roundedCap: (_, __) => true,
+    );
+  }
+
+  _iconButton(IconData icon, {required VoidCallback callback}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: IconButton(
+          onPressed: callback,
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          icon: Icon(icon, color: AppColors.secondaryColor, size: 20)),
+    );
   }
 }

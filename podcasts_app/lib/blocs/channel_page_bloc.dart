@@ -26,6 +26,9 @@ class ChannelPageBloc extends Cubit<ChannelPageState> {
     }
   }
 
+  void share(ContentType contentType, String id) async =>
+      await service.share(contentType, id);
+
   _handleContentStream(ProgressIndicatorContent content) {
     final supplements =
         state.supplements.copyWith(playerState: content.playerState);

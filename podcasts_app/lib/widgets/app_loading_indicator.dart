@@ -24,7 +24,7 @@ class AppLoadingIndicator extends StatelessWidget {
                       height: 40, width: 40),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: AppText(message!, size: 18),
+                    child: AppText(message!, size: 16),
                   )
                 ],
               )

@@ -12,6 +12,7 @@ class Series with _$Series {
       @Default('') String name,
       @Default('') String channelName,
       @Default('') String description,
+      @Default(0) int totalNumberOfEpisodes,
       @Default('') String id,
       @Default('') String channelId,
       @Default([]) List<Episode> episodeList}) = _Series;
@@ -24,6 +25,7 @@ class Series with _$Series {
           id: json['id'],
           channelId: json['channelId'],
           description: json['description'],
+          totalNumberOfEpisodes: json['totalEpisodes'],
           channelName: channelName,
           episodeList: episodeList);
 }

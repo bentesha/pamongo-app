@@ -18,7 +18,7 @@ class _$ProgressIndicatorContentTearOff {
   const _$ProgressIndicatorContentTearOff();
 
   _ProgressIndicatorContent call(
-      {required List<dynamic> episodeList,
+      {required List<Episode> episodeList,
       int currentPosition = 0,
       IndicatorPlayerState playerState = inactiveState,
       SortStyles sortStyle = SortStyles.oldestFirst,
@@ -40,7 +40,7 @@ const $ProgressIndicatorContent = _$ProgressIndicatorContentTearOff();
 
 /// @nodoc
 mixin _$ProgressIndicatorContent {
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   int get currentPosition => throw _privateConstructorUsedError;
   IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
   SortStyles get sortStyle => throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ abstract class $ProgressIndicatorContentCopyWith<$Res> {
           $Res Function(ProgressIndicatorContent) then) =
       _$ProgressIndicatorContentCopyWithImpl<$Res>;
   $Res call(
-      {List<dynamic> episodeList,
+      {List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
       SortStyles sortStyle,
@@ -88,7 +88,7 @@ class _$ProgressIndicatorContentCopyWithImpl<$Res>
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       currentPosition: currentPosition == freezed
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
@@ -121,7 +121,7 @@ abstract class _$ProgressIndicatorContentCopyWith<$Res>
       __$ProgressIndicatorContentCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<dynamic> episodeList,
+      {List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
       SortStyles sortStyle,
@@ -154,7 +154,7 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
       episodeList: episodeList == freezed
           ? _value.episodeList
           : episodeList // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Episode>,
       currentPosition: currentPosition == freezed
           ? _value.currentPosition
           : currentPosition // ignore: cast_nullable_to_non_nullable
@@ -191,7 +191,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
       this.currentIndex = 0});
 
   @override
-  final List<dynamic> episodeList;
+  final List<Episode> episodeList;
   @JsonKey(defaultValue: 0)
   @override
   final int currentPosition;
@@ -254,7 +254,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
 
 abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
   const factory _ProgressIndicatorContent(
-      {required List<dynamic> episodeList,
+      {required List<Episode> episodeList,
       int currentPosition,
       IndicatorPlayerState playerState,
       SortStyles sortStyle,
@@ -262,7 +262,7 @@ abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
       int currentIndex}) = _$_ProgressIndicatorContent;
 
   @override
-  List<dynamic> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList => throw _privateConstructorUsedError;
   @override
   int get currentPosition => throw _privateConstructorUsedError;
   @override

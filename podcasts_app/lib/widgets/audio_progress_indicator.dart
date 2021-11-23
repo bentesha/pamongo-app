@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:podcasts/blocs/progress_indicator_bloc.dart';
 import 'package:podcasts/errors/audio_error.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/pages/playing_episode_page.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 import 'package:podcasts/states/progress_indicator_state.dart';
@@ -40,7 +41,10 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
           if (error != null) _showError(error);
         },
         builder: (_, state) {
-          return state.when(active: _buildContent, failed: _buildFailed);
+          return state.when(
+              active: _buildContent,
+              failed: _buildFailed,
+              initial: _buildInitial);
         });
   }
 
@@ -69,6 +73,10 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
   Widget _buildFailed(
       ProgressIndicatorContent content, bool isHiding, AudioError error) {
     return _buildContent(content, isHiding);
+  }
+
+  Widget _buildInitial(ProgressIndicatorContent content, bool isHiding) {
+    return Container();
   }
 
   _indicatorContent(ProgressIndicatorContent content) {

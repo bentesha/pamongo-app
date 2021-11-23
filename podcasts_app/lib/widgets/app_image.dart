@@ -7,8 +7,8 @@ class AppImage extends StatelessWidget {
   final bool fullWidth, leaveHeight, withBorders;
   const AppImage(
       {Key? key,
-      required this.radius,
       required this.image,
+      required this.radius,
       this.height = 180,
       this.fullWidth = false,
       this.leaveHeight = false,
@@ -29,10 +29,7 @@ class AppImage extends StatelessWidget {
                 Container(
                     constraints: const BoxConstraints.expand(),
                     alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.podcasts,
-                      size: 25,
-                    )),
+                    child: const Icon(Icons.podcasts, size: 25)),
                 Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
@@ -60,10 +57,7 @@ class AppImage extends StatelessWidget {
                 Container(
                     constraints: const BoxConstraints.expand(),
                     alignment: Alignment.center,
-                    child: const Icon(
-                      Icons.podcasts,
-                      size: 25,
-                    )),
+                    child: const Icon(Icons.podcasts, size: 25)),
                 Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(

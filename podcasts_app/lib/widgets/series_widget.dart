@@ -5,20 +5,15 @@ import 'package:podcasts/widgets/series_action_buttons.dart';
 
 class SeriesWidget extends StatefulWidget {
   final Series series;
-  const SeriesWidget(this.series, {key}) : super(key: key);
+  final VoidCallback shareCallback;
+  const SeriesWidget(this.series, {required this.shareCallback, key})
+      : super(key: key);
 
   @override
   State<SeriesWidget> createState() => _SeriesWidgetState();
 }
 
 class _SeriesWidgetState extends State<SeriesWidget> {
-  late final int numberOfEpisodes;
-  @override
-  void initState() {
-    super.initState();
-    numberOfEpisodes = widget.series.episodeList.length - 1;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -36,7 +31,8 @@ class _SeriesWidgetState extends State<SeriesWidget> {
                 weight: FontWeight.w600,
               ),
               const SizedBox(height: 3),
-              AppText('Episodes : $numberOfEpisodes', size: 14)
+              AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
+                  size: 14)
             ],
           ),
         ],
@@ -45,6 +41,7 @@ class _SeriesWidgetState extends State<SeriesWidget> {
       AppText(widget.series.description,
           size: 15, color: AppColors.textColor2, maxLines: 3),
       SeriesActionButtons(
+        shareCallback: widget.shareCallback,
         visitSeriesCallback: () =>
             SeriesPage.navigateTo(context, widget.series.id),
       )

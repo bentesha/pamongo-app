@@ -17,6 +17,13 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ProgressIndicatorStateTearOff {
   const _$ProgressIndicatorStateTearOff();
 
+  _Initial initial(ProgressIndicatorContent content, bool isHiding) {
+    return _Initial(
+      content,
+      isHiding,
+    );
+  }
+
   _Active active(ProgressIndicatorContent content, bool isHiding) {
     return _Active(
       content,
@@ -45,6 +52,8 @@ mixin _$ProgressIndicatorState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ProgressIndicatorContent content, bool isHiding)
+        initial,
+    required TResult Function(ProgressIndicatorContent content, bool isHiding)
         active,
     required TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)
@@ -53,6 +62,7 @@ mixin _$ProgressIndicatorState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -61,6 +71,7 @@ mixin _$ProgressIndicatorState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -70,18 +81,21 @@ mixin _$ProgressIndicatorState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_Active value) active,
     required TResult Function(_Failed value) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
     required TResult orElse(),
@@ -135,6 +149,175 @@ class _$ProgressIndicatorStateCopyWithImpl<$Res>
       return _then(_value.copyWith(content: value));
     });
   }
+}
+
+/// @nodoc
+abstract class _$InitialCopyWith<$Res>
+    implements $ProgressIndicatorStateCopyWith<$Res> {
+  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
+      __$InitialCopyWithImpl<$Res>;
+  @override
+  $Res call({ProgressIndicatorContent content, bool isHiding});
+
+  @override
+  $ProgressIndicatorContentCopyWith<$Res> get content;
+}
+
+/// @nodoc
+class __$InitialCopyWithImpl<$Res>
+    extends _$ProgressIndicatorStateCopyWithImpl<$Res>
+    implements _$InitialCopyWith<$Res> {
+  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
+      : super(_value, (v) => _then(v as _Initial));
+
+  @override
+  _Initial get _value => super._value as _Initial;
+
+  @override
+  $Res call({
+    Object? content = freezed,
+    Object? isHiding = freezed,
+  }) {
+    return _then(_Initial(
+      content == freezed
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as ProgressIndicatorContent,
+      isHiding == freezed
+          ? _value.isHiding
+          : isHiding // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Initial implements _Initial {
+  const _$_Initial(this.content, this.isHiding);
+
+  @override
+  final ProgressIndicatorContent content;
+  @override
+  final bool isHiding;
+
+  @override
+  String toString() {
+    return 'ProgressIndicatorState.initial(content: $content, isHiding: $isHiding)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _Initial &&
+            (identical(other.content, content) ||
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.isHiding, isHiding) ||
+                const DeepCollectionEquality()
+                    .equals(other.isHiding, isHiding)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(isHiding);
+
+  @JsonKey(ignore: true)
+  @override
+  _$InitialCopyWith<_Initial> get copyWith =>
+      __$InitialCopyWithImpl<_Initial>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ProgressIndicatorContent content, bool isHiding)
+        initial,
+    required TResult Function(ProgressIndicatorContent content, bool isHiding)
+        active,
+    required TResult Function(
+            ProgressIndicatorContent content, bool isHiding, AudioError error)
+        failed,
+  }) {
+    return initial(content, isHiding);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
+    TResult Function(
+            ProgressIndicatorContent content, bool isHiding, AudioError error)?
+        failed,
+  }) {
+    return initial?.call(content, isHiding);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
+    TResult Function(
+            ProgressIndicatorContent content, bool isHiding, AudioError error)?
+        failed,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(content, isHiding);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Active value) active,
+    required TResult Function(_Failed value) failed,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Active value)? active,
+    TResult Function(_Failed value)? failed,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Active value)? active,
+    TResult Function(_Failed value)? failed,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Initial implements ProgressIndicatorState {
+  const factory _Initial(ProgressIndicatorContent content, bool isHiding) =
+      _$_Initial;
+
+  @override
+  ProgressIndicatorContent get content => throw _privateConstructorUsedError;
+  @override
+  bool get isHiding => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$InitialCopyWith<_Initial> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -219,6 +402,8 @@ class _$_Active implements _Active {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ProgressIndicatorContent content, bool isHiding)
+        initial,
+    required TResult Function(ProgressIndicatorContent content, bool isHiding)
         active,
     required TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)
@@ -230,6 +415,7 @@ class _$_Active implements _Active {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -241,6 +427,7 @@ class _$_Active implements _Active {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -256,6 +443,7 @@ class _$_Active implements _Active {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_Active value) active,
     required TResult Function(_Failed value) failed,
   }) {
@@ -265,6 +453,7 @@ class _$_Active implements _Active {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
   }) {
@@ -274,6 +463,7 @@ class _$_Active implements _Active {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
     required TResult orElse(),
@@ -391,6 +581,8 @@ class _$_Failed implements _Failed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ProgressIndicatorContent content, bool isHiding)
+        initial,
+    required TResult Function(ProgressIndicatorContent content, bool isHiding)
         active,
     required TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)
@@ -402,6 +594,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -413,6 +606,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ProgressIndicatorContent content, bool isHiding)? initial,
     TResult Function(ProgressIndicatorContent content, bool isHiding)? active,
     TResult Function(
             ProgressIndicatorContent content, bool isHiding, AudioError error)?
@@ -428,6 +622,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_Active value) active,
     required TResult Function(_Failed value) failed,
   }) {
@@ -437,6 +632,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
   }) {
@@ -446,6 +642,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_Active value)? active,
     TResult Function(_Failed value)? failed,
     required TResult orElse(),

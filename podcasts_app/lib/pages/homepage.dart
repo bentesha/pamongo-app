@@ -16,6 +16,10 @@ import 'series_page.dart';
 class Homepage extends StatefulWidget {
   const Homepage({key}) : super(key: key);
 
+  static navigateTo(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const Homepage()), (_) => false);
+
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -77,9 +81,7 @@ class _HomepageState extends State<Homepage> {
                 delegate: SliverChildListDelegate.fixed([
               _buildSeries(seriesList),
               _buildRecent(episodeList, supplements),
-              shouldLeaveSpace
-                  ? const SizedBox(height: 80)
-                  : const SizedBox(height: 15),
+              SizedBox(height: shouldLeaveSpace ? 80 : 15)
             ]))
           ],
         ));
@@ -91,7 +93,7 @@ class _HomepageState extends State<Homepage> {
       children: [
         const Padding(
           padding: EdgeInsets.only(left: 18, top: 18),
-          child: AppText('Featured Series', weight: FontWeight.w600, size: 20),
+          child: AppText('Featured Series', weight: FontWeight.w600, size: 18),
         ),
         const SizedBox(height: 10),
         SingleChildScrollView(
@@ -100,7 +102,6 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
-
               return _buildSeriesEntry(series, index, seriesList.length);
             }).toList(),
           ),
@@ -118,14 +119,14 @@ class _HomepageState extends State<Homepage> {
       onTap: () async => SeriesPage.navigateTo(context, series.id),
       child: Container(
         width: 96,
-        margin:
-            EdgeInsets.only(left: isFirst ? 18 : 10, right: isLast ? 12 : 0),
+        margin: EdgeInsets.only(
+            left: isFirst ? 18 : 10, right: isLast ? 12 : 0, bottom: 5),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           AppImage(image: series.image, height: 96, width: 96, radius: 10),
           const SizedBox(height: 9),
           AppText(series.name,
               alignment: TextAlign.start,
-              size: 14,
+              size: 13,
               maxLines: 3,
               color: AppColors.textColor2,
               weight: FontWeight.w600),
@@ -145,10 +146,13 @@ class _HomepageState extends State<Homepage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
             .map((e) => EpisodeTiles.homepage(
-                resumeCallback: bloc.togglePlayerStatus,
-                playCallback: bloc.play,
-                supplements: supplements,
-                episode: e))
+                  resumeCallback: bloc.togglePlayerStatus,
+                  playCallback: bloc.play,
+                  supplements: supplements,
+                  episode: e,
+                  markAsDoneCallback: bloc.markAsPlayed,
+                  shareCallback: bloc.share,
+                ))
             .toList());
   }
 

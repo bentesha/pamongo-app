@@ -12,4 +12,5 @@ class AppIcons {
   static const share = EvaIcons.shareOutline;
   static const follow = EvaIcons.plus;
   static const podcast = EvaIcons.radioOutline;
+  static const markAsDone = Icons.more_vert;
 }

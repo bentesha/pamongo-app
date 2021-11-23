@@ -16,11 +16,13 @@ class HighlightedText extends StatelessWidget {
     final highlighted = appText.data.substring(index, index + keyword.length);
 
     return RichText(
+        maxLines: appText.maxLines,
+        overflow: TextOverflow.ellipsis,
         text: TextSpan(text: before, style: appText.style(), children: [
-      TextSpan(
-          text: highlighted,
-          style: const TextStyle(color: AppColors.accentColor)),
-      TextSpan(text: after)
-    ]));
+          TextSpan(
+              text: highlighted,
+              style: const TextStyle(color: AppColors.accentColor)),
+          TextSpan(text: after)
+        ]));
   }
 }

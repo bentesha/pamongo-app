@@ -13,10 +13,14 @@ import 'package:podcasts/widgets/series_action_buttons.dart';
 import 'package:podcasts/widgets/sort_button.dart';
 import '../source.dart';
 import 'channel_page.dart';
+import 'homepage.dart';
 
 class SeriesPage extends StatefulWidget {
   final String seriesId;
-  const SeriesPage(this.seriesId, {key}) : super(key: key);
+  final bool isOpenedUsingLink;
+
+  const SeriesPage(this.seriesId, {this.isOpenedUsingLink = false, key})
+      : super(key: key);
 
   static void navigateTo(BuildContext context, String seriesId) =>
       Navigator.of(context)
@@ -62,13 +66,16 @@ class _SeriesPageState extends State<SeriesPage> {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
         return true;
       },
-      child: Scaffold(
-        appBar: _buildAppBar(series.name),
-        body: ListView(children: [
-          _buildTitle(series),
-          _buildEpisodeList(episodeList, supplements),
-          shouldLeaveSpace ? const SizedBox(height: 80) : Container()
-        ]),
+      child: WillPopScope(
+        onWillPop: _handlePop,
+        child: Scaffold(
+          appBar: _buildAppBar(series.name),
+          body: ListView(children: [
+            _buildTitle(series),
+            _buildEpisodeList(episodeList, supplements),
+            shouldLeaveSpace ? const SizedBox(height: 80) : Container()
+          ]),
+        ),
       ),
     );
   }
@@ -80,7 +87,10 @@ class _SeriesPageState extends State<SeriesPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.seriesPage(
-                topScrolledPixels: value, title: appBarTitle);
+              topScrolledPixels: value,
+              title: appBarTitle,
+              isOpenedUsingLink: widget.isOpenedUsingLink,
+            );
           }),
     );
   }
@@ -114,11 +124,14 @@ class _SeriesPageState extends State<SeriesPage> {
           ]),
         ),
         const SizedBox(height: 10),
-        SeriesActionButtons(visitSeriesCallback: () {}, isOnSeriesPage: true),
+        SeriesActionButtons(
+            visitSeriesCallback: () {},
+            shareCallback: () => bloc.share(ContentType.series, series.id),
+            isOnSeriesPage: true),
         Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10, top: 5),
             child: AppRichText(
-              text: AppText(series.description, size: 16, maxLines: 4),
+              text: AppText(series.description, size: 16, maxLines: 5),
               useToggleExpansionButtons: true,
             )),
       ]),
@@ -139,8 +152,9 @@ class _SeriesPageState extends State<SeriesPage> {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(height: 1, color: AppColors.dividerColor),
               Padding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 10, 0),
+                padding: const EdgeInsets.fromLTRB(18, 10, 10, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
@@ -167,7 +181,9 @@ class _SeriesPageState extends State<SeriesPage> {
                     episode: episodeList[index],
                     supplements: supplements,
                     resumeCallback: bloc.togglePlayerStatus,
-                    playCallback: bloc.play),
+                    playCallback: bloc.play,
+                    markAsDoneCallback: bloc.markAsPlayed,
+                    shareCallback: (id) => bloc.share(ContentType.episode, id)),
               ),
               const SizedBox(height: 10)
             ],
@@ -181,5 +197,12 @@ class _SeriesPageState extends State<SeriesPage> {
 
   Widget _buildLoading(Series series, Supplements supplements) {
     return const AppLoadingIndicator();
+  }
+
+  /// pushes to homepage if app is opened using the link, otherwise normal
+  /// behaviour applies.
+  Future<bool> _handlePop() async {
+    if (widget.isOpenedUsingLink) Homepage.navigateTo(context);
+    return true;
   }
 }

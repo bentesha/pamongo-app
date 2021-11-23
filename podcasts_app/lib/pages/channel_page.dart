@@ -7,15 +7,19 @@ import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/states/channel_page_state.dart';
+import 'package:podcasts/widgets/app_top_bars.dart';
 import 'package:podcasts/widgets/channel_action_buttons.dart';
 import 'package:podcasts/widgets/error_screen.dart';
 import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
+import 'homepage.dart';
 
 class ChannelPage extends StatefulWidget {
-  const ChannelPage(this.channelId, {key}) : super(key: key);
+  const ChannelPage(this.channelId, {this.isOpenedUsingLink = false, key})
+      : super(key: key);
 
   final String channelId;
+  final bool isOpenedUsingLink;
 
   static void navigateTo(BuildContext context, {required String channelId}) {
     Navigator.push(context,
@@ -59,13 +63,16 @@ class _ChannelPageState extends State<ChannelPage> {
         topScrolledPixelsNotifier.value = notification.metrics.pixels;
         return true;
       },
-      child: Scaffold(
-        appBar: _buildAppBar(channel.name),
-        body: ListView(padding: EdgeInsets.zero, children: [
-          _buildTitle(channel),
-          _buildSeriesList(channel),
-          shouldLeaveSpace ? const SizedBox(height: 80) : Container()
-        ]),
+      child: WillPopScope(
+        onWillPop: _handlePop,
+        child: Scaffold(
+          appBar: _buildAppBar(channel.name),
+          body: ListView(padding: EdgeInsets.zero, children: [
+            _buildTitle(channel),
+            _buildSeriesList(channel),
+            shouldLeaveSpace ? const SizedBox(height: 80) : Container()
+          ]),
+        ),
       ),
     );
   }
@@ -77,7 +84,10 @@ class _ChannelPageState extends State<ChannelPage> {
           valueListenable: topScrolledPixelsNotifier,
           builder: (context, value, child) {
             return AppTopBars.channelPage(
-                topScrolledPixels: value, title: appBarTitle);
+              topScrolledPixels: value,
+              title: appBarTitle,
+              isOpenedUsingLink: widget.isOpenedUsingLink,
+            );
           }),
     );
   }
@@ -108,7 +118,7 @@ class _ChannelPageState extends State<ChannelPage> {
           ]),
         ),
         const SizedBox(height: 10),
-        const ChannelActionButtons(),
+        ChannelActionButtons(() => bloc.share(ContentType.channel, channel.id)),
         Padding(
           padding: const EdgeInsets.only(right: 10),
           child: AppRichText(
@@ -121,16 +131,15 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildSeriesList(Channel channel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(height: 1, color: AppColors.dividerColor),
           const Padding(
-            padding: EdgeInsets.fromLTRB(18, 10, 10, 0),
+            padding: EdgeInsets.fromLTRB(18, 10, 10, 8),
             child: AppText('Channel Series', size: 18, family: 'Louis'),
           ),
-          const SizedBox(height: 8),
           ListView.builder(
               itemCount: channel.seriesList.length,
               shrinkWrap: true,
@@ -149,8 +158,9 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.dividerColor),
       Padding(
-          padding: const EdgeInsets.fromLTRB(18, 10, 15, 0),
-          child: SeriesWidget(series)),
+          padding: EdgeInsets.fromLTRB(18, index == 0 ? 0 : 10, 15, 0),
+          child: SeriesWidget(series,
+              shareCallback: () => bloc.share(ContentType.series, series.id))),
     ]);
   }
 
@@ -161,4 +171,11 @@ class _ChannelPageState extends State<ChannelPage> {
   Widget _buildFailed(Channel channel, Supplements supplements) =>
       ErrorScreen(supplements.apiError!,
           refreshCallback: () => bloc.init(widget.channelId));
+
+  /// pushes to homepage if app is opened using the link, otherwise normal
+  /// behaviour applies.
+  Future<bool> _handlePop() async {
+    if (widget.isOpenedUsingLink) Homepage.navigateTo(context);
+    return true;
+  }
 }
