@@ -1,8 +1,4 @@
-import 'package:bloc/bloc.dart';
 import '../source.dart';
-import 'package:podcasts/repositories/podcasts_repository.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/utils/utils.dart';
 
 class EpisodePageBloc extends Cubit<EpisodePageState> {
   final AudioPlayerService service;

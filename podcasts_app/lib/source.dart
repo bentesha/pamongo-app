@@ -5,6 +5,7 @@ export 'dart:developer' show log;
 export 'package:provider/provider.dart';
 export 'package:podcasts/utils/utils.dart';
 export 'package:podcasts/services/audio_player_service.dart';
+export 'package:podcasts/repositories/podcasts_repository.dart';
 
 export 'package:podcasts/widgets/widgets_source.dart';
 export 'package:podcasts/models/models_source.dart';

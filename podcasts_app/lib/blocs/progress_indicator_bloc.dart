@@ -1,6 +1,4 @@
-import 'package:bloc/bloc.dart';
 import '../source.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
