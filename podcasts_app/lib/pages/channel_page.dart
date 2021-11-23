@@ -1,17 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:podcasts/blocs/channel_page_bloc.dart';
-import 'package:podcasts/models/channel.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/models/series.dart';
-import 'package:podcasts/models/supplements.dart';
-import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/states/channel_page_state.dart';
-import 'package:podcasts/widgets/channel_action_buttons.dart';
-import 'package:podcasts/widgets/error_screen.dart';
-import 'package:podcasts/widgets/series_widget.dart';
 import '../source.dart';
-import 'homepage.dart';
 
 class ChannelPage extends StatefulWidget {
   const ChannelPage(this.channelId, {this.isOpenedUsingLink = false, key})

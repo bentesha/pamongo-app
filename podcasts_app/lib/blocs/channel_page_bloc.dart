@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:podcasts/errors/api_error.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
+import '../source.dart';
 import 'package:podcasts/repositories/podcasts_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
-import 'package:podcasts/states/channel_page_state.dart';
 
 class ChannelPageBloc extends Cubit<ChannelPageState> {
   final AudioPlayerService service;

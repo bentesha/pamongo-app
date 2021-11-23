@@ -2,11 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:podcasts/constants.dart';
-import 'package:podcasts/errors/api_error.dart';
-import 'package:podcasts/models/channel.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:http/http.dart' as http;
-import 'package:podcasts/models/series.dart';
+import 'package:podcasts/source.dart';
 
 class PodcastsRepository {
   static const timeLimit = Duration(seconds: 10);

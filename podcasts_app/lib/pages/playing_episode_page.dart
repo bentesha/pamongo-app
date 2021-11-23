@@ -1,11 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:podcasts/blocs/progress_indicator_bloc.dart';
-import 'package:podcasts/errors/audio_error.dart';
-import 'package:podcasts/models/episode.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/states/progress_indicator_state.dart';
-import 'package:podcasts/widgets/app_text_button.dart';
 import '../source.dart';
 
 class PlayingEpisodePage extends StatefulWidget {

@@ -1,7 +1,5 @@
-import 'package:podcasts/models/episode.dart';
-import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/source.dart';
-import 'package:podcasts/widgets/app_rich_text.dart';
+import 'episode_title.dart';
 
 class EpisodeTile extends StatelessWidget {
   const EpisodeTile(
