@@ -12,6 +12,7 @@ typedef ContentStream = Stream<ProgressIndicatorContent>;
 typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
 
 enum ContentType { episode, series, channel }
+
 class AudioPlayerService {
   static final player = AudioPlayer();
   static final box = Hive.box('played_episodes');
