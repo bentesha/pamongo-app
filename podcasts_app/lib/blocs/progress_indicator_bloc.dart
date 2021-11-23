@@ -1,5 +1,4 @@
 import 'package:audio_session/audio_session.dart';
-
 import '../source.dart';
 
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
