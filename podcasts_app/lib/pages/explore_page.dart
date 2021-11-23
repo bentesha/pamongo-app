@@ -186,7 +186,7 @@ class _ExplorePageState extends State<ExplorePage> {
     return list.isEmpty
         ? Container(
             alignment: Alignment.topCenter,
-            margin: EdgeInsets.only(top: 30),
+            margin: const EdgeInsets.only(top: 30),
             child: AppText('No $content matches that keyword', size: 16))
         : GridView.count(
             mainAxisSpacing: 10,

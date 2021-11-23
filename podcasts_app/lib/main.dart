@@ -1,3 +1,4 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/services/audio_player_service.dart';
@@ -15,7 +16,9 @@ void main() async {
 
   await Hive.openBox('played_episodes');
 
+  final session = await AudioSession.instance;
+
   final myApp = Provider<AudioPlayerService>(
-      create: (_) => AudioPlayerService(), child: const MyApp());
+      create: (_) => AudioPlayerService(session), child: const MyApp());
   runApp(myApp);
 }

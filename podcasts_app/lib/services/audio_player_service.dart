@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:podcasts/constants.dart';
@@ -10,6 +11,7 @@ import 'package:share_plus/share_plus.dart';
 
 typedef ContentStream = Stream<ProgressIndicatorContent>;
 typedef ContentStreamController = StreamController<ProgressIndicatorContent>;
+typedef InterruptionStream = Stream<AudioInterruptionEvent>;
 
 enum ContentType { episode, series, channel }
 
@@ -22,19 +24,25 @@ class AudioPlayerService {
   static final contentController = ContentStreamController.broadcast();
   var _duration = 0;
 
+  AudioPlayerService(this.session);
+
+  final AudioSession session;
+
   ContentStream get onIndicatorContentStateChanged => contentController.stream;
   ProgressIndicatorContent get getCurrentContent => _content;
   Stream<Duration?> get onAudioPositionChanged => player.positionStream;
   int get getBufferedPosition => player.bufferedPosition.inMilliseconds;
   int get getRemainingTime => _duration - player.position.inMilliseconds;
+  InterruptionStream get onInterruption => session.interruptionEventStream;
+  Stream get onEarphoneDetached => session.becomingNoisyEventStream;
 
   Future<void> play(List<Episode> episodeList,
-      {int index = 0, bool shoudlFormatIndex = true}) async {
+      {int index = 0, bool shouldFormatIndex = true}) async {
     _addCurrentToBox();
 
     final lastIndex = episodeList.length - 1;
     final isLatestFirstSorted = _content.sortStyle == SortStyles.latestFirst;
-    if (isLatestFirstSorted && shoudlFormatIndex) index = lastIndex - index;
+    if (isLatestFirstSorted && shouldFormatIndex) index = lastIndex - index;
     var episode = episodeList[index];
     final previousId = _content.episodeList[_content.currentIndex].id;
 
@@ -81,13 +89,16 @@ class AudioPlayerService {
     final isPlaying = playerState == playingState;
     final isLoading = playerState == loadingState;
     final isPaused = playerState == pausedState;
+    final isInactive = playerState == inactiveState;
 
+    if (isInactive) return;
     if (isLoading) return;
     if (hasFailedToBuffer) return _handleSeekCallback(currentPosition, index);
     if (isCompleted) return await play(_content.episodeList, index: index);
     if (isPlaying) {
       _updateContentWith(
-          playerState: pausedState, currentPosition: currentPosition);
+          playerState: pausedState,
+          currentPosition: player.position.inMilliseconds);
       await player.pause();
       return;
     }
@@ -136,7 +147,7 @@ class AudioPlayerService {
     var index = _content.currentIndex;
     final isLast = index == _content.episodeList.length - 1;
     index = isLast ? index : index + 1;
-    await play(_content.episodeList, index: index, shoudlFormatIndex: false);
+    await play(_content.episodeList, index: index, shouldFormatIndex: false);
   }
 
   Future<void> seekPrev() async {
@@ -149,7 +160,7 @@ class AudioPlayerService {
 
     final isLast = index == 1;
     index = isLast ? index : index - 1;
-    await play(_content.episodeList, index: index, shoudlFormatIndex: false);
+    await play(_content.episodeList, index: index, shouldFormatIndex: false);
   }
 
   void markAsCompleted() {
@@ -180,6 +191,7 @@ class AudioPlayerService {
     );
 
     final episode = _content.episodeList[index];
+
     try {
       if (player.playing) player.pause();
       await _checkConnectivity();
