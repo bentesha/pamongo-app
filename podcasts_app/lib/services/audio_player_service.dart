@@ -38,21 +38,21 @@ class AudioPlayerService {
 
   Future<void> play(List<Episode> episodeList,
       {int index = 0, bool shouldFormatIndex = true}) async {
-    _addCurrentToBox();
-
     final lastIndex = episodeList.length - 1;
     final isLatestFirstSorted = _content.sortStyle == SortStyles.latestFirst;
     if (isLatestFirstSorted && shouldFormatIndex) index = lastIndex - index;
     var episode = episodeList[index];
-    final previousId = _content.episodeList[_content.currentIndex].id;
 
-    if (box.containsKey(episodeList[index].id) && previousId != episode.id) {
+    if (box.containsKey(episodeList[index].id)) {
+      _addCurrentToBox();
       final savedEpisode = box.get(episode.id) as SavedEpisode;
       _duration = savedEpisode.duration;
       _updateContentWith(currentIndex: index, episodeList: episodeList);
       _handleSeekCallback(savedEpisode.position, index);
       return;
     }
+
+    _addCurrentToBox();
 
     _updateContentWith(
       episodeList: episodeList,
@@ -245,6 +245,12 @@ class AudioPlayerService {
       default:
     }
     await Share.share(text);
+  }
+
+  void handleInterruptions(AudioInterruptionType type) {
+    final isPaused = _content.playerState == pausedState;
+    if (isPaused && type == AudioInterruptionType.pause) return;
+    toggleStatus();
   }
 
   _handleAudioError(AudioError error) {

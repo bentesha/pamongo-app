@@ -43,8 +43,9 @@ class EpisodeActionButtons extends StatelessWidget {
     final isSaved = savedEpisode.position != 0;
     final isPlaying = status == "Playing";
     final isLoading = status == "Loading";
+    final isPaused = status == 'Paused';
 
-    if (!isSaved || isPlaying || isLoading) return Container();
+    if (!isSaved || isPlaying || isLoading || isPaused) return Container();
     return Expanded(
       child: Container(
         height: 20,
@@ -133,16 +134,21 @@ class EpisodeActionButtons extends StatelessWidget {
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
     final isCompleted = status == 'Completed';
+    var savedStatus = savedEpisodeStatus;
+    var timeLeft = remainingTime;
+
+    if (savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
+    if (timeLeft.contains('00 min')) timeLeft = '< 1 min ';
 
     return AppText(
         isPlaying || isLoading
             ? '  ' + status
             : isPaused
-                ? '   ${remainingTime}left'
+                ? '   ${timeLeft}left'
                 : isCompleted
                     ? '  $duration'
                     : savedEpisode.position != 0
-                        ? '   ${savedEpisodeStatus}left'
+                        ? '   ${savedStatus}left'
                         : '  $duration',
         weight: FontWeight.w400,
         color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
