@@ -23,24 +23,7 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
     });
 
     service.onInterruption.listen((event) {
-      if (event.begin) {
-        switch (event.type) {
-          case AudioInterruptionType.duck:
-          case AudioInterruptionType.pause:
-          case AudioInterruptionType.unknown:
-            service.toggleStatus();
-            break;
-        }
-      } else {
-        switch (event.type) {
-          case AudioInterruptionType.duck:
-          case AudioInterruptionType.pause:
-            service.toggleStatus();
-            break;
-          case AudioInterruptionType.unknown:
-            break;
-        }
-      }
+      _handleAudioInterruptions(event);
     });
   }
 
@@ -87,18 +70,15 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
         position != Duration.zero &&
         duration != 0 &&
         playerState != errorState &&
-        playerState != loadingState &&
-        playerState != completedState;
+        playerState != loadingState;
 
     if (shouldUpdatePosition) {
       final _position = position!.inMilliseconds >= duration
           ? duration
           : position.inMilliseconds;
 
-      if (_position >= duration) {
-        service.markAsCompleted();
-        return;
-      }
+      //* below
+      if (duration - _position <= 100) return service.markAsCompleted();
 
       if (_position >= bufferedPosition &&
           bufferedPosition < duration &&
@@ -116,4 +96,32 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
     isExpanded = !isExpanded;
     emit(ProgressIndicatorState.active(state.content, !state.isHiding));
   }
+
+  _handleAudioInterruptions(AudioInterruptionEvent event) {
+    if (event.begin) {
+      switch (event.type) {
+        case AudioInterruptionType.duck:
+        case AudioInterruptionType.pause:
+        case AudioInterruptionType.unknown:
+          service.handleInterruptions(event.type);
+          break;
+      }
+    } else {
+      switch (event.type) {
+        case AudioInterruptionType.duck:
+        case AudioInterruptionType.pause:
+          service.handleInterruptions(event.type);
+          break;
+        case AudioInterruptionType.unknown:
+          break;
+      }
+    }
+  }
 }
+
+
+//*
+//should've been _position == duration, but this works correctly only when the
+//episode has not been saved in the local storage, if it is, the way the 
+//plugin position stream fires final position becomes greater than the 
+//duration by few millisconds.
