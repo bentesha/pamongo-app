@@ -82,7 +82,6 @@ class _HomepageState extends State<Homepage> {
           padding: EdgeInsets.only(left: 18, top: 18),
           child: AppText('Featured Series', weight: FontWeight.w600, size: 18),
         ),
-        const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -102,28 +101,33 @@ class _HomepageState extends State<Homepage> {
     final isFirst = seriesIndex == 0;
     final isLast = seriesIndex == seriesLength - 1;
 
-    return GestureDetector(
-      onTap: () async => SeriesPage.navigateTo(context, series.id),
-      child: Container(
-        width: 96,
-        margin: EdgeInsets.only(
-            left: isFirst ? 18 : 10, right: isLast ? 12 : 0, bottom: 5),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          AppImage(image: series.image, height: 96, width: 96, radius: 10),
-          const SizedBox(height: 9),
-          AppText(series.name,
-              alignment: TextAlign.start,
-              size: 13,
-              maxLines: 3,
-              color: AppColors.textColor2,
-              weight: FontWeight.w600),
-          const SizedBox(height: 5),
-          AppText(series.channelName,
-              size: 12,
-              alignment: TextAlign.start,
-              color: AppColors.textColor2,
-              maxLines: 3)
-        ]),
+    return Container(
+      width: 96,
+      margin: EdgeInsets.only(
+          left: isFirst ? 12 : 0, right: isLast ? 8 : 0, top: 3),
+      child: AppMaterialButton(
+        borderRadius: 10,
+        onPressed: () async => SeriesPage.navigateTo(context, series.id),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            AppImage(image: series.image, height: 96, width: 96, radius: 10),
+            const SizedBox(height: 9),
+            AppText(series.name,
+                alignment: TextAlign.start,
+                size: 13,
+                maxLines: 3,
+                color: AppColors.textColor2,
+                weight: FontWeight.w600),
+            const SizedBox(height: 5),
+            AppText(series.channelName,
+                size: 12,
+                alignment: TextAlign.start,
+                color: AppColors.textColor2,
+                maxLines: 3)
+          ]),
+        ),
       ),
     );
   }

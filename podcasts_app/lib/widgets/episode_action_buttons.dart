@@ -53,16 +53,18 @@ class EpisodeActionButtons extends StatelessWidget {
         child: PopupMenuButton(
           padding: const EdgeInsets.only(left: 40),
           iconSize: 20,
+          color: AppColors.secondaryColor,
           itemBuilder: (_) {
             return [
               PopupMenuItem(
-                height: 20,
+                height: 30,
                 onTap: () => markAsDoneCallback(id),
                 child: Row(
                   children: const [
-                    AppText('Mark As Done', size: 16),
+                    AppText('Mark As Done',
+                        size: 16, color: AppColors.onPrimary),
                     SizedBox(width: 10),
-                    Icon(Icons.done, size: 18)
+                    Icon(Icons.done, size: 18, color: AppColors.onPrimary)
                   ],
                 ),
               )
