@@ -20,12 +20,15 @@ class SortButton extends StatelessWidget {
           icon: Icon(AppIcons.sort, size: 20.dw),
           onSelected: onSelectedCallback,
           padding: EdgeInsets.zero,
+          color: AppColors.secondaryColor,
           itemBuilder: (context) => [
                 PopupMenuItem(
                     height: 35.dh,
                     enabled: false,
-                    child:
-                        AppText("Sort by", weight: FontWeight.w600, size: 16.w),
+                    child: AppText("Sort by",
+                        weight: FontWeight.w600,
+                        size: 16.w,
+                        color: AppColors.onPrimary),
                     value: 0),
                 PopupMenuItem(
                     height: 35.dh,
@@ -51,7 +54,7 @@ class SortButton extends StatelessWidget {
                 color:
                     isSelected ? AppColors.accentColor : Colors.transparent)),
         SizedBox(width: 10.dw),
-        AppText(text, size: 15.w),
+        AppText(text, size: 15.w, color: AppColors.onPrimary),
       ],
     );
   }

@@ -97,7 +97,7 @@ class _ExplorePageState extends State<ExplorePage> {
               fillColor: AppColors.indicatorColor,
               enabledBorder: _inputBorder,
               focusedBorder: _inputBorder,
-              contentPadding: EdgeInsets.only(left: 10.dw, top: 15.dh),
+              contentPadding: EdgeInsets.only(left: 10.dw, top: 15.dw),
               suffixIcon: IconButton(
                   onPressed: keyword.isEmpty
                       ? () {}

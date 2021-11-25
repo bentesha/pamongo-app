@@ -51,13 +51,13 @@ class PodcastsRepository {
           '${root}series?eager=%5Bchannel,episodes%5D&channelId=$channelId';
       final response = await http.get(Uri.parse(url)).timeout(timeLimit);
       final body = jsonDecode(response.body);
-      final jsonSeries = body['results'];
-      final jsonChannel = jsonSeries.first['channel'];
+      final results = body['results'];
+      final jsonChannel = results.first['channel'];
 
-      final seriesList = jsonSeries.map((series) {
-        return Series.fromJson(series, channelName: jsonChannel['name']);
-      }).toList();
-
+      final List<Series> seriesList = [];
+      for (Map<String, dynamic> e in results) {
+        seriesList.add(Series.fromJson(e, channelName: jsonChannel['name']));
+      }
       return Channel.fromJson(jsonChannel, seriesList: seriesList);
     } on TimeoutException catch (_) {
       throw ApiError.fromType(ApiErrorType.timeout);

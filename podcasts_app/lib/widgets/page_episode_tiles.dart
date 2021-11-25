@@ -104,29 +104,27 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
     return Column(
       children: [
         Container(height: 1, color: AppColors.dividerColor),
-        GestureDetector(
-          onTap: () => EpisodePage.navigateTo(context, widget.episode),
-          child: Container(
-            color: Colors.transparent,
-            child: Padding(
-                padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
-                child: EpisodeTile(
-                  page: Pages.homepage,
-                  episode: widget.episode,
-                  status: status,
-                  shareCallback: widget.shareCallback,
-                  savedEpisodeStatus: savedEpisodeStatus,
-                  savedEpisode: savedEpisode,
-                  remainingTime: widget.supplements.activeEpisodeRemainingTime,
-                  descriptionMaxLines: 3,
-                  markAsDoneCallback: widget.markAsDoneCallback,
-                  playCallback: isActive
-                      ? widget.resumeCallback
-                      : isLoading
-                          ? () {}
-                          : () => widget.playCallback(episode),
-                  duration: duration,
-                )),
+        AppMaterialButton(
+          onPressed: () => EpisodePage.navigateTo(context, widget.episode),
+          child: Padding(
+            padding: EdgeInsets.only(left: 18.dw, right: 20.dw),
+            child: EpisodeTile(
+              page: Pages.homepage,
+              episode: widget.episode,
+              status: status,
+              shareCallback: widget.shareCallback,
+              savedEpisodeStatus: savedEpisodeStatus,
+              savedEpisode: savedEpisode,
+              remainingTime: widget.supplements.activeEpisodeRemainingTime,
+              descriptionMaxLines: 3,
+              markAsDoneCallback: widget.markAsDoneCallback,
+              playCallback: isActive
+                  ? widget.resumeCallback
+                  : isLoading
+                      ? () {}
+                      : () => widget.playCallback(episode),
+              duration: duration,
+            ),
           ),
         ),
       ],
