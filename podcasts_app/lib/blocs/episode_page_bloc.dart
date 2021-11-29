@@ -17,12 +17,8 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final playerState = content.playerState;
     episode = episode ?? await PodcastsRepository.getEpisodeById(episodeId);
 
-    final supplements = state.supplements.copyWith(
-        activeId: id,
-        playerState: playerState,
-        activeEpisodeRemainingTime: playerState == pausedState
-            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
-            : state.supplements.activeEpisodeRemainingTime);
+    final supplements =
+        state.supplements.copyWith(activeId: id, playerState: playerState);
     emit(EpisodePageState.content(episode, supplements));
   }
 
@@ -39,13 +35,8 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
 
-    emit(EpisodePageState.loading(state.episode, state.supplements));
-    final supplements = state.supplements.copyWith(
-        activeId: id,
-        playerState: playerState,
-        activeEpisodeRemainingTime: playerState == pausedState
-            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
-            : state.supplements.activeEpisodeRemainingTime);
+    final supplements =
+        state.supplements.copyWith(activeId: id, playerState: playerState);
     emit(EpisodePageState.content(state.episode, supplements));
   }
 }

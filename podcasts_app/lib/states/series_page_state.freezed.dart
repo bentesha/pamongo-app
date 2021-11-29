@@ -208,19 +208,15 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Loading &&
-            (identical(other.series, series) ||
-                const DeepCollectionEquality().equals(other.series, series)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            (identical(other.series, series) || other.series == series) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(series) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, series, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -300,9 +296,9 @@ abstract class _Loading implements SeriesPageState {
   const factory _Loading(Series series, Supplements supplements) = _$_Loading;
 
   @override
-  Series get series => throw _privateConstructorUsedError;
+  Series get series;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -368,19 +364,15 @@ class _$_Content implements _Content {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Content &&
-            (identical(other.series, series) ||
-                const DeepCollectionEquality().equals(other.series, series)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            (identical(other.series, series) || other.series == series) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(series) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, series, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -460,9 +452,9 @@ abstract class _Content implements SeriesPageState {
   const factory _Content(Series series, Supplements supplements) = _$_Content;
 
   @override
-  Series get series => throw _privateConstructorUsedError;
+  Series get series;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
@@ -528,19 +520,15 @@ class _$_Failed implements _Failed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.series, series) ||
-                const DeepCollectionEquality().equals(other.series, series)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failed &&
+            (identical(other.series, series) || other.series == series) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(series) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, series, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -620,9 +608,9 @@ abstract class _Failed implements SeriesPageState {
   const factory _Failed(Series series, Supplements supplements) = _$_Failed;
 
   @override
-  Series get series => throw _privateConstructorUsedError;
+  Series get series;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;

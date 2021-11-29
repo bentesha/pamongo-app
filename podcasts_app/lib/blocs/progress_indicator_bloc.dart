@@ -103,14 +103,14 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
         case AudioInterruptionType.duck:
         case AudioInterruptionType.pause:
         case AudioInterruptionType.unknown:
-          service.handleInterruptions(event.type);
+          service.handleInterruptions(event.type, true);
           break;
       }
     } else {
       switch (event.type) {
         case AudioInterruptionType.duck:
         case AudioInterruptionType.pause:
-          service.handleInterruptions(event.type);
+          service.handleInterruptions(event.type, false);
           break;
         case AudioInterruptionType.unknown:
           break;

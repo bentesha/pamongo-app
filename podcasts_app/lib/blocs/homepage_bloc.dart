@@ -31,7 +31,6 @@ class HomepageBloc extends Cubit<HomepageState> {
 
   void share(String id) => service.share(ContentType.episode, id);
 
-
   Future<void> refresh() async {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));
@@ -42,16 +41,9 @@ class HomepageBloc extends Cubit<HomepageState> {
     final episodeList = state.episodeList;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
-    final remainingTime = service.getRemainingTime;
-    emit(HomepageState.loading(
-        episodeList, state.seriesList, state.supplements));
 
-    final supplements = state.supplements.copyWith(
-        playerState: playerState,
-        activeId: id,
-        activeEpisodeRemainingTime: playerState == pausedState
-            ? Utils.convertFrom(remainingTime, includeSeconds: false)
-            : state.supplements.activeEpisodeRemainingTime);
+    final supplements =
+        state.supplements.copyWith(playerState: playerState, activeId: id);
     emit(HomepageState.content(episodeList, state.seriesList, supplements));
   }
 }

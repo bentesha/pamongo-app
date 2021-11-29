@@ -283,28 +283,25 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Loading &&
-            (identical(other.episodesList, episodesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodesList, episodesList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
-            (identical(other.channelList, channelList) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelList, channelList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            const DeepCollectionEquality()
+                .equals(other.episodesList, episodesList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
+            const DeepCollectionEquality()
+                .equals(other.channelList, channelList) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodesList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(channelList) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodesList),
+      const DeepCollectionEquality().hash(seriesList),
+      const DeepCollectionEquality().hash(channelList),
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -421,13 +418,13 @@ abstract class _Loading implements ExplorePageState {
       List<Channel> channelList, Supplements supplements) = _$_Loading;
 
   @override
-  List<Episode> get episodesList => throw _privateConstructorUsedError;
+  List<Episode> get episodesList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  List<Channel> get channelList => throw _privateConstructorUsedError;
+  List<Channel> get channelList;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -518,32 +515,28 @@ class _$_Content implements _Content {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Content &&
-            (identical(other.episodesList, episodesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodesList, episodesList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
-            (identical(other.channelList, channelList) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelList, channelList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            const DeepCollectionEquality()
+                .equals(other.episodesList, episodesList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
+            const DeepCollectionEquality()
+                .equals(other.channelList, channelList) &&
             (identical(other.searchKeyword, searchKeyword) ||
-                const DeepCollectionEquality()
-                    .equals(other.searchKeyword, searchKeyword)) &&
+                other.searchKeyword == searchKeyword) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodesList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(channelList) ^
-      const DeepCollectionEquality().hash(searchKeyword) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodesList),
+      const DeepCollectionEquality().hash(seriesList),
+      const DeepCollectionEquality().hash(channelList),
+      searchKeyword,
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -667,14 +660,14 @@ abstract class _Content implements ExplorePageState {
       Supplements supplements) = _$_Content;
 
   @override
-  List<Episode> get episodesList => throw _privateConstructorUsedError;
+  List<Episode> get episodesList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  List<Channel> get channelList => throw _privateConstructorUsedError;
-  String get searchKeyword => throw _privateConstructorUsedError;
+  List<Channel> get channelList;
+  String get searchKeyword;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
@@ -757,28 +750,25 @@ class _$_Failed implements _Failed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.episodesList, episodesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodesList, episodesList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
-            (identical(other.channelList, channelList) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelList, channelList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failed &&
+            const DeepCollectionEquality()
+                .equals(other.episodesList, episodesList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
+            const DeepCollectionEquality()
+                .equals(other.channelList, channelList) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodesList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(channelList) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodesList),
+      const DeepCollectionEquality().hash(seriesList),
+      const DeepCollectionEquality().hash(channelList),
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -895,13 +885,13 @@ abstract class _Failed implements ExplorePageState {
       List<Channel> channelList, Supplements supplements) = _$_Failed;
 
   @override
-  List<Episode> get episodesList => throw _privateConstructorUsedError;
+  List<Episode> get episodesList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  List<Channel> get channelList => throw _privateConstructorUsedError;
+  List<Channel> get channelList;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;

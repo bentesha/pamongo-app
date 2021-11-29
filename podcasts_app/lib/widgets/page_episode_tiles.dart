@@ -115,7 +115,6 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
               shareCallback: widget.shareCallback,
               savedEpisodeStatus: savedEpisodeStatus,
               savedEpisode: savedEpisode,
-              remainingTime: widget.supplements.activeEpisodeRemainingTime,
               descriptionMaxLines: 3,
               markAsDoneCallback: widget.markAsDoneCallback,
               playCallback: isActive
@@ -191,7 +190,6 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
           status: status,
           episode: episode,
           duration: duration,
-          remainingTime: widget.supplements.activeEpisodeRemainingTime,
           markAsDoneCallback: widget.markAsDoneCallback,
           playCallback: isActive
               ? widget.resumeCallback
@@ -277,7 +275,6 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
             savedEpisode: savedEpisode,
             shareCallback: widget.shareCallback,
             duration: duration,
-            remainingTime: widget.supplements.activeEpisodeRemainingTime,
             markAsDoneCallback: widget.markAsDoneCallback,
             playCallback: isActive
                 ? widget.resumeCallback

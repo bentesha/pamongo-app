@@ -106,7 +106,7 @@ class _ExplorePageState extends State<ExplorePage> {
                           bloc.clear();
                         },
                   icon: Icon(keyword.isEmpty ? EvaIcons.search : EvaIcons.close,
-                      size: 18, color: AppColors.primaryColor)))),
+                      size: 18, color: AppColors.secondaryColor)))),
     );
   }
 

@@ -209,20 +209,15 @@ class _$_Initial implements _Initial {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Initial &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Initial &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.isHiding, isHiding) ||
-                const DeepCollectionEquality()
-                    .equals(other.isHiding, isHiding)));
+                other.isHiding == isHiding));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(isHiding);
+  int get hashCode => Object.hash(runtimeType, content, isHiding);
 
   @JsonKey(ignore: true)
   @override
@@ -311,9 +306,9 @@ abstract class _Initial implements ProgressIndicatorState {
       _$_Initial;
 
   @override
-  ProgressIndicatorContent get content => throw _privateConstructorUsedError;
+  ProgressIndicatorContent get content;
   @override
-  bool get isHiding => throw _privateConstructorUsedError;
+  bool get isHiding;
   @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>
@@ -378,20 +373,15 @@ class _$_Active implements _Active {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Active &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Active &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.isHiding, isHiding) ||
-                const DeepCollectionEquality()
-                    .equals(other.isHiding, isHiding)));
+                other.isHiding == isHiding));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(isHiding);
+  int get hashCode => Object.hash(runtimeType, content, isHiding);
 
   @JsonKey(ignore: true)
   @override
@@ -480,9 +470,9 @@ abstract class _Active implements ProgressIndicatorState {
       _$_Active;
 
   @override
-  ProgressIndicatorContent get content => throw _privateConstructorUsedError;
+  ProgressIndicatorContent get content;
   @override
-  bool get isHiding => throw _privateConstructorUsedError;
+  bool get isHiding;
   @override
   @JsonKey(ignore: true)
   _$ActiveCopyWith<_Active> get copyWith => throw _privateConstructorUsedError;
@@ -554,23 +544,16 @@ class _$_Failed implements _Failed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.content, content) ||
-                const DeepCollectionEquality()
-                    .equals(other.content, content)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failed &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.isHiding, isHiding) ||
-                const DeepCollectionEquality()
-                    .equals(other.isHiding, isHiding)) &&
-            (identical(other.error, error) ||
-                const DeepCollectionEquality().equals(other.error, error)));
+                other.isHiding == isHiding) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(content) ^
-      const DeepCollectionEquality().hash(isHiding) ^
-      const DeepCollectionEquality().hash(error);
+  int get hashCode => Object.hash(runtimeType, content, isHiding, error);
 
   @JsonKey(ignore: true)
   @override
@@ -660,10 +643,10 @@ abstract class _Failed implements ProgressIndicatorState {
       _$_Failed;
 
   @override
-  ProgressIndicatorContent get content => throw _privateConstructorUsedError;
+  ProgressIndicatorContent get content;
   @override
-  bool get isHiding => throw _privateConstructorUsedError;
-  AudioError get error => throw _privateConstructorUsedError;
+  bool get isHiding;
+  AudioError get error;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;

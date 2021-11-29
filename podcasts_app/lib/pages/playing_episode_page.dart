@@ -165,8 +165,8 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
               valueListenable: positionNotifier,
               builder: (_, position, __) {
                 return Slider(
-                  activeColor: AppColors.accentColor,
-                  inactiveColor: AppColors.secondaryColor,
+                  activeColor: AppColors.primaryColor,
+                  inactiveColor: AppColors.disabledColor,
                   value: useAudioPosition ? currentPosition : position,
                   min: 0.0,
                   max: episode.duration.toDouble(),
@@ -240,16 +240,14 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           children: [
             _buildIconButton(
                 iconSize: 35,
-                iconColor: isLoading || !isPlayingSeries
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
+                isInactive: isLoading || !isPlayingSeries,
+                iconColor: AppColors.secondaryColor,
                 icon: EvaIcons.skipBackOutline,
                 callback: isPlayingSeries ? bloc.skipToPrev : () {}),
             _buildIconButton(
                 iconSize: 35,
-                iconColor: isLoading
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
+                isInactive: isLoading,
+                iconColor: AppColors.secondaryColor,
                 icon: Icons.replay_10_outlined,
                 callback: () => bloc.changePosition(10000,
                     positionRequiresUpdate: true, isForwarding: false)),
@@ -257,26 +255,23 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
               padding: const EdgeInsets.symmetric(horizontal: 17),
               child: _buildIconButton(
                   icon: isPlaying ? Icons.pause : Ionicons.play,
-                  backgroundColor: AppColors.accentColor,
-                  iconColor: isLoading
-                      ? AppColors.disabledColor
-                      : AppColors.secondaryColor,
+                  backgroundColor: AppColors.onPrimary,
+                  isInactive: isLoading,
+                  iconColor: AppColors.primaryColor,
                   callback: isLoading ? () {} : bloc.togglePlayerStatus,
                   iconSize: 30),
             ),
             _buildIconButton(
                 iconSize: 35,
                 icon: Icons.forward_30_outlined,
-                iconColor: isInactive
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
+                isInactive: isInactive,
+                iconColor: AppColors.secondaryColor,
                 callback: () =>
                     bloc.changePosition(30000, positionRequiresUpdate: true)),
             _buildIconButton(
                 iconSize: 35,
-                iconColor: isLoading || !isPlayingSeries
-                    ? AppColors.disabledColor
-                    : AppColors.secondaryColor,
+                isInactive: isLoading || !isPlayingSeries,
+                iconColor: AppColors.secondaryColor,
                 icon: EvaIcons.skipForwardOutline,
                 callback: isPlayingSeries ? bloc.skipToNext : () {})
           ]),
@@ -305,10 +300,13 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       {Color iconColor = AppColors.primaryColor,
       Color backgroundColor = Colors.transparent,
       required VoidCallback callback,
+      bool isInactive = false,
       IconData icon = Icons.home,
       required double iconSize}) {
     return TextButton(
-        child: Icon(icon, color: iconColor, size: iconSize),
+        child: Icon(icon,
+            color: isInactive ? AppColors.disabledColor : iconColor,
+            size: iconSize),
         onPressed: callback,
         style: TextButton.styleFrom(
             shape: const CircleBorder(),

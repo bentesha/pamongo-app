@@ -285,48 +285,29 @@ class _$_Episode extends _Episode {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Episode &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Episode &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.seriesName, seriesName) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesName, seriesName)) &&
+                other.seriesName == seriesName) &&
             (identical(other.duration, duration) ||
-                const DeepCollectionEquality()
-                    .equals(other.duration, duration)) &&
-            (identical(other.date, date) ||
-                const DeepCollectionEquality().equals(other.date, date)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+                other.duration == duration) &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.seriesId, seriesId) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesId, seriesId)) &&
+                other.seriesId == seriesId) &&
             (identical(other.episodeNumber, episodeNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeNumber, episodeNumber)) &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
+                other.episodeNumber == episodeNumber) &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.audioUrl, audioUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.audioUrl, audioUrl)) &&
+                other.audioUrl == audioUrl) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)));
+                other.description == description));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(image) ^
-      const DeepCollectionEquality().hash(seriesName) ^
-      const DeepCollectionEquality().hash(duration) ^
-      const DeepCollectionEquality().hash(date) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(seriesId) ^
-      const DeepCollectionEquality().hash(episodeNumber) ^
-      const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(audioUrl) ^
-      const DeepCollectionEquality().hash(description);
+  int get hashCode => Object.hash(runtimeType, image, seriesName, duration,
+      date, id, seriesId, episodeNumber, title, audioUrl, description);
 
   @JsonKey(ignore: true)
   @override
@@ -349,25 +330,25 @@ abstract class _Episode extends Episode {
   const _Episode._() : super._();
 
   @override
-  String get image => throw _privateConstructorUsedError;
+  String get image;
   @override
-  String get seriesName => throw _privateConstructorUsedError;
+  String get seriesName;
   @override
-  int get duration => throw _privateConstructorUsedError;
+  int get duration;
   @override
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime get date;
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get seriesId => throw _privateConstructorUsedError;
+  String get seriesId;
   @override
-  int get episodeNumber => throw _privateConstructorUsedError;
+  int get episodeNumber;
   @override
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @override
-  String get audioUrl => throw _privateConstructorUsedError;
+  String get audioUrl;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
   @JsonKey(ignore: true)
   _$EpisodeCopyWith<_Episode> get copyWith =>

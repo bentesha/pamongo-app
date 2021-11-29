@@ -96,6 +96,7 @@ class AudioPlayerService {
     if (hasFailedToBuffer) return _handleSeekCallback(currentPosition, index);
     if (isCompleted) return await play(_content.episodeList, index: index);
     if (isPlaying) {
+      _addCurrentToBox();
       _updateContentWith(
           playerState: pausedState,
           currentPosition: player.position.inMilliseconds);
@@ -247,9 +248,7 @@ class AudioPlayerService {
     await Share.share(text);
   }
 
-  void handleInterruptions(AudioInterruptionType type) {
-    final isPaused = _content.playerState == pausedState;
-    if (isPaused && type == AudioInterruptionType.pause) return;
+  void handleInterruptions(AudioInterruptionType type, bool isStarting) async {
     toggleStatus();
   }
 
