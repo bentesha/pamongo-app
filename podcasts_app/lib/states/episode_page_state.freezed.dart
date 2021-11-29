@@ -195,20 +195,15 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Loading &&
-            (identical(other.episode, episode) ||
-                const DeepCollectionEquality()
-                    .equals(other.episode, episode)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            (identical(other.episode, episode) || other.episode == episode) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episode) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, episode, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -282,9 +277,9 @@ abstract class _Loading implements EpisodePageState {
   const factory _Loading(Episode episode, Supplements supplements) = _$_Loading;
 
   @override
-  Episode get episode => throw _privateConstructorUsedError;
+  Episode get episode;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -350,20 +345,15 @@ class _$_Content implements _Content {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Content &&
-            (identical(other.episode, episode) ||
-                const DeepCollectionEquality()
-                    .equals(other.episode, episode)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            (identical(other.episode, episode) || other.episode == episode) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episode) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, episode, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -437,9 +427,9 @@ abstract class _Content implements EpisodePageState {
   const factory _Content(Episode episode, Supplements supplements) = _$_Content;
 
   @override
-  Episode get episode => throw _privateConstructorUsedError;
+  Episode get episode;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>

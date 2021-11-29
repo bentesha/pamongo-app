@@ -12,7 +12,6 @@ class EpisodeTile extends StatelessWidget {
       required this.shareCallback,
       required this.status,
       required this.duration,
-      required this.remainingTime,
       required this.descriptionMaxLines,
       this.useToggleExpansionButtons = false,
       key})
@@ -22,7 +21,7 @@ class EpisodeTile extends StatelessWidget {
   final Episode episode;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
-  final String status, duration, remainingTime, savedEpisodeStatus;
+  final String status, duration, savedEpisodeStatus;
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
   final SavedEpisode savedEpisode;
@@ -77,7 +76,6 @@ class EpisodeTile extends StatelessWidget {
       duration: duration,
       savedEpisode: savedEpisode,
       savedEpisodeStatus: savedEpisodeStatus,
-      remainingTime: remainingTime,
     );
   }
 }

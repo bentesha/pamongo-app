@@ -208,20 +208,15 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Loading &&
-            (identical(other.channel, channel) ||
-                const DeepCollectionEquality()
-                    .equals(other.channel, channel)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            (identical(other.channel, channel) || other.channel == channel) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(channel) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, channel, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -301,9 +296,9 @@ abstract class _Loading implements ChannelPageState {
   const factory _Loading(Channel channel, Supplements supplements) = _$_Loading;
 
   @override
-  Channel get channel => throw _privateConstructorUsedError;
+  Channel get channel;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -369,20 +364,15 @@ class _$_Content implements _Content {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Content &&
-            (identical(other.channel, channel) ||
-                const DeepCollectionEquality()
-                    .equals(other.channel, channel)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            (identical(other.channel, channel) || other.channel == channel) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(channel) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, channel, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -462,9 +452,9 @@ abstract class _Content implements ChannelPageState {
   const factory _Content(Channel channel, Supplements supplements) = _$_Content;
 
   @override
-  Channel get channel => throw _privateConstructorUsedError;
+  Channel get channel;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
@@ -530,20 +520,15 @@ class _$_Failed implements _Failed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.channel, channel) ||
-                const DeepCollectionEquality()
-                    .equals(other.channel, channel)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failed &&
+            (identical(other.channel, channel) || other.channel == channel) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(channel) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(runtimeType, channel, supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -623,9 +608,9 @@ abstract class _Failed implements ChannelPageState {
   const factory _Failed(Channel channel, Supplements supplements) = _$_Failed;
 
   @override
-  Channel get channel => throw _privateConstructorUsedError;
+  Channel get channel;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;

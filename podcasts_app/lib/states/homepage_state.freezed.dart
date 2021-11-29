@@ -240,24 +240,22 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Loading &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Loading &&
+            const DeepCollectionEquality()
+                .equals(other.episodeList, episodeList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodeList),
+      const DeepCollectionEquality().hash(seriesList),
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -356,11 +354,11 @@ abstract class _Loading implements HomepageState {
       Supplements supplements) = _$_Loading;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -433,24 +431,22 @@ class _$_Failed implements _Failed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failed &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failed &&
+            const DeepCollectionEquality()
+                .equals(other.episodeList, episodeList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodeList),
+      const DeepCollectionEquality().hash(seriesList),
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -549,11 +545,11 @@ abstract class _Failed implements HomepageState {
       Supplements supplements) = _$_Failed;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;
@@ -625,24 +621,22 @@ class _$_Content implements _Content {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Content &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
-            (identical(other.seriesList, seriesList) ||
-                const DeepCollectionEquality()
-                    .equals(other.seriesList, seriesList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            const DeepCollectionEquality()
+                .equals(other.episodeList, episodeList) &&
+            const DeepCollectionEquality()
+                .equals(other.seriesList, seriesList) &&
             (identical(other.supplements, supplements) ||
-                const DeepCollectionEquality()
-                    .equals(other.supplements, supplements)));
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
-      const DeepCollectionEquality().hash(seriesList) ^
-      const DeepCollectionEquality().hash(supplements);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodeList),
+      const DeepCollectionEquality().hash(seriesList),
+      supplements);
 
   @JsonKey(ignore: true)
   @override
@@ -741,11 +735,11 @@ abstract class _Content implements HomepageState {
       Supplements supplements) = _$_Content;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList;
   @override
-  List<Series> get seriesList => throw _privateConstructorUsedError;
+  List<Series> get seriesList;
   @override
-  Supplements get supplements => throw _privateConstructorUsedError;
+  Supplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>

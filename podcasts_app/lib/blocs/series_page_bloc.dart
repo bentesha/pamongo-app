@@ -13,16 +13,10 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
     emit(SeriesPageState.loading(state.series, state.supplements));
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
-    final playerState = content.playerState;
 
     final sortStyle = content.sortStyle;
     var supplements = state.supplements.copyWith(
-        activeId: id,
-        playerState: content.playerState,
-        sortStyle: sortStyle,
-        activeEpisodeRemainingTime: playerState == pausedState
-            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
-            : state.supplements.activeEpisodeRemainingTime);
+        activeId: id, playerState: content.playerState, sortStyle: sortStyle);
 
     try {
       var series = await PodcastsRepository.getSeriesById(seriesId);
@@ -88,16 +82,9 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   _handleContentStream(ProgressIndicatorContent content) {
     final id = content.episodeList[content.currentIndex].id;
-    final playerState = content.playerState;
 
-    emit(SeriesPageState.loading(state.series, state.supplements));
-
-    final supplements = state.supplements.copyWith(
-        activeId: id,
-        playerState: content.playerState,
-        activeEpisodeRemainingTime: playerState == pausedState
-            ? Utils.convertFrom(service.getRemainingTime, includeSeconds: false)
-            : state.supplements.activeEpisodeRemainingTime);
+    final supplements = state.supplements
+        .copyWith(activeId: id, playerState: content.playerState);
     emit(SeriesPageState.content(state.series, supplements));
   }
 }

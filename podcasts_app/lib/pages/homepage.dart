@@ -105,7 +105,7 @@ class _HomepageState extends State<Homepage> {
     final isLast = seriesIndex == seriesLength - 1;
 
     return Container(
-      width: 96.dw,
+      width: 106.dw,
       margin: EdgeInsets.only(
           left: isFirst ? 12.dw : 0, right: isLast ? 8.dw : 0, top: 3.dh),
       child: AppMaterialButton(

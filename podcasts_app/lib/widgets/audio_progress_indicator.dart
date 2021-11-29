@@ -134,7 +134,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                         onPressed: bloc.togglePlayerStatus,
                         padding: EdgeInsets.zero,
                         icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                            color: AppColors.primaryColor, size: 25.dw)),
+                            color: AppColors.secondaryColor, size: 25.dw)),
               ),
             ],
           ),

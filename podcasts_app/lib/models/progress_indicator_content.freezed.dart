@@ -215,35 +215,30 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ProgressIndicatorContent &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)) &&
+        (other.runtimeType == runtimeType &&
+            other is _ProgressIndicatorContent &&
+            const DeepCollectionEquality()
+                .equals(other.episodeList, episodeList) &&
             (identical(other.currentPosition, currentPosition) ||
-                const DeepCollectionEquality()
-                    .equals(other.currentPosition, currentPosition)) &&
+                other.currentPosition == currentPosition) &&
             (identical(other.playerState, playerState) ||
-                const DeepCollectionEquality()
-                    .equals(other.playerState, playerState)) &&
+                other.playerState == playerState) &&
             (identical(other.sortStyle, sortStyle) ||
-                const DeepCollectionEquality()
-                    .equals(other.sortStyle, sortStyle)) &&
-            (identical(other.error, error) ||
-                const DeepCollectionEquality().equals(other.error, error)) &&
+                other.sortStyle == sortStyle) &&
+            (identical(other.error, error) || other.error == error) &&
             (identical(other.currentIndex, currentIndex) ||
-                const DeepCollectionEquality()
-                    .equals(other.currentIndex, currentIndex)));
+                other.currentIndex == currentIndex));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(episodeList) ^
-      const DeepCollectionEquality().hash(currentPosition) ^
-      const DeepCollectionEquality().hash(playerState) ^
-      const DeepCollectionEquality().hash(sortStyle) ^
-      const DeepCollectionEquality().hash(error) ^
-      const DeepCollectionEquality().hash(currentIndex);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(episodeList),
+      currentPosition,
+      playerState,
+      sortStyle,
+      error,
+      currentIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -262,17 +257,17 @@ abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
       int currentIndex}) = _$_ProgressIndicatorContent;
 
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList;
   @override
-  int get currentPosition => throw _privateConstructorUsedError;
+  int get currentPosition;
   @override
-  IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
+  IndicatorPlayerState get playerState;
   @override
-  SortStyles get sortStyle => throw _privateConstructorUsedError;
+  SortStyles get sortStyle;
   @override
-  AudioError? get error => throw _privateConstructorUsedError;
+  AudioError? get error;
   @override
-  int get currentIndex => throw _privateConstructorUsedError;
+  int get currentIndex;
   @override
   @JsonKey(ignore: true)
   _$ProgressIndicatorContentCopyWith<_ProgressIndicatorContent> get copyWith =>

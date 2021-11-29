@@ -248,41 +248,34 @@ class _$_Series extends _Series {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Series &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Series &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.channelName, channelName) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelName, channelName)) &&
+                other.channelName == channelName) &&
             (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
+                other.description == description) &&
             (identical(other.totalNumberOfEpisodes, totalNumberOfEpisodes) ||
-                const DeepCollectionEquality().equals(
-                    other.totalNumberOfEpisodes, totalNumberOfEpisodes)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+                other.totalNumberOfEpisodes == totalNumberOfEpisodes) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.channelId, channelId) ||
-                const DeepCollectionEquality()
-                    .equals(other.channelId, channelId)) &&
-            (identical(other.episodeList, episodeList) ||
-                const DeepCollectionEquality()
-                    .equals(other.episodeList, episodeList)));
+                other.channelId == channelId) &&
+            const DeepCollectionEquality()
+                .equals(other.episodeList, episodeList));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(image) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(channelName) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(totalNumberOfEpisodes) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(channelId) ^
-      const DeepCollectionEquality().hash(episodeList);
+  int get hashCode => Object.hash(
+      runtimeType,
+      image,
+      name,
+      channelName,
+      description,
+      totalNumberOfEpisodes,
+      id,
+      channelId,
+      const DeepCollectionEquality().hash(episodeList));
 
   @JsonKey(ignore: true)
   @override
@@ -303,21 +296,21 @@ abstract class _Series extends Series {
   const _Series._() : super._();
 
   @override
-  String get image => throw _privateConstructorUsedError;
+  String get image;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get channelName => throw _privateConstructorUsedError;
+  String get channelName;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  int get totalNumberOfEpisodes => throw _privateConstructorUsedError;
+  int get totalNumberOfEpisodes;
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get channelId => throw _privateConstructorUsedError;
+  String get channelId;
   @override
-  List<Episode> get episodeList => throw _privateConstructorUsedError;
+  List<Episode> get episodeList;
   @override
   @JsonKey(ignore: true)
   _$SeriesCopyWith<_Series> get copyWith => throw _privateConstructorUsedError;

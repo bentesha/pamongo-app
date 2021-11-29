@@ -13,14 +13,13 @@ class EpisodeActionButtons extends StatelessWidget {
       required this.savedEpisode,
       required this.savedEpisodeStatus,
       required this.shareCallback,
-      required this.remainingTime,
       key})
       : super(key: key);
 
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
   final String status;
-  final String duration, id, remainingTime, savedEpisodeStatus;
+  final String duration, id, savedEpisodeStatus;
   final SavedEpisode savedEpisode;
 
   @override
@@ -37,42 +36,6 @@ class EpisodeActionButtons extends StatelessWidget {
 
   _buildShareButton() {
     return _iconButton(AppIcons.share, callback: () => shareCallback(id));
-  }
-
-  _buildCheckmarkButton() {
-    final isSaved = savedEpisode.position != 0;
-    final isPlaying = status == "Playing";
-    final isLoading = status == "Loading";
-    final isPaused = status == 'Paused';
-
-    if (!isSaved || isPlaying || isLoading || isPaused) return Container();
-    return Expanded(
-      child: Container(
-        height: 20.dw,
-        alignment: Alignment.centerRight,
-        child: PopupMenuButton(
-          padding: EdgeInsets.only(left: 40.dw),
-          iconSize: 20.dw,
-          color: AppColors.secondaryColor,
-          itemBuilder: (_) {
-            return [
-              PopupMenuItem(
-                height: 30.dw,
-                onTap: () => markAsDoneCallback(id),
-                child: Row(
-                  children: [
-                    AppText('Mark As Done',
-                        size: 16.w, color: AppColors.onPrimary),
-                    SizedBox(width: 10.dw),
-                    Icon(Icons.done, size: 18.dw, color: AppColors.onPrimary)
-                  ],
-                ),
-              )
-            ];
-          },
-        ),
-      ),
-    );
   }
 
   _buildStatusButton() {
@@ -93,18 +56,18 @@ class EpisodeActionButtons extends StatelessWidget {
 
   _decoration() {
     final isPlaying = status == 'Playing';
+    final isPaused = status == 'Paused';
+    final shouldShowDecoration = isPlaying | isPaused;
+
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15.dw)),
-        color: isPlaying ? AppColors.primaryColor : Colors.transparent,
-        border: isPlaying
-            ? Border.all(
-                width: 1.5,
-                color: AppColors.primaryColor,
-              )
-            : Border.all(
-                width: 1,
-                color: AppColors.disabledColor,
-              ));
+        color: Colors.transparent,
+        border: Border.all(
+          width: 1,
+          color: shouldShowDecoration
+              ? AppColors.borderColor
+              : AppColors.disabledColor,
+        ));
   }
 
   _statusIcon() {
@@ -112,23 +75,26 @@ class EpisodeActionButtons extends StatelessWidget {
     final isLoading = status == 'Loading';
     final isPaused = status == 'Paused';
     final isCompleted = status == 'Completed';
+    final isSaved = savedEpisode.position != 0;
 
     return isPlaying
         ? Lottie.asset('assets/icons/playing.json',
             fit: BoxFit.contain, height: 30.dh)
+        /*  Icon(Icons.equalizer_outlined,
+            size: 15.dh, color: AppColors.accentColor) */
         : isLoading
-            ? Lottie.asset('assets/icons/loading_2.json',
-                fit: BoxFit.contain, height: 15.dh)
-            : isPaused
-                ? Icon(AppIcons.play,
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.dw),
+                child: Lottie.asset('assets/icons/loading_2.json',
+                    fit: BoxFit.contain, height: 15.dh),
+              )
+            : isCompleted
+                ? Icon(AppIcons.playCircled,
                     size: 20.dw, color: AppColors.primaryColor)
-                : isCompleted
-                    ? Icon(AppIcons.playCircled,
-                        size: 20.dw, color: AppColors.accentColor)
-                    : savedEpisode.position != 0
-                        ? _circularIndicator()
-                        : Icon(AppIcons.playCircled,
-                            size: 20.dw, color: AppColors.accentColor);
+                : isPaused || isSaved
+                    ? _circularIndicator()
+                    : Icon(AppIcons.playCircled,
+                        size: 20.dw, color: AppColors.primaryColor);
   }
 
   _statusText() {
@@ -137,24 +103,59 @@ class EpisodeActionButtons extends StatelessWidget {
     final isPaused = status == 'Paused';
     final isCompleted = status == 'Completed';
     var savedStatus = savedEpisodeStatus;
-    var timeLeft = remainingTime;
 
     if (savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
-    if (timeLeft.contains('00 min')) timeLeft = '< 1 min ';
 
     return AppText(
         isPlaying || isLoading
-            ? '  ' + status
+            ? ' $status'
             : isPaused
-                ? '   ${timeLeft}left'
+                ? '   ${savedStatus}left'
                 : isCompleted
                     ? '  $duration'
                     : savedEpisode.position != 0
                         ? '   ${savedStatus}left'
                         : '  $duration',
         weight: FontWeight.w400,
-        color: isPlaying ? AppColors.onPrimary : AppColors.textColor,
+        color: AppColors.textColor,
         size: 14.w);
+  }
+
+  _buildCheckmarkButton() {
+    final isSaved = savedEpisode.position != 0;
+    final isPlaying = status == "Playing";
+    final isLoading = status == "Loading";
+    final isPaused = status == 'Paused';
+
+    if (!isSaved || isPlaying || isLoading || isPaused) return Container();
+    return Expanded(
+      child: Container(
+        height: 20.dw,
+        alignment: Alignment.centerRight,
+        child: PopupMenuButton(
+          padding: EdgeInsets.only(left: 40.dw),
+          iconSize: 20.dw,
+          color: AppColors.secondaryColor,
+          itemBuilder: (_) {
+            return [
+              PopupMenuItem(
+                height: 25.dw,
+                onTap: () => markAsDoneCallback(id),
+                child: Row(
+                  children: [
+                    Icon(EvaIcons.checkmark,
+                        size: 18.dw, color: AppColors.accentColor),
+                    SizedBox(width: 10.dw),
+                    AppText('Mark As Done',
+                        size: 16.w, color: AppColors.onPrimary),
+                  ],
+                ),
+              )
+            ];
+          },
+        ),
+      ),
+    );
   }
 
   _circularIndicator() {
@@ -162,7 +163,7 @@ class EpisodeActionButtons extends StatelessWidget {
       totalSteps: 100,
       currentStep: savedEpisode.timeLeftInPercentage,
       stepSize: 1,
-      selectedColor: AppColors.secondaryColor,
+      selectedColor: AppColors.primaryColor,
       unselectedColor: AppColors.disabledColor,
       padding: 0,
       width: 20.dw,
@@ -181,7 +182,7 @@ class EpisodeActionButtons extends StatelessWidget {
           alignment: Alignment.centerRight,
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
-          icon: Icon(icon, color: AppColors.secondaryColor, size: 20.dw)),
+          icon: Icon(icon, color: AppColors.primaryColor, size: 20.dw)),
     );
   }
 }
