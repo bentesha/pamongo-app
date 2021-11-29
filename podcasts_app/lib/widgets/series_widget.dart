@@ -22,18 +22,22 @@ class _SeriesWidgetState extends State<SeriesWidget> {
           AppImage(
               image: widget.series.image, width: 50, height: 50, radius: 10),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(
-                widget.series.name,
-                size: 16,
-                weight: FontWeight.w600,
-              ),
-              const SizedBox(height: 3),
-              AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
-                  size: 14)
-            ],
+          SizedBox(
+            width: 300,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppText(
+                  widget.series.name,
+                  size: 14,
+                  weight: FontWeight.w600,
+                  maxLines: 2,
+                ),
+                AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
+                    size: 14)
+              ],
+            ),
           ),
         ],
       ),

@@ -16,44 +16,51 @@ class AppMaterialButton extends StatefulWidget {
   State<AppMaterialButton> createState() => _AppMaterialButtonState();
 }
 
-class _AppMaterialButtonState extends State<AppMaterialButton> {
+class _AppMaterialButtonState extends State<AppMaterialButton>
+    with SingleTickerProviderStateMixin {
   final isTappedNotifier = ValueNotifier<bool>(false);
+
+  late final AnimationController controller;
+  late final Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+    animation = ColorTween(
+            begin: AppColors.backgroundColor, end: Colors.grey.withOpacity(.2))
+        .animate(controller)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) controller.reverse();
+        if (status == AnimationStatus.reverse) widget.onPressed();
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: () {
-        isTappedNotifier.value = true;
+        controller.forward();
       },
       padding: EdgeInsets.zero,
       splashColor: Colors.transparent,
-      child: ValueListenableBuilder<bool>(
-          valueListenable: isTappedNotifier,
-          child: widget.child,
-          builder: (_, isTapped, child) {
-            return !isTapped ? child : _animatedChild();
-          }),
+      child: _animatedChild(),
     );
   }
 
   _animatedChild() {
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: .05, end: .2),
-      curve: Curves.easeOutQuint,
-      duration: const Duration(milliseconds: 200),
-      child: widget.child,
-      builder: (_, value, child) {
-        return Container(
+    return AnimatedBuilder(
+        animation: animation,
+        child: widget.child,
+        builder: (_, child) {
+          return Container(
             child: child,
             decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(value),
+                color: animation.value,
                 borderRadius:
-                    BorderRadius.all(Radius.circular(widget.borderRadius))));
-      },
-      onEnd: () {
-        isTappedNotifier.value = false;
-        widget.onPressed();
-      },
-    );
+                    BorderRadius.all(Radius.circular(widget.borderRadius))),
+          );
+        });
   }
 }

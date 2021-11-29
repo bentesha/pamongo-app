@@ -92,8 +92,9 @@ class _SeriesPageState extends State<SeriesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(series.name,
-                      size: 16, weight: FontWeight.w600, maxLines: 2),
-                  const SizedBox(height: 5),
+
+                      size: 16, weight: FontWeight.w600, maxLines: 3),
+               const   SizedBox(height: 5),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
                         channelId: series.channelId),
