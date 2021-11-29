@@ -24,6 +24,7 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
   @override
   Widget build(BuildContext context) {
     final formatted = Utils.formatDateBy(widget.date, 'MMMd');
+    final isOnHomepage = widget.page == Pages.homepage;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(height: 5.dh),
@@ -31,17 +32,18 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
         AppImage(image: widget.image, height: 36.w, width: 36.w, radius: 7.dw),
         SizedBox(width: 10.dw),
         SizedBox(
-          height: 45.dh,
+          width: 315.dw,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 GestureDetector(
                   onTap: _handleOnTap,
                   child: AppText(widget.seriesName,
                       weight: FontWeight.w400,
+                      alignment: TextAlign.start,
                       size: 13.w,
-                      color: widget.page == Pages.homepage
+                      color: isOnHomepage
                           ? AppColors.textColor
                           : AppColors.focusColor),
                 ),
@@ -65,6 +67,7 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
   }
 
   _handleOnTap() {
-    SeriesPage.navigateTo(context, widget.seriesId);
+    final isOnEpisodePage = widget.page == Pages.episodePage;
+    if (isOnEpisodePage) SeriesPage.navigateTo(context, widget.seriesId);
   }
 }

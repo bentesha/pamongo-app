@@ -25,18 +25,22 @@ class _SeriesWidgetState extends State<SeriesWidget> {
               height: 50.w,
               radius: 10),
           SizedBox(width: 10.dw),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(
-                widget.series.name,
-                size: 16.w,
-                weight: FontWeight.w600,
-              ),
-              SizedBox(height: 3.dh),
-              AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
-                  size: 14.w)
-            ],
+          SizedBox(
+            width: 300.dw,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                AppText(
+                  widget.series.name,
+                  size: 14.w,
+                  weight: FontWeight.w600,
+                  maxLines: 2,
+                ),
+                AppText('Episodes : ${widget.series.totalNumberOfEpisodes}',
+                    size: 14.w)
+              ],
+            ),
           ),
         ],
       ),
