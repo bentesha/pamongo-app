@@ -5,12 +5,14 @@ class AppMaterialButton extends StatefulWidget {
       {required this.child,
       required this.onPressed,
       this.borderRadius = 0,
+      this.padding = EdgeInsets.zero,
       key})
       : super(key: key);
 
   final Widget child;
   final VoidCallback onPressed;
   final double borderRadius;
+  final EdgeInsetsGeometry padding;
 
   @override
   State<AppMaterialButton> createState() => _AppMaterialButtonState();
@@ -56,6 +58,7 @@ class _AppMaterialButtonState extends State<AppMaterialButton>
         builder: (_, child) {
           return Container(
             child: child,
+            padding: widget.padding,
             decoration: BoxDecoration(
                 color: animation.value,
                 borderRadius:

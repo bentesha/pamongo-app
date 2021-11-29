@@ -128,13 +128,20 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.symmetric(horizontal: 12.dw),
                 child: isLoading
-                    ? Lottie.asset('assets/icons/loading_2.json',
-                        fit: BoxFit.contain, height: 25.dh)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.dw),
+                        child: Lottie.asset('assets/icons/loading_2.json',
+                            fit: BoxFit.contain, height: 25.dh),
+                      )
                     : IconButton(
                         onPressed: bloc.togglePlayerStatus,
                         padding: EdgeInsets.zero,
-                        icon: Icon(isPlaying ? Icons.pause : Ionicons.play,
-                            color: AppColors.secondaryColor, size: 25.dw)),
+                        icon: Icon(
+                            isPlaying
+                                ? Icons.pause_circle
+                                : Ionicons.play_circle,
+                            color: AppColors.secondaryColor,
+                            size: 35.dw)),
               ),
             ],
           ),

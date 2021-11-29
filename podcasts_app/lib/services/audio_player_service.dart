@@ -228,7 +228,9 @@ class AudioPlayerService {
 
   void removeFromBox(String id) {
     box.delete(id);
+    log('deleted');
     _updateContentWith();
+    log('updated');
   }
 
   Future<void> share(ContentType contentType, String id) async {

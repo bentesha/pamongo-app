@@ -41,6 +41,8 @@ class HomepageBloc extends Cubit<HomepageState> {
     final episodeList = state.episodeList;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
+    emit(HomepageState.loading(
+        episodeList, state.seriesList, state.supplements));
 
     final supplements =
         state.supplements.copyWith(playerState: playerState, activeId: id);

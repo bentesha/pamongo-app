@@ -7,13 +7,14 @@ class AppText extends StatefulWidget {
       this.family = 'Louis',
       this.color = AppColors.textColor,
       this.alignment = TextAlign.justify,
+      this.cutFrom = 0,
       this.maxLines,
       this.height,
       this.letterSpacing,
       key})
       : super(key: key);
 
-  final int size;
+  final int size, cutFrom;
   final int? maxLines;
   final FontWeight weight;
   final String data;
@@ -44,7 +45,11 @@ class AppText extends StatefulWidget {
 class _AppTextState extends State<AppText> {
   @override
   Widget build(BuildContext context) {
-    return Text(widget.data,
+    final data = widget.cutFrom == 0 || widget.data.length < widget.cutFrom
+        ? widget.data
+        : widget.data.substring(0, widget.cutFrom) + ' ...';
+
+    return Text(data,
         textAlign: widget.alignment,
         maxLines: widget.maxLines,
         style: widget.style());

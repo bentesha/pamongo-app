@@ -55,7 +55,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 controller: controller,
                 onPageChanged: _onPageChanged,
                 children: [
-                  _buildEpisodeGrid(episodeList, keyword, shouldLeaveSpace),
+                  _buildEpisodeList(episodeList, keyword, shouldLeaveSpace),
                   _buildSeriesGrid(seriesList, keyword, shouldLeaveSpace),
                   _buildChannelsGrid(channelList, keyword, shouldLeaveSpace),
                 ]),
@@ -114,6 +114,8 @@ class _ExplorePageState extends State<ExplorePage> {
     return ValueListenableBuilder(
         valueListenable: indexNotifier,
         builder: (_, currentIndex, __) {
+          final isSelected = index == currentIndex;
+
           return Expanded(
               child: GestureDetector(
             onTap: () {
@@ -130,7 +132,13 @@ class _ExplorePageState extends State<ExplorePage> {
                             width: 1, color: AppColors.dividerColor))),
                 child: Column(
                   children: [
-                    AppText(tabName, size: 16.w, weight: FontWeight.w600),
+                    AppText(tabName,
+                        size: 16.w,
+                        weight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        color: isSelected
+                            ? AppColors.primaryColor
+                            : AppColors.secondaryColor),
                     Container(
                         height: 3.dh,
                         width: 100.dw,
@@ -161,9 +169,51 @@ class _ExplorePageState extends State<ExplorePage> {
     indexNotifier.value = index;
   }
 
-  _buildEpisodeGrid(
+  _buildEpisodeList(
           List<Episode> episodeList, String keyword, bool shouldLeaveSpace) =>
-      _buildGrid(episodeList, ContentType.episode, keyword, shouldLeaveSpace);
+      episodeList.isEmpty
+          ? Container(
+              alignment: Alignment.topCenter,
+              margin: EdgeInsets.only(top: 30.dw),
+              child: AppText('No episode matches that keyword', size: 16.w))
+          : ListView.builder(
+              padding: EdgeInsets.fromLTRB(
+                  0, 10.dh, 0, shouldLeaveSpace ? 80.dh : 10.dh),
+              itemCount: episodeList.length,
+              itemBuilder: (_, index) {
+                final episode = episodeList[index];
+                return AppMaterialButton(
+                  onPressed: () => EpisodePage.navigateTo(_, episode),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HighlightedText(
+                          AppText(episode.title,
+                              maxLines: 2,
+                              size: 15.w,
+                              weight: FontWeight.w600,
+                              alignment: TextAlign.start),
+                          keyword: keyword),
+                      Row(
+                        children: [
+                          AppText('from:  ', size: 14.h),
+                          AppText(episode.seriesName,
+                              maxLines: 1, size: 14.h, cutFrom: 45),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          AppText('ep no. ', size: 14.h),
+                          AppText('${episode.episodeNumber}', size: 14.h),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
 
   _buildSeriesGrid(
           List<Series> seriesList, String keyword, bool shouldLeaveSpace) =>
@@ -176,12 +226,7 @@ class _ExplorePageState extends State<ExplorePage> {
   _buildGrid(List list, ContentType contentType, String keyword,
       bool shouldLeaveSpace) {
     final isSeries = contentType == ContentType.series;
-    final isEpisode = contentType == ContentType.episode;
-    final content = isSeries
-        ? 'series'
-        : isEpisode
-            ? 'episode'
-            : 'channel';
+    final content = isSeries ? 'series' : 'channel';
 
     return list.isEmpty
         ? Container(
@@ -189,34 +234,32 @@ class _ExplorePageState extends State<ExplorePage> {
             margin: EdgeInsets.only(top: 30.dw),
             child: AppText('No $content matches that keyword', size: 16.w))
         : GridView.count(
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
             crossAxisCount: 3,
-            childAspectRatio: .7,
+            childAspectRatio: .73,
             padding: EdgeInsets.only(
                 left: 15.dw,
                 right: 15.dw,
                 top: 15.dh,
                 bottom: shouldLeaveSpace ? 70.dh : 0),
             children: list.map((e) {
-              return GestureDetector(
-                onTap: () => Navigator.push(
+              return AppMaterialButton(
+                padding: EdgeInsets.all(5.dw),
+                borderRadius: 10.dw,
+                onPressed: () => Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (_) => isEpisode
-                            ? EpisodePage(episode: e)
-                            : isSeries
-                                ? SeriesPage(e.id)
-                                : ChannelPage(e.id))),
+                        builder: (_) =>
+                            isSeries ? SeriesPage(e.id) : ChannelPage(e.id))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppImage(image: e.image, height: 120.h, radius: 10.dw),
                     SizedBox(height: 10.dh),
                     HighlightedText(
-                        AppText(isEpisode ? e.title : e.name,
+                        AppText(e.name,
                             maxLines: 2,
                             size: 14.w,
+                            weight: FontWeight.bold,
                             alignment: TextAlign.start),
                         keyword: keyword),
                   ],
