@@ -19,7 +19,8 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
     });
 
     service.onEarphoneDetached.listen((event) {
-      service.toggleStatus();
+      final content = service.getCurrentContent;
+      if (content.playerState != pausedState) service.toggleStatus();
     });
 
     service.onInterruption.listen((event) {
@@ -103,14 +104,14 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
         case AudioInterruptionType.duck:
         case AudioInterruptionType.pause:
         case AudioInterruptionType.unknown:
-          service.handleInterruptions(event.type, true);
+          service.toggleStatus();
           break;
       }
     } else {
       switch (event.type) {
         case AudioInterruptionType.duck:
         case AudioInterruptionType.pause:
-          service.handleInterruptions(event.type, false);
+          service.toggleStatus();
           break;
         case AudioInterruptionType.unknown:
           break;

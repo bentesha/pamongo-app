@@ -40,6 +40,7 @@ class _HomepageState extends State<Homepage> {
   Widget _buildContent(
       List episodeList, List seriesList, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
+    
     return RefreshIndicator(
         onRefresh: bloc.refresh,
         backgroundColor: Colors.white,
