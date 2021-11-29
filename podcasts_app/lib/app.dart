@@ -25,6 +25,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   initForegroundPlayer(AudioPlayerService service) async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
     await AudioService.init(
       builder: () => ForegroundPlayer(service),
       config: const AudioServiceConfig(

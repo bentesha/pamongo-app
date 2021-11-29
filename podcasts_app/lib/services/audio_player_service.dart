@@ -228,9 +228,7 @@ class AudioPlayerService {
 
   void removeFromBox(String id) {
     box.delete(id);
-    log('deleted');
     _updateContentWith();
-    log('updated');
   }
 
   Future<void> share(ContentType contentType, String id) async {
@@ -248,10 +246,6 @@ class AudioPlayerService {
       default:
     }
     await Share.share(text);
-  }
-
-  void handleInterruptions(AudioInterruptionType type, bool isStarting) async {
-    toggleStatus();
   }
 
   _handleAudioError(AudioError error) {
