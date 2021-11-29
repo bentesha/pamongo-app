@@ -82,6 +82,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   _handleContentStream(ProgressIndicatorContent content) {
     final id = content.episodeList[content.currentIndex].id;
+    emit(SeriesPageState.loading(state.series, state.supplements));
 
     final supplements = state.supplements
         .copyWith(activeId: id, playerState: content.playerState);

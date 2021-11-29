@@ -34,6 +34,7 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     final content = service.getCurrentContent;
     final id = content.episodeList[content.currentIndex].id;
     final playerState = content.playerState;
+    emit(EpisodePageState.loading(state.episode, state.supplements));
 
     final supplements =
         state.supplements.copyWith(activeId: id, playerState: playerState);

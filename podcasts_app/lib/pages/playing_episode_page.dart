@@ -255,9 +255,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
               padding: const EdgeInsets.symmetric(horizontal: 17),
               child: _buildIconButton(
                   icon: isPlaying ? Icons.pause : Ionicons.play,
-                  backgroundColor: AppColors.onPrimary,
+                  backgroundColor: AppColors.secondaryColor,
                   isInactive: isLoading,
-                  iconColor: AppColors.primaryColor,
+                  iconColor: AppColors.onPrimary,
                   callback: isLoading ? () {} : bloc.togglePlayerStatus,
                   iconSize: 30),
             ),
