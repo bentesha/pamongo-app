@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
@@ -52,6 +54,14 @@ class Utils {
 
   static String formatDateBy(DateTime date, String format) =>
       DateFormat(format).format(date);
+
+  static String getRandomString() {
+    var r = Random();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(15, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
 
   ///converts a millisecond to time in hour-minute-seconds format
   static String convertFrom(int duration, {bool includeSeconds = true}) {
