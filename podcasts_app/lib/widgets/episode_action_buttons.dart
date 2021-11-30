@@ -2,8 +2,9 @@ import 'package:lottie/lottie.dart';
 import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/source.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'dart:math';
 
-class EpisodeActionButtons extends StatelessWidget {
+class EpisodeActionButtons extends StatefulWidget {
   const EpisodeActionButtons(
       {required this.playCallback,
       required this.markAsDoneCallback,
@@ -23,6 +24,30 @@ class EpisodeActionButtons extends StatelessWidget {
   final SavedEpisode savedEpisode;
 
   @override
+  State<EpisodeActionButtons> createState() => _EpisodeActionButtonsState();
+}
+
+class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
+  static final tappedPositionNotifier = ValueNotifier<Offset>(Offset.zero);
+  late final OverlayState overlayState;
+  late final OverlayEntry overlayEntry;
+  late GlobalObjectKey key;
+
+  @override
+  void initState() {
+    key = GlobalObjectKey(Utils.getRandomString());
+    overlayState = Overlay.of(context)!;
+    overlayEntry = _popUpMenuOverlayEntry();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    print('hellowwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 6),
@@ -35,12 +60,13 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _buildShareButton() {
-    return _iconButton(AppIcons.share, callback: () => shareCallback(id));
+    return _iconButton(AppIcons.share,
+        callback: () => widget.shareCallback(widget.id));
   }
 
   _buildStatusButton() {
     return GestureDetector(
-      onTap: playCallback,
+      onTap: widget.playCallback,
       child: Container(
           height: 30,
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -55,8 +81,8 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _decoration() {
-    final isPlaying = status == 'Playing';
-    final isPaused = status == 'Paused';
+    final isPlaying = widget.status == 'Playing';
+    final isPaused = widget.status == 'Paused';
     final shouldShowDecoration = isPlaying | isPaused;
 
     return BoxDecoration(
@@ -71,17 +97,15 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _statusIcon() {
-    final isPlaying = status == 'Playing';
-    final isLoading = status == 'Loading';
-    final isPaused = status == 'Paused';
-    final isCompleted = status == 'Completed';
-    final isSaved = savedEpisode.position != 0;
+    final isPlaying = widget.status == 'Playing';
+    final isLoading = widget.status == 'Loading';
+    final isPaused = widget.status == 'Paused';
+    final isCompleted = widget.status == 'Completed';
+    final isSaved = widget.savedEpisode.position != 0;
 
     return isPlaying
         ? Lottie.asset('assets/icons/playing.json',
             fit: BoxFit.contain, height: 30)
-        /*  Icon(Icons.equalizer_outlined,
-            size: 15.dh, color: AppColors.accentColor) */
         : isLoading
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -98,61 +122,49 @@ class EpisodeActionButtons extends StatelessWidget {
   }
 
   _statusText() {
-    final isPlaying = status == 'Playing';
-    final isLoading = status == 'Loading';
-    final isPaused = status == 'Paused';
-    final isCompleted = status == 'Completed';
-    var savedStatus = savedEpisodeStatus;
+    final isPlaying = widget.status == 'Playing';
+    final isLoading = widget.status == 'Loading';
+    final isPaused = widget.status == 'Paused';
+    final isCompleted = widget.status == 'Completed';
+    var savedStatus = widget.savedEpisodeStatus;
 
-    if (savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
+    if (widget.savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
 
     return AppText(
         isPlaying || isLoading
-            ? ' $status'
+            ? ' ${widget.status}'
             : isPaused
                 ? '   ${savedStatus}left'
                 : isCompleted
-                    ? '  $duration'
-                    : savedEpisode.position != 0
+                    ? '  ${widget.duration}'
+                    : widget.savedEpisode.position != 0
                         ? '   ${savedStatus}left'
-                        : '  $duration',
+                        : '  ${widget.duration}',
         weight: FontWeight.w400,
         color: AppColors.textColor,
         size: 14);
   }
 
   _buildCheckmarkButton() {
-    final isSaved = savedEpisode.position != 0;
-    final isPlaying = status == "Playing";
-    final isLoading = status == "Loading";
-    final isPaused = status == 'Paused';
+    final isSaved = widget.savedEpisode.position != 0;
+    final isPlaying = widget.status == "Playing";
+    final isLoading = widget.status == "Loading";
+    final isPaused = widget.status == 'Paused';
 
     if (!isSaved || isPlaying || isLoading || isPaused) return Container();
     return Expanded(
       child: Container(
-        height: 20,
         alignment: Alignment.centerRight,
-        child: PopupMenuButton(
-          padding: const EdgeInsets.only(left: 40),
-          iconSize: 20,
-          color: AppColors.secondaryColor,
-          itemBuilder: (_) {
-            return [
-              PopupMenuItem(
-                height: 25,
-                onTap: () => markAsDoneCallback(id),
-                child: Row(
-                  children: const [
-                    Icon(EvaIcons.checkmark,
-                        size: 18, color: AppColors.accentColor),
-                    SizedBox(width: 10),
-                    AppText('Mark As Done',
-                        size: 16, color: AppColors.onPrimary),
-                  ],
-                ),
-              )
-            ];
+        child: InkWell(
+          onTap: () {
+            overlayState.insert(overlayEntry);
+            final renderBox =
+                key.currentContext!.findRenderObject() as RenderBox;
+            final position = renderBox.localToGlobal(Offset.zero);
+            tappedPositionNotifier.value = position;
           },
+          child: Icon(EvaIcons.moreVerticalOutline,
+              key: key, color: AppColors.secondaryColor, size: 20),
         ),
       ),
     );
@@ -161,7 +173,7 @@ class EpisodeActionButtons extends StatelessWidget {
   _circularIndicator() {
     return CircularStepProgressIndicator(
       totalSteps: 100,
-      currentStep: savedEpisode.timeLeftInPercentage,
+      currentStep: widget.savedEpisode.timeLeftInPercentage,
       stepSize: 1,
       selectedColor: AppColors.primaryColor,
       unselectedColor: AppColors.disabledColor,
@@ -184,5 +196,47 @@ class EpisodeActionButtons extends StatelessWidget {
           constraints: const BoxConstraints(),
           icon: Icon(icon, color: AppColors.primaryColor, size: 20)),
     );
+  }
+
+  OverlayEntry _popUpMenuOverlayEntry() {
+    return OverlayEntry(
+        builder: (_) => GestureDetector(
+              onTap: () => overlayEntry.remove(),
+              child: Container(
+                  color: Colors.white.withOpacity(0.0),
+                  width: 100,
+                  child: Stack(
+                    children: [
+                      ValueListenableBuilder<Offset>(
+                          valueListenable: tappedPositionNotifier,
+                          builder: (context, tappedPosition, snapshot) {
+                            return Positioned(
+                              top: tappedPosition.dy,
+                              left: tappedPosition.dx - 145,
+                              child: MaterialButton(
+                                color: AppColors.secondaryColor,
+                                highlightColor: Colors.white,
+                                onPressed: () {
+                                  widget.markAsDoneCallback(widget.id);
+                                  overlayEntry.remove();
+                                },
+                                height: 40,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
+                                child: Row(
+                                  children: const [
+                                    Icon(EvaIcons.checkmark,
+                                        size: 18, color: AppColors.accentColor),
+                                    SizedBox(width: 10),
+                                    AppText('Mark As Done',
+                                        size: 16, color: AppColors.onPrimary),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ],
+                  )),
+            ));
   }
 }
