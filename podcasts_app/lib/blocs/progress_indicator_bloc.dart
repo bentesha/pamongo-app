@@ -4,7 +4,8 @@ import '../source.dart';
 class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   final AudioPlayerService service;
 
-  bool isExpanded = false;
+  static bool isExpanded = false;
+  static bool shouldUpdateStatusOnInterruptionEnd = true;
   static final initialContent =
       ProgressIndicatorContent(episodeList: [Episode(date: DateTime.now())]);
 
@@ -99,19 +100,30 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   }
 
   _handleAudioInterruptions(AudioInterruptionEvent event) {
+    final content = service.getCurrentContent;
+    final isPlaying = content.playerState == playingState;
+
     if (event.begin) {
       switch (event.type) {
         case AudioInterruptionType.duck:
+        //when another app uses the audio source temporarily e.g phone calls, instagram videos..
+        //then i should pause and continue when it's done.
         case AudioInterruptionType.pause:
+        //when another app may the audio source and we don't know when it will
+        //release the resource, hence we should pause and do nothing when it's done.
         case AudioInterruptionType.unknown:
-          service.toggleStatus();
+          if (isPlaying) {
+            service.toggleStatus();
+            shouldUpdateStatusOnInterruptionEnd = true;
+          }
+          if (!isPlaying) shouldUpdateStatusOnInterruptionEnd = false;
           break;
       }
     } else {
       switch (event.type) {
         case AudioInterruptionType.duck:
         case AudioInterruptionType.pause:
-          service.toggleStatus();
+          if (shouldUpdateStatusOnInterruptionEnd) service.toggleStatus();
           break;
         case AudioInterruptionType.unknown:
           break;
