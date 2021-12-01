@@ -118,7 +118,7 @@ class _HomepageState extends State<Homepage> {
             AppText(series.name,
                 alignment: TextAlign.start,
                 size: 13,
-                maxLines: 3,
+                maxLines: 2,
                 color: AppColors.textColor2,
                 weight: FontWeight.w600),
             const SizedBox(height: 5),
@@ -126,7 +126,7 @@ class _HomepageState extends State<Homepage> {
                 size: 12,
                 alignment: TextAlign.start,
                 color: AppColors.textColor2,
-                maxLines: 3)
+                maxLines: 1)
           ]),
         ),
       ),
