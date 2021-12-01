@@ -100,7 +100,7 @@ class AppSliderPainter extends CustomPainter {
 
     final dy = size.height / 2;
 
-    final startingPoint = Offset(0, dy);
+    final startingPoint = Offset(size.width * .008, dy);
     final endingPointUnbuffered = Offset(size.width, dy);
     final endingPointBuffered = Offset(xBuffered, dy);
     final endingPointPlayed = Offset(xTapped, dy);

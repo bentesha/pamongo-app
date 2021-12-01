@@ -14,10 +14,13 @@ class SeriesActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      !isOnSeriesPage ? _buildVisitSeriesButton() : Container(),
-      _buildShareButton()
-    ]);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(children: [
+        !isOnSeriesPage ? _buildVisitSeriesButton() : Container(),
+        _buildShareButton()
+      ]),
+    );
   }
 
   _buildShareButton() {
@@ -38,7 +41,6 @@ class SeriesActionButtons extends StatelessWidget {
       text: 'Visit Series',
       textColor: AppColors.textColor,
       radius: radius.toDouble(),
-
       fontWeight: FontWeight.w400,
     );
   }
@@ -49,7 +51,6 @@ class SeriesActionButtons extends StatelessWidget {
       padding: const EdgeInsets.only(right: 15),
       constraints: const BoxConstraints(),
       icon: Icon(icon, color: AppColors.primaryColor, size: 18),
-
     );
   }
 }

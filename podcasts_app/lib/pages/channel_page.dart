@@ -106,7 +106,7 @@ class _ChannelPageState extends State<ChannelPage> {
         const SizedBox(height: 10),
         ChannelActionButtons(() => bloc.share(ContentType.channel, channel.id)),
         Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: const EdgeInsets.only(right: 10, top: 10),
           child: AppRichText(
               text: AppText(channel.description, size: 16, maxLines: 4),
               useToggleExpansionButtons: true),
@@ -117,7 +117,7 @@ class _ChannelPageState extends State<ChannelPage> {
 
   _buildSeriesList(Channel channel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

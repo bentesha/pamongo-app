@@ -134,7 +134,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildSlider(ProgressIndicatorContent content) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(33, 10, 26, 15),
+      padding: const EdgeInsets.fromLTRB(32, 30, 26, 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -155,7 +155,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
         currentValue: currentPosition,
         bufferedValue: bufferedPosition,
         duration: duration,
-        sliderWidth: 348,
+        sliderWidth: 350,
         onValueChanged: bloc.changePosition);
   }
 
@@ -253,7 +253,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildProgressIndicatorActions(String id) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30, top: 15),
+      padding: const EdgeInsets.only(left: 32, top: 15),
       child: Row(
         children: [
           AppTextButton(
