@@ -26,7 +26,7 @@ class AppTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30.dh,
-      margin: EdgeInsets.only(top: 10.dh, bottom: 10.dh, right: 15.dw),
+      margin: EdgeInsets.only(right: 15.dw),
       child: TextButton(
           onPressed: callback,
           style: TextButton.styleFrom(
