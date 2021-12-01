@@ -90,7 +90,10 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
       }
 
       emit(ProgressIndicatorState.active(
-          state.content.copyWith(currentPosition: _position), state.isHiding));
+          state.content.copyWith(
+              currentPosition: _position,
+              bufferedPosition: service.getBufferedPosition),
+          state.isHiding));
     }
   }
 

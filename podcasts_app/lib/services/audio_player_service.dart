@@ -48,7 +48,7 @@ class AudioPlayerService {
       final savedEpisode = box.get(episode.id) as SavedEpisode;
       _duration = savedEpisode.duration;
       _updateContentWith(currentIndex: index, episodeList: episodeList);
-      _handleSeekCallback(savedEpisode.position, index);
+      _handleSeekCallback(savedEpisode.position, index, false);
       return;
     }
 
@@ -93,8 +93,11 @@ class AudioPlayerService {
 
     if (isInactive) return;
     if (isLoading) return;
-    if (hasFailedToBuffer) return _handleSeekCallback(currentPosition, index);
     if (isCompleted) return await play(_content.episodeList, index: index);
+    if (hasFailedToBuffer) {
+      _handleSeekCallback(currentPosition, index, true);
+      return;
+    }
     if (isPlaying) {
       _addCurrentToBox();
       _updateContentWith(
@@ -112,8 +115,7 @@ class AudioPlayerService {
     final id = _content.episodeList[index].id;
     final savedEpisode = Hive.box('played_episodes').get(id) as SavedEpisode?;
     if (savedEpisode != null) {
-      log(savedEpisode.position.toString());
-      _handleSeekCallback(savedEpisode.position, index);
+      _handleSeekCallback(savedEpisode.position, index, false);
     }
   }
 
@@ -129,11 +131,11 @@ class AudioPlayerService {
           ? currentPosition + position
           : currentPosition - position;
 
-      _handleSeekCallback(updatedPosition.toInt(), index);
+      _handleSeekCallback(updatedPosition.toInt(), index, true);
       return;
     }
 
-    _handleSeekCallback(position.toInt(), index);
+    _handleSeekCallback(position.toInt(), index, true);
   }
 
   Future<void> stop() async {
@@ -178,13 +180,23 @@ class AudioPlayerService {
     if (player.playing) player.pause();
   }
 
-  Future<void> _handleSeekCallback(int newPosition, int index) async {
+  Future<void> _handleSeekCallback(
+      int newPosition, int index, bool isSeekingSameAudio) async {
     final duration = _content.episodeList[_content.currentIndex].duration;
+    final bufferedPosition = player.bufferedPosition.inMilliseconds;
+    final currentPosition = player.position.inMilliseconds;
     final correctedPosition = newPosition > duration
         ? duration
         : newPosition.isNegative
             ? 0
             : newPosition;
+
+    if (correctedPosition < bufferedPosition &&
+        correctedPosition > currentPosition &&
+        isSeekingSameAudio) {
+      player.seek(Duration(milliseconds: correctedPosition));
+      return;
+    }
 
     _updateContentWith(
       currentPosition: correctedPosition,
