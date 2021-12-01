@@ -13,7 +13,7 @@ class HomepageBloc extends Cubit<HomepageState> {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));
     try {
-      final recent = await PodcastsRepository.getRecentEpisodes();
+      final recent = await PodcastsRepository.getFeaturedEpisodes();
       final featured = await PodcastsRepository.getFeaturedSeries();
       emit(HomepageState.content(recent, featured, state.supplements));
     } on ApiError catch (e) {

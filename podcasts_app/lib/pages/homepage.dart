@@ -67,8 +67,8 @@ class _HomepageState extends State<Homepage> {
                 ]),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
-              _buildSeries(seriesList),
-              _buildRecent(episodeList, supplements),
+              _buildFeaturedSeries(seriesList),
+              _buildFeaturedEpisodes(episodeList, supplements),
               shouldLeaveSpace
                   ? SizedBox(height: 80.dh)
                   : SizedBox(height: 15.dh),
@@ -77,7 +77,7 @@ class _HomepageState extends State<Homepage> {
         ));
   }
 
-  _buildSeries(List seriesList) {
+  _buildFeaturedSeries(List seriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,7 +92,7 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
-              return _buildSeriesEntry(series, index, seriesList.length);
+              return _seriesEntry(series, index, seriesList.length);
             }).toList(),
           ),
         ),
@@ -101,7 +101,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _buildSeriesEntry(Series series, int seriesIndex, int seriesLength) {
+  Widget _seriesEntry(Series series, int seriesIndex, int seriesLength) {
     final isFirst = seriesIndex == 0;
     final isLast = seriesIndex == seriesLength - 1;
 
@@ -122,7 +122,7 @@ class _HomepageState extends State<Homepage> {
             AppText(series.name,
                 alignment: TextAlign.start,
                 size: 13.w,
-                maxLines: 3,
+                maxLines: 2,
                 color: AppColors.textColor2,
                 weight: FontWeight.w600),
             SizedBox(height: 5.dh),
@@ -130,14 +130,14 @@ class _HomepageState extends State<Homepage> {
                 size: 12.w,
                 alignment: TextAlign.start,
                 color: AppColors.textColor2,
-                maxLines: 3)
+                maxLines: 1)
           ]),
         ),
       ),
     );
   }
 
-  _buildRecent(List episodeList, Supplements supplements) {
+  _buildFeaturedEpisodes(List episodeList, Supplements supplements) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
