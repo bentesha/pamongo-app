@@ -67,15 +67,17 @@ class _HomepageState extends State<Homepage> {
                 ]),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
-              _buildSeries(seriesList),
-              _buildRecent(episodeList, supplements),
-              SizedBox(height: shouldLeaveSpace ? 80 : 15)
+              _buildFeaturedSeries(seriesList),
+              _buildFeaturedEpisodes(episodeList, supplements),
+              shouldLeaveSpace
+                  ? const SizedBox(height: 80)
+                  : const SizedBox(height: 15),
             ]))
           ],
         ));
   }
 
-  _buildSeries(List seriesList) {
+  _buildFeaturedSeries(List seriesList) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,7 +91,7 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: seriesList.map((series) {
               final index = seriesList.indexOf(series);
-              return _buildSeriesEntry(series, index, seriesList.length);
+              return _seriesEntry(series, index, seriesList.length);
             }).toList(),
           ),
         ),
@@ -98,7 +100,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _buildSeriesEntry(Series series, int seriesIndex, int seriesLength) {
+  Widget _seriesEntry(Series series, int seriesIndex, int seriesLength) {
     final isFirst = seriesIndex == 0;
     final isLast = seriesIndex == seriesLength - 1;
 
@@ -133,7 +135,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  _buildRecent(List episodeList, Supplements supplements) {
+  _buildFeaturedEpisodes(List episodeList, Supplements supplements) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList

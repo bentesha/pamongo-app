@@ -11,8 +11,8 @@ class PodcastsRepository {
   static Future<List<Series>> getFeaturedSeries() async => await getSeries(
       'series?eager=channel&rangeStart=0&rangeEnd=7&featured=true');
 
-  static Future<List<Episode>> getRecentEpisodes() async => getEpisodes(
-      'episode?eager=series&rangeStart=0&rangeEnd=7&featured=true');
+  static Future<List<Episode>> getFeaturedEpisodes() async =>
+      getEpisodes('episode?eager=series&rangeStart=0&rangeEnd=7&featured=true');
 
   static Future<Episode> getEpisodeById(String id) async {
     final episodeList = await getEpisodes('episode?eager=series&id=$id');
