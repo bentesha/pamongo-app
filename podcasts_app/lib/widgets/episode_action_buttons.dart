@@ -2,7 +2,6 @@ import 'package:lottie/lottie.dart';
 import 'package:podcasts/models/saved_episodes.dart';
 import 'package:podcasts/source.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'dart:math';
 
 class EpisodeActionButtons extends StatefulWidget {
   const EpisodeActionButtons(
@@ -39,12 +38,6 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
     overlayState = Overlay.of(context)!;
     overlayEntry = _popUpMenuOverlayEntry();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    print('hellowwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-    super.dispose();
   }
 
   @override
@@ -211,8 +204,9 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                           valueListenable: tappedPositionNotifier,
                           builder: (context, tappedPosition, snapshot) {
                             return Positioned(
-                              top: tappedPosition.dy,
+                              top: tappedPosition.dy - 15,
                               left: tappedPosition.dx - 145,
+
                               child: MaterialButton(
                                 color: AppColors.secondaryColor,
                                 highlightColor: Colors.white,

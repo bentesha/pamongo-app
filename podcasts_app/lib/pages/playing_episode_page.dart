@@ -1,4 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:podcasts/widgets/app_slider.dart';
 import '../source.dart';
 
 class PlayingEpisodePage extends StatefulWidget {
@@ -89,7 +90,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildDropButton() {
     return Container(
-      padding: const EdgeInsets.only(top: 40, left: 18),
+      padding: const EdgeInsets.only(top: 40, left: 10),
       alignment: Alignment.centerLeft,
       child: _buildIconButton(
           callback: () {
@@ -103,7 +104,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 35, 30, 0),
+      padding: const EdgeInsets.fromLTRB(31, 35, 31, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppImage(
           radius: 10,
@@ -133,21 +134,11 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildSlider(ProgressIndicatorContent content) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(26, 0, 26, 15),
+      padding: const EdgeInsets.fromLTRB(33, 10, 26, 15),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 30,
-            margin: const EdgeInsets.fromLTRB(0, 15, 0, 10),
-            child: SliderTheme(
-              data: SliderThemeData(
-                  trackHeight: 3,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 6),
-                  overlayShape: SliderComponentShape.noThumb),
-              child: _buildSliderLine(content),
-            ),
-          ),
+          _buildSliderLine(content),
           _buildLabels(content),
         ],
       ),
@@ -155,32 +146,17 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   }
 
   _buildSliderLine(ProgressIndicatorContent content) {
-    final currentPosition = content.currentPosition.toDouble();
+    final currentPosition = content.currentPosition;
+    final bufferedPosition = content.bufferedPosition;
     final episode = content.episodeList[content.currentIndex];
+    final duration = episode.duration;
 
-    return ValueListenableBuilder<bool>(
-        valueListenable: useAudioPositionNotifier,
-        builder: (_, useAudioPosition, __) {
-          return ValueListenableBuilder<double>(
-              valueListenable: positionNotifier,
-              builder: (_, position, __) {
-                return Slider(
-                  activeColor: AppColors.primaryColor,
-                  inactiveColor: AppColors.disabledColor,
-                  value: useAudioPosition ? currentPosition : position,
-                  min: 0.0,
-                  max: episode.duration.toDouble(),
-                  onChanged: (value) {
-                    useAudioPositionNotifier.value = false;
-                    positionNotifier.value = value;
-                  },
-                  onChangeEnd: (value) {
-                    bloc.changePosition(value);
-                    useAudioPositionNotifier.value = true;
-                  },
-                );
-              });
-        });
+    return AppSlider(
+        currentValue: currentPosition,
+        bufferedValue: bufferedPosition,
+        duration: duration,
+        sliderWidth: 348,
+        onValueChanged: bloc.changePosition);
   }
 
   _buildLabels(ProgressIndicatorContent content) {
@@ -190,38 +166,35 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     final isLoading = content.playerState == loadingState;
     final hasFailedToBuffer = content.playerState == errorState;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 5, right: 4, bottom: 10),
-      child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AppText(
-              currentPosition,
-              size: 14,
-              weight: FontWeight.w400,
-            ),
-            isLoading || hasFailedToBuffer
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: AppText(
-                              isLoading ? 'buffering ... ' : 'couldn\'t play',
-                              color: AppColors.textColor2,
-                              size: 14)),
-                    ],
-                  )
-                : Container(),
-            AppText(
-              duration,
-              size: 14,
-              weight: FontWeight.w400,
-            )
-          ]),
-    );
+    return Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText(
+            currentPosition,
+            size: 14,
+            weight: FontWeight.w400,
+          ),
+          isLoading || hasFailedToBuffer
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: AppText(
+                            isLoading ? 'buffering ... ' : 'couldn\'t play',
+                            color: AppColors.textColor2,
+                            size: 14)),
+                  ],
+                )
+              : Container(),
+          AppText(
+            duration,
+            size: 14,
+            weight: FontWeight.w400,
+          )
+        ]);
   }
 
   _buildAudioControlActions(ProgressIndicatorContent content) {
@@ -233,7 +206,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
     final isPlayingSeries = content.episodeList.length > 1;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,7 +228,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
               padding: const EdgeInsets.symmetric(horizontal: 17),
               child: _buildIconButton(
                   icon: isPlaying ? Icons.pause : Ionicons.play,
-                  backgroundColor: AppColors.secondaryColor,
+                  backgroundColor: AppColors.primaryColor,
                   isInactive: isLoading,
                   iconColor: AppColors.onPrimary,
                   callback: isLoading ? () {} : bloc.togglePlayerStatus,
