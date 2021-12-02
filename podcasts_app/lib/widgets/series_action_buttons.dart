@@ -26,10 +26,14 @@ class SeriesActionButtons extends StatelessWidget {
   _buildShareButton() {
     return isOnSeriesPage
         ? AppTextButton(
-            callback: shareCallback,
-            radius: 5,
+            onPressed: shareCallback,
+            borderRadius: 5,
             text: 'Share',
             withIcon: true,
+            isBolded: true,
+            borderColor: AppColors.disabledColor,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            margin: const EdgeInsets.only(right: 15),
           )
         : _iconButton(AppIcons.share, shareCallback);
   }
@@ -37,11 +41,14 @@ class SeriesActionButtons extends StatelessWidget {
   _buildVisitSeriesButton() {
     final radius = isOnSeriesPage ? 5 : 15;
     return AppTextButton(
-      callback: visitSeriesCallback,
+      onPressed: visitSeriesCallback,
       text: 'Visit Series',
       textColor: AppColors.textColor,
-      radius: radius.toDouble(),
-      fontWeight: FontWeight.w400,
+      borderRadius: radius.toDouble(),
+      isBolded: true,
+      borderColor: AppColors.disabledColor,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.only(right: 15),
     );
   }
 

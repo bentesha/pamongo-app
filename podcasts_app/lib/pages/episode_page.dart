@@ -31,19 +31,7 @@ class _EpisodePageState extends State<EpisodePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _handlePop,
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: _buildBody(),
-      ),
-    );
-  }
-
-  _buildAppBar() {
-    final isOpenedUsingLink = widget.episode == null;
-
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
-      child: AppTopBars.episodePage(isOpenedUsingLink),
+      child: _buildBody(),
     );
   }
 
@@ -57,9 +45,12 @@ class _EpisodePageState extends State<EpisodePage> {
 
   Widget _buildContent(Episode episode, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
+    final isOpenedUsingLink = widget.episode == null;
 
-    return ListView(
-      padding: EdgeInsets.zero,
+    return AppListView(
+      header: episode.title,
+      backArrowCallback:
+          isOpenedUsingLink ? () => Homepage.navigateTo(context) : null,
       children: [
         EpisodeTiles.episodePage(
           episode: episode,

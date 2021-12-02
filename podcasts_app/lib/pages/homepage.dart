@@ -112,29 +112,29 @@ class _HomepageState extends State<Homepage> {
       width: 106,
       margin: EdgeInsets.only(
           left: isFirst ? 12 : 0, right: isLast ? 8 : 0, top: 3),
-      child: AppMaterialButton(
-        borderRadius: 10,
-        onPressed: () async => SeriesPage.navigateTo(context, series.id),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            AppImage(image: series.image, height: 96, width: 96, radius: 10),
-            const SizedBox(height: 9),
-            AppText(series.name,
-                alignment: TextAlign.start,
-                size: 13,
-                maxLines: 2,
-                color: AppColors.textColor2,
-                weight: FontWeight.w600),
-            const SizedBox(height: 5),
-            AppText(series.channelName,
-                size: 12,
-                alignment: TextAlign.start,
-                color: AppColors.textColor2,
-                maxLines: 1)
-          ]),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          AppImageButton(
+            size: 96,
+            onPressed: () => SeriesPage.navigateTo(context, series.id),
+            image: AppImage(
+                image: series.image, height: 96, width: 96, radius: 10),
+          ),
+          const SizedBox(height: 9),
+          AppText(series.name,
+              alignment: TextAlign.start,
+              size: 13,
+              maxLines: 2,
+              color: AppColors.textColor2,
+              weight: FontWeight.w600),
+          const SizedBox(height: 5),
+          AppText(series.channelName,
+              size: 12,
+              alignment: TextAlign.start,
+              color: AppColors.textColor2,
+              maxLines: 1)
+        ]),
       ),
     );
   }

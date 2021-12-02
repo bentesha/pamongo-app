@@ -257,12 +257,13 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       child: Row(
         children: [
           AppTextButton(
-            callback: () => bloc.share(id),
+            onPressed: () => bloc.share(id),
             text: 'Share',
-            radius: 10,
+            borderRadius: 5,
             withIcon: true,
             borderColor: AppColors.disabledColor,
-            fontWeight: FontWeight.w400,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            icon: EvaIcons.share,
           ),
         ],
       ),

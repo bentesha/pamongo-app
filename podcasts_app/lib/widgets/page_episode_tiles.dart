@@ -1,6 +1,8 @@
 import '../source.dart';
 import 'episode_tile.dart';
 
+enum Pages { homepage, episodePage, seriesPage, channelPage }
+
 class EpisodeTiles {
   static Widget homepage(
       {required void Function(Episode) playCallback,

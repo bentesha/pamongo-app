@@ -58,35 +58,23 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _buildStatusButton() {
-    return GestureDetector(
-      onTap: widget.playCallback,
-      child: Container(
-          height: 30,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          margin: const EdgeInsets.only(right: 15),
-          decoration: _decoration(),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            _statusIcon(),
-            _statusText(),
-          ])),
-    );
-  }
-
-  _decoration() {
     final isPlaying = widget.status == 'Playing';
     final isPaused = widget.status == 'Paused';
-    final shouldShowDecoration = isPlaying | isPaused;
 
-    return BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-        color: Colors.transparent,
-        border: Border.all(
-          width: 1,
-          color: shouldShowDecoration
-              ? AppColors.borderColor
-              : AppColors.disabledColor,
-        ));
+    return AppTextButton(
+      onPressed: widget.playCallback,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.only(right: 15),
+      borderRadius: 15,
+      height: 30,
+      borderColor: isPlaying || isPaused
+          ? AppColors.borderColor
+          : AppColors.disabledColor,
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        _statusIcon(),
+        _statusText(),
+      ]),
+    );
   }
 
   _statusIcon() {
@@ -206,7 +194,6 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                             return Positioned(
                               top: tappedPosition.dy - 15,
                               left: tappedPosition.dx - 145,
-
                               child: MaterialButton(
                                 color: AppColors.secondaryColor,
                                 highlightColor: Colors.white,

@@ -56,7 +56,8 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
         )
       ]),
       Padding(
-        padding: const EdgeInsets.only(top: 3, bottom: 3, right: 8),
+
+        padding: const EdgeInsets.only(top: 7, bottom: 3, right: 8),
         child: AppText(widget.title,
             weight: FontWeight.w600,
             size: 15,

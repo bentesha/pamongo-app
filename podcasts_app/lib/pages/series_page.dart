@@ -46,37 +46,18 @@ class _SeriesPageState extends State<SeriesPage> {
     final playerState = supplements.playerState;
     final shouldLeaveSpace = playerState != inactiveState;
 
-    return NotificationListener(
-      onNotification: (ScrollNotification notification) {
-        topScrolledPixelsNotifier.value = notification.metrics.pixels;
-        return true;
-      },
-      child: WillPopScope(
-        onWillPop: _handlePop,
-        child: Scaffold(
-          appBar: _buildAppBar(series.name),
-          body: ListView(children: [
+    return WillPopScope(
+      onWillPop: _handlePop,
+      child: AppListView(
+          backArrowCallback: widget.isOpenedUsingLink
+              ? () => Homepage.navigateTo(context)
+              : null,
+          header: series.name,
+          children: [
             _buildTitle(series),
             _buildEpisodeList(episodeList, supplements),
             shouldLeaveSpace ? const SizedBox(height: 80) : Container()
           ]),
-        ),
-      ),
-    );
-  }
-
-  _buildAppBar(String appBarTitle) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(50),
-      child: ValueListenableBuilder<double>(
-          valueListenable: topScrolledPixelsNotifier,
-          builder: (context, value, child) {
-            return AppTopBars.seriesPage(
-              topScrolledPixels: value,
-              title: appBarTitle,
-              isOpenedUsingLink: widget.isOpenedUsingLink,
-            );
-          }),
     );
   }
 
@@ -92,9 +73,8 @@ class _SeriesPageState extends State<SeriesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(series.name,
-
                       size: 16, weight: FontWeight.w600, maxLines: 3),
-               const   SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () => ChannelPage.navigateTo(context,
                         channelId: series.channelId),
