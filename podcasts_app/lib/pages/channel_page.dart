@@ -44,38 +44,19 @@ class _ChannelPageState extends State<ChannelPage> {
   Widget _buildContent(Channel channel, Supplements supplements) {
     final shouldLeaveSpace = supplements.playerState != inactiveState;
 
-    return NotificationListener(
-      onNotification: (ScrollNotification notification) {
-        topScrolledPixelsNotifier.value = notification.metrics.pixels;
-        return true;
-      },
-      child: WillPopScope(
+    return WillPopScope(
         onWillPop: _handlePop,
-        child: Scaffold(
-          appBar: _buildAppBar(channel.name),
-          body: ListView(padding: EdgeInsets.zero, children: [
-            _buildTitle(channel),
-            _buildSeriesList(channel),
-            shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
-          ]),
-        ),
-      ),
-    );
-  }
-
-  _buildAppBar(String appBarTitle) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(50.dh),
-      child: ValueListenableBuilder<double>(
-          valueListenable: topScrolledPixelsNotifier,
-          builder: (context, value, child) {
-            return AppTopBars.channelPage(
-              topScrolledPixels: value,
-              title: appBarTitle,
-              isOpenedUsingLink: widget.isOpenedUsingLink,
-            );
-          }),
-    );
+        child: AppListView(
+          thresholdOffset: 130.0,
+            backArrowCallback: widget.isOpenedUsingLink
+                ? () => Homepage.navigateTo(context)
+                : null,
+            header: channel.name,
+            children: [
+              _buildTitle(channel),
+              _buildSeriesList(channel),
+              shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+            ]));
   }
 
   _buildTitle(Channel channel) {

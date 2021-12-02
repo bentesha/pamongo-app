@@ -57,7 +57,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
         callback: () => widget.shareCallback(widget.id));
   }
 
-  _buildStatusButton() {
+/*  _buildStatusButton() {
     return GestureDetector(
       onTap: widget.playCallback,
       child: Container(
@@ -71,22 +71,26 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
             _statusText(),
           ])),
     );
-  }
+  }*/
 
-  _decoration() {
+  _buildStatusButton() {
     final isPlaying = widget.status == 'Playing';
     final isPaused = widget.status == 'Paused';
-    final shouldShowDecoration = isPlaying | isPaused;
 
-    return BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15.dw)),
-        color: Colors.transparent,
-        border: Border.all(
-          width: 1,
-          color: shouldShowDecoration
-              ? AppColors.borderColor
-              : AppColors.disabledColor,
-        ));
+    return AppTextButton(
+      onPressed: widget.playCallback,
+      padding: EdgeInsets.symmetric(horizontal: 10.dw),
+      margin: EdgeInsets.only(right: 15.dw),
+      borderRadius: 15.dw,
+      height: 30.dh,
+      borderColor: isPlaying || isPaused
+          ? AppColors.borderColor
+          : AppColors.disabledColor,
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        _statusIcon(),
+        _statusText(),
+      ]),
+    );
   }
 
   _statusIcon() {

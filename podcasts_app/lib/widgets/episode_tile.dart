@@ -35,6 +35,7 @@ class EpisodeTile extends StatelessWidget {
       size: 15.w,
       color: AppColors.textColor2,
       maxLines: descriptionMaxLines,
+      alignment: TextAlign.start,
     );
 
     return Column(

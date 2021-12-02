@@ -11,14 +11,16 @@ class ChannelActionButtons extends StatelessWidget {
   }
 
   _buildShareButton() {
-    return SizedBox(
-      width: 116.dw,
-      child: AppTextButton(
-        callback: shareCallback,
-        radius: 5.dw,
-        text: 'Share',
-        withIcon: true,
-      ),
+    return Row(
+      children: [
+        AppTextButton(
+            onPressed: shareCallback,
+            borderRadius: 5.dw,
+            text: 'Share',
+            withIcon: true,
+            padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dw),
+            borderColor: AppColors.disabledColor),
+      ],
     );
   }
 }

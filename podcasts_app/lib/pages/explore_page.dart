@@ -236,34 +236,34 @@ class _ExplorePageState extends State<ExplorePage> {
         : GridView.count(
             crossAxisCount: 3,
             childAspectRatio: .73,
+            crossAxisSpacing: 6,
+            mainAxisSpacing: 5,
             padding: EdgeInsets.only(
                 left: 15.dw,
                 right: 15.dw,
                 top: 15.dh,
                 bottom: shouldLeaveSpace ? 70.dh : 0),
             children: list.map((e) {
-              return AppMaterialButton(
-                padding: EdgeInsets.all(5.dw),
-                borderRadius: 10.dw,
-                onPressed: () => Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (_) =>
-                            isSeries ? SeriesPage(e.id) : ChannelPage(e.id))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppImage(image: e.image, height: 120.h, radius: 10.dw),
-                    SizedBox(height: 10.dh),
-                    HighlightedText(
-                        AppText(e.name,
-                            maxLines: 2,
-                            size: 14.w,
-                            weight: FontWeight.bold,
-                            alignment: TextAlign.start),
-                        keyword: keyword),
-                  ],
-                ),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppImageButton(
+                    size: 120.dh,
+                      onPressed: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (_) =>
+                              isSeries ? SeriesPage(e.id) : ChannelPage(e.id))),
+                      image: AppImage(image: e.image, height: 120.h, radius: 10.dw)),
+                  SizedBox(height: 10.dh),
+                  HighlightedText(
+                      AppText(e.name,
+                          maxLines: 2,
+                          size: 14.w,
+                          weight: FontWeight.bold,
+                          alignment: TextAlign.start),
+                      keyword: keyword),
+                ],
               );
             }).toList());
   }
