@@ -5,6 +5,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:podcasts/constants.dart';
+import 'package:podcasts/events/episode_event.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
@@ -18,6 +19,7 @@ enum ContentType { episode, series, channel }
 class AudioPlayerService {
   static final player = AudioPlayer();
   static final box = Hive.box('played_episodes');
+  static final eventsBox = Hive.box('events');
   static const timeLimit = Duration(seconds: 10);
   static final initialEpisodeList = [Episode(date: DateTime.utc(2020))];
   var _content = ProgressIndicatorContent(episodeList: initialEpisodeList);

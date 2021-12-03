@@ -65,12 +65,13 @@ class _AppListViewState extends State<AppListView> {
                   onPressed:
                       widget.backArrowCallback ?? () => Navigator.pop(context),
                   icon: Icon(EvaIcons.arrowBackOutline,
-                      size: 22.dw, color: AppColors.secondaryColor),
+                      size: 26.dw, color: AppColors.secondaryColor),
                 ),
-                title: Text(widget.header,
-                    style: TextStyle(
-                        color: Colors.black
-                            .withOpacity(topOffset / thresholdOffset))),
+                title: AppText(widget.header,
+                    size: 18.w,
+                    weight: FontWeight.bold,
+                    color:
+                        Colors.black.withOpacity(topOffset / thresholdOffset)),
               );
             }));
   }

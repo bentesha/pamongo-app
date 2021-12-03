@@ -18,6 +18,7 @@ class ChannelActionButtons extends StatelessWidget {
             borderRadius: 5.dw,
             text: 'Share',
             withIcon: true,
+            isBolded: true,
             padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dw),
             borderColor: AppColors.disabledColor),
       ],

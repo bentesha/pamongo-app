@@ -1,5 +1,5 @@
 import 'package:lottie/lottie.dart';
-import 'package:podcasts/models/saved_episodes.dart';
+import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/source.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -56,22 +56,6 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
     return _iconButton(AppIcons.share,
         callback: () => widget.shareCallback(widget.id));
   }
-
-/*  _buildStatusButton() {
-    return GestureDetector(
-      onTap: widget.playCallback,
-      child: Container(
-          height: 30.dh,
-          padding: EdgeInsets.symmetric(horizontal: 10.dw),
-          margin: EdgeInsets.only(right: 15.dw),
-          decoration: _decoration(),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            _statusIcon(),
-            _statusText(),
-          ])),
-    );
-  }*/
 
   _buildStatusButton() {
     final isPlaying = widget.status == 'Playing';

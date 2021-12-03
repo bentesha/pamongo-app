@@ -205,6 +205,20 @@
             </list>
           </value>
         </entry>
+        <entry key="device_info">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="device_info_platform_interface">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/device_info_platform_interface-2.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="eva_icons_flutter">
           <value>
             <list>
@@ -390,7 +404,14 @@
         <entry key="json_annotation">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.3.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.4.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="json_serializable">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_serializable-6.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -902,6 +923,8 @@
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/convert-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/device_info_platform_interface-2.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/eva_icons_flutter-3.0.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.1.2/lib" />
@@ -925,7 +948,8 @@
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/io-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/ionicons-0.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.3.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.4.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/json_serializable-6.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio-0.9.18/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_platform_interface-4.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../../../flutter_windows_1.22.5-stable/flutter/.pub-cache/hosted/pub.dartlang.org/just_audio_web-0.4.2/lib" />

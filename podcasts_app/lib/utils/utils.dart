@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:hive/hive.dart';
-import 'package:podcasts/models/saved_episodes.dart';
+import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
 import 'package:intl/intl.dart';

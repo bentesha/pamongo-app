@@ -98,6 +98,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
             bloc.toggleVisibilityStatus();
           },
           icon: EvaIcons.arrowIosDownwardOutline,
+          iconColor: AppColors.secondaryColor,
           iconSize: 30),
     );
   }

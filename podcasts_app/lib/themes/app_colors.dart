@@ -21,5 +21,5 @@ class AppColors {
   static const borderColor = Color(0xFF4F4F4F);
   static const splashColor = Colors.grey;
   static const disabledColor = Color(0xFFC2C0BF);
-  static const highlightColor = Color(0xffEDE7DC);
+  static const highlightColor = Color(0xFFF2F1F0);
 }

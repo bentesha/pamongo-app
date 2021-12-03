@@ -85,7 +85,7 @@ class _ChannelPageState extends State<ChannelPage> {
             ),
           ]),
         ),
-        SizedBox(height: 10.dh),
+        SizedBox(height: 15.dh),
         ChannelActionButtons(() => bloc.share(ContentType.channel, channel.id)),
         Padding(
           padding: EdgeInsets.only(right: 10.dw, top: 10.dh),

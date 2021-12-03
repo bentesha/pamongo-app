@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'saved_episodes.g.dart';
+part 'saved_episode.g.dart';
 
 @HiveType(typeId: 1)
 class SavedEpisode extends HiveObject {

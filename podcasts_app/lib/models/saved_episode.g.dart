@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'saved_episodes.dart';
+part of 'saved_episode.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

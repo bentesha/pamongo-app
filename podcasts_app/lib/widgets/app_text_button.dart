@@ -4,7 +4,7 @@ import '../source.dart';
 class AppTextButton extends StatefulWidget {
   const AppTextButton(
       {this.buttonColor = Colors.transparent,
-      this.highlightColor = const Color(0xffF2F1F0),
+      this.highlightColor = AppColors.highlightColor,
       this.textColor,
       this.borderColor,
       this.icon,
@@ -75,23 +75,22 @@ class _AppTextButtonState extends State<AppTextButton>
       builder: (context, child) {
         return GestureDetector(
           onTap: () => controller.forward(),
-          child:
-              Container(
-                  height: widget.height,
-                  width: widget.width,
-                  margin: widget.margin ?? EdgeInsets.zero,
-                  padding: widget.padding ??
-                      EdgeInsets.symmetric(horizontal: 15.dw, vertical: 8.dh),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(widget.borderRadius ?? 0)),
-                    border: Border.all(
-                        width: 1.0,
-                        color: widget.borderColor ?? AppColors.borderColor),
-                    color: animation.value,
-                  ),
-                  alignment: Alignment.center,
-                  child: _child()),
+          child: Container(
+              height: widget.height,
+              width: widget.width,
+              margin: widget.margin ?? EdgeInsets.zero,
+              padding: widget.padding ??
+                  EdgeInsets.symmetric(horizontal: 15.dw, vertical: 8.dh),
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.borderRadius ?? 0)),
+                border: Border.all(
+                    width: 1.0,
+                    color: widget.borderColor ?? AppColors.borderColor),
+                color: animation.value,
+              ),
+              alignment: Alignment.center,
+              child: _child()),
         );
       },
     );
@@ -100,15 +99,17 @@ class _AppTextButtonState extends State<AppTextButton>
   _child() {
     final hasProvidedChild = widget.child != null;
 
-    return hasProvidedChild ? widget.child : widget.withIcon
-        ? Row(children: [
-            Icon(widget.icon ?? EvaIcons.share,
-                color: widget.iconColor ?? AppColors.secondaryColor,
-                size: 18.dw),
-            SizedBox(width: 15.dw),
-            _text(),
-          ])
-        : _text();
+    return hasProvidedChild
+        ? widget.child
+        : widget.withIcon
+            ? Row(children: [
+                Icon(widget.icon ?? EvaIcons.share,
+                    color: widget.iconColor ?? AppColors.secondaryColor,
+                    size: 18.dw),
+                SizedBox(width: 15.dw),
+                _text(),
+              ])
+            : _text();
   }
 
   _text() {
