@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import '../source.dart';
 
 class Homepage extends StatefulWidget {
@@ -23,8 +21,6 @@ class _HomepageState extends State<Homepage> {
     bloc = HomepageBloc(service);
     bloc.init();
     WidgetsBinding.instance!.addPostFrameCallback((_) => _insertOverlay());
-
-    //Timer.periodic(const Duration(seconds: 5), (timer) {});
     super.initState();
   }
 

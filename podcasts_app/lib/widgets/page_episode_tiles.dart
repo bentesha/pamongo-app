@@ -79,6 +79,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
   bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
   SavedEpisode savedEpisode = SavedEpisode.empty();
+  IndicatorPlayerState episodeState = inactiveState;
 
   void _buildState() {
     episode = widget.episode;
@@ -92,7 +93,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
 
     isActive = (isPlaying || isPaused) && activeId == episode.id;
 
-    status = Utils.getStatus(episode.id, activeId, playerState);
+    episodeState = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
     savedEpisode = Utils.getPlayedStatus(episode.id) ?? SavedEpisode.empty();
     savedEpisodeStatus =
@@ -117,6 +118,7 @@ class _HomepageEpisodeTileState extends State<HomepageEpisodeTile> {
               shareCallback: widget.shareCallback,
               savedEpisodeStatus: savedEpisodeStatus,
               savedEpisode: savedEpisode,
+              episodeState: episodeState,
               descriptionMaxLines: 3,
               markAsDoneCallback: widget.markAsDoneCallback,
               playCallback: isActive
@@ -158,6 +160,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
   bool isLoading = false, isActive = false;
   Episode episode = Episode(date: DateTime.now());
   SavedEpisode savedEpisode = SavedEpisode.empty();
+  IndicatorPlayerState episodeState = inactiveState;
 
   void _buildState() {
     episode = widget.episode;
@@ -169,7 +172,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
     isLoading = playerState == loadingState && activeId == episode.id;
     isActive = (isPlaying || isPaused) && activeId == episode.id;
 
-    status = Utils.getStatus(episode.id, activeId, playerState);
+    episodeState = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
     savedEpisode = Utils.getPlayedStatus(episode.id) ?? SavedEpisode.empty();
     savedEpisodeStatus =
@@ -190,6 +193,7 @@ class _EpisodePageEpisodeTileState extends State<EpisodePageEpisodeTile> {
           savedEpisode: savedEpisode,
           shareCallback: widget.shareCallback,
           status: status,
+          episodeState: episodeState,
           episode: episode,
           duration: duration,
           markAsDoneCallback: widget.markAsDoneCallback,
@@ -230,6 +234,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
   String status = '', duration = '', date = '', savedEpisodeStatus = '';
   Episode episode = Episode(date: DateTime.now());
   SavedEpisode savedEpisode = SavedEpisode.empty();
+  IndicatorPlayerState episodeState = inactiveState;
 
   void _buildState() {
     episode = widget.episode;
@@ -241,7 +246,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
     isLoading = playerState == loadingState && activeId == episode.id;
     isActive = (isPlaying || isPaused) && activeId == episode.id;
 
-    status = Utils.getStatus(episode.id, activeId, playerState);
+    episodeState = Utils.getStatus(episode.id, activeId, playerState);
     duration = Utils.convertFrom(episode.duration, includeSeconds: false);
     date = Utils.formatDateBy(episode.date, 'yMMMd');
 
@@ -273,7 +278,7 @@ class _SeriesPageEpisodeTileState extends State<SeriesPageEpisodeTile> {
           ),
           EpisodeActionButtons(
             id: episode.id,
-            status: status,
+            episodeState: episodeState,
             savedEpisodeStatus: savedEpisodeStatus,
             savedEpisode: savedEpisode,
             shareCallback: widget.shareCallback,

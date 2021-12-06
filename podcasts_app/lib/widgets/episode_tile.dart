@@ -13,6 +13,7 @@ class EpisodeTile extends StatelessWidget {
       required this.status,
       required this.duration,
       required this.descriptionMaxLines,
+      required this.episodeState,
       this.useToggleExpansionButtons = false,
       key})
       : super(key: key);
@@ -25,6 +26,7 @@ class EpisodeTile extends StatelessWidget {
   final int descriptionMaxLines;
   final bool useToggleExpansionButtons;
   final SavedEpisode savedEpisode;
+  final IndicatorPlayerState episodeState;
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +74,11 @@ class EpisodeTile extends StatelessWidget {
       playCallback: playCallback,
       markAsDoneCallback: markAsDoneCallback,
       shareCallback: shareCallback,
-      status: status,
       id: episode.id,
       duration: duration,
       savedEpisode: savedEpisode,
       savedEpisodeStatus: savedEpisodeStatus,
+      episodeState: episodeState,
     );
   }
 }

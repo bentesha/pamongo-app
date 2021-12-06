@@ -7,20 +7,20 @@ class EpisodeActionButtons extends StatefulWidget {
   const EpisodeActionButtons(
       {required this.playCallback,
       required this.markAsDoneCallback,
-      required this.status,
       required this.id,
       required this.duration,
       required this.savedEpisode,
       required this.savedEpisodeStatus,
       required this.shareCallback,
+      required this.episodeState,
       key})
       : super(key: key);
 
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
-  final String status;
   final String duration, id, savedEpisodeStatus;
   final SavedEpisode savedEpisode;
+  final IndicatorPlayerState episodeState;
 
   @override
   State<EpisodeActionButtons> createState() => _EpisodeActionButtonsState();
@@ -42,14 +42,25 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 8.dh, bottom: 6.dh),
-      child: Row(children: [
-        _buildStatusButton(),
-        _buildShareButton(),
-        _buildCheckmarkButton(),
-      ]),
+    return WillPopScope(
+      onWillPop: _handleOnWillPop,
+      child: Padding(
+        padding: EdgeInsets.only(top: 8.dh, bottom: 6.dh),
+        child: Row(children: [
+          _buildStatusButton(),
+          _buildShareButton(),
+          _buildCheckmarkButton(),
+        ]),
+      ),
     );
+  }
+
+  Future<bool> _handleOnWillPop() async {
+    try {
+      overlayEntry.remove();
+      return false;
+    } catch (_) {}
+    return true;
   }
 
   _buildShareButton() {
@@ -58,8 +69,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _buildStatusButton() {
-    final isPlaying = widget.status == 'Playing';
-    final isPaused = widget.status == 'Paused';
+    final episodeState = widget.episodeState;
 
     return AppTextButton(
       onPressed: widget.playCallback,
@@ -67,7 +77,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
       margin: EdgeInsets.only(right: 15.dw),
       borderRadius: 15.dw,
       height: 30.dh,
-      borderColor: isPlaying || isPaused
+      borderColor: episodeState.isPlaying || episodeState.isPaused
           ? AppColors.borderColor
           : AppColors.disabledColor,
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -78,49 +88,45 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _statusIcon() {
-    final isPlaying = widget.status == 'Playing';
-    final isLoading = widget.status == 'Loading';
-    final isPaused = widget.status == 'Paused';
-    final isCompleted = widget.status == 'Completed';
     final isSaved = widget.savedEpisode.position != 0;
+    final episodeState = widget.episodeState;
 
-    return isPlaying
+    return episodeState.isPlaying
         ? Lottie.asset('assets/icons/playing.json',
             fit: BoxFit.contain, height: 30.dh)
-        : isLoading
+        : episodeState.isLoading
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.dw),
                 child: Lottie.asset('assets/icons/loading_2.json',
                     fit: BoxFit.contain, height: 15.dh),
               )
-            : isCompleted
+            : episodeState.isCompleted
                 ? Icon(AppIcons.playCircled,
                     size: 20.dw, color: AppColors.primaryColor)
-                : isPaused || isSaved
+                : episodeState.isPaused || isSaved
                     ? _circularIndicator()
                     : Icon(AppIcons.playCircled,
                         size: 20.dw, color: AppColors.primaryColor);
   }
 
   _statusText() {
-    final isPlaying = widget.status == 'Playing';
-    final isLoading = widget.status == 'Loading';
-    final isPaused = widget.status == 'Paused';
-    final isCompleted = widget.status == 'Completed';
     var savedStatus = widget.savedEpisodeStatus;
+    final episodeState = widget.episodeState;
 
     if (widget.savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
 
     return AppText(
-        isPlaying || isLoading
-            ? ' ${widget.status}'
-            : isPaused
-                ? '   ${savedStatus}left'
-                : isCompleted
-                    ? '  ${widget.duration}'
-                    : widget.savedEpisode.position != 0
-                        ? '   ${savedStatus}left'
-                        : '  ${widget.duration}',
+        episodeState.isPlaying
+            ? 'Playing'
+            : episodeState.isLoading
+                ? 'Loading'
+                : episodeState.isPaused
+                    ? '   ${savedStatus}left'
+                    : episodeState.isCompleted
+                        ? '  ${widget.duration}'
+                        : widget.savedEpisode.position != 0
+                            ? '   ${savedStatus}left'
+                            : '  ${widget.duration}',
         weight: FontWeight.w400,
         color: AppColors.textColor,
         size: 14.w);
@@ -128,24 +134,30 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
 
   _buildCheckmarkButton() {
     final isSaved = widget.savedEpisode.position != 0;
-    final isPlaying = widget.status == "Playing";
-    final isLoading = widget.status == "Loading";
-    final isPaused = widget.status == 'Paused';
+    final episodeState = widget.episodeState;
 
-    if (!isSaved || isPlaying || isLoading || isPaused) return Container();
+    if (!isSaved ||
+        episodeState.isPlaying ||
+        episodeState.isLoading ||
+        episodeState.isPaused) {
+      return Container();
+    }
+
     return Expanded(
       child: Container(
         alignment: Alignment.centerRight,
-        child: InkWell(
-          onTap: () {
+        child: AppIconButton(
+          key: key,
+          onPressed: () {
             overlayState.insert(overlayEntry);
             final renderBox =
                 key.currentContext!.findRenderObject() as RenderBox;
             final position = renderBox.localToGlobal(Offset.zero);
             tappedPositionNotifier.value = position;
           },
-          child: Icon(EvaIcons.moreVerticalOutline,
-              key: key, color: AppColors.secondaryColor, size: 20.dw),
+          icon: EvaIcons.moreVerticalOutline,
+          iconColor: AppColors.secondaryColor,
+          iconSize: 20.dw,
         ),
       ),
     );
@@ -168,14 +180,12 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _iconButton(IconData icon, {required VoidCallback callback}) {
-    return Padding(
-      padding: EdgeInsets.only(right: 15.dw),
-      child: IconButton(
-          onPressed: callback,
-          alignment: Alignment.centerRight,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          icon: Icon(icon, color: AppColors.primaryColor, size: 20.dw)),
+    return AppIconButton(
+      onPressed: callback,
+      icon: icon,
+      iconColor: AppColors.primaryColor,
+      iconSize: 20.dw,
+      margin: EdgeInsets.only(right: 15.dw),
     );
   }
 
@@ -192,27 +202,31 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                           valueListenable: tappedPositionNotifier,
                           builder: (context, tappedPosition, snapshot) {
                             return Positioned(
-                              top: tappedPosition.dy - 15.dh,
+                              top: tappedPosition.dy - 10.dh,
                               left: tappedPosition.dx - 145.dw,
-                              child: MaterialButton(
-                                color: AppColors.secondaryColor,
-                                highlightColor: Colors.white,
-                                onPressed: () {
-                                  widget.markAsDoneCallback(widget.id);
-                                  overlayEntry.remove();
-                                },
-                                height: 40,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.dw, vertical: 5.dw),
-                                child: Row(
-                                  children: [
-                                    Icon(EvaIcons.checkmark,
-                                        size: 18.dw,
-                                        color: AppColors.accentColor),
-                                    SizedBox(width: 10.dw),
-                                    AppText('Mark As Done',
-                                        size: 16.w, color: AppColors.onPrimary),
-                                  ],
+                              child: Material(
+                                color: Colors.transparent,
+                                child: AppTextButton(
+                                  buttonColor: AppColors.secondaryColor,
+                                  highlightColor: Colors.grey,
+                                  onPressed: () {
+                                    widget.markAsDoneCallback(widget.id);
+                                    overlayEntry.remove();
+                                  },
+                                  height: 40,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15.dw, vertical: 5.dw),
+                                  child: Row(
+                                    children: [
+                                      Icon(EvaIcons.checkmark,
+                                          size: 18.dw,
+                                          color: AppColors.accentColor),
+                                      SizedBox(width: 10.dw),
+                                      AppText('Mark As Done',
+                                          size: 16.w,
+                                          color: AppColors.onPrimary),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

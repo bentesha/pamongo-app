@@ -44,16 +44,15 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
   void share(String id) async => await service.share(ContentType.episode, id);
 
   void _handleContentStream(ProgressIndicatorContent content) {
-    final hasFailedToBuffer = content.playerState == errorState;
-    final isInactive = content.playerState == inactiveState;
+    final playerState = content.playerState;
 
-    if (hasFailedToBuffer) {
+    if (playerState.hasFailedToBuffer) {
       emit(ProgressIndicatorState.failed(content, state.isHiding,
           content.error ?? AudioError.fromType(ErrorType.unknown)));
       return;
     }
 
-    if (isInactive) {
+    if (playerState.isInactive) {
       emit(ProgressIndicatorState.initial(initialContent, true));
       return;
     }
@@ -71,8 +70,8 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
     final shouldUpdatePosition = position != null &&
         position != Duration.zero &&
         duration != 0 &&
-        playerState != errorState &&
-        playerState != loadingState;
+        !playerState.hasFailedToBuffer &&
+        !playerState.isLoading;
 
     if (shouldUpdatePosition) {
       final _position = position!.inMilliseconds >= duration
@@ -89,6 +88,7 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
         return;
       }
 
+      service.addProgressEventToBox(_position);
       emit(ProgressIndicatorState.active(
           state.content.copyWith(
               currentPosition: _position,

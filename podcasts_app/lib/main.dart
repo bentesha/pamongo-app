@@ -1,6 +1,7 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/device_info.dart';
+import 'package:podcasts/models/event.dart';
 import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
@@ -14,6 +15,7 @@ void main() async {
   Hive
     ..init(directory.path)
     ..registerAdapter(SavedEpisodeAdapter())
+    ..registerAdapter(EventAdapter())
     ..registerAdapter(DeviceInfoAdapter());
 
   await Hive.openBox('played_episodes');

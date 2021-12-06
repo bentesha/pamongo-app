@@ -15,31 +15,12 @@ extension SizeExtension on num {
 }
 
 class Utils {
-  static String getStatus(
+  static IndicatorPlayerState getStatus(
       String episodeId, String activeId, IndicatorPlayerState playerState) {
-    String status = 'Play';
     if (activeId == episodeId) {
-      switch (playerState) {
-        case playingState:
-          status = 'Playing';
-          break;
-        case pausedState:
-          status = 'Paused';
-          break;
-        case loadingState:
-          status = 'Loading';
-          break;
-        case completedState:
-          status = 'Completed';
-          break;
-        case inactiveState:
-        case errorState:
-          status = 'Play';
-          break;
-        default:
-      }
+      return playerState;
     }
-    return status;
+    return inactiveState;
   }
 
   static SavedEpisode? getPlayedStatus(String id) {

@@ -14,6 +14,15 @@ enum IndicatorPlayerState {
   error
 }
 
+extension PlayerStateType on IndicatorPlayerState {
+  bool get isCompleted => this == completedState;
+  bool get isPaused => this == pausedState;
+  bool get isLoading => this == loadingState;
+  bool get isPlaying => this == playingState;
+  bool get isInactive => this == inactiveState;
+  bool get hasFailedToBuffer => this == errorState;
+}
+
 const loadingState = IndicatorPlayerState.loading;
 const playingState = IndicatorPlayerState.playing;
 const pausedState = IndicatorPlayerState.paused;

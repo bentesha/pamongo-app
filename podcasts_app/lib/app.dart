@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:device_info/device_info.dart';
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/device_info.dart';
 import 'package:podcasts/pages/pages_source.dart';
+import 'package:podcasts/repositories/events_repository.dart';
 import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/foreground_player.dart';
@@ -25,8 +27,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     service = Provider.of(context, listen: false);
-    initForegroundPlayer(service);
-    getDeviceInfo();
+    _initForegroundPlayer(service);
+    _getDeviceInfo();
+    _setUpTimer();
     super.initState();
   }
 
@@ -63,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         body: Center(child: AppText('can\'t open $uri', size: 16.w)));
   }
 
-  initForegroundPlayer(AudioPlayerService service) async {
+  _initForegroundPlayer(AudioPlayerService service) async {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
     await AudioService.init(
@@ -75,7 +78,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  getDeviceInfo() async {
+  _getDeviceInfo() async {
     final plugin = DeviceInfoPlugin();
     final box = Hive.box('device_info');
 
@@ -103,5 +106,17 @@ class _MyAppState extends State<MyApp> {
               model: info.model,
               version: info.systemVersion));
     }
+  }
+
+  _setUpTimer() {
+    final eventsBox = Hive.box('events');
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      final events = eventsBox.values.toList();
+      if (events.isEmpty) return;
+      for (var event in events) {
+        final statusCode = await EventsRepository.postEvent(event);
+        if (statusCode == 200) eventsBox.delete(event.key);
+      }
+    });
   }
 }

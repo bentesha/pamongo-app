@@ -60,8 +60,8 @@ class _AppTextButtonState extends State<AppTextButton>
             .animate(controller)
           ..addStatusListener((status) {
             if (status == AnimationStatus.completed) {
-              widget.onPressed();
               controller.reverse();
+              widget.onPressed();
             }
           });
     super.initState();
@@ -90,7 +90,7 @@ class _AppTextButtonState extends State<AppTextButton>
                 color: animation.value,
               ),
               alignment: Alignment.center,
-              child: _child()),
+              child: child),
         );
       },
     );
