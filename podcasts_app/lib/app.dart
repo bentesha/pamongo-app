@@ -112,7 +112,10 @@ class _MyAppState extends State<MyApp> {
     final eventsBox = Hive.box('events');
     Timer.periodic(const Duration(seconds: 5), (timer) async {
       final events = eventsBox.values.toList();
+      final isConnected = await Utils.checkConnectivity();
+
       if (events.isEmpty) return;
+      if (!isConnected) return;
       for (var event in events) {
         final statusCode = await EventsRepository.postEvent(event);
         if (statusCode == 200) eventsBox.delete(event.key);

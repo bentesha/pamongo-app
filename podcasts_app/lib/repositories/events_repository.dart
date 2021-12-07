@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:podcasts/constants.dart';
 import 'package:podcasts/models/event.dart';

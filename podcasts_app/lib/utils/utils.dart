@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:math';
-
+import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/models/progress_indicator_content.dart';
+import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
 import 'package:intl/intl.dart';
 
@@ -42,6 +44,14 @@ class Utils {
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     return List.generate(15, (index) => _chars[r.nextInt(_chars.length)])
         .join();
+  }
+
+  ///returns true if the device is connected to internet
+  static Future<bool> checkConnectivity() async {
+    const timeLimit = Duration(minutes: 1);
+    final response =
+        await http.get(Uri.parse('https://pub.dev/')).timeout(timeLimit);
+    return response.statusCode == 200;
   }
 
   ///converts a millisecond to time in hour-minute-seconds format
