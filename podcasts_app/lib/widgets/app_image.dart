@@ -4,7 +4,7 @@ import 'package:podcasts/source.dart';
 class AppImage extends StatelessWidget {
   final String imageUrl;
   final double width, height;
-  final double radius;
+  final double? radius;
   final bool withBorders;
   final Color placeholderColor;
 
@@ -20,8 +20,6 @@ class AppImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final borderRadius = BorderRadius.all(Radius.circular(radius));
-
     return CachedNetworkImage(
       width: width,
       height: height,
@@ -29,7 +27,9 @@ class AppImage extends StatelessWidget {
       fit: BoxFit.cover,
       placeholder: (context, __) => Container(
           alignment: Alignment.center,
-          color: placeholderColor,
+          decoration: BoxDecoration(
+              color: placeholderColor,
+              borderRadius: BorderRadius.all(Radius.circular(radius ?? 5.dw))),
           child: Icon(EvaIcons.image, size: 25.dw, color: Colors.white)),
     );
   }

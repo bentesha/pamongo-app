@@ -53,11 +53,12 @@ class SeriesActionButtons extends StatelessWidget {
   }
 
   _iconButton(IconData icon, VoidCallback callback) {
-    return IconButton(
+    return AppIconButton(
       onPressed: callback,
-      padding: EdgeInsets.only(right: 15.dw),
-      constraints: const BoxConstraints(),
-      icon: Icon(icon, color: AppColors.primaryColor, size: 18.dw),
+      margin: EdgeInsets.only(right: 15.dw),
+      icon: icon,
+      iconColor: AppColors.primaryColor,
+      iconSize: 18.dw,
     );
   }
 }

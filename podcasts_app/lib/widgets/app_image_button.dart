@@ -9,6 +9,7 @@ class AppImageButton extends StatefulWidget {
       required this.onPressed,
       this.highlightColor,
       this.placeholderIcon,
+      this.radius,
       this.placeholderColor,
       Key? key})
       : super(key: key);
@@ -18,6 +19,7 @@ class AppImageButton extends StatefulWidget {
   final VoidCallback onPressed;
   final Color? highlightColor, placeholderColor;
   final Widget? placeholderIcon;
+  final double? radius;
 
   @override
   _AppImageButtonState createState() => _AppImageButtonState();
@@ -52,7 +54,9 @@ class _AppImageButtonState extends State<AppImageButton>
     return Container(
         width: widget.size ?? 200,
         height: widget.size ?? 200,
-        decoration: _decoration,
+        decoration: BoxDecoration(
+            borderRadius:
+                BorderRadius.all(Radius.circular(widget.radius ?? 7.dw))),
         child: GestureDetector(
           onTapUp: _onTapUp,
           child: AnimatedBuilder(
@@ -72,8 +76,6 @@ class _AppImageButtonState extends State<AppImageButton>
               }),
         ));
   }
-
-  final _decoration = const BoxDecoration();
 
   _child() => CachedNetworkImage(
         imageUrl: widget.imageUrl,
