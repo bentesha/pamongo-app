@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
+import 'package:http/http.dart' as http;
 import 'package:podcasts/models/saved_episode.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
 import 'package:intl/intl.dart';
 
@@ -17,19 +15,6 @@ extension SizeExtension on num {
 }
 
 class Utils {
-  static IndicatorPlayerState getStatus(
-      String episodeId, String activeId, IndicatorPlayerState playerState) {
-    if (activeId == episodeId) {
-      return playerState;
-    }
-    return inactiveState;
-  }
-
-  static SavedEpisode? getPlayedStatus(String id) {
-    final box = Hive.box('played_episodes');
-    return box.get(id);
-  }
-
   static DateTime convertFromTimestamp(String timestamp) {
     final date = DateFormat('yyyy-MM-ddTHH:mm:ss.SSSZ').parse(timestamp);
     return date;
@@ -44,6 +29,11 @@ class Utils {
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     return List.generate(15, (index) => _chars[r.nextInt(_chars.length)])
         .join();
+  }
+
+  static SavedEpisode? getSavedStatus(String id) {
+    final box = Hive.box('saved_episodes');
+    return box.get(id);
   }
 
   ///returns true if the device is connected to internet

@@ -39,7 +39,7 @@ class _HomepageState extends State<Homepage> {
 
   Widget _buildContent(
       List episodeList, List seriesList, Supplements supplements) {
-    final shouldLeaveSpace = supplements.playerState != inactiveState;
+    final shouldLeaveSpace = !supplements.playerState.isInactive;
 
     return RefreshIndicator(
         onRefresh: bloc.refresh,
@@ -56,14 +56,16 @@ class _HomepageState extends State<Homepage> {
                 centerTitle: false,
                 title: Image.asset('assets/images/logo_long.png', height: 25),
                 actions: [
-                  IconButton(
+                  AppIconButton(
                       onPressed: () => Navigator.push(
                           context,
                           CupertinoPageRoute(
                               builder: (_) => const ExplorePage())),
-                      padding: EdgeInsets.only(right: 10.dw),
-                      icon: Icon(Icons.explore_outlined,
-                          size: 28.dw, color: AppColors.secondaryColor))
+                      margin: EdgeInsets.only(right: 10.dw),
+                      icon: Icons.explore_outlined,
+                      iconSize: 28.dw,
+                      spreadRadius: 22.dw,
+                      iconColor: AppColors.secondaryColor)
                 ]),
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
@@ -113,11 +115,9 @@ class _HomepageState extends State<Homepage> {
         padding: EdgeInsets.all(6.dw),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           AppImageButton(
-            size: 96.dw,
-            onPressed: () => SeriesPage.navigateTo(context, series.id),
-            image: AppImage(
-                image: series.image, height: 96.w, width: 96.w, radius: 10.dw),
-          ),
+              size: 96.dw,
+              onPressed: () => SeriesPage.navigateTo(context, series.id),
+              imageUrl: series.image),
           SizedBox(height: 9.dh),
           AppText(series.name,
               alignment: TextAlign.start,
@@ -140,9 +140,10 @@ class _HomepageState extends State<Homepage> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: episodeList
-            .map((e) => EpisodeTiles.homepage(
+            .map((e) => PageEpisodeTile(
+                  page: Pages.homepage,
                   resumeCallback: bloc.togglePlayerStatus,
-                  playCallback: bloc.play,
+                  playCallback: () => bloc.play(e),
                   supplements: supplements,
                   episode: e,
                   markAsDoneCallback: bloc.markAsPlayed,

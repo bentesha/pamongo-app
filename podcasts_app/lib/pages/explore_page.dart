@@ -36,7 +36,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   Widget _buildContent(List<Episode> episodeList, List<Series> seriesList,
       List<Channel> channelList, String keyword, Supplements supplements) {
-    final shouldLeaveSpace = supplements.playerState != inactiveState;
+    final shouldLeaveSpace = !supplements.playerState.isInactive;
 
     return Scaffold(
       appBar: _buildAppBar(episodeList, seriesList, channelList, keyword),
@@ -75,9 +75,10 @@ class _ExplorePageState extends State<ExplorePage> {
           backgroundColor: AppColors.backgroundColor,
           automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(color: Colors.black),
-          leading: IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(EvaIcons.arrowBackOutline, size: 25.dw),
+          leading: AppIconButton(
+              icon: EvaIcons.arrowBackOutline,
+              spreadRadius: 22.dw,
+              iconSize: 25.dw,
               onPressed: () => Navigator.of(context).pop()),
           title: _buildSearchBar(keyword)),
     );
@@ -248,13 +249,14 @@ class _ExplorePageState extends State<ExplorePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppImageButton(
-                    size: 120.dh,
+                      size: 120.dh,
                       onPressed: () => Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (_) =>
-                              isSeries ? SeriesPage(e.id) : ChannelPage(e.id))),
-                      image: AppImage(image: e.image, height: 120.h, radius: 10.dw)),
+                              builder: (_) => isSeries
+                                  ? SeriesPage(e.id)
+                                  : ChannelPage(e.id))),
+                      imageUrl: e.image),
                   SizedBox(height: 10.dh),
                   HighlightedText(
                       AppText(e.name,

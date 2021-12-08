@@ -1,3 +1,4 @@
+import 'package:podcasts/widgets/series_page_episode_tile.dart';
 import '../source.dart';
 
 class SeriesPage extends StatefulWidget {
@@ -86,7 +87,10 @@ class _SeriesPageState extends State<SeriesPage> {
             ),
             SizedBox(width: 10.dw),
             AppImage(
-                image: series.image, height: 96.h, width: 96.h, radius: 10.dw),
+                imageUrl: series.image,
+                height: 96.dh,
+                width: 96.dh,
+                radius: 10.dw),
             SizedBox(width: 10.dw),
           ]),
         ),
@@ -143,7 +147,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (_, __) =>
                     Container(height: 1, color: AppColors.dividerColor),
-                itemBuilder: (_, index) => EpisodeTiles.seriesPage(
+                itemBuilder: (_, index) => SeriesPageEpisodeTile(
                     index: index,
                     episode: episodeList[index],
                     supplements: supplements,

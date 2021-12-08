@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:podcasts/utils/utils.dart';
+import '../source.dart';
 
 part 'episode.freezed.dart';
 
 @freezed
-class Episode with _$Episode {
+abstract class Episode implements _$Episode {
   const Episode._();
 
   const factory Episode(
@@ -14,24 +15,34 @@ class Episode with _$Episode {
       required DateTime date,
       @Default('') String id,
       @Default('') String seriesId,
+      int? position,
       @Default(0) int episodeNumber,
       @Default('') String title,
       @Default('') String audioUrl,
       @Default('') String description}) = _Episode;
 
+/*   bool get isNotFinished => position != null;
+  int get timeLeft => duration - position!;
+  double get fractionPlayed => position! / duration;
+  String get getTimeLeft => Utils.convertFrom(timeLeft, includeSeconds: false); */
+  String get getDuration => Utils.convertFrom(duration, includeSeconds: false);
+  String get getDate => Utils.formatDateBy(date, 'yMMMd');
+
   static Episode fromJson(Map<String, dynamic> json,
-          {String seriesImage = '',
-          String seriesName = '',
-          String seriesId = ''}) =>
-      Episode(
-          image: seriesImage,
-          seriesName: seriesName,
-          duration: (json['duration'] * 1000).toInt(),
-          date: Utils.convertFromTimestamp(json['createdAt']),
-          id: json['id'],
-          seriesId: seriesId,
-          episodeNumber: json['sequence'],
-          title: json['name'],
-          audioUrl: json['fileUrl'],
-          description: json['description']);
+      {String seriesImage = '', String seriesName = '', String seriesId = ''}) {
+    final hasPosition = json['info'] != null;
+
+    return Episode(
+        image: seriesImage,
+        seriesName: seriesName,
+        duration: (json['duration'] * 1000).toInt(),
+        date: Utils.convertFromTimestamp(json['createdAt']),
+        id: json['id'],
+        seriesId: seriesId,
+        position: hasPosition ? json['info']['position'] : null,
+        episodeNumber: json['sequence'],
+        title: json['name'],
+        audioUrl: json['fileUrl'],
+        description: json['description']);
+  }
 }

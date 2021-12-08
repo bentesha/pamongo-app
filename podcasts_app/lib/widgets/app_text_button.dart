@@ -85,7 +85,7 @@ class _AppTextButtonState extends State<AppTextButton>
                 borderRadius:
                     BorderRadius.all(Radius.circular(widget.borderRadius ?? 0)),
                 border: Border.all(
-                    width: 1.0,
+                    width: controller.isAnimating ? 0.0 : 1.0,
                     color: widget.borderColor ?? AppColors.borderColor),
                 color: animation.value,
               ),

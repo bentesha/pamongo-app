@@ -11,7 +11,7 @@ export 'package:podcasts/widgets/series_action_buttons.dart';
 export 'package:podcasts/widgets/series_widget.dart';
 export 'package:podcasts/widgets/sort_button.dart';
 export 'package:podcasts/widgets/custom_page_transition.dart';
-export 'package:podcasts/widgets/page_episode_tiles.dart';
+export 'package:podcasts/widgets/page_episode_tile.dart';
 export 'package:podcasts/widgets/error_screen.dart';
 export 'package:podcasts/widgets/app_material_button.dart';
 export 'package:podcasts/widgets/app_listview.dart';

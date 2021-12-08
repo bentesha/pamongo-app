@@ -30,7 +30,7 @@ class ErrorScreen extends StatelessWidget {
             AppTextButton(
                 onPressed: refreshCallback,
                 text: 'Try Again',
-                width: 250.dw,
+                width: 150.dw,
                 borderRadius: 5.dw)
           ],
         ),

@@ -44,7 +44,7 @@ class _EpisodePageState extends State<EpisodePage> {
   }
 
   Widget _buildContent(Episode episode, Supplements supplements) {
-    final shouldLeaveSpace = supplements.playerState != inactiveState;
+    final shouldLeaveSpace = !supplements.playerState.isInactive;
     final isOpenedUsingLink = widget.episode == null;
 
     return AppListView(
@@ -52,7 +52,8 @@ class _EpisodePageState extends State<EpisodePage> {
       backArrowCallback:
           isOpenedUsingLink ? () => Homepage.navigateTo(context) : null,
       children: [
-        EpisodeTiles.episodePage(
+        PageEpisodeTile(
+          page: Pages.episodePage,
           episode: episode,
           supplements: supplements,
           resumeCallback: bloc.togglePlayerStatus,

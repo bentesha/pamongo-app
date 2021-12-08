@@ -7,14 +7,9 @@ class EpisodeTile extends StatelessWidget {
       required this.page,
       required this.playCallback,
       required this.markAsDoneCallback,
-      required this.savedEpisode,
-      required this.savedEpisodeStatus,
       required this.shareCallback,
-      required this.status,
-      required this.duration,
-      required this.descriptionMaxLines,
-      required this.episodeState,
-      this.useToggleExpansionButtons = false,
+      required this.activeId,
+      required this.playerState,
       key})
       : super(key: key);
 
@@ -22,49 +17,50 @@ class EpisodeTile extends StatelessWidget {
   final Episode episode;
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
-  final String status, duration, savedEpisodeStatus;
-  final int descriptionMaxLines;
-  final bool useToggleExpansionButtons;
-  final SavedEpisode savedEpisode;
-  final IndicatorPlayerState episodeState;
+  final String activeId;
+  final IndicatorPlayerState playerState;
 
   @override
   Widget build(BuildContext context) {
-    final isHomepage = page == Pages.homepage;
-    final bool isDescriptionFirst = isHomepage;
+    final isOnHomepage = page == Pages.homepage;
+    final bool isDescriptionFirst = isOnHomepage;
+
     final text = AppText(
       episode.description,
       size: 15.w,
       color: AppColors.textColor2,
-      maxLines: descriptionMaxLines,
+      maxLines: isOnHomepage ? 3 : 10,
       alignment: TextAlign.start,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        EpisodeTitle(
-            title: episode.title,
-            seriesName: episode.seriesName,
-            date: episode.date,
-            image: episode.image,
-            seriesId: episode.seriesId,
-            page: page),
-        isDescriptionFirst
-            ? Container()
-            : _buildActions(playCallback, shareCallback),
-        Padding(
-          padding: EdgeInsets.only(right: 8.dw),
-          child: isHomepage
-              ? text
-              : AppRichText(
-                  text: text,
-                  useToggleExpansionButtons: useToggleExpansionButtons),
-        ),
-        isDescriptionFirst
-            ? _buildActions(playCallback, shareCallback)
-            : Container(),
-      ],
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          18.dw, 0, isOnHomepage ? 20.dw : 15.dw, !isOnHomepage ? 20 : 0.dh),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EpisodeTitle(
+              title: episode.title,
+              seriesName: episode.seriesName,
+              date: episode.date,
+              image: episode.image,
+              seriesId: episode.seriesId,
+              page: page),
+          isDescriptionFirst
+              ? Container()
+              : _buildActions(playCallback, shareCallback),
+          Padding(
+            padding: EdgeInsets.only(right: 8.dw),
+            child: isOnHomepage
+                ? text
+                : AppRichText(
+                    text: text, useToggleExpansionButtons: !isOnHomepage),
+          ),
+          isDescriptionFirst
+              ? _buildActions(playCallback, shareCallback)
+              : Container(),
+        ],
+      ),
     );
   }
 
@@ -74,11 +70,9 @@ class EpisodeTile extends StatelessWidget {
       playCallback: playCallback,
       markAsDoneCallback: markAsDoneCallback,
       shareCallback: shareCallback,
-      id: episode.id,
-      duration: duration,
-      savedEpisode: savedEpisode,
-      savedEpisodeStatus: savedEpisodeStatus,
-      episodeState: episodeState,
+      episode: episode,
+      playerState: playerState,
+      activeId: activeId,
     );
   }
 }

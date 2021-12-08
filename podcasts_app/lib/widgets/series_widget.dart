@@ -20,9 +20,9 @@ class _SeriesWidgetState extends State<SeriesWidget> {
       Row(
         children: [
           AppImage(
-              image: widget.series.image,
-              width: 50.w,
-              height: 50.w,
+              imageUrl: widget.series.image,
+              width: 50.dw,
+              height: 50.dw,
               radius: 10),
           SizedBox(width: 10.dw),
           SizedBox(

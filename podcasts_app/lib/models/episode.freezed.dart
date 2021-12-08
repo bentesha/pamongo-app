@@ -24,6 +24,7 @@ class _$EpisodeTearOff {
       required DateTime date,
       String id = '',
       String seriesId = '',
+      int? position,
       int episodeNumber = 0,
       String title = '',
       String audioUrl = '',
@@ -35,6 +36,7 @@ class _$EpisodeTearOff {
       date: date,
       id: id,
       seriesId: seriesId,
+      position: position,
       episodeNumber: episodeNumber,
       title: title,
       audioUrl: audioUrl,
@@ -54,6 +56,7 @@ mixin _$Episode {
   DateTime get date => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get seriesId => throw _privateConstructorUsedError;
+  int? get position => throw _privateConstructorUsedError;
   int get episodeNumber => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get audioUrl => throw _privateConstructorUsedError;
@@ -74,6 +77,7 @@ abstract class $EpisodeCopyWith<$Res> {
       DateTime date,
       String id,
       String seriesId,
+      int? position,
       int episodeNumber,
       String title,
       String audioUrl,
@@ -96,6 +100,7 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
     Object? date = freezed,
     Object? id = freezed,
     Object? seriesId = freezed,
+    Object? position = freezed,
     Object? episodeNumber = freezed,
     Object? title = freezed,
     Object? audioUrl = freezed,
@@ -126,6 +131,10 @@ class _$EpisodeCopyWithImpl<$Res> implements $EpisodeCopyWith<$Res> {
           ? _value.seriesId
           : seriesId // ignore: cast_nullable_to_non_nullable
               as String,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int?,
       episodeNumber: episodeNumber == freezed
           ? _value.episodeNumber
           : episodeNumber // ignore: cast_nullable_to_non_nullable
@@ -158,6 +167,7 @@ abstract class _$EpisodeCopyWith<$Res> implements $EpisodeCopyWith<$Res> {
       DateTime date,
       String id,
       String seriesId,
+      int? position,
       int episodeNumber,
       String title,
       String audioUrl,
@@ -181,6 +191,7 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
     Object? date = freezed,
     Object? id = freezed,
     Object? seriesId = freezed,
+    Object? position = freezed,
     Object? episodeNumber = freezed,
     Object? title = freezed,
     Object? audioUrl = freezed,
@@ -211,6 +222,10 @@ class __$EpisodeCopyWithImpl<$Res> extends _$EpisodeCopyWithImpl<$Res>
           ? _value.seriesId
           : seriesId // ignore: cast_nullable_to_non_nullable
               as String,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int?,
       episodeNumber: episodeNumber == freezed
           ? _value.episodeNumber
           : episodeNumber // ignore: cast_nullable_to_non_nullable
@@ -241,6 +256,7 @@ class _$_Episode extends _Episode {
       required this.date,
       this.id = '',
       this.seriesId = '',
+      this.position,
       this.episodeNumber = 0,
       this.title = '',
       this.audioUrl = '',
@@ -264,6 +280,8 @@ class _$_Episode extends _Episode {
   @JsonKey(defaultValue: '')
   @override
   final String seriesId;
+  @override
+  final int? position;
   @JsonKey(defaultValue: 0)
   @override
   final int episodeNumber;
@@ -279,7 +297,7 @@ class _$_Episode extends _Episode {
 
   @override
   String toString() {
-    return 'Episode(image: $image, seriesName: $seriesName, duration: $duration, date: $date, id: $id, seriesId: $seriesId, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
+    return 'Episode(image: $image, seriesName: $seriesName, duration: $duration, date: $date, id: $id, seriesId: $seriesId, position: $position, episodeNumber: $episodeNumber, title: $title, audioUrl: $audioUrl, description: $description)';
   }
 
   @override
@@ -296,6 +314,8 @@ class _$_Episode extends _Episode {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.seriesId, seriesId) ||
                 other.seriesId == seriesId) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
             (identical(other.episodeNumber, episodeNumber) ||
                 other.episodeNumber == episodeNumber) &&
             (identical(other.title, title) || other.title == title) &&
@@ -306,8 +326,19 @@ class _$_Episode extends _Episode {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, image, seriesName, duration,
-      date, id, seriesId, episodeNumber, title, audioUrl, description);
+  int get hashCode => Object.hash(
+      runtimeType,
+      image,
+      seriesName,
+      duration,
+      date,
+      id,
+      seriesId,
+      position,
+      episodeNumber,
+      title,
+      audioUrl,
+      description);
 
   @JsonKey(ignore: true)
   @override
@@ -323,6 +354,7 @@ abstract class _Episode extends Episode {
       required DateTime date,
       String id,
       String seriesId,
+      int? position,
       int episodeNumber,
       String title,
       String audioUrl,
@@ -341,6 +373,8 @@ abstract class _Episode extends Episode {
   String get id;
   @override
   String get seriesId;
+  @override
+  int? get position;
   @override
   int get episodeNumber;
   @override

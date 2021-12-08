@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:podcasts/models/series.dart';
 import 'package:podcasts/models/supplements.dart';
+import 'package:podcasts/source.dart';
 
 part 'series_page_state.freezed.dart';
 
@@ -10,5 +11,5 @@ class SeriesPageState with _$SeriesPageState {
   const factory SeriesPageState.content(Series series, Supplements supplements)= _Content;
   const factory SeriesPageState.failed(Series series, Supplements supplements) = _Failed;
 
-  factory SeriesPageState.initial() => const SeriesPageState.content(Series(), Supplements());
+  factory SeriesPageState.initial() => const SeriesPageState.content(Series(), Supplements(playerState: inactiveState));
 }

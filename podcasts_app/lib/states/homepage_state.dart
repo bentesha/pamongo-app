@@ -16,5 +16,5 @@ class HomepageState with _$HomepageState {
       List<Series> seriesList, Supplements supplements) = _Content;
 
   factory HomepageState.initial() =>
-      const HomepageState.content([], [], Supplements());
+      const HomepageState.content([], [], Supplements(playerState: inactiveState));
 }

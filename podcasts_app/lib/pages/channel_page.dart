@@ -42,7 +42,7 @@ class _ChannelPageState extends State<ChannelPage> {
   }
 
   Widget _buildContent(Channel channel, Supplements supplements) {
-    final shouldLeaveSpace = supplements.playerState != inactiveState;
+    final shouldLeaveSpace = !supplements.playerState.isInactive;
 
     return WillPopScope(
         onWillPop: _handlePop,
@@ -67,7 +67,7 @@ class _ChannelPageState extends State<ChannelPage> {
           height: 150.dh,
           child: Row(children: [
             AppImage(
-                image: channel.image, height: 150.w, width: 150.w, radius: 10),
+                imageUrl: channel.image, height: 150.dw, width: 150.dw, radius: 10),
             SizedBox(width: 10.dw),
             Expanded(
               child: Column(

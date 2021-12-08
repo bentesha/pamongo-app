@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:podcasts/utils/utils.dart';
 
 part 'saved_episode.g.dart';
 
@@ -11,8 +12,8 @@ class SavedEpisode extends HiveObject {
   final int duration;
 
   int get timeLeft => duration - position;
-
-  int get timeLeftInPercentage => (position / duration * 100).toInt();
+  double get fractionPlayed => position / duration;
+  String get getTimeLeft => Utils.convertFrom(timeLeft, includeSeconds: false);
 
   factory SavedEpisode.empty() => SavedEpisode(position: 0, duration: 0);
 

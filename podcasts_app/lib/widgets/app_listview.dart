@@ -55,17 +55,19 @@ class _AppListViewState extends State<AppListView> {
         preferredSize: const Size.fromHeight(50),
         child: ValueListenableBuilder<double>(
             valueListenable: topOffsetNotifier,
-            builder: (c, topOffset, child) {
+            builder: (context, topOffset, child) {
               if (topOffset > thresholdOffset) topOffset = thresholdOffset;
               return AppBar(
                 elevation: topOffset >= thresholdOffset ? 3 : 0,
                 backgroundColor:
                     widget.appBarColor ?? AppColors.backgroundColor,
-                leading: IconButton(
+                leading: AppIconButton(
                   onPressed:
                       widget.backArrowCallback ?? () => Navigator.pop(context),
-                  icon: Icon(EvaIcons.arrowBackOutline,
-                      size: 26.dw, color: AppColors.secondaryColor),
+                  icon: EvaIcons.arrowBackOutline,
+                  spreadRadius: 22.dw,
+                  iconSize: 26.dw,
+                  iconColor: AppColors.secondaryColor,
                 ),
                 title: AppText(widget.header,
                     size: 18.w,

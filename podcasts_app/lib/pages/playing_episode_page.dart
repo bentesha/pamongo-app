@@ -90,16 +90,14 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildDropButton() {
     return Container(
-      padding: EdgeInsets.only(top: 40.dh, left: 10.dw),
+      padding: EdgeInsets.only(top: 40.dh, left: 24.dw),
       alignment: Alignment.centerLeft,
       child: _buildIconButton(
           callback: () {
             Navigator.pop(context);
             bloc.toggleVisibilityStatus();
           },
-          icon: EvaIcons.arrowIosDownwardOutline,
-          iconColor: AppColors.secondaryColor,
-          iconSize: 30),
+          icon: EvaIcons.arrowIosDownwardOutline),
     );
   }
 
@@ -109,9 +107,9 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppImage(
           radius: 10.dw,
-          image: episode.image,
-          height: 350.h,
-          fullWidth: true,
+          imageUrl: episode.image,
+          height: 350.dh,
+          width: 400.dw,
         ),
         SizedBox(height: 25.dh),
         Column(
@@ -200,54 +198,48 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildAudioControlActions(ProgressIndicatorContent content) {
     final playerState = content.playerState;
-    final isPlaying = playerState == playingState;
-    final isLoading = playerState == loadingState;
-    final isComplete = playerState == completedState;
-    final isInactive = isLoading || isComplete;
     final isPlayingSeries = content.episodeList.length > 1;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(10.dw, 30.dh, 10.dw, 0),
+      padding: EdgeInsets.fromLTRB(22.dw, 30.dh, 18.dw, 0),
       child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildIconButton(
-                iconSize: 35.dw,
-                isInactive: isLoading || !isPlayingSeries,
-                iconColor: AppColors.secondaryColor,
-                icon: EvaIcons.skipBackOutline,
-                callback: isPlayingSeries ? bloc.skipToPrev : () {}),
+                callback: bloc.skipToPrev,
+                isInactive: playerState.isLoading || !isPlayingSeries,
+                icon: EvaIcons.skipBackOutline),
             _buildIconButton(
-                iconSize: 35.dw,
-                isInactive: isLoading,
-                iconColor: AppColors.secondaryColor,
-                icon: Icons.replay_10_outlined,
-                callback: () => bloc.changePosition(10000,
-                    positionRequiresUpdate: true, isForwarding: false)),
+                callback: () => bloc.changePosition(30000,
+                    positionRequiresUpdate: true, isForwarding: false),
+                isInactive: playerState.isLoading,
+                icon: Icons.replay_30_outlined),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17.dw),
-              child: _buildIconButton(
-                  icon: isPlaying ? Icons.pause : Ionicons.play,
-                  backgroundColor: AppColors.primaryColor,
-                  isInactive: isLoading,
-                  iconColor: AppColors.onPrimary,
-                  callback: isLoading ? () {} : bloc.togglePlayerStatus,
-                  iconSize: 30.dw),
+              padding: EdgeInsets.symmetric(horizontal: 10.dw),
+              child: TextButton(
+                  child: Icon(
+                      playerState.isPlaying ? Icons.pause : Ionicons.play,
+                      color: AppColors.onPrimary,
+                      size: 30.dw),
+                  onPressed:
+                      playerState.isLoading ? () {} : bloc.togglePlayerStatus,
+                  style: TextButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: playerState.isLoading
+                          ? AppColors.disabledColor
+                          : AppColors.primaryColor,
+                      minimumSize: Size.fromRadius(30.dw))),
             ),
             _buildIconButton(
-                iconSize: 35.dw,
-                icon: Icons.forward_30_outlined,
-                isInactive: isInactive,
-                iconColor: AppColors.secondaryColor,
                 callback: () =>
-                    bloc.changePosition(30000, positionRequiresUpdate: true)),
+                    bloc.changePosition(30000, positionRequiresUpdate: true),
+                isInactive: playerState.isLoading || playerState.isCompleted,
+                icon: Icons.forward_30_outlined),
             _buildIconButton(
-                iconSize: 35.dw,
-                isInactive: isLoading || !isPlayingSeries,
-                iconColor: AppColors.secondaryColor,
-                icon: EvaIcons.skipForwardOutline,
-                callback: isPlayingSeries ? bloc.skipToNext : () {})
+                callback: bloc.skipToNext,
+                isInactive: playerState.isLoading || !isPlayingSeries,
+                icon: EvaIcons.skipForwardOutline),
           ]),
     );
   }
@@ -272,21 +264,16 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   }
 
   Widget _buildIconButton(
-      {Color iconColor = AppColors.primaryColor,
-      Color backgroundColor = Colors.transparent,
-      required VoidCallback callback,
+      {required VoidCallback callback,
       bool isInactive = false,
-      IconData icon = Icons.home,
-      required double iconSize}) {
-    return TextButton(
-        child: Icon(icon,
-            color: isInactive ? AppColors.disabledColor : iconColor,
-            size: iconSize),
-        onPressed: callback,
-        style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-            backgroundColor: backgroundColor,
-            minimumSize: Size.fromRadius(30.dw)));
+      required IconData icon}) {
+    return AppIconButton(
+        iconSize: 35.dw,
+        spreadRadius: 30.dw,
+        iconColor:
+            isInactive ? AppColors.disabledColor : AppColors.secondaryColor,
+        icon: icon,
+        onPressed: isInactive ? () {} : callback);
   }
 
   Future<bool> _handleWillPop() async {

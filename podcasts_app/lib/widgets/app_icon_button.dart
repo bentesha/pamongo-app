@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:podcasts/source.dart';
 
 class AppIconButton extends StatefulWidget {
   const AppIconButton(
@@ -26,49 +27,58 @@ class AppIconButton extends StatefulWidget {
 class _AppIconButtonState extends State<AppIconButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
-  late final Animation animation;
 
   @override
   void initState() {
     controller = AnimationController(
-        vsync: this,
-        reverseDuration: const Duration(milliseconds: 100),
-        duration: const Duration(milliseconds: 200));
-    animation =
-        Tween(begin: 5.0, end: widget.spreadRadius ?? 30.0).animate(controller)
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              controller.reverse().then((value) => widget.onPressed());
-            }
-          });
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller.reverse().then((value) => widget.onPressed());
+        }
+      });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: animation,
+        animation: controller,
         child: Icon(
           widget.icon ?? EvaIcons.award,
           color: widget.iconColor ?? Colors.black,
           size: widget.iconSize,
         ),
         builder: (context, child) {
-          final hasStartedAnimating = animation.value > 5;
+          final shouldHideRipple =
+              controller.isCompleted || controller.isDismissed;
+
           return GestureDetector(
             onTap: () => controller.forward(),
             child: Container(
               margin: widget.margin,
-              child: child,
-              decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-                BoxShadow(
-                    color: hasStartedAnimating
-                        ? Colors.grey.withOpacity(.3)
-                        : Colors.transparent,
-                    spreadRadius: hasStartedAnimating ? animation.value : 0)
-              ]),
+              child: CustomPaint(
+                painter: TappedRippleEffectPainter(
+                    shouldHideRipple ? 0 : widget.spreadRadius ?? 20.dw),
+                child: child,
+              ),
             ),
           );
         });
   }
+}
+
+class TappedRippleEffectPainter extends CustomPainter {
+  final double radius;
+  TappedRippleEffectPainter(this.radius);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final paint = Paint()..color = Colors.grey.withOpacity(.25);
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

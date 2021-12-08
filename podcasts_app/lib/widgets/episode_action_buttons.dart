@@ -1,26 +1,23 @@
 import 'package:lottie/lottie.dart';
-import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/source.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:podcasts/widgets/app_circular_step_indicator.dart';
 
 class EpisodeActionButtons extends StatefulWidget {
   const EpisodeActionButtons(
       {required this.playCallback,
       required this.markAsDoneCallback,
-      required this.id,
-      required this.duration,
-      required this.savedEpisode,
-      required this.savedEpisodeStatus,
       required this.shareCallback,
-      required this.episodeState,
+      required this.episode,
+      required this.activeId,
+      required this.playerState,
       key})
       : super(key: key);
 
   final VoidCallback playCallback;
   final void Function(String) markAsDoneCallback, shareCallback;
-  final String duration, id, savedEpisodeStatus;
-  final SavedEpisode savedEpisode;
-  final IndicatorPlayerState episodeState;
+  final Episode episode;
+  final String activeId;
+  final IndicatorPlayerState playerState;
 
   @override
   State<EpisodeActionButtons> createState() => _EpisodeActionButtonsState();
@@ -31,14 +28,25 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   late final OverlayState overlayState;
   late final OverlayEntry overlayEntry;
   late GlobalObjectKey key;
+  late final Episode episode;
 
   @override
   void initState() {
+    episode = widget.episode;
     key = GlobalObjectKey(Utils.getRandomString());
     overlayState = Overlay.of(context)!;
     overlayEntry = _popUpMenuOverlayEntry();
     super.initState();
   }
+
+  IndicatorPlayerState _getEpisodeState() {
+    if (widget.activeId == episode.id) {
+      return widget.playerState;
+    }
+    return inactiveState;
+  }
+
+  SavedEpisode? _getSavedEpisode() => Utils.getSavedStatus(episode.id);
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +73,11 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
 
   _buildShareButton() {
     return _iconButton(AppIcons.share,
-        callback: () => widget.shareCallback(widget.id));
+        callback: () => widget.shareCallback(episode.id));
   }
 
   _buildStatusButton() {
-    final episodeState = widget.episodeState;
+    final episodeState = _getEpisodeState();
 
     return AppTextButton(
       onPressed: widget.playCallback,
@@ -88,8 +96,9 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _statusIcon() {
-    final isSaved = widget.savedEpisode.position != 0;
-    final episodeState = widget.episodeState;
+    final savedEpisode = _getSavedEpisode();
+    final isNotFinished = savedEpisode != null;
+    final episodeState = _getEpisodeState();
 
     return episodeState.isPlaying
         ? Lottie.asset('assets/icons/playing.json',
@@ -103,40 +112,38 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
             : episodeState.isCompleted
                 ? Icon(AppIcons.playCircled,
                     size: 20.dw, color: AppColors.primaryColor)
-                : episodeState.isPaused || isSaved
+                : isNotFinished || episodeState.isPaused
                     ? _circularIndicator()
                     : Icon(AppIcons.playCircled,
                         size: 20.dw, color: AppColors.primaryColor);
   }
 
   _statusText() {
-    var savedStatus = widget.savedEpisodeStatus;
-    final episodeState = widget.episodeState;
-
-    if (widget.savedEpisodeStatus.contains('00 min')) savedStatus = '< 1 min ';
+    final savedEpisode = _getSavedEpisode();
+    final isNotFinished = savedEpisode != null;
+    final episodeState = _getEpisodeState();
 
     return AppText(
         episodeState.isPlaying
             ? 'Playing'
             : episodeState.isLoading
                 ? 'Loading'
-                : episodeState.isPaused
-                    ? '   ${savedStatus}left'
-                    : episodeState.isCompleted
-                        ? '  ${widget.duration}'
-                        : widget.savedEpisode.position != 0
-                            ? '   ${savedStatus}left'
-                            : '  ${widget.duration}',
+                :  episodeState.isCompleted
+                        ? '  ${episode.duration}'
+                        : isNotFinished || episodeState.isPaused
+                            ? '   ${savedEpisode!.getTimeLeft}left'
+                            : '  ${episode.getDuration}',
         weight: FontWeight.w400,
         color: AppColors.textColor,
         size: 14.w);
   }
 
   _buildCheckmarkButton() {
-    final isSaved = widget.savedEpisode.position != 0;
-    final episodeState = widget.episodeState;
+    final savedEpisode = _getSavedEpisode();
+    final isNotFinished = savedEpisode != null;
+    final episodeState = _getEpisodeState();
 
-    if (!isSaved ||
+    if (!isNotFinished ||
         episodeState.isPlaying ||
         episodeState.isLoading ||
         episodeState.isPaused) {
@@ -164,18 +171,13 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   _circularIndicator() {
-    return CircularStepProgressIndicator(
-      totalSteps: 100,
-      currentStep: widget.savedEpisode.timeLeftInPercentage,
-      stepSize: 1,
-      selectedColor: AppColors.primaryColor,
-      unselectedColor: AppColors.disabledColor,
-      padding: 0,
+    final savedEpisode = _getSavedEpisode();
+    return AppCircularStepIndicator(
+      currentStep: savedEpisode!.fractionPlayed,
+      stepColor: AppColors.primaryColor,
+      unsteppedColor: AppColors.disabledColor,
       width: 20.dw,
       height: 20.dw,
-      selectedStepSize: 2,
-      unselectedStepSize: 1,
-      roundedCap: (_, __) => true,
     );
   }
 
@@ -210,7 +212,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                                   buttonColor: AppColors.secondaryColor,
                                   highlightColor: Colors.grey,
                                   onPressed: () {
-                                    widget.markAsDoneCallback(widget.id);
+                                    widget.markAsDoneCallback(episode.id);
                                     overlayEntry.remove();
                                   },
                                   height: 40,

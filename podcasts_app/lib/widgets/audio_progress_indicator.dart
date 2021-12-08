@@ -82,8 +82,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
     final episode = content.episodeList[content.currentIndex];
     final fullWidth = MediaQuery.of(context).size.width;
     final loadingWidth = content.currentPosition * fullWidth / episode.duration;
-    final isPlaying = content.playerState == playingState;
-    final isLoading = content.playerState == loadingState;
+    final playerState = content.playerState;
     final isIntroEpisode = episode.episodeNumber == 0;
 
     return Stack(
@@ -95,14 +94,24 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.dw),
-                child: AppImage(
-                    image: episode.image,
-                    radius: 7.dw,
-                    height: 50.h,
-                    width: 50.h,
-                    withBorders: true),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 8.dw),
+                child: playerState.isLoading
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.dw),
+                        child: Lottie.asset('assets/icons/loading_2.json',
+                            fit: BoxFit.contain, height: 25.dh),
+                      )
+                    : IconButton(
+                        onPressed: bloc.togglePlayerStatus,
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                            playerState.isPlaying
+                                ? Icons.pause_circle
+                                : Ionicons.play_circle,
+                            color: AppColors.secondaryColor,
+                            size: 35.dw)),
               ),
               Expanded(
                 child: Column(
@@ -124,24 +133,11 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
                   ],
                 ),
               ),
-              Container(
-                alignment: Alignment.centerRight,
-                padding: EdgeInsets.symmetric(horizontal: 12.dw),
-                child: isLoading
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.dw),
-                        child: Lottie.asset('assets/icons/loading_2.json',
-                            fit: BoxFit.contain, height: 25.dh),
-                      )
-                    : IconButton(
-                        onPressed: bloc.togglePlayerStatus,
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                            isPlaying
-                                ? Icons.pause_circle
-                                : Ionicons.play_circle,
-                            color: AppColors.secondaryColor,
-                            size: 35.dw)),
+              AppIconButton(
+                margin: EdgeInsets.only(left: 20.dw, right: 20.dw),
+                icon: EvaIcons.shareOutline,
+                iconSize: 20.dw,
+                onPressed: () => bloc.share(episode.id),
               ),
             ],
           ),

@@ -18,7 +18,7 @@ enum ContentType { episode, series, channel }
 
 class AudioPlayerService {
   static final player = AudioPlayer();
-  static final box = Hive.box('played_episodes');
+  static final box = Hive.box('saved_episodes');
   static final eventsBox = Hive.box('events');
   static const timeLimit = Duration(seconds: 10);
   static final defaultList = [Episode(date: DateTime.utc(2020))];
@@ -112,7 +112,7 @@ class AudioPlayerService {
     }
 
     final id = content.episodeList[index].id;
-    final savedEpisode = Hive.box('played_episodes').get(id) as SavedEpisode?;
+    final savedEpisode = Hive.box('saved_episodes').get(id) as SavedEpisode?;
     if (savedEpisode != null) {
       _handleSeekCallback(savedEpisode.position, index, false);
     }
@@ -176,6 +176,25 @@ class AudioPlayerService {
     if (player.playing) player.pause();
   }
 
+  ///adds the current episode, that is not completed or paused to local storage
+  void _addCurrentToBox() {
+    final playerState = content.playerState;
+
+    final episode = content.episodeList[content.currentIndex];
+    final id = episode.id;
+    final duration = episode.duration;
+    final position = player.position.inMilliseconds;
+
+    if (!playerState.isCompleted && !playerState.isInactive) {
+      box.put(
+          id,
+          SavedEpisode(
+            position: position,
+            duration: duration,
+          ));
+    }
+  }
+
   Future<void> _handleSeekCallback(
       int newPosition, int index, bool isSeekingSameAudio) async {
     final duration = content.episodeList[content.currentIndex].duration;
@@ -212,25 +231,6 @@ class AudioPlayerService {
       _handleAudioError(e);
     } on TimeoutException catch (_) {
       _handleTimeoutException();
-    }
-  }
-
-  ///adds the current episode, that is not completed or paused to local storage
-  void _addCurrentToBox() {
-    final playerState = content.playerState;
-
-    final episode = content.episodeList[content.currentIndex];
-    final id = episode.id;
-    final duration = episode.duration;
-    final position = player.position.inMilliseconds;
-
-    if (!playerState.isCompleted && !playerState.isInactive) {
-      box.put(
-          id,
-          SavedEpisode(
-            position: position,
-            duration: duration,
-          ));
     }
   }
 

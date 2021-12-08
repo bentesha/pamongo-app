@@ -12,5 +12,5 @@ class Supplements with _$Supplements {
       {@Default('') String activeId,
       @Default(SortStyles.oldestFirst) SortStyles sortStyle,
       ApiError? apiError,
-      @Default(inactiveState) playerState}) = _Supplements;
+      required IndicatorPlayerState playerState}) = _Supplements;
 }

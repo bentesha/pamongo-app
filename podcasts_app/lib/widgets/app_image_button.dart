@@ -1,51 +1,112 @@
-import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
+import 'package:podcasts/source.dart';
 
 class AppImageButton extends StatefulWidget {
   const AppImageButton(
-      {required this.image,
+      {required this.imageUrl,
       this.size,
       required this.onPressed,
-      this.splashColor,
+      this.highlightColor,
+      this.placeholderIcon,
+      this.placeholderColor,
       Key? key})
       : super(key: key);
 
-  final Widget image;
+  final String imageUrl;
   final double? size;
   final VoidCallback onPressed;
-  final Color? splashColor;
+  final Color? highlightColor, placeholderColor;
+  final Widget? placeholderIcon;
 
   @override
   _AppImageButtonState createState() => _AppImageButtonState();
 }
 
-class _AppImageButtonState extends State<AppImageButton> {
-  late final double size;
+class _AppImageButtonState extends State<AppImageButton>
+    with SingleTickerProviderStateMixin {
+  double dx = 0.0, dy = 0.0;
+  late final AnimationController controller;
+  late final Animation animation;
 
   @override
   void initState() {
-    size = widget.size ?? 200;
+    controller = AnimationController(
+        vsync: this,
+        reverseDuration: const Duration(milliseconds: 0),
+        duration: const Duration(milliseconds: 250));
+
+    animation =
+        Tween<double>(begin: 0, end: widget.size ?? 800).animate(controller)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              controller.reverse();
+              widget.onPressed();
+            }
+          });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        children: [
-          widget.image,
-          Material(
-              elevation: 0,
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () => Future.delayed(const Duration(milliseconds: 200))
-                    .then((value) => widget.onPressed()),
-                splashColor:
-                    widget.splashColor ??  Colors.grey.withOpacity(.35),
-              )),
-        ],
-      ),
-    );
+    return Container(
+        width: widget.size ?? 200,
+        height: widget.size ?? 200,
+        decoration: _decoration,
+        child: GestureDetector(
+          onTapUp: _onTapUp,
+          child: AnimatedBuilder(
+              animation: animation,
+              child: _child(),
+              builder: (context, child) {
+                return ClipRect(
+                  child: CustomPaint(
+                    foregroundPainter: RippleEffectPainter(
+                        dx,
+                        dy,
+                        animation.value,
+                        widget.highlightColor ?? Colors.white54),
+                    child: _child(),
+                  ),
+                );
+              }),
+        ));
   }
+
+  final _decoration = const BoxDecoration();
+
+  _child() => CachedNetworkImage(
+        imageUrl: widget.imageUrl,
+        fit: BoxFit.cover,
+        placeholder: (context, __) => Container(
+            alignment: Alignment.center,
+            color: widget.placeholderColor ?? Theme.of(context).primaryColor,
+            child: widget.placeholderIcon ??
+                const Icon(EvaIcons.image, size: 32, color: Colors.white)),
+      );
+
+  _onTapUp(TapUpDetails details) {
+    setState(() {
+      dx = details.localPosition.dx;
+      dy = details.localPosition.dy;
+    });
+    controller.forward();
+  }
+}
+
+class RippleEffectPainter extends CustomPainter {
+  final double dx, dy, radius;
+  final Color highlightColor;
+  RippleEffectPainter(this.dx, this.dy, this.radius, this.highlightColor);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center =
+        Offset(dx == 0 ? size.width / 2 : dx, dy == 0 ? size.height / 2 : dy);
+    final paint = Paint()..color = highlightColor;
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

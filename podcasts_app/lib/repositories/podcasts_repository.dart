@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:hive/hive.dart';
 import 'package:podcasts/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:podcasts/models/device_info.dart';
 import 'package:podcasts/source.dart';
 
 class PodcastsRepository {
@@ -12,10 +14,11 @@ class PodcastsRepository {
       'series?eager=channel&rangeStart=0&rangeEnd=7&featured=true');
 
   static Future<List<Episode>> getFeaturedEpisodes() async => getEpisodes(
-      'episode?eager=series&rangeStart=0&rangeEnd=7&featured=true');
+      'episode?eager=%5Bseries,info%5D&rangeStart=0&rangeEnd=7&featured=true');
 
   static Future<Episode> getEpisodeById(String id) async {
-    final episodeList = await getEpisodes('episode?eager=series&id=$id');
+    final episodeList =
+        await getEpisodes('episode?eager=%5Bseries,info%5D&id=$id');
     return episodeList.first;
   }
 
@@ -85,6 +88,9 @@ class PodcastsRepository {
             seriesName: series['name']));
       }
 
+/*       final episodeList =
+          await getEpisodes('${root}episode?eager=info&seriesId=$seriesId'); */
+
       return Series.fromJson(series,
           channelName: channel['name'], episodeList: episodeList);
     } on TimeoutException catch (_) {
@@ -96,9 +102,12 @@ class PodcastsRepository {
   }
 
   static Future<List<Episode>> getEpisodes(String url) async {
+    final deviceInfo = Hive.box('device_info').get('device_info') as DeviceInfo;
+
     try {
       final _url = root + url;
-      final response = await http.get(Uri.parse(_url)).timeout(timeLimit);
+      final response = await http.get(Uri.parse(_url),
+          headers: {'device-id': deviceInfo.id}).timeout(timeLimit);
       final body = jsonDecode(response.body);
       final results = body['results'];
 

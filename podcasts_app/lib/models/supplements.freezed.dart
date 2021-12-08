@@ -21,7 +21,7 @@ class _$SupplementsTearOff {
       {String activeId = '',
       SortStyles sortStyle = SortStyles.oldestFirst,
       ApiError? apiError,
-      dynamic playerState = inactiveState}) {
+      required IndicatorPlayerState playerState}) {
     return _Supplements(
       activeId: activeId,
       sortStyle: sortStyle,
@@ -39,7 +39,7 @@ mixin _$Supplements {
   String get activeId => throw _privateConstructorUsedError;
   SortStyles get sortStyle => throw _privateConstructorUsedError;
   ApiError? get apiError => throw _privateConstructorUsedError;
-  dynamic get playerState => throw _privateConstructorUsedError;
+  IndicatorPlayerState get playerState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SupplementsCopyWith<Supplements> get copyWith =>
@@ -55,7 +55,7 @@ abstract class $SupplementsCopyWith<$Res> {
       {String activeId,
       SortStyles sortStyle,
       ApiError? apiError,
-      dynamic playerState});
+      IndicatorPlayerState playerState});
 }
 
 /// @nodoc
@@ -89,7 +89,7 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
       playerState: playerState == freezed
           ? _value.playerState
           : playerState // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as IndicatorPlayerState,
     ));
   }
 }
@@ -105,7 +105,7 @@ abstract class _$SupplementsCopyWith<$Res>
       {String activeId,
       SortStyles sortStyle,
       ApiError? apiError,
-      dynamic playerState});
+      IndicatorPlayerState playerState});
 }
 
 /// @nodoc
@@ -138,7 +138,10 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
           ? _value.apiError
           : apiError // ignore: cast_nullable_to_non_nullable
               as ApiError?,
-      playerState: playerState == freezed ? _value.playerState : playerState,
+      playerState: playerState == freezed
+          ? _value.playerState
+          : playerState // ignore: cast_nullable_to_non_nullable
+              as IndicatorPlayerState,
     ));
   }
 }
@@ -150,7 +153,7 @@ class _$_Supplements implements _Supplements {
       {this.activeId = '',
       this.sortStyle = SortStyles.oldestFirst,
       this.apiError,
-      this.playerState = inactiveState});
+      required this.playerState});
 
   @JsonKey(defaultValue: '')
   @override
@@ -160,9 +163,8 @@ class _$_Supplements implements _Supplements {
   final SortStyles sortStyle;
   @override
   final ApiError? apiError;
-  @JsonKey(defaultValue: inactiveState)
   @override
-  final dynamic playerState;
+  final IndicatorPlayerState playerState;
 
   @override
   String toString() {
@@ -180,13 +182,13 @@ class _$_Supplements implements _Supplements {
                 other.sortStyle == sortStyle) &&
             (identical(other.apiError, apiError) ||
                 other.apiError == apiError) &&
-            const DeepCollectionEquality()
-                .equals(other.playerState, playerState));
+            (identical(other.playerState, playerState) ||
+                other.playerState == playerState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, activeId, sortStyle, apiError,
-      const DeepCollectionEquality().hash(playerState));
+  int get hashCode =>
+      Object.hash(runtimeType, activeId, sortStyle, apiError, playerState);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +201,7 @@ abstract class _Supplements implements Supplements {
       {String activeId,
       SortStyles sortStyle,
       ApiError? apiError,
-      dynamic playerState}) = _$_Supplements;
+      required IndicatorPlayerState playerState}) = _$_Supplements;
 
   @override
   String get activeId;
@@ -208,7 +210,7 @@ abstract class _Supplements implements Supplements {
   @override
   ApiError? get apiError;
   @override
-  dynamic get playerState;
+  IndicatorPlayerState get playerState;
   @override
   @JsonKey(ignore: true)
   _$SupplementsCopyWith<_Supplements> get copyWith =>
