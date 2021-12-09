@@ -31,7 +31,9 @@ const inactiveState = IndicatorPlayerState.inactive;
 const errorState = IndicatorPlayerState.error;
 
 @freezed
-class ProgressIndicatorContent with _$ProgressIndicatorContent {
+abstract class ProgressIndicatorContent implements _$ProgressIndicatorContent {
+  const ProgressIndicatorContent._();
+
   const factory ProgressIndicatorContent(
       {required List<Episode> episodeList,
       @Default(0) int currentPosition,
@@ -40,4 +42,6 @@ class ProgressIndicatorContent with _$ProgressIndicatorContent {
       @Default(SortStyles.oldestFirst) SortStyles sortStyle,
       AudioError? error,
       @Default(0) int currentIndex}) = _ProgressIndicatorContent;
+
+  Episode get getCurrentEpisode => episodeList[currentIndex];
 }

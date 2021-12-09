@@ -29,7 +29,8 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(height: 5.dh),
       Row(children: [
-        AppImage(imageUrl: widget.image, height: 36.dw, width: 36.dw, radius: 7.dw),
+        AppImage(
+            imageUrl: widget.image, height: 36.dw, width: 36.dw, radius: 5.dw),
         SizedBox(width: 10.dw),
         SizedBox(
           width: 315.dw,
@@ -56,7 +57,7 @@ class _EpisodeTitleState extends State<EpisodeTitle> {
         )
       ]),
       Padding(
-        padding: EdgeInsets.only(top: 7.dh, bottom: 3.dh, right: 8.dw),
+        padding: EdgeInsets.only(top: 7.dh, bottom: 3.dh, right: 5.dw),
         child: AppText(widget.title,
             weight: FontWeight.w600,
             size: 15.w,

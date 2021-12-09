@@ -35,9 +35,11 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
 
   Future<void> play(int index) async {
     var episodeList = state.series.episodeList;
-    final sortStyle = state.supplements.sortStyle;
-    final isLastFirstSorted = sortStyle == SortStyles.latestFirst;
-    if (isLastFirstSorted) episodeList = episodeList.reversed.toList();
+    final isReversed = state.supplements.sortStyle == SortStyles.latestFirst;
+    if (isReversed) {
+      episodeList = episodeList.reversed.toList();
+      index = episodeList.length - index - 1;
+    }
     await service.play(episodeList, index: index);
   }
 
@@ -81,7 +83,7 @@ class SeriesPageBloc extends Cubit<SeriesPageState> {
   }
 
   _handleContentStream(ProgressIndicatorContent content) {
-    final id = content.episodeList[content.currentIndex].id;
+    final id = content.getCurrentEpisode.id;
     emit(SeriesPageState.loading(state.series, state.supplements));
 
     final supplements = state.supplements

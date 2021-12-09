@@ -38,12 +38,10 @@ class AudioPlayerService {
   InterruptionStream get onInterruption => session.interruptionEventStream;
   Stream get onEarphoneDetached => session.becomingNoisyEventStream;
 
-  Future<void> play(List<Episode> episodeList,
-      {int index = 0, bool shouldFormatIndex = true}) async {
-    final lastIndex = episodeList.length - 1;
-    final isLatestFirstSorted = content.sortStyle == SortStyles.latestFirst;
-    if (isLatestFirstSorted && shouldFormatIndex) index = lastIndex - index;
+  Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     var episode = episodeList[index];
+
+    log(episodeList[index].title.toString());
 
     if (box.containsKey(episodeList[index].id)) {
       _addCurrentToBox();
@@ -147,7 +145,7 @@ class AudioPlayerService {
     var index = content.currentIndex;
     final isLast = index == content.episodeList.length - 1;
     index = isLast ? index : index + 1;
-    await play(content.episodeList, index: index, shouldFormatIndex: false);
+    await play(content.episodeList, index: index);
   }
 
   Future<void> seekPrev() async {
@@ -159,11 +157,11 @@ class AudioPlayerService {
 
     final isLast = index == 1;
     index = isLast ? index : index - 1;
-    await play(content.episodeList, index: index, shouldFormatIndex: false);
+    await play(content.episodeList, index: index);
   }
 
   void markAsCompleted() {
-    final episode = content.episodeList[content.currentIndex];
+    final episode = content.getCurrentEpisode;
     final duration = episode.duration;
     final id = episode.id;
     if (box.containsKey(id)) box.delete(id);
@@ -180,7 +178,7 @@ class AudioPlayerService {
   void _addCurrentToBox() {
     final playerState = content.playerState;
 
-    final episode = content.episodeList[content.currentIndex];
+    final episode = content.getCurrentEpisode;
     final id = episode.id;
     final duration = episode.duration;
     final position = player.position.inMilliseconds;
@@ -197,7 +195,7 @@ class AudioPlayerService {
 
   Future<void> _handleSeekCallback(
       int newPosition, int index, bool isSeekingSameAudio) async {
-    final duration = content.episodeList[content.currentIndex].duration;
+    final duration = content.getCurrentEpisode.duration;
     final bufferedPosition = player.bufferedPosition.inMilliseconds;
     final currentPosition = player.position.inMilliseconds;
     final correctedPosition = newPosition > duration
@@ -235,7 +233,7 @@ class AudioPlayerService {
   }
 
   void addProgressEventToBox(int position) {
-    final episode = content.episodeList[content.currentIndex];
+    final episode = content.getCurrentEpisode;
     final id = episode.id;
     final event =
         ProgressEvent(position: position, episodeId: id).createEvent();

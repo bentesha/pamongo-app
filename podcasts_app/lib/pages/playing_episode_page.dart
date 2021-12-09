@@ -103,7 +103,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildTitle(Episode episode) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(31.dw, 35.dh, 31.dw, 0),
+      padding: EdgeInsets.fromLTRB(31.dw, 65.dh, 31.dw, 0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppImage(
           radius: 10.dw,
@@ -117,7 +117,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
           children: [
             SizedBox(height: 10.dh),
             AppText(episode.title,
-                size: 18.w,
+                size: 16.w,
                 weight: FontWeight.w600,
                 maxLines: 2,
                 height: 1.4,
@@ -133,7 +133,7 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
 
   _buildSlider(ProgressIndicatorContent content) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(32.dw, 30.dh, 26.dw, 15.dh),
+      padding: EdgeInsets.fromLTRB(32.dw, 40.dh, 26.dw, 15.dh),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

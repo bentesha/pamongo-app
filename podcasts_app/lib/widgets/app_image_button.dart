@@ -77,14 +77,17 @@ class _AppImageButtonState extends State<AppImageButton>
         ));
   }
 
-  _child() => CachedNetworkImage(
-        imageUrl: widget.imageUrl,
-        fit: BoxFit.cover,
-        placeholder: (context, __) => Container(
-            alignment: Alignment.center,
-            color: widget.placeholderColor ?? Theme.of(context).primaryColor,
-            child: widget.placeholderIcon ??
-                const Icon(EvaIcons.image, size: 32, color: Colors.white)),
+  _child() => ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(widget.radius ?? 7.dw)),
+        child: CachedNetworkImage(
+          imageUrl: widget.imageUrl,
+          fit: BoxFit.cover,
+          placeholder: (context, __) => Container(
+              alignment: Alignment.center,
+              color: widget.placeholderColor ?? Theme.of(context).primaryColor,
+              child: widget.placeholderIcon ??
+                  const Icon(EvaIcons.image, size: 32, color: Colors.white)),
+        ),
       );
 
   _onTapUp(TapUpDetails details) {

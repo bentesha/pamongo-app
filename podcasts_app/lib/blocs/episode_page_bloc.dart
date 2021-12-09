@@ -13,7 +13,7 @@ class EpisodePageBloc extends Cubit<EpisodePageState> {
     emit(EpisodePageState.loading(state.episode, state.supplements));
 
     final content = service.getCurrentContent;
-    final id = content.episodeList[content.currentIndex].id;
+    final id = content.getCurrentEpisode.id;
     final playerState = content.playerState;
 
     episode = episode ?? await PodcastsRepository.getEpisodeById(episodeId);

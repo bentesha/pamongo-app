@@ -20,17 +20,21 @@ class AppImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      width: width,
-      height: height,
-      imageUrl: imageUrl,
-      fit: BoxFit.cover,
-      placeholder: (context, __) => Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: placeholderColor,
-              borderRadius: BorderRadius.all(Radius.circular(radius ?? 5.dw))),
-          child: Icon(EvaIcons.image, size: 25.dw, color: Colors.white)),
+    return ClipRRect(
+       borderRadius:
+                    BorderRadius.all(Radius.circular(radius ?? 7.dw)),
+      child: CachedNetworkImage(
+        width: width,
+        height: height,
+        imageUrl: imageUrl,
+        fit: BoxFit.cover,
+        placeholder: (context, __) => Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: placeholderColor,
+                borderRadius: BorderRadius.all(Radius.circular(radius ?? 7.dw))),
+            child: Icon(EvaIcons.image, size: 25.dw, color: Colors.white)),
+      ),
     );
   }
 }

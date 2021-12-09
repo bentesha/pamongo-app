@@ -62,7 +62,7 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
 
   void _handlePositionStream(Duration? position) {
     final content = state.content;
-    final episode = content.episodeList[content.currentIndex];
+    final episode = content.getCurrentEpisode;
     final duration = episode.duration;
     final playerState = content.playerState;
     final bufferedPosition = service.getBufferedPosition;

@@ -28,11 +28,9 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   late final OverlayState overlayState;
   late final OverlayEntry overlayEntry;
   late GlobalObjectKey key;
-  late final Episode episode;
 
   @override
   void initState() {
-    episode = widget.episode;
     key = GlobalObjectKey(Utils.getRandomString());
     overlayState = Overlay.of(context)!;
     overlayEntry = _popUpMenuOverlayEntry();
@@ -40,13 +38,13 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
   }
 
   IndicatorPlayerState _getEpisodeState() {
-    if (widget.activeId == episode.id) {
+    if (widget.activeId == widget.episode.id) {
       return widget.playerState;
     }
     return inactiveState;
   }
 
-  SavedEpisode? _getSavedEpisode() => Utils.getSavedStatus(episode.id);
+  SavedEpisode? _getSavedEpisode() => Utils.getSavedStatus(widget.episode.id);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +71,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
 
   _buildShareButton() {
     return _iconButton(AppIcons.share,
-        callback: () => widget.shareCallback(episode.id));
+        callback: () => widget.shareCallback(widget.episode.id));
   }
 
   _buildStatusButton() {
@@ -81,7 +79,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
 
     return AppTextButton(
       onPressed: widget.playCallback,
-      padding: EdgeInsets.symmetric(horizontal: 10.dw),
+      padding: EdgeInsets.symmetric(horizontal: 8.dw),
       margin: EdgeInsets.only(right: 15.dw),
       borderRadius: 15.dw,
       height: 30.dh,
@@ -128,11 +126,11 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
             ? 'Playing'
             : episodeState.isLoading
                 ? 'Loading'
-                :  episodeState.isCompleted
-                        ? '  ${episode.duration}'
-                        : isNotFinished || episodeState.isPaused
-                            ? '   ${savedEpisode!.getTimeLeft}left'
-                            : '  ${episode.getDuration}',
+                : episodeState.isCompleted
+                    ? '  ${widget.episode.duration}'
+                    : isNotFinished || episodeState.isPaused
+                        ? '   ${savedEpisode!.getTimeLeft}left'
+                        : '  ${widget.episode.getDuration}',
         weight: FontWeight.w400,
         color: AppColors.textColor,
         size: 14.w);
@@ -176,8 +174,9 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
       currentStep: savedEpisode!.fractionPlayed,
       stepColor: AppColors.primaryColor,
       unsteppedColor: AppColors.disabledColor,
-      width: 20.dw,
-      height: 20.dw,
+      width: 15.dw,
+      height: 15.dw,
+      stepWidth: 1.5,
     );
   }
 
@@ -212,7 +211,8 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                                   buttonColor: AppColors.secondaryColor,
                                   highlightColor: Colors.grey,
                                   onPressed: () {
-                                    widget.markAsDoneCallback(episode.id);
+                                    widget
+                                        .markAsDoneCallback(widget.episode.id);
                                     overlayEntry.remove();
                                   },
                                   height: 40,

@@ -196,7 +196,7 @@ class __$ProgressIndicatorContentCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
+class _$_ProgressIndicatorContent extends _ProgressIndicatorContent {
   const _$_ProgressIndicatorContent(
       {required this.episodeList,
       this.currentPosition = 0,
@@ -204,7 +204,8 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
       this.playerState = inactiveState,
       this.sortStyle = SortStyles.oldestFirst,
       this.error,
-      this.currentIndex = 0});
+      this.currentIndex = 0})
+      : super._();
 
   @override
   final List<Episode> episodeList;
@@ -269,7 +270,7 @@ class _$_ProgressIndicatorContent implements _ProgressIndicatorContent {
           this, _$identity);
 }
 
-abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
+abstract class _ProgressIndicatorContent extends ProgressIndicatorContent {
   const factory _ProgressIndicatorContent(
       {required List<Episode> episodeList,
       int currentPosition,
@@ -278,6 +279,7 @@ abstract class _ProgressIndicatorContent implements ProgressIndicatorContent {
       SortStyles sortStyle,
       AudioError? error,
       int currentIndex}) = _$_ProgressIndicatorContent;
+  const _ProgressIndicatorContent._() : super._();
 
   @override
   List<Episode> get episodeList;

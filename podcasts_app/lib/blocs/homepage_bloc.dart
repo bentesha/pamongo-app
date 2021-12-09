@@ -39,7 +39,7 @@ class HomepageBloc extends Cubit<HomepageState> {
 
   _handleContentStream(ProgressIndicatorContent content) {
     final episodeList = state.episodeList;
-    final id = content.episodeList[content.currentIndex].id;
+    final id = content.getCurrentEpisode.id;
     final playerState = content.playerState;
     emit(HomepageState.loading(
         episodeList, state.seriesList, state.supplements));
