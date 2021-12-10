@@ -4,7 +4,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:podcasts/constants.dart';
-import 'package:podcasts/events/episode_event.dart';
+import 'package:podcasts/models/progress.dart';
 import 'package:podcasts/source.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
@@ -17,8 +17,8 @@ enum ContentType { episode, series, channel }
 
 class AudioPlayerService {
   static final player = AudioPlayer();
-  static final box = Hive.box('saved_episodes');
-  static final eventsBox = Hive.box('events');
+  static final _savedEpisodeBox = Hive.box(savedEpisodesBox);
+  static final _progressBox = Hive.box(progressBox);
   static const timeLimit = Duration(seconds: 10);
   static final defaultList = [Episode(date: DateTime.utc(2020))];
   static var content = ProgressIndicatorContent(episodeList: defaultList);
@@ -40,11 +40,9 @@ class AudioPlayerService {
   Future<void> play(List<Episode> episodeList, {int index = 0}) async {
     var episode = episodeList[index];
 
-    log(episodeList[index].title.toString());
-
-    if (box.containsKey(episodeList[index].id)) {
+    if (_savedEpisodeBox.containsKey(episodeList[index].id)) {
       _addCurrentToBox();
-      final savedEpisode = box.get(episode.id) as SavedEpisode;
+      final savedEpisode = _savedEpisodeBox.get(episode.id) as SavedEpisode;
       currentDuration = savedEpisode.duration;
       _updateContentWith(currentIndex: index, episodeList: episodeList);
       _handleSeekCallback(savedEpisode.position, index, false);
@@ -163,7 +161,7 @@ class AudioPlayerService {
     final episode = content.getCurrentEpisode;
     final duration = episode.duration;
     final id = episode.id;
-    if (box.containsKey(id)) box.delete(id);
+    if (_savedEpisodeBox.containsKey(id)) _savedEpisodeBox.delete(id);
     _updateContentWith(playerState: completedState, currentPosition: duration);
   }
 
@@ -183,7 +181,7 @@ class AudioPlayerService {
     final position = player.position.inMilliseconds;
 
     if (!playerState.isCompleted && !playerState.isInactive) {
-      box.put(
+      _savedEpisodeBox.put(
           id,
           SavedEpisode(
             position: position,
@@ -207,6 +205,10 @@ class AudioPlayerService {
         correctedPosition > currentPosition &&
         isSeekingSameAudio) {
       player.seek(Duration(milliseconds: correctedPosition));
+      if (content.playerState.isPaused) {
+        player.play();
+        _updateContentWith(playerState: playingState);
+      }
       return;
     }
 
@@ -231,16 +233,14 @@ class AudioPlayerService {
     }
   }
 
-  void addProgressEventToBox(int position) {
-    final episode = content.getCurrentEpisode;
-    final id = episode.id;
-    final event =
-        ProgressEvent(position: position, episodeId: id).createEvent();
-    eventsBox.add(event);
+  void updateProgressTo(int position) {
+    final id = content.getCurrentEpisode.id;
+    final progress = Progress(position: position, id: id);
+    _progressBox.put(id, progress);
   }
 
   void removeFromBox(String id) {
-    box.delete(id);
+    _savedEpisodeBox.delete(id);
     _updateContentWith();
   }
 

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:device_info/device_info.dart';
 import 'package:hive/hive.dart';
+import 'package:podcasts/constants.dart';
+import 'package:podcasts/events/episode_event.dart';
 import 'package:podcasts/models/device_info.dart';
 import 'package:podcasts/repositories/events_repository.dart';
 import 'package:podcasts/source.dart';
@@ -77,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 
   _getDeviceInfo() async {
     final plugin = DeviceInfoPlugin();
-    final box = Hive.box('device_info');
+    final box = Hive.box(deviceInfoBox);
 
     if (box.isNotEmpty) return;
 
@@ -106,20 +108,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   _setUpTimer() {
-    final eventsBox = Hive.box('events');
-    eventsBox.clear();
-/*     Timer.periodic(const Duration(seconds: 5), (timer) async {
-      final events = eventsBox.values.toList();
-      final isConnected = await Utils.checkConnectivity();
-      log(events.length.toString());
+    final _progressBox = Hive.box(progressBox);
 
-      if (events.isEmpty) return;
+    Timer.periodic(const Duration(minutes: 1), (timer) async {
+      final progressList = _progressBox.values.toList();
+      final isConnected = await Utils.checkConnectivity();
+
+      if (progressList.isEmpty) return;
       if (!isConnected) return;
-      for (var event in events) {
-        log(event.data['position']);
+      for (var progress in progressList) {
+        final event =
+            PlayEvent(position: progress.position, episodeId: progress.id)
+                .createEvent();
         final statusCode = await EventsRepository.postEvent(event);
-        if (statusCode == 200) eventsBox.delete(event.key);
+        if (statusCode == 200) _progressBox.delete(progress.id);
       }
-    }); */
+    });
   }
 }

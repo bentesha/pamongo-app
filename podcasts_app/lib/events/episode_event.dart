@@ -1,5 +1,4 @@
 import 'package:podcasts/events/event.dart';
-import 'package:podcasts/models/event.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class EpisodeEvent extends Events {
@@ -13,12 +12,13 @@ abstract class EpisodeEvent extends Events {
 
   @override
   createEvent() {
-    return Event(
-        id: uuid.v4(),
-        name: 'episode.$eventName',
-        device: super.deviceInfo,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        data: {'episodeId': episodeId, 'position': position});
+    return <String, dynamic>{
+      'id': uuid.v4(),
+      'name': 'episode.$eventName',
+      'device': super.deviceInfo.toJson(),
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'data': {'episodeId': episodeId, 'position': position}
+    };
   }
 }
 

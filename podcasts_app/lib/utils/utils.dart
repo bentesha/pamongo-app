@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:podcasts/constants.dart';
 import 'package:podcasts/models/saved_episode.dart';
 import 'package:podcasts/widgets/screen_size_config.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +33,7 @@ class Utils {
   }
 
   static SavedEpisode? getSavedStatus(String id) {
-    final box = Hive.box('saved_episodes');
+    final box = Hive.box(savedEpisodesBox);
     return box.get(id);
   }
 

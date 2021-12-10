@@ -28,8 +28,6 @@ class SeriesPageEpisodeTile extends StatelessWidget {
     final isActive = (playerState.isPlaying || playerState.isPaused) &&
         activeId == episode.id;
 
-    log(episode.duration.toString());
-
     return Padding(
       padding: EdgeInsets.only(left: 18.dw, right: 18.dw),
       child: Column(

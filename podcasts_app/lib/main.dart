@@ -1,7 +1,8 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
+import 'package:podcasts/constants.dart';
 import 'package:podcasts/models/device_info.dart';
-import 'package:podcasts/models/event.dart';
+import 'package:podcasts/models/progress.dart';
 import 'package:podcasts/source.dart';
 import 'app.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -12,12 +13,13 @@ void main() async {
   Hive
     ..init(directory.path)
     ..registerAdapter(SavedEpisodeAdapter())
-    ..registerAdapter(EventAdapter())
+    ..registerAdapter(ProgressAdapter())
     ..registerAdapter(DeviceInfoAdapter());
+    
 
-  await Hive.openBox('saved_episodes');
-  await Hive.openBox('device_info');
-  await Hive.openBox('events');
+  await Hive.openBox(savedEpisodesBox);
+  await Hive.openBox(deviceInfoBox);
+  await Hive.openBox(progressBox);
 
   final session = await AudioSession.instance;
 

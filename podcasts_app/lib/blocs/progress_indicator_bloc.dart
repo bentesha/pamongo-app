@@ -88,7 +88,8 @@ class ProgressIndicatorBloc extends Cubit<ProgressIndicatorState> {
         return;
       }
 
-      service.addProgressEventToBox(_position);
+      service.updateProgressTo(_position);
+
       emit(ProgressIndicatorState.active(
           state.content.copyWith(
               currentPosition: _position,

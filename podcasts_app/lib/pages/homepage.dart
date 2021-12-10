@@ -98,7 +98,7 @@ class _HomepageState extends State<Homepage> {
             }).toList(),
           ),
         ),
-        SizedBox(height: 10.dh)
+        SizedBox(height: 5.dh)
       ],
     );
   }
@@ -124,6 +124,7 @@ class _HomepageState extends State<Homepage> {
               child: Container(
                 color: Colors.white.withOpacity(.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(series.name,
                         alignment: TextAlign.start,
@@ -131,7 +132,7 @@ class _HomepageState extends State<Homepage> {
                         maxLines: 2,
                         color: AppColors.textColor2,
                         weight: FontWeight.w600),
-                    SizedBox(height: 5.dh),
+                    SizedBox(height: 3.dh),
                     AppText(series.channelName,
                         size: 12.w,
                         alignment: TextAlign.start,

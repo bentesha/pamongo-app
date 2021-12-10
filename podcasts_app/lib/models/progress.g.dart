@@ -1,44 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'event.dart';
+part of 'progress.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class EventAdapter extends TypeAdapter<Event> {
+class ProgressAdapter extends TypeAdapter<Progress> {
   @override
   final int typeId = 3;
 
   @override
-  Event read(BinaryReader reader) {
+  Progress read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Event(
-      id: fields[0] as String,
-      name: fields[1] as String,
-      device: fields[2] as DeviceInfo,
-      timestamp: fields[3] as int,
-      data: (fields[4] as Map).cast<String, dynamic>(),
+    return Progress(
+      id: fields[1] as String,
+      position: fields[0] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Event obj) {
+  void write(BinaryWriter writer, Progress obj) {
     writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.device)
-      ..writeByte(3)
-      ..write(obj.timestamp)
-      ..writeByte(4)
-      ..write(obj.data);
+      ..writeByte(0)
+      ..write(obj.position)
+      ..writeByte(1)
+      ..write(obj.id);
   }
 
   @override
@@ -47,7 +38,7 @@ class EventAdapter extends TypeAdapter<Event> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EventAdapter &&
+      other is ProgressAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -29,7 +29,7 @@ class _AppIconButtonState extends State<AppIconButton>
   @override
   void initState() {
     controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
+        vsync: this, duration: const Duration(milliseconds: 100))
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           controller.reverse().then((value) => widget.onPressed());
