@@ -4,14 +4,11 @@ import 'package:audio_service/audio_service.dart';
 import 'package:device_info/device_info.dart';
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/device_info.dart';
-import 'package:podcasts/pages/pages_source.dart';
 import 'package:podcasts/repositories/events_repository.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 import 'package:podcasts/widgets/foreground_player.dart';
 import 'package:podcasts/widgets/screen_size_init.dart';
 import 'package:uni_links/uni_links.dart';
-import 'pages/homepage.dart';
 import 'package:audio_session/audio_session.dart';
 
 class MyApp extends StatefulWidget {
@@ -110,16 +107,19 @@ class _MyAppState extends State<MyApp> {
 
   _setUpTimer() {
     final eventsBox = Hive.box('events');
-    Timer.periodic(const Duration(seconds: 5), (timer) async {
+    eventsBox.clear();
+/*     Timer.periodic(const Duration(seconds: 5), (timer) async {
       final events = eventsBox.values.toList();
       final isConnected = await Utils.checkConnectivity();
+      log(events.length.toString());
 
       if (events.isEmpty) return;
       if (!isConnected) return;
       for (var event in events) {
+        log(event.data['position']);
         final statusCode = await EventsRepository.postEvent(event);
         if (statusCode == 200) eventsBox.delete(event.key);
       }
-    });
+    }); */
   }
 }

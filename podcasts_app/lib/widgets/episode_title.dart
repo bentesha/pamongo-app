@@ -1,4 +1,3 @@
-import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/source.dart';
 
 class EpisodeTitle extends StatefulWidget {

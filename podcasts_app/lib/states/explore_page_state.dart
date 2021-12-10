@@ -1,9 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:podcasts/models/channel.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/models_source.dart';
-import 'package:podcasts/models/series.dart';
-import 'package:podcasts/models/supplements.dart';
 
 part 'explore_page_state.freezed.dart';
 

@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:podcasts/models/series.dart';
-import 'package:podcasts/models/supplements.dart';
 import 'package:podcasts/source.dart';
 
 part 'series_page_state.freezed.dart';

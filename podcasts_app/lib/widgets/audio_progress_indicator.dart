@@ -1,14 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
-import 'package:podcasts/blocs/progress_indicator_bloc.dart';
-import 'package:podcasts/errors/audio_error.dart';
-import 'package:podcasts/models/progress_indicator_content.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
-import 'package:podcasts/states/progress_indicator_state.dart';
-import 'package:podcasts/widgets/custom_page_transition.dart';
 
 class AudioProgressIndicator extends StatefulWidget {
   const AudioProgressIndicator({key}) : super(key: key);

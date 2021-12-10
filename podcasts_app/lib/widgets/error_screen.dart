@@ -1,6 +1,4 @@
-import 'package:podcasts/errors/api_error.dart';
 import 'package:podcasts/source.dart';
-import 'package:podcasts/widgets/app_text_button.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen(this.error, {required this.refreshCallback, key})

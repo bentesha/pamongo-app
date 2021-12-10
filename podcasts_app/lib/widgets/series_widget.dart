@@ -1,7 +1,4 @@
-import 'package:podcasts/models/series.dart';
-import 'package:podcasts/pages/series_page.dart';
 import 'package:podcasts/source.dart';
-import 'package:podcasts/widgets/series_action_buttons.dart';
 
 class SeriesWidget extends StatefulWidget {
   final Series series;

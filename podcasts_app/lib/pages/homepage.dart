@@ -119,18 +119,27 @@ class _HomepageState extends State<Homepage> {
               onPressed: () => SeriesPage.navigateTo(context, series.id),
               imageUrl: series.image),
           SizedBox(height: 9.dh),
-          AppText(series.name,
-              alignment: TextAlign.start,
-              size: 13.w,
-              maxLines: 2,
-              color: AppColors.textColor2,
-              weight: FontWeight.w600),
-          SizedBox(height: 5.dh),
-          AppText(series.channelName,
-              size: 12.w,
-              alignment: TextAlign.start,
-              color: AppColors.textColor2,
-              maxLines: 1)
+          GestureDetector(
+              onTap: () => SeriesPage.navigateTo(context, series.id),
+              child: Container(
+                color: Colors.white.withOpacity(.0),
+                child: Column(
+                  children: [
+                    AppText(series.name,
+                        alignment: TextAlign.start,
+                        size: 13.w,
+                        maxLines: 2,
+                        color: AppColors.textColor2,
+                        weight: FontWeight.w600),
+                    SizedBox(height: 5.dh),
+                    AppText(series.channelName,
+                        size: 12.w,
+                        alignment: TextAlign.start,
+                        color: AppColors.textColor2,
+                        maxLines: 1)
+                  ],
+                ),
+              )),
         ]),
       ),
     );

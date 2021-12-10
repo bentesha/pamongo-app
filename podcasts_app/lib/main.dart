@@ -2,10 +2,8 @@ import 'package:audio_session/audio_session.dart';
 import 'package:hive/hive.dart';
 import 'package:podcasts/models/device_info.dart';
 import 'package:podcasts/models/event.dart';
-import 'package:podcasts/services/audio_player_service.dart';
 import 'package:podcasts/source.dart';
 import 'app.dart';
-import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {

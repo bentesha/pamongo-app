@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:podcasts/models/episode.dart';
 import 'package:podcasts/models/models_source.dart';
-import 'package:podcasts/models/supplements.dart';
 
 part 'episode_page_state.freezed.dart';
 
