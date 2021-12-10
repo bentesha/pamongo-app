@@ -127,7 +127,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
             : episodeState.isLoading
                 ? 'Loading'
                 : episodeState.isCompleted
-                    ? '  ${widget.episode.duration}'
+                    ? '  ${widget.episode.getDuration}'
                     : isNotFinished || episodeState.isPaused
                         ? '   ${savedEpisode!.getTimeLeft}left'
                         : '  ${widget.episode.getDuration}',

@@ -13,7 +13,7 @@ class SavedEpisode extends HiveObject {
 
   int get timeLeft => duration - position;
   double get fractionPlayed => position / duration;
-  String get getTimeLeft => Utils.convertFrom(timeLeft, includeSeconds: false);
+  String get getTimeLeft => Utils.convertFrom(timeLeft);
 
   factory SavedEpisode.empty() => SavedEpisode(position: 0, duration: 0);
 

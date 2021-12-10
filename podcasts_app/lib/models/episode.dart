@@ -25,7 +25,7 @@ abstract class Episode implements _$Episode {
   int get timeLeft => duration - position!;
   double get fractionPlayed => position! / duration;
   String get getTimeLeft => Utils.convertFrom(timeLeft, includeSeconds: false); */
-  String get getDuration => Utils.convertFrom(duration, includeSeconds: false);
+  String get getDuration => Utils.convertFrom(duration);
   String get getDate => Utils.formatDateBy(date, 'yMMMd');
 
   static Episode fromJson(Map<String, dynamic> json,

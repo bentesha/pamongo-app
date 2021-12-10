@@ -159,9 +159,11 @@ class _PlayingEpisodePageState extends State<PlayingEpisodePage> {
   }
 
   _buildLabels(ProgressIndicatorContent content) {
-    final currentPosition = Utils.convertFrom(content.currentPosition);
+    final currentPosition =
+        Utils.convertFrom(content.currentPosition, isUsedOnAudioSlider: true);
     final episode = content.episodeList[content.currentIndex];
-    final duration = Utils.convertFrom(episode.duration);
+    final duration =
+        Utils.convertFrom(episode.duration, isUsedOnAudioSlider: true);
     final isLoading = content.playerState == loadingState;
     final hasFailedToBuffer = content.playerState == errorState;
 

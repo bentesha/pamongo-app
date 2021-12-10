@@ -46,54 +46,47 @@ class Utils {
   }
 
   ///converts a millisecond to time in hour-minute-seconds format
-  static String convertFrom(int duration, {bool includeSeconds = true}) {
-    final hours = duration ~/ 3600000;
+  static String convertFrom(int duration, {bool isUsedOnAudioSlider = false}) {
+    var hours = duration ~/ 3600000;
     final hoursRemainder = duration.remainder(3600000);
-    final minutes = (hoursRemainder ~/ 60000);
+    var minutes = (hoursRemainder ~/ 60000);
     final minutesRemainder = hoursRemainder.remainder(60000);
-    final seconds = (minutesRemainder / 1000).round();
+    var seconds = (minutesRemainder / 1000).round();
 
-    String hoursString = hours.toString();
-    String minutesString = minutes.toString();
-    String secondsString = seconds.toString();
-
-    final withLabels = includeSeconds == false;
-
-    if (hoursString.trim().isNotEmpty) {
-      hoursString = _getLabelFrom(hours, withLabels, 'hr');
+    if (minutes == 60) {
+      minutes = 0;
+      hours += 1;
     }
 
-    minutesString = _getLabelFrom(minutes, withLabels, 'min');
-    secondsString = _getLabelFrom(seconds, withLabels, '');
-
-    if (minutesString == '60') {
-      minutesString = '00';
-      hoursString = _getLabelFrom(hours + 1, withLabels, 'hr');
-    }
-    if (secondsString == '60') {
-      secondsString = '00';
-      minutesString = _getLabelFrom(minutes + 1, withLabels, 'min');
+    if (seconds == 60) {
+      seconds = 0;
+      minutes += 1;
     }
 
-    return includeSeconds
+    final correctedHours = _ensureTwoDigits(hours);
+    final correctedMinutes = _ensureTwoDigits(minutes);
+    final correctedSeconds = _ensureTwoDigits(seconds);
+
+    final hoursLabel = _getLabel(hours, 'hr');
+    final minutesLabel = _getLabel(minutes, 'min');
+
+    return isUsedOnAudioSlider
         ? hours == 0
-            ? minutesString + ' : ' + secondsString
-            : hoursString + ' : ' + minutesString + ' : ' + secondsString
+            ? '$correctedMinutes : $correctedSeconds '
+            : '$correctedHours : $correctedMinutes : $correctedSeconds '
         : hours == 0
-            ? minutesString
-            : hoursString + minutesString;
+            ? minutes == 0
+                ? '$correctedSeconds sec '
+                : '$correctedMinutes $minutesLabel '
+            : '$correctedHours $hoursLabel $correctedMinutes $minutesLabel ';
   }
 
-  static String _getLabelFrom(int duration, bool withLabels, String label) {
-    var durationString = duration.toString();
-    final isLong = durationString.length > 1;
+  static String _ensureTwoDigits(int number) {
+    final isLong = number.toString().length > 1;
+    return !isLong ? '0$number' : '$number';
+  }
 
-    return withLabels
-        ? isLong
-            ? durationString = durationString + ' $label '
-            : durationString = '0' + durationString + ' $label '
-        : isLong
-            ? durationString
-            : durationString = '0' + durationString;
+  static String _getLabel(int number, String singularLabel) {
+    return number > 1 ? '${singularLabel}s' : singularLabel;
   }
 }
