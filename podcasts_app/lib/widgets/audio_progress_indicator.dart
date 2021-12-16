@@ -10,7 +10,7 @@ class AudioProgressIndicator extends StatefulWidget {
 }
 
 class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
-  final initialOffset = 796.3.dh;
+  final initialOffset = 806.3.dh;
   late final ProgressIndicatorBloc bloc;
   late final AudioPlayerService service;
 
@@ -46,7 +46,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
               Positioned(
                 top: initialOffset,
                 child: SizedBox(
-                  height: 70.dh,
+                  height: 60.dh,
                   width: MediaQuery.of(context).size.width,
                   child: Material(
                     child: GestureDetector(
@@ -82,7 +82,7 @@ class AudioProgressIndicatorState extends State<AudioProgressIndicator> {
       children: [
         Container(
           color: AppColors.indicatorColor,
-          height: 70.dh,
+          height: 60.dh,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -21,25 +21,21 @@ abstract class Episode implements _$Episode {
       @Default('') String audioUrl,
       @Default('') String description}) = _Episode;
 
-/*   bool get isNotFinished => position != null;
-  int get timeLeft => duration - position!;
-  double get fractionPlayed => position! / duration;
-  String get getTimeLeft => Utils.convertFrom(timeLeft, includeSeconds: false); */
   String get getDuration => Utils.convertFrom(duration);
   String get getDate => Utils.formatDateBy(date, 'yMMMd');
 
   static Episode fromJson(Map<String, dynamic> json,
       {String seriesImage = '', String seriesName = '', String seriesId = ''}) {
-    final hasPosition = json['info'] != null;
+    // final hasPosition = json['info'] != null;
 
     return Episode(
         image: seriesImage,
         seriesName: seriesName,
-        duration: (json['duration'] * 1000).toInt(),
+        duration: json['duration'],
         date: Utils.convertFromTimestamp(json['createdAt']),
         id: json['id'],
         seriesId: seriesId,
-        position: hasPosition ? json['info']['position'] : null,
+        position: /* hasPosition ? json['info']['position'] : */ null,
         episodeNumber: json['sequence'],
         title: json['name'],
         audioUrl: json['fileUrl'],

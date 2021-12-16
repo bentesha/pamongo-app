@@ -57,7 +57,7 @@ class _SeriesPageState extends State<SeriesPage> {
           children: [
             _buildTitle(series),
             _buildEpisodeList(episodeList, supplements),
-            shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+            shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
           ]),
     );
   }

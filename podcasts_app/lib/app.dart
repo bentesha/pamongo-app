@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
   _setUpTimer() {
     final _progressBox = Hive.box(progressBox);
 
-    Timer.periodic(const Duration(minutes: 1), (timer) async {
+    Timer.periodic(const Duration(seconds: 15), (timer) async {
       final progressList = _progressBox.values.toList();
       final isConnected = await Utils.checkConnectivity();
 

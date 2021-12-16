@@ -21,5 +21,4 @@ class ScreenSizeConfig {
 
   static double getDoubleWidth(num width) => ((width * sWidth) / dWidth);
   static double getDoubleHeight(num height) => ((height * sHeight) / dHeight);
-  
 }

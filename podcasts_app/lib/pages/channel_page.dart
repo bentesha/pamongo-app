@@ -55,7 +55,7 @@ class _ChannelPageState extends State<ChannelPage> {
             children: [
               _buildTitle(channel),
               _buildSeriesList(channel),
-              shouldLeaveSpace ? SizedBox(height: 80.dh) : Container()
+              shouldLeaveSpace ? SizedBox(height: 70.dh) : Container()
             ]));
   }
 

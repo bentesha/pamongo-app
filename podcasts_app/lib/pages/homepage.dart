@@ -72,7 +72,7 @@ class _HomepageState extends State<Homepage> {
               _buildFeaturedSeries(seriesList),
               _buildFeaturedEpisodes(episodeList, supplements),
               shouldLeaveSpace
-                  ? SizedBox(height: 80.dh)
+                  ? SizedBox(height: 70.dh)
                   : SizedBox(height: 15.dh),
             ]))
           ],
