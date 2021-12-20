@@ -62,7 +62,7 @@ class _HomepageState extends State<Homepage> {
                           CupertinoPageRoute(
                               builder: (_) => const ExplorePage())),
                       margin: EdgeInsets.only(right: 10.dw),
-                      icon: Icons.explore_outlined,
+                      icon: EvaIcons.search,
                       iconSize: 28.dw,
                       spreadRadius: 22.dw,
                       iconColor: AppColors.secondaryColor)

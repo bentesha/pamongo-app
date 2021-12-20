@@ -210,6 +210,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                                 child: AppTextButton(
                                   buttonColor: AppColors.secondaryColor,
                                   highlightColor: Colors.grey,
+                                  borderRadius: 3.dw,
                                   onPressed: () {
                                     widget
                                         .markAsDoneCallback(widget.episode.id);
@@ -224,7 +225,7 @@ class _EpisodeActionButtonsState extends State<EpisodeActionButtons> {
                                           size: 18.dw,
                                           color: AppColors.accentColor),
                                       SizedBox(width: 10.dw),
-                                      AppText('Mark As Done',
+                                      AppText('Mark As Played',
                                           size: 16.w,
                                           color: AppColors.onPrimary),
                                     ],

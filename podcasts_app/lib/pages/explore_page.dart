@@ -236,7 +236,7 @@ class _ExplorePageState extends State<ExplorePage> {
             child: AppText('No $content matches that keyword', size: 16.w))
         : GridView.count(
             crossAxisCount: 3,
-            childAspectRatio: .73,
+            childAspectRatio: .73.dw,
             crossAxisSpacing: 6,
             mainAxisSpacing: 5,
             padding: EdgeInsets.only(

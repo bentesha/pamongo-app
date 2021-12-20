@@ -13,13 +13,10 @@ class SeriesActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.dh),
-      child: Row(children: [
-        !isOnSeriesPage ? _buildVisitSeriesButton() : Container(),
-        _buildShareButton()
-      ]),
-    );
+    return Row(children: [
+      !isOnSeriesPage ? _buildVisitSeriesButton() : Container(),
+      _buildShareButton()
+    ]);
   }
 
   _buildShareButton() {

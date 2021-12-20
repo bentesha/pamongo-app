@@ -31,7 +31,7 @@ class _AppMaterialButtonState extends State<AppMaterialButton>
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
     animation = ColorTween(
-            begin: AppColors.backgroundColor, end: Colors.grey.withOpacity(.2))
+            begin: AppColors.backgroundColor, end: Colors.grey.withOpacity(.10))
         .animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) controller.reverse();

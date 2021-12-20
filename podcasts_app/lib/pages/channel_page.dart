@@ -47,7 +47,7 @@ class _ChannelPageState extends State<ChannelPage> {
     return WillPopScope(
         onWillPop: _handlePop,
         child: AppListView(
-          thresholdOffset: 130.0,
+            thresholdOffset: 130.0,
             backArrowCallback: widget.isOpenedUsingLink
                 ? () => Homepage.navigateTo(context)
                 : null,
@@ -67,7 +67,10 @@ class _ChannelPageState extends State<ChannelPage> {
           height: 150.dh,
           child: Row(children: [
             AppImage(
-                imageUrl: channel.image, height: 150.dw, width: 150.dw, radius: 10),
+                imageUrl: channel.image,
+                height: 150.dw,
+                width: 150.dw,
+                radius: 10),
             SizedBox(width: 10.dw),
             Expanded(
               child: Column(
@@ -126,8 +129,9 @@ class _ChannelPageState extends State<ChannelPage> {
           ? Container()
           : Container(height: 1, color: AppColors.dividerColor),
       Padding(
-          padding: EdgeInsets.fromLTRB(18.dw, index == 0 ? 0 : 10.dh, 15.dw, 0),
+          padding: EdgeInsets.only(top: index == 0 ? 0 : 0.dh),
           child: SeriesWidget(series,
+              onPressed: () => SeriesPage.navigateTo(context, series.id),
               shareCallback: () => bloc.share(ContentType.series, series.id))),
     ]);
   }
