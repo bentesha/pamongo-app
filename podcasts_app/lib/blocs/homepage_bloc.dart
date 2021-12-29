@@ -17,7 +17,6 @@ class HomepageBloc extends Cubit<HomepageState> {
   void init() async {
     emit(HomepageState.loading(
         state.episodeList, state.seriesList, state.supplements));
-    await _storeDeviceInfo();
     try {
       final recent = await PodcastsRepository.getFeaturedEpisodes();
       final featured = await PodcastsRepository.getFeaturedSeries();
@@ -53,24 +52,5 @@ class HomepageBloc extends Cubit<HomepageState> {
     final supplements =
         state.supplements.copyWith(playerState: playerState, activeId: id);
     emit(HomepageState.content(episodeList, state.seriesList, supplements));
-  }
-
-  Future<void> _storeDeviceInfo() async {
-    final box = Hive.box(kDeviceInfoBox);
-
-    if (box.isNotEmpty) return;
-
-    final plugin = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      final info = await plugin.androidInfo;
-      await box.put(
-          kDeviceInfo,
-          DeviceInfo(
-              id: info.id,
-              make: info.manufacturer,
-              type: 'android',
-              model: info.model,
-              version: info.version.release));
-    }
   }
 }

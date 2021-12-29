@@ -40,13 +40,23 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
                 scaffoldBackgroundColor: AppColors.backgroundColor,
                 fontFamily: 'Louis'),
-            //detecting whether the app is opened using a link or otherwise
-            home: FutureBuilder<String?>(
+            home: _buildHome()));
+  }
+
+  _buildHome() {
+    return FutureBuilder(
+        future: _storeDeviceInfo(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return FutureBuilder<String?>(
                 future: getInitialLink(),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) return const Homepage();
                   return _getInitialPage(snapshot.data!);
-                })));
+                });
+          }
+          return const AppLoadingIndicator();
+        });
   }
 
   _getInitialPage(String uri) {
@@ -62,6 +72,25 @@ class _MyAppState extends State<MyApp> {
     }
     return Scaffold(
         body: Center(child: AppText('can\'t open $uri', size: 16.w)));
+  }
+
+  Future<void> _storeDeviceInfo() async {
+    final box = Hive.box(kDeviceInfoBox);
+
+    if (box.isNotEmpty) return;
+
+    final plugin = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      final info = await plugin.androidInfo;
+      await box.put(
+          kDeviceInfo,
+          DeviceInfo(
+              id: info.id,
+              make: info.manufacturer,
+              type: 'android',
+              model: info.model,
+              version: info.version.release));
+    }
   }
 
   _initForegroundPlayer(AudioPlayerService service) async {
