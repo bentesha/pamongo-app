@@ -17,9 +17,9 @@ void main() async {
     ..registerAdapter(DeviceInfoAdapter());
     
 
-  await Hive.openBox(savedEpisodesBox);
-  await Hive.openBox(deviceInfoBox);
-  await Hive.openBox(progressBox);
+  await Hive.openBox(kSavedEpisodesBox);
+  await Hive.openBox(kDeviceInfoBox);
+  await Hive.openBox(kProgressBox);
 
   final session = await AudioSession.instance;
 

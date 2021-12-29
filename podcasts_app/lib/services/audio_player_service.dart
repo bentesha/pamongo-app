@@ -17,8 +17,8 @@ enum ContentType { episode, series, channel }
 
 class AudioPlayerService {
   static final player = AudioPlayer();
-  static final _savedEpisodeBox = Hive.box(savedEpisodesBox);
-  static final _progressBox = Hive.box(progressBox);
+  static final _savedEpisodeBox = Hive.box(kSavedEpisodesBox);
+  static final _progressBox = Hive.box(kProgressBox);
   static const timeLimit = Duration(seconds: 10);
   static final defaultList = [Episode(date: DateTime.utc(2020))];
   static var content = ProgressIndicatorContent(episodeList: defaultList);

@@ -101,7 +101,10 @@ class PodcastsRepository {
   }
 
   static Future<List<Episode>> getEpisodes(String url) async {
-    final deviceInfo = Hive.box(deviceInfoBox).get('device_info') as DeviceInfo;
+    //await Future.delayed(const Duration(seconds: 1));
+    final deviceInfo = Hive.box(kDeviceInfoBox).get(kDeviceInfo) as DeviceInfo;
+
+    log(deviceInfo.runtimeType.toString());
 
     try {
       final _url = root + url;

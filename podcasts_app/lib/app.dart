@@ -27,7 +27,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     service = Provider.of(context, listen: false);
     _initForegroundPlayer(service);
-    _getDeviceInfo();
     _setUpTimer();
     super.initState();
   }
@@ -77,38 +76,8 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  _getDeviceInfo() async {
-    final plugin = DeviceInfoPlugin();
-    final box = Hive.box(deviceInfoBox);
-
-    if (box.isNotEmpty) return;
-
-    if (Platform.isAndroid) {
-      final info = await plugin.androidInfo;
-      box.put(
-          'device_info',
-          DeviceInfo(
-              id: info.id,
-              make: info.manufacturer,
-              type: 'android',
-              model: info.model,
-              version: info.version.release));
-    }
-    if (Platform.isIOS) {
-      final info = await plugin.iosInfo;
-      box.put(
-          'device_info',
-          DeviceInfo(
-              id: info.utsname.nodename,
-              make: info.utsname.machine,
-              type: 'ios',
-              model: info.model,
-              version: info.systemVersion));
-    }
-  }
-
   _setUpTimer() {
-    final _progressBox = Hive.box(progressBox);
+    final _progressBox = Hive.box(kProgressBox);
 
     Timer.periodic(const Duration(seconds: 15), (timer) async {
       final progressList = _progressBox.values.toList();

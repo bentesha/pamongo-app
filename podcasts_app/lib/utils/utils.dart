@@ -33,7 +33,7 @@ class Utils {
   }
 
   static SavedEpisode? getSavedStatus(String id) {
-    final box = Hive.box(savedEpisodesBox);
+    final box = Hive.box(kSavedEpisodesBox);
     return box.get(id);
   }
 
